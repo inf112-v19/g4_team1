@@ -15,8 +15,5 @@ class BoardTest {
         board.put(test, 0, 0);
 
         assertEquals(test, board.getBoard()[0][0]);
-
-
-
     }
 }

@@ -37,7 +37,7 @@ public interface IBoard {
     int getWidth();
 
     /**
-     *
+     * Return the board.
      *
      * @return
      */

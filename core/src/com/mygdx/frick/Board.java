@@ -3,7 +3,7 @@ package com.mygdx.frick;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Board implements IBoard {
-    public Tile[][] board;
+    private Tile[][] board;
 
     public Board(int height, int width) {
         board = new Tile[height][width];
