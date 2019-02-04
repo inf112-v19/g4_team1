@@ -2,54 +2,35 @@ package com.mygdx.frick;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Board implements IBoard {
-    private Tile[][] board;
-    int height, width;
+    private List<Tile> board;
+    private int height, width;
 
     public Board(int height, int width) {
-        board = new Tile[height][width];
+        board = new ArrayList<Tile>(height * width);
         this.height = height;
         this.width = width;
 
+        for (int i = 0; i < this.getSize(); i++)
+            board.add(new Tile());
     }
 
-    public void put(Tile element, int x, int y) {
-        board[x][y] = element;
+    public void set(int x, int y, Tile tile) {
+        int pos = x + (getWidth() * y);
+        board.set(pos, tile);
+    }
+
+    public Tile get(int x, int y) {
+        int pos = x + (getWidth() * y);
+        return board.get(pos);
     }
 
     public void draw(SpriteBatch batch) {
         
     }
-
-    /*@Override
-    public void move(int steps, int x, int y, Direction direction) {
-        if(containsRobot(x,y)==true) {
-            if (direction == "North") {
-                // do something
-            }
-        }
-    }*/
-
-    @Override
-    public void move(int steps) {
-
-    }
-
-    @Override
-    public boolean legalMove(int x, int y) {
-
-        return false;
-    }
-
-    @Override
-    public boolean containsRobot(int x, int y) {
-        return false;
-    }
-
-    /*@Override
-    public boolean containsRobot(int x, int y) {
-        return board[x][y].Contains();
-    }*/
 
     @Override
     public int getHeight() {
@@ -62,7 +43,12 @@ public class Board implements IBoard {
     }
 
     @Override
-    public Tile[][] getBoard() {
+    public List<Tile> getBoard() {
         return board;
+    }
+
+    @Override
+    public int getSize() {
+        return getHeight() * getWidth();
     }
 }

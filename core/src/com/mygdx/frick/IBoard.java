@@ -1,46 +1,52 @@
 package com.mygdx.frick;
 
+import java.util.List;
+
 public interface IBoard {
 
-    void move(int steps);
+    /**
+     * Place an element in the position x,y
+     *
+     * @param x
+     * @param y
+     * @param e
+     */
+    void set(int x, int y, Tile e);
 
     /**
-     * Check if the move is in bounds...
+     * Get the element from the position x,y
      *
      * @param x
      * @param y
      * @return
      */
-    boolean legalMove(int x, int y);
+    Tile get(int x, int y);
 
     /**
-     * Check if the tile contains the robot...
+     * Get the size of the board
      *
-     * @param x
-     * @param y
      * @return
      */
-    boolean containsRobot(int x, int y);
+    int getSize();
 
     /**
-     * Return the height of the board.
+     * Return the height of the board
      *
      * @return
      */
     int getHeight();
 
     /**
-     * Return the width of the board.
+     * Return the width of the board
      *
      * @return
      */
     int getWidth();
 
     /**
-     * Return the board.
+     * Return the board itself
      *
      * @return
      */
-    Tile[][] getBoard();
-
+    List<Tile> getBoard();
 }

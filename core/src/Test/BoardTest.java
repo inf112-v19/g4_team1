@@ -1,4 +1,3 @@
-package Test;
 
 import com.mygdx.frick.Board;
 import com.mygdx.frick.Tile;
@@ -12,8 +11,8 @@ class BoardTest {
         Board board = new Board(10, 10);
         Tile test = new Tile();
 
-        board.put(test, 0, 0);
+        board.set(0, 0, test);
 
-        assertEquals(test, board.getBoard()[0][0]);
+        assertEquals(test, board.get(0, 0));
     }
 }
