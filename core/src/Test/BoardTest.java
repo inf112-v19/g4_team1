@@ -7,13 +7,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
 
+    @Test
     void put() {
         Board board = new Board(10, 10);
         Tile test = new Tile();
 
-        board.put(something, 0, 0);
+        board.put(test, 0, 0);
 
-        assertEquals(test, board[0][0]);
+        assertEquals(test, board.getBoard()[0][0]);
 
 
 
