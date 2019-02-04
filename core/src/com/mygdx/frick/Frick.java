@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Frick extends ApplicationAdapter {
 	SpriteBatch batch;
-	Texture img;
+	// Texture img;
 	Board board;
 	
 	@Override
