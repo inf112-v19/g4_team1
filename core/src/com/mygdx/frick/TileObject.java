@@ -1,4 +1,5 @@
 package com.mygdx.frick;
 
-public class TileObject {
+public interface TileObject {
+
 }

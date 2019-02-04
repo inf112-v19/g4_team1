@@ -1,13 +1,13 @@
 package com.mygdx.frick;
 
 
-import java.awt.image.TileObserver;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Tile  {
-    List<TileObject> content;
-    // boolean occupied;
+    List<TileObject> content=new ArrayList<TileObject>();
 
+    // boolean occupied;
 
     public Tile() {
 
@@ -29,5 +29,9 @@ public class Tile  {
     public List<TileObject> getContent() {
         return content;
     }
+    public void removeContent(TileObject object){
+        content.remove(object);
+    }
+
 
 }
