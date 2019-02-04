@@ -4,9 +4,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Board implements IBoard {
     private Tile[][] board;
+    int height, width;
 
     public Board(int height, int width) {
         board = new Tile[height][width];
+        this.height = height;
+        this.width = width;
 
     }
 
@@ -17,6 +20,15 @@ public class Board implements IBoard {
     public void draw(SpriteBatch batch) {
         
     }
+
+    /*@Override
+    public void move(int steps, int x, int y, Direction direction) {
+        if(containsRobot(x,y)==true) {
+            if (direction == "North") {
+                // do something
+            }
+        }
+    }*/
 
     @Override
     public void move(int steps) {
@@ -34,14 +46,19 @@ public class Board implements IBoard {
         return false;
     }
 
+    /*@Override
+    public boolean containsRobot(int x, int y) {
+        return board[x][y].Contains();
+    }*/
+
     @Override
     public int getHeight() {
-        return 0;
+        return height;
     }
 
     @Override
     public int getWidth() {
-        return 0;
+        return width;
     }
 
     @Override
