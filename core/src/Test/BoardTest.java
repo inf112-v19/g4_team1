@@ -1,7 +1,6 @@
-package Test;
-
 import com.mygdx.frick.Board;
 import com.mygdx.frick.Tile;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,7 +11,7 @@ class BoardTest {
         Board board = new Board(10, 10);
         Tile test = new Tile(0, 0);
 
-        board.set(0, 0, test);
+        board.setTile(0, 0, test);
 
         assertEquals(test, board.get(0, 0));
     }
