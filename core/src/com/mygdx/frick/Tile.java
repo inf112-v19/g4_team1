@@ -4,34 +4,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Tile implements ITile {
-    private List<TileObject> content;
+    private List<ITileObject> content;
 
     public Tile() {
-        content = new ArrayList<TileObject>();
+        content = new ArrayList<ITileObject>();
     }
 
-    public Tile(TileObject object) {
-        content = new ArrayList<TileObject>();
+    public Tile(ITileObject object) {
+        content = new ArrayList<ITileObject>();
         content.add(object);
     }
 
     @Override
-    public void addObject(TileObject object) {
+    public void addObject(ITileObject object) {
         content.add(object);
     }
 
     @Override
-    public Boolean contains(TileObject object) {
+    public Boolean contains(ITileObject object) {
         return content.contains(object);
     }
 
     @Override
-    public List<TileObject> getContent() {
+    public List<ITileObject> getContent() {
         return content;
     }
 
     @Override
-    public void removeContent(TileObject object) {
+    public void removeContent(ITileObject object) {
         if (this.contains(object))
             content.remove(object);
     }

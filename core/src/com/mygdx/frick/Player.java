@@ -1,10 +1,11 @@
 package com.mygdx.frick;
 
-public class Player implements TileObject {
+public class Player {
 
-    String name;
+    private String name;
 
-    public Player() {
+    public Player(String name) {
+        this.name = name;
 
     }
 }

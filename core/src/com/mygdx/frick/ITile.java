@@ -13,7 +13,7 @@ public interface ITile {
      *
      * @param object element to be placed
      */
-    void addObject(TileObject object);
+    void addObject(ITileObject object);
 
     /**
      * Check if the tile contains the element
@@ -21,19 +21,19 @@ public interface ITile {
      * @param object the element to check
      * @return true if the tile contains the element, false otherwise
      */
-    Boolean contains(TileObject object);
+    Boolean contains(ITileObject object);
 
     /**
      * Return the content of the tile
      *
      * @return content of the tile
      */
-    List<TileObject> getContent();
+    List<ITileObject> getContent();
 
     /**
      * Delete an element from the tile
      *
      * @param object element that will be removed.
      */
-    void removeContent(TileObject object);
+    void removeContent(ITileObject object);
 }
