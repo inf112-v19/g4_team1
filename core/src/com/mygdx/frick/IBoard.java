@@ -2,51 +2,55 @@ package com.mygdx.frick;
 
 import java.util.List;
 
+/**
+ * Generic interface for a basic game board
+ *
+ */
 public interface IBoard {
 
     /**
-     * Place an element in the position x,y
+     * Place an element at the position x,y
      *
-     * @param x
-     * @param y
-     * @param e
+     * @param x x
+     * @param y y
+     * @param e element
      */
     void set(int x, int y, Tile e);
 
     /**
      * Get the element from the position x,y
      *
-     * @param x
-     * @param y
-     * @return
+     * @param x x
+     * @param y y
+     * @return tile at x,y
      */
     Tile get(int x, int y);
 
     /**
      * Get the size of the board
      *
-     * @return
+     * @return size
      */
     int getSize();
 
     /**
      * Return the height of the board
      *
-     * @return
+     * @return height
      */
     int getHeight();
 
     /**
      * Return the width of the board
      *
-     * @return
+     * @return width
      */
     int getWidth();
 
     /**
      * Return the board itself
      *
-     * @return
+     * @return game board
      */
     List<Tile> getBoard();
 }

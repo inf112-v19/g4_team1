@@ -1,3 +1,4 @@
+package Test;
 
 import com.mygdx.frick.Board;
 import com.mygdx.frick.Tile;
