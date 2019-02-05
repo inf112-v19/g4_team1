@@ -9,13 +9,22 @@ import java.util.List;
 public interface IBoard {
 
     /**
-     * Place an element at the position x,y
+     * Place a Tile at the position x,y that replaces the previous
      *
      * @param x x
      * @param y y
-     * @param e element
+     * @param e Tile to place
      */
-    void set(int x, int y, Tile e);
+    void setTile(int x, int y, Tile e);
+
+    /**
+     *add a tileobject to the board on a position (x, y)
+     *
+     * @param x x
+     * @param y y
+     * @param obj object to place on board
+     */
+    void addTileObject(int x, int y, ITileObject obj);
 
     /**
      * Get the element from the position x,y

@@ -18,9 +18,13 @@ public class Board implements IBoard {
             board.add(new Tile());
     }
 
-    public void set(int x, int y, Tile tile) {
+    public void setTile(int x, int y, Tile tile) {
         int pos = x + (getWidth() * y);
         board.set(pos, tile);
+    }
+
+    public void addTileObject(int x, int y, ITileObject obj){
+        get(x, y).addObject(obj);
     }
 
     public Tile get(int x, int y) {
