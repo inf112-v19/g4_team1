@@ -8,9 +8,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class BoardTest {
 
     @Test
-    void put() {
+    void putGetTest() {
         Board board = new Board(10, 10);
-        Tile test = new Tile();
+        Tile test = new Tile(0, 0);
 
         board.set(0, 0, test);
 
