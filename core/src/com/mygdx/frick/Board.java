@@ -6,24 +6,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Board implements IBoard {
-    private List<Tile> board;
+    private List<ITile> board;
     private int height, width;
 
     public Board(int height, int width) {
-        board = new ArrayList<Tile>(height * width);
+        board = new ArrayList<ITile>(height * width);
         this.height = height;
         this.width = width;
 
-        for (int i = 0; i < this.getSize(); i++)
-            board.add(new Tile());
+        for (int i = 0; i < this.getHeight(); i++)
+            for (int j = 0; j < this.getWidth(); j++)
+                board.add(new Tile(i, j));
     }
 
-    public void set(int x, int y, Tile tile) {
+    public void set(int x, int y, ITile tile) {
         int pos = x + (getWidth() * y);
         board.set(pos, tile);
     }
 
-    public Tile get(int x, int y) {
+    public ITile get(int x, int y) {
         int pos = x + (getWidth() * y);
         return board.get(pos);
     }
@@ -43,7 +44,7 @@ public class Board implements IBoard {
     }
 
     @Override
-    public List<Tile> getBoard() {
+    public List<ITile> getBoard() {
         return board;
     }
 

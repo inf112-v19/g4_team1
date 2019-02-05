@@ -15,7 +15,7 @@ public interface IBoard {
      * @param y y
      * @param e element
      */
-    void set(int x, int y, Tile e);
+    void set(int x, int y, ITile e);
 
     /**
      * Get the element from the position x,y
@@ -24,7 +24,7 @@ public interface IBoard {
      * @param y y
      * @return tile at x,y
      */
-    Tile get(int x, int y);
+    ITile get(int x, int y);
 
     /**
      * Get the size of the board
@@ -52,5 +52,5 @@ public interface IBoard {
      *
      * @return game board
      */
-    List<Tile> getBoard();
+    List<ITile> getBoard();
 }
