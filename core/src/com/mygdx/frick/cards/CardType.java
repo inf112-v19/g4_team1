@@ -19,5 +19,6 @@ public enum CardType {
             case MOVE_2_TILE: return "Move 2 Tile forward";
             case MOVE_3_TILE: return "Move 2 Tile forward";
         }
+        throw new IllegalStateException("no cardtype");
     }
 }

@@ -1,6 +1,6 @@
 package com.mygdx.frick.cards;
 
-public class Card {
+public class Card implements  ICard{
     private CardType type;
     private int priorityNumber;
 
@@ -33,5 +33,9 @@ public class Card {
             case MOVE_3_TILE: robot.Move();
                 break;
         }
+    }
+
+    public int getPriorityNumber() {
+        return priorityNumber;
     }
 }
