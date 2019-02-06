@@ -1,4 +1,4 @@
-package com.mygdx.frick;
+package com.mygdx.frick.actors;
 
 /**
  * Generic interface for the object that is located on the tile.
@@ -25,7 +25,7 @@ public interface ITileObject {
      *
      * @return [x,y] array with coordinates
      */
-    Integer[] getPos();
+    Integer[] getXY();
 
     /**
      * Get the symbol associated with the object

@@ -1,6 +1,7 @@
-package com.mygdx.frick;
+package com.mygdx.frick.board;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.frick.actors.ITileObject;
 
 import java.util.ArrayList;
 import java.util.List;
