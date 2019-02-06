@@ -4,6 +4,7 @@ import com.mygdx.frick.board.Tile;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+
 class BoardTest {
 
     @Test
@@ -15,4 +16,5 @@ class BoardTest {
 
         assertEquals(test, board.get(0, 0));
     }
+
 }
