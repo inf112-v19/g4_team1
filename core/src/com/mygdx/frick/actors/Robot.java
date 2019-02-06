@@ -13,4 +13,24 @@ public class Robot extends TileObject implements IRobot {
     public String getOwner() {
         return this.owner;
     }
+
+    @Override
+    public void turnLeft() {
+
+    }
+
+    @Override
+    public void turnRight() {
+
+    }
+
+    @Override
+    public void turnhalf() {
+
+    }
+
+    @Override
+    public void moveForward(int distance) {
+
+    }
 }

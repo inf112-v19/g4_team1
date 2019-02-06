@@ -1,5 +1,7 @@
 package com.mygdx.frick.cards;
 
+import com.mygdx.frick.actors.IRobot;
+
 public class Card implements  ICard{
     private CardType type;
     private int priorityNumber;
@@ -24,13 +26,13 @@ public class Card implements  ICard{
                 break;
             case TURN_RIGHT: robot.turnRight();
                 break;
-            case TURN_HALF: robot.turnHalf();
+            case TURN_HALF: robot.turnhalf();
                 break;
-            case MOVE_1_TILE: robot.Move();
+            case MOVE_1_TILE: robot.moveForward(1);
                 break;
-            case MOVE_2_TILE: robot.Move();
+            case MOVE_2_TILE: robot.moveForward(2);
                 break;
-            case MOVE_3_TILE: robot.Move();
+            case MOVE_3_TILE: robot.moveForward(3);
                 break;
         }
     }
