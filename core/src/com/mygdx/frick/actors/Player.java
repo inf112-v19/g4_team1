@@ -1,4 +1,4 @@
-package com.mygdx.frick;
+package com.mygdx.frick.actors;
 
 public class Player {
 

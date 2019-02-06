@@ -1,4 +1,4 @@
-package com.mygdx.frick;
+package com.mygdx.frick.actors;
 
 public abstract class TileObject implements ITileObject {
     private int x = -1, y = -1;

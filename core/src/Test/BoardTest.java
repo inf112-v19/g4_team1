@@ -1,5 +1,5 @@
-import com.mygdx.frick.Board;
-import com.mygdx.frick.Tile;
+import com.mygdx.frick.board.Board;
+import com.mygdx.frick.board.Tile;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

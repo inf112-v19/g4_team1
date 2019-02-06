@@ -1,4 +1,4 @@
-package com.mygdx.frick;
+package com.mygdx.frick.actors;
 
 /**
  * Generic interface for the object that is located on the tile.
