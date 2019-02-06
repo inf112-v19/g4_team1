@@ -20,7 +20,7 @@ public interface IRobot {
     /**
      * make the robot turn 180 around
      */
-    void turnhalf();
+    void turnHalf();
 
     /**
      * make the robot move an amount of tiles in the direction its facing
@@ -28,4 +28,9 @@ public interface IRobot {
      * @param distance amount of tiles to move
      */
     void moveForward(int distance);
+
+    /**
+     * moves the robot 1 tile backwards
+     */
+    void moveBackwards();
 }

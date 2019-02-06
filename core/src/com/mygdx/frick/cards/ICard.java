@@ -1,5 +1,7 @@
 package com.mygdx.frick.cards;
 
+import com.mygdx.frick.actors.IRobot;
+
 public interface ICard {
     /**
      * get the type of the program card, eg. TURN_RIGHT
@@ -15,4 +17,9 @@ public interface ICard {
      */
     public int getPriorityNumber();
 
+    /**
+     * does what the program on the card says with the robot, e.g. moves the robot forward
+     * @param robot robot to move
+     */
+    public void execute(IRobot robot);
 }

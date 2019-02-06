@@ -31,4 +31,7 @@ public enum Direction {
         throw new IllegalStateException("no direction");
 
     }
+    public Direction opposite(){
+        return this.left().left();
+    }
 }

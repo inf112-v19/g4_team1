@@ -14,6 +14,19 @@ public class Robot extends TileObject implements IRobot {
         this.x = x;
         this.y = y;
     }
+    //TODO:
+    //find a nice way to get the new coordinates in a given direction, eg DIRECTION.getCor(x, y, dir)
+
+    public void move(Direction dir){
+        if(board.isValidPos(x, y)) {
+
+            //if(board.get(x, y).containsRobot()){
+            //    if(robot.move != Null){
+            //            this.pos = pos.getCor(x, y, dir);
+            //        }
+            //}
+        }
+    }
 
     @Override
     public String getOwner() {
@@ -31,18 +44,26 @@ public class Robot extends TileObject implements IRobot {
     }
 
     @Override
-    public void turnhalf() {
-        dir=dir.left().left();
+    public void turnHalf() {
+        dir=dir.opposite();
     }
 
     @Override
     public void moveForward(int distance) {
+        /*
+        calls moveForward n times so it doesnt jump walls or robots
+         */
         for(int i = 0; i<distance; i++){
             moveForward();
         }
     }
 
+    @Override
+    public void moveBackwards() {
+        move(dir.opposite());
+    }
+
     private void moveForward() {
-        //x=x+1
+        move(dir);
     }
 }
