@@ -16,7 +16,7 @@ public abstract class TileObject implements ITileObject {
     }
 
     @Override
-    public Integer[] getPos() {
+    public Integer[] getXY() {
         Integer[] pos = new Integer[2];
         pos[0] = x;
         pos[1] = y;

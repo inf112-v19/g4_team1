@@ -25,7 +25,7 @@ public interface ITileObject {
      *
      * @return [x,y] array with coordinates
      */
-    Integer[] getPos();
+    Integer[] getXY();
 
     /**
      * Get the symbol associated with the object
