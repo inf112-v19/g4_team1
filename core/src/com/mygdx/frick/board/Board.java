@@ -54,6 +54,11 @@ public class Board implements IBoard {
     }
 
     @Override
+    public boolean isValidPos(int x, int y) {
+        return (x >= 0 && x < getWidth() && y >= 0 & y < getHeight());
+    }
+
+    @Override
     public int getSize() {
         return getHeight() * getWidth();
     }

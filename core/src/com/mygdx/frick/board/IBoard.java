@@ -64,4 +64,14 @@ public interface IBoard {
      * @return game board
      */
     List<ITile> getBoard();
+
+    /**
+     * check if a position is within the boards coordinates
+     * @param x x cor
+     * @param y y cor
+     * @return True if (x,y) is on the board
+     */
+    boolean isValidPos(int x, int y);
+
+
 }
