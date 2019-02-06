@@ -26,7 +26,8 @@ public class Robot extends TileObject implements IRobot {
 
     @Override
     public void turnhalf() {
-
+        this.turnLeft();
+        this.turnLeft();
     }
 
     @Override
