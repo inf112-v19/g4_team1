@@ -7,7 +7,6 @@ import java.util.List;
 
 public class Tile implements ITile {
     private List<ITileObject> content;
-    private int x, y;
 
     public Tile() {
         content = new ArrayList<ITileObject>();
@@ -15,8 +14,6 @@ public class Tile implements ITile {
 
     public Tile(int x, int y) {
         content = new ArrayList<ITileObject>();
-        this.x = x;
-        this.y = y;
     }
 
     public Tile(){
@@ -44,22 +41,4 @@ public class Tile implements ITile {
             content.remove(object);
     }
 
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    @Override
-    public Integer[] getXY() {
-        Integer[] pos = new Integer[2];
-        pos[0] = x;
-        pos[1] = y;
-
-        return pos;
-    }
 }

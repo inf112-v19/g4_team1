@@ -1,9 +1,9 @@
 package com.mygdx.frick.actors;
 
 public abstract class TileObject implements ITileObject {
-    private int x = -1, y = -1;
-    private String name = "Tile Object";
-    private char symbol = '#';
+    protected int x = -1, y = -1;
+    protected String name = "Tile Object";
+    protected char symbol = '#';
 
     @Override
     public int getX() {
