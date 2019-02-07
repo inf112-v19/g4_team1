@@ -30,7 +30,7 @@ public class Robot extends TileObject implements IRobot {
         }
 
         if(board.isValidPos(newX, newY)) {
-            if(board.get(x, y).containsRobot()) {
+            if(board.containsRobot(newX, newY)){
                 //if (robot.move != Null) {
                 //    this.pos = pos.getCor(x, y, dir);
                 //}
@@ -42,6 +42,9 @@ public class Robot extends TileObject implements IRobot {
                 x = newX;
                 y = newY;
             }
+        }else{
+            //TODO:
+            //robot is outside board
         }
     }
 

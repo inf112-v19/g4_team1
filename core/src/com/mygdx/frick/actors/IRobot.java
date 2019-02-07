@@ -33,4 +33,10 @@ public interface IRobot {
      * moves the robot 1 tile backwards
      */
     void moveBackwards();
+
+    /**
+     * moves the robot one tile in a given direction, regardless of where it is facing. e.g. when a robot is pushed
+     * @param direction direction to move robot
+     */
+    void move(Direction direction);
 }

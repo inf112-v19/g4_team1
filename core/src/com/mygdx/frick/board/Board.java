@@ -1,6 +1,7 @@
 package com.mygdx.frick.board;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.frick.actors.IRobot;
 import com.mygdx.frick.actors.ITileObject;
 
 import java.util.ArrayList;
@@ -21,8 +22,7 @@ public class Board implements IBoard {
     }
 
     public void setTile(int x, int y, ITile tile) {
-        int pos = x + (getWidth() * y);
-        board.set(pos, tile);
+        board.set(indexFromCor(x, y), tile);
     }
 
     public void addTileObject(int x, int y, ITileObject obj) {
@@ -30,8 +30,7 @@ public class Board implements IBoard {
     }
 
     public ITile get(int x, int y) {
-        int pos = x + (getWidth() * y);
-        return board.get(pos);
+        return board.get(indexFromCor(x, y));
     }
 
     public void draw(SpriteBatch batch) {
@@ -61,5 +60,19 @@ public class Board implements IBoard {
     @Override
     public int getSize() {
         return getHeight() * getWidth();
+    }
+
+    public boolean containsRobot(int x, int y){
+        List<ITileObject> tileObjects =  board.get(indexFromCor(x, y)).getContent();
+        for (ITileObject tileObject : tileObjects) {
+            if (tileObject instanceof IRobot) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private int indexFromCor(int x, int y){
+        return x + (getWidth() * y);
     }
 }

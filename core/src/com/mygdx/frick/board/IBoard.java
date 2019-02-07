@@ -74,4 +74,5 @@ public interface IBoard {
     boolean isValidPos(int x, int y);
 
 
+    boolean containsRobot(int newX, int newY);
 }
