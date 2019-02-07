@@ -9,6 +9,10 @@ public class Tile implements ITile {
     private List<ITileObject> content;
     private int x, y;
 
+    public Tile() {
+        content = new ArrayList<ITileObject>();
+    }
+
     public Tile(int x, int y) {
         content = new ArrayList<ITileObject>();
         this.x = x;
