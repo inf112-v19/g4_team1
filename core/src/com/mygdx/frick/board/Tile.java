@@ -15,6 +15,10 @@ public class Tile implements ITile {
         this.y = y;
     }
 
+    public Tile(){
+        content = new ArrayList<ITileObject>();
+    }
+
     @Override
     public void addObject(ITileObject object) {
         content.add(object);

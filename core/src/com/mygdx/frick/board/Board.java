@@ -17,7 +17,7 @@ public class Board implements IBoard {
 
         for (int i = 0; i < this.getHeight(); i++)
             for (int j = 0; j < this.getWidth(); j++)
-                board.add(new Tile(i, j));
+                board.add(new Tile());
     }
 
     public void setTile(int x, int y, ITile tile) {
@@ -34,9 +34,6 @@ public class Board implements IBoard {
         return board.get(pos);
     }
 
-    public void draw(SpriteBatch batch) {
-        
-    }
 
     @Override
     public int getHeight() {
@@ -61,5 +58,8 @@ public class Board implements IBoard {
     @Override
     public int getSize() {
         return getHeight() * getWidth();
+    }
+
+    public void draw(SpriteBatch batch) {
     }
 }
