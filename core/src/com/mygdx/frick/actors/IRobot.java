@@ -10,6 +10,13 @@ public interface IRobot {
     Player getOwner();
 
     /**
+     * moves the robot one tile in a given direction, regardless of where it is facing. e.g. when a robot is pushed
+     * all move functions calls this function
+     * @param direction direction to move robot
+     */
+    void move(Direction direction);
+
+    /**
      * make the robot turn 90 degrees left
      */
     void turnLeft();
@@ -34,9 +41,5 @@ public interface IRobot {
      */
     void moveBackwards();
 
-    /**
-     * moves the robot one tile in a given direction, regardless of where it is facing. e.g. when a robot is pushed
-     * @param direction direction to move robot
-     */
-    void move(Direction direction);
+
 }

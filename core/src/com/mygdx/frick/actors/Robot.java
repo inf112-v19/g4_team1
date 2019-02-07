@@ -30,20 +30,19 @@ public class Robot extends TileObject implements IRobot {
 
         if(board.isValidPos(newX, newY)) {
             if(board.containsRobot(newX, newY)){
-                //if (robot.move != Null) {
-                //    this.pos = pos.getCor(x, y, dir);
-                //}
+                //TODO:
+                //robot has to push the other robot
             }else{
-                ITile currentTile = board.get(x, y);
-                ITile nextTile = board.get(newX, newY);
-                currentTile.removeContent(this);
-                nextTile.addObject(this);
+                //removes from current tile
+                board.get(x, y).removeContent(this);
+                //adds robot to next tile
+                board.get(newX, newY).addObject(this);
                 x = newX;
                 y = newY;
             }
         }else{
             //TODO:
-            //robot is outside board
+            //robot is moving outside board
         }
     }
 
