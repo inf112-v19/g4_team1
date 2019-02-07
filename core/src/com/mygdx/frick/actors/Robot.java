@@ -2,14 +2,13 @@ package com.mygdx.frick.actors;
 
 import com.mygdx.frick.board.IBoard;
 import com.mygdx.frick.board.ITile;
-import com.mygdx.frick.board.Tile;
 
 public class Robot extends TileObject implements IRobot {
     private Direction dir;
-    private String owner;
+    private Player owner;
     private IBoard board;
 
-    public Robot(int x, int y, Direction dir, String owner, IBoard board) {
+    public Robot(int x, int y, Direction dir, Player owner, IBoard board) {
         this.dir = dir;
         this.owner = owner;
         this.board = board;
@@ -49,7 +48,7 @@ public class Robot extends TileObject implements IRobot {
     }
 
     @Override
-    public String getOwner() {
+    public Player getOwner() {
         return this.owner;
     }
 

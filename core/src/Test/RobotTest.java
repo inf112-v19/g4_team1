@@ -1,4 +1,5 @@
 import com.mygdx.frick.actors.Direction;
+import com.mygdx.frick.actors.Player;
 import com.mygdx.frick.actors.Robot;
 import com.mygdx.frick.board.Board;
 import org.junit.jupiter.api.Test;
@@ -9,7 +10,7 @@ public class RobotTest {
     @Test
     void robotMove(){
         Board board = new Board(10, 10);
-        Robot robot = new Robot(1, 1, Direction.EAST, "tobias", board);
+        Robot robot = new Robot(1, 1, Direction.EAST, new Player("tobias"), board);
         board.addTileObject(1, 1, robot);
         robot.moveForward(1);
         assertEquals(robot.getX(), 2);

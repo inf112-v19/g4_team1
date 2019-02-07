@@ -17,7 +17,7 @@ public class Card implements  ICard{
 
     @Override
     public String toString() {
-        return "Card type "+ type;
+        return "Card type "+ type+", priority "+priorityNumber;
     }
 
     public void execute(IRobot robot){

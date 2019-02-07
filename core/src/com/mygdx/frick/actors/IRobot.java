@@ -7,7 +7,7 @@ public interface IRobot {
      *
      * @return the name of the player
      */
-    String getOwner();
+    Player getOwner();
 
     /**
      * make the robot turn 90 degrees left
