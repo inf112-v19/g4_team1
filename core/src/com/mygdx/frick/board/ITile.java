@@ -38,25 +38,4 @@ public interface ITile {
      * @param object element that will be removed.
      */
     void removeContent(ITileObject object);
-
-    /**
-     * Get the x coordinate of the tile
-     *
-     * @return x
-     */
-    int getX();
-
-    /**
-     * Get the y coordinate of the tile
-     *
-     * @return y
-     */
-    int getY();
-
-    /**
-     * Get the array containing x and y coordinates
-     *
-     * @return [x,y]
-     */
-    Integer[] getXY();
 }

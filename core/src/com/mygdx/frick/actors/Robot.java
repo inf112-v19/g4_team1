@@ -1,6 +1,8 @@
 package com.mygdx.frick.actors;
 
 import com.mygdx.frick.board.IBoard;
+import com.mygdx.frick.board.ITile;
+import com.mygdx.frick.board.Tile;
 
 public class Robot extends TileObject implements IRobot {
     private Direction dir;
@@ -18,13 +20,28 @@ public class Robot extends TileObject implements IRobot {
     //find a nice way to get the new coordinates in a given direction, eg DIRECTION.getCor(x, y, dir)
 
     public void move(Direction dir){
-        if(board.isValidPos(x, y)) {
+        int newX=x;
+        int newY=y;
+        switch (dir){
+            case EAST: newX++; break;
+            case WEST: newX--; break;
+            case NORTH: newY++; break;
+            case SOUTH: newY--; break;
+        }
 
-            //if(board.get(x, y).containsRobot()){
-            //    if(robot.move != Null){
-            //            this.pos = pos.getCor(x, y, dir);
-            //        }
-            //}
+        if(board.isValidPos(newX, newY)) {
+            if(board.get(x, y).containsRobot()) {
+                //if (robot.move != Null) {
+                //    this.pos = pos.getCor(x, y, dir);
+                //}
+            }else{
+                ITile currentTile = board.get(x, y);
+                ITile nextTile = board.get(newX, newY);
+                currentTile.removeContent(this);
+                nextTile.addObject(this);
+                x = newX;
+                y = newY;
+            }
         }
     }
 
