@@ -1,8 +1,7 @@
-import com.mygdx.frick.actors.Direction;
+import com.mygdx.frick.utils.Direction;
 import com.mygdx.frick.actors.Player;
 import com.mygdx.frick.actors.Robot;
 import com.mygdx.frick.board.Board;
-import com.mygdx.frick.board.Tile;
 
 import com.mygdx.frick.cards.Card;
 import com.mygdx.frick.cards.CardType;

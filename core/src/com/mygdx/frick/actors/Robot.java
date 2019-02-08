@@ -1,7 +1,7 @@
 package com.mygdx.frick.actors;
 
 import com.mygdx.frick.board.IBoard;
-import com.mygdx.frick.board.ITile;
+import com.mygdx.frick.utils.Direction;
 
 public class Robot extends TileObject implements IRobot {
     private Direction dir;

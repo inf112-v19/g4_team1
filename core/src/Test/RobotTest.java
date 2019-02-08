@@ -1,4 +1,4 @@
-import com.mygdx.frick.actors.Direction;
+import com.mygdx.frick.utils.Direction;
 import com.mygdx.frick.actors.Player;
 import com.mygdx.frick.actors.Robot;
 import com.mygdx.frick.board.Board;

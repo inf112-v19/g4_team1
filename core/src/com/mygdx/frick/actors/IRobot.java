@@ -1,5 +1,7 @@
 package com.mygdx.frick.actors;
 
+import com.mygdx.frick.utils.Direction;
+
 public interface IRobot {
 
     /**
