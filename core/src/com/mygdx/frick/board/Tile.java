@@ -12,10 +12,6 @@ public class Tile implements ITile {
         content = new ArrayList<ITileObject>();
     }
 
-    public Tile(int x, int y) {
-        content = new ArrayList<ITileObject>();
-    }
-
     @Override
     public void addObject(ITileObject object) {
         content.add(object);

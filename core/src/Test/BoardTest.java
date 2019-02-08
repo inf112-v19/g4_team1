@@ -1,7 +1,10 @@
+import com.mygdx.frick.actors.Player;
+import com.mygdx.frick.actors.Robot;
 import com.mygdx.frick.actors.TileObject;
 import com.mygdx.frick.board.Board;
 import com.mygdx.frick.board.Tile;
 
+import com.mygdx.frick.utils.Direction;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,7 +14,7 @@ class BoardTest {
     @Test
     void putGetTest() {
         Board board = new Board(10, 10);
-        Tile test = new Tile(0, 0);
+        Tile test = new Tile();
         board.setTile(0, 0, test);
         assertEquals(test, board.get(0, 0));
     }
@@ -25,11 +28,13 @@ class BoardTest {
     }
     @Test
     void boardObjectTest(){
-        //TODO: lage test med TileObject
-        //Board board = new Board(5, 5);
-        //Tile tile = new Tile(0, 0);
-        //board.setTile(0, 0, tile);
-        //board.get(0, 0).getContent();
+
+        Board board = new Board(5, 5);
+        Tile tile = new Tile();
+        board.setTile(0, 0, tile);
+        Robot robot = new Robot(0, 0, Direction.EAST, new Player("test"), board);
+        board.get(0, 0).addObject(robot);
+        assertEquals(board.getRobot(0, 0), robot);
     }
     @Test
     void validPosTest(){

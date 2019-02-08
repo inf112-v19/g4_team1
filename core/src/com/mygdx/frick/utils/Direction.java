@@ -8,7 +8,7 @@ public enum Direction {
     ;
 
     /**
-     * methods for changing direction
+     * methods for returning another relative direction
      */
     public Direction left(){
         switch (this){

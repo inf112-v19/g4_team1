@@ -30,8 +30,12 @@ public class Robot extends TileObject implements IRobot {
 
         if(board.isValidPos(newX, newY)) {
             if(board.containsRobot(newX, newY)){
-                //TODO:
                 //robot has to push the other robot
+                IRobot otherRobot = board.getRobot(x, y);
+                otherRobot.move(dir);
+                //path is clear now we try again
+                move(dir);
+
             }else{
                 //removes from current tile
                 board.get(x, y).removeContent(this);
@@ -43,6 +47,7 @@ public class Robot extends TileObject implements IRobot {
         }else{
             //TODO:
             //robot is moving outside board
+            throw new UnsupportedOperationException("not implemented");
         }
     }
 

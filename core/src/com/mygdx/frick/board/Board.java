@@ -18,7 +18,7 @@ public class Board implements IBoard {
 
         for (int i = 0; i < this.getHeight(); i++)
             for (int j = 0; j < this.getWidth(); j++)
-                board.add(new Tile(i, j));
+                board.add(new Tile());
     }
 
     public void setTile(int x, int y, ITile tile) {
@@ -67,6 +67,16 @@ public class Board implements IBoard {
             }
         }
         return false;
+    }
+
+    public IRobot getRobot(int x, int y){
+        List<ITileObject> tileObjects =  board.get(indexFromCor(x, y)).getContent();
+        for (ITileObject tileObject : tileObjects) {
+            if (tileObject instanceof IRobot) {
+                return (IRobot) tileObject;
+            }
+        }
+        throw new IllegalStateException(x+","+y+" does not ccontain robot");
     }
 
     private int indexFromCor(int x, int y){
