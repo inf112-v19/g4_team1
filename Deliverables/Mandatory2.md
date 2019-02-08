@@ -13,7 +13,7 @@
 
 ##### Not so good: 
 - graphics did not work that well and require a little bit more time to understand how things work
-- a bit of confusion of which task people where working on, should be more specific about which task you are working on
+- a bit of confusion of which task people were working on, should be more specific about which task you are working on
 - use slack more frequent (tools)
 - focus more on tests
 - steep learning curve
