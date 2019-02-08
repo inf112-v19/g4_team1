@@ -1,5 +1,6 @@
 package com.mygdx.frick.board;
 
+import com.mygdx.frick.actors.IRobot;
 import com.mygdx.frick.actors.ITileObject;
 
 import java.util.List;
@@ -73,5 +74,19 @@ public interface IBoard {
      */
     boolean isValidPos(int x, int y);
 
+    /**
+     * check if a position contains a robot
+     * @param x x
+     * @param y x
+     * @return true if contains robot
+     */
+    boolean containsRobot(int x, int y);
 
+    /**
+     * returns the robot in a position
+     * @param x x
+     * @param y y
+     * @return the robot
+     */
+    IRobot getRobot(int x, int y);
 }
