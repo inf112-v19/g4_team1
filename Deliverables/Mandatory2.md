@@ -31,4 +31,4 @@ To conclude we think we did well when it comes to communicating face to face and
 
 ##### UML Class Diagram
 
-![ClassDiagram](Deliverables/ClassDiagram.png)
+![ClassDiagram](ClassDiagram.png)
