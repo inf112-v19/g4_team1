@@ -31,7 +31,7 @@ public class Robot extends TileObject implements IRobot {
         if(board.isValidPos(newX, newY)) {
             if(board.containsRobot(newX, newY)){
                 //robot has to push the other robot
-                IRobot otherRobot = board.getRobot(x, y);
+                IRobot otherRobot = board.getRobot(newX, newY);
                 otherRobot.move(dir);
                 //path is clear now we try again
                 move(dir);
