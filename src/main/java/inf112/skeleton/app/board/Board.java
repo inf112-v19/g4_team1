@@ -1,8 +1,8 @@
-package com.mygdx.frick.board;
+package inf112.skeleton.app.board;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.frick.actors.IRobot;
-import com.mygdx.frick.actors.ITileObject;
+import inf112.skeleton.app.actors.IRobot;
+import inf112.skeleton.app.actors.ITileObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,5 +84,6 @@ public class Board implements IBoard {
     }
 
     public void draw(SpriteBatch batch) {
+
     }
 }

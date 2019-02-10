@@ -9,13 +9,21 @@
   <version>1.0-SNAPSHOT</version>
 
   <name>mvn-app</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+  <url>https://github.com/inf112-v19/g4_team1</url>
+
+  <repositories>
+    <repository>
+      <id>jvnet-nexus-staging</id>
+      <url>http://maven.java.net/content/repositories/staging/</url>
+      <layout>default</layout>
+    </repository>
+  </repositories>
 
   <properties>
+    <java.version>11</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
   </properties>
 
   <dependencies>
@@ -66,13 +74,31 @@
           <artifactId>maven-resources-plugin</artifactId>
           <version>3.0.2</version>
         </plugin>
-        <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.8.0</version>
-        </plugin>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <version>3.8.0</version>
+              <configuration>
+                  <release>${java.version}</release>
+              </configuration>
+              <dependencies>
+                  <dependency>
+                      <groupId>org.ow2.asm</groupId>
+                      <artifactId>asm</artifactId>
+                      <version>6.2</version>
+                  </dependency>
+              </dependencies>
+          </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>2.22.1</version>
+          <dependencies>
+            <dependency>
+              <groupId>org.ow2.asm</groupId>
+              <artifactId>asm</artifactId>
+              <version>6.2</version>
+            </dependency>
+          </dependencies>
         </plugin>
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>

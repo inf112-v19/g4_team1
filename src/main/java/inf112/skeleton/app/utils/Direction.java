@@ -1,4 +1,4 @@
-package com.mygdx.frick.utils;
+package inf112.skeleton.app.utils;
 
 public enum Direction {
     NORTH,

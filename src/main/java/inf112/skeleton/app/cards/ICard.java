@@ -1,6 +1,6 @@
-package com.mygdx.frick.cards;
+package inf112.skeleton.app.cards;
 
-import com.mygdx.frick.actors.IRobot;
+import inf112.skeleton.app.actors.IRobot;
 
 public interface ICard {
     /**

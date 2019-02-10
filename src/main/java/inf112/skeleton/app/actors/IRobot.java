@@ -1,6 +1,6 @@
-package com.mygdx.frick.actors;
+package inf112.skeleton.app.actors;
 
-import com.mygdx.frick.utils.Direction;
+import inf112.skeleton.app.utils.Direction;
 
 public interface IRobot {
 

@@ -1,4 +1,4 @@
-package com.mygdx.frick.cards;
+package inf112.skeleton.app.cards;
 
 public enum CardType {
     TURN_RIGHT,

@@ -1,13 +1,12 @@
-import com.mygdx.frick.utils.Direction;
-import com.mygdx.frick.actors.Player;
-import com.mygdx.frick.actors.Robot;
-import com.mygdx.frick.board.Board;
+package inf112.skeleton.app;
 
-import com.mygdx.frick.cards.Card;
-import com.mygdx.frick.cards.CardType;
+import inf112.skeleton.app.actors.*;
+import inf112.skeleton.app.board.*;
+import inf112.skeleton.app.cards.*;
+import inf112.skeleton.app.utils.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 
 class CardTest {
 
@@ -36,7 +35,5 @@ class CardTest {
         card4.execute(robot);
         assertEquals(robot.getX(), 2);
         assertEquals(robot.getY(), 2);
-
     }
-
 }
