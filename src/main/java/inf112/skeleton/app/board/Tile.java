@@ -1,7 +1,5 @@
 package inf112.skeleton.app.board;
 
-import inf112.skeleton.app.actors.ITileObject;
-
 import java.util.ArrayList;
 import java.util.List;
 

@@ -2,7 +2,6 @@ package inf112.skeleton.app.board;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import inf112.skeleton.app.actors.IRobot;
-import inf112.skeleton.app.actors.ITileObject;
 
 import java.util.ArrayList;
 import java.util.List;
