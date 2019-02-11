@@ -20,6 +20,7 @@
   </repositories>
 
   <properties>
+    <set-configuration-property name="gdx.assetpath" value="..\assets" />
     <java.version>11</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>${java.version}</maven.compiler.source>
