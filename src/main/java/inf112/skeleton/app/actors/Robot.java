@@ -27,7 +27,8 @@ public class Robot extends TileObject implements IRobot {
             case NORTH: newY++; break;
             case SOUTH: newY--; break;
         }
-
+        //TODO::
+        //check if there is a wall
         if(board.isValidPos(newX, newY)) {
             if(board.containsRobot(newX, newY)){
                 //robot has to push the other robot

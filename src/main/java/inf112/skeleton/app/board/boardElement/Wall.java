@@ -2,16 +2,19 @@ package inf112.skeleton.app.board.boardElement;
 
 import inf112.skeleton.app.board.Board;
 import inf112.skeleton.app.board.ITileObject;
+import inf112.skeleton.app.utils.Direction;
 
 public class Wall implements ITileObject {
 
+    private Direction wallDir;
     private int x;
     private int y;
     private char symbol;
     private String name;
     private Board board;
 
-    public Wall(int x, int y, char symbol, Board board) {
+    public Wall(Direction dir, int x, int y, char symbol, Board board) {
+        this.wallDir = dir;
         this.x = x;
         this.y = y;
         this.symbol = symbol;
@@ -19,6 +22,9 @@ public class Wall implements ITileObject {
         name="Wall";
     }
 
+    public Direction getWallDir(){
+        return wallDir;
+    }
     @Override
     public int getX() {
         return x;
