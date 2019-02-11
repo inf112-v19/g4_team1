@@ -43,5 +43,10 @@ public interface IRobot {
      */
     void moveBackwards();
 
+    /**
+     * Damage the robot for 1 hp
+     */
+    void damage();
+
 
 }

@@ -14,7 +14,7 @@ public class Main {
 
 
 
-        //new LwjglApplication(new HelloWorld(), cfg);
-        new LwjglApplication(new ImageTest());
+        new LwjglApplication(new HelloWorld(), cfg);
+      //  new LwjglApplication(new ImageTest());
     }
 }

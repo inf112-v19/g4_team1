@@ -7,6 +7,7 @@ public class Robot extends TileObject implements IRobot {
     private Direction dir;
     private Player owner;
     private IBoard board;
+    private int health;
 
     public Robot(int x, int y, Direction dir, Player owner, IBoard board) {
         this.dir = dir;
@@ -14,6 +15,7 @@ public class Robot extends TileObject implements IRobot {
         this.board = board;
         this.x = x;
         this.y = y;
+        this.health = 10;
     }
     //TODO:
     //find a nice way to get the new coordinates in a given direction, eg DIRECTION.getCor(x, y, dir)
@@ -49,6 +51,11 @@ public class Robot extends TileObject implements IRobot {
             //robot is moving outside board
             throw new UnsupportedOperationException("not implemented");
         }
+    }
+
+    @Override
+    public void damage() {
+        this.health--;
     }
 
     @Override
