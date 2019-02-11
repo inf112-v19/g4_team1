@@ -25,16 +25,6 @@ public class Pusher extends ActiveElement{
 
     @Override
     public void activate() {
-        if(board.containsRobot(x, y)){
-            IRobot robot = board.getRobot(x, y);
-            if (dir==Direction.EAST){
-                robot.turnRight();
-            }
-            else if (dir == Direction.WEST){
-                robot.turnLeft();
-            }else{
-                throw new IllegalArgumentException("Use arguments EAST OR WEST for gears");
-            }
-        }
+        //TODO:
     }
 }
