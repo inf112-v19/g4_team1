@@ -11,6 +11,7 @@ public class Main {
         cfg.height = 1050;
 
         // new LwjglApplication(new HelloWorld(), cfg);
-        new LwjglApplication(new ImageTest(), cfg);
+        // new LwjglApplication(new ImageTest(), cfg);
+        new LwjglApplication(new LabelAndFont(), cfg);
     }
 }
