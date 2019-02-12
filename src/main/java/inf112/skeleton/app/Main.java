@@ -7,11 +7,13 @@ public class Main {
     public static void main(String[] args) {
         LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
         cfg.title = "Scene2d Image Manipulation";
+        cfg.useGL30 = true;
         cfg.width = 1680;
         cfg.height = 1050;
 
         // new LwjglApplication(new HelloWorld(), cfg);
         // new LwjglApplication(new ImageTest(), cfg);
-        new LwjglApplication(new LabelAndFont(), cfg);
+        // new LwjglApplication(new LabelAndFont(), cfg);
+        new LwjglApplication(new TestTiledMap(), cfg);
     }
 }
