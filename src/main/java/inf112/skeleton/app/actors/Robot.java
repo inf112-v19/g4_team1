@@ -18,7 +18,7 @@ public class Robot extends TileObject implements IRobot {
     //TODO:
     //find a nice way to get the new coordinates in a given direction, eg DIRECTION.getCor(x, y, dir)
 
-    public void move(Direction dir){
+    public boolean move(Direction dir){
         int newX=x;
         int newY=y;
         switch (dir){
@@ -33,17 +33,22 @@ public class Robot extends TileObject implements IRobot {
             if(board.containsRobot(newX, newY)){
                 //robot has to push the other robot
                 IRobot otherRobot = board.getRobot(newX, newY);
-                otherRobot.move(dir);
-                //path is clear now we try again
-                move(dir);
-
+                boolean completedMove = otherRobot.move(dir);
+                if(completedMove){
+                    //path is clear now we try again
+                    return move(dir);
+                }
+                else{
+                    //the robot on the tile couldnt move, so this robot cant move either
+                    return false;
+                }
             }else{
-                //removes from current tile
+                //robot is free to move to new position
                 board.get(x, y).removeContent(this);
-                //adds robot to next tile
                 board.get(newX, newY).addObject(this);
                 x = newX;
                 y = newY;
+                return true;
             }
         }else{
             //TODO:
