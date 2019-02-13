@@ -3,6 +3,7 @@ package inf112.skeleton.app;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import inf112.skeleton.app.gameclasses.Drop;
+import inf112.skeleton.app.gameclasses.DropV2;
 import inf112.skeleton.app.gameclasses.TestTiledMap;
 
 public class Main {
@@ -23,6 +24,8 @@ public class Main {
         cfg2.title = "Drop";
         cfg2.width = 800;
         cfg2.height = 480;
-        new LwjglApplication(new Drop(), cfg2);
+
+        // new LwjglApplication(new Drop(), cfg2);
+        new LwjglApplication(new DropV2(), cfg2);
     }
 }
