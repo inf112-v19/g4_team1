@@ -2,6 +2,7 @@ package inf112.skeleton.app;
 
 import inf112.skeleton.app.actors.*;
 import inf112.skeleton.app.board.*;
+import inf112.skeleton.app.board.boardElement.Wall;
 import inf112.skeleton.app.utils.*;
 
 import org.junit.jupiter.api.Test;
@@ -46,5 +47,10 @@ public class RobotTest {
         assertEquals(robot2.getX(), 2);
     }
     @Test
-    void wallCollision();
+    void wallCollision(){
+        Board board = new Board(10, 10);
+        Robot robot1 = new Robot(1, 1, Direction.EAST, new Player("tobias"), board);
+        board.addTileObject(2, 1, new Wall());
+
+    }
 }

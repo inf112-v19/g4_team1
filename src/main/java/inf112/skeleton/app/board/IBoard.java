@@ -1,6 +1,7 @@
 package inf112.skeleton.app.board;
 
 import inf112.skeleton.app.actors.IRobot;
+import inf112.skeleton.app.utils.Direction;
 
 import java.util.List;
 
@@ -92,7 +93,7 @@ public interface IBoard {
      * check if a position contains a wall
      * @param x x
      * @param y x
-     * @return true if contains wall
+     * @return the direction the wall is facing, or null if no wall
      */
-    boolean hasWall(int x, int y);
+    Direction getWallDir(int x, int y);
 }
