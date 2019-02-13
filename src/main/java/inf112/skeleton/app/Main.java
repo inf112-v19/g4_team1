@@ -1,7 +1,5 @@
 package inf112.skeleton.app;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
@@ -12,7 +10,7 @@ public class Main {
         cfg.width = 480;
         cfg.height = 320;
 
-        // new LwjglApplication(new HelloWorld(), cfg);
-        new LwjglApplication(new ImageTest());
+        new LwjglApplication(new HelloWorld(), cfg);
+        //new LwjglApplication(new ImageTest());
     }
 }
