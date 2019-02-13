@@ -47,10 +47,23 @@ public class RobotTest {
         assertEquals(robot2.getX(), 2);
     }
     @Test
-    void wallCollision(){
+    void wallCollision1(){
         Board board = new Board(10, 10);
         Robot robot1 = new Robot(1, 1, Direction.EAST, new Player("tobias"), board);
-        board.addTileObject(2, 1, new Wall());
+        board.addTileObject(2, 1, new Wall(Direction.WEST, 2,1, 'w', board));
+        robot1.moveForward(1);
+        assertEquals(robot1.getX(), 1);
+        assertEquals(robot1.getY(), 1);
+
+    }
+    @Test
+    void wallCollision2(){
+        Board board = new Board(10, 10);
+        Robot robot1 = new Robot(1, 1, Direction.EAST, new Player("tobias"), board);
+        board.addTileObject(2, 1, new Wall(Direction.EAST, 2,1, 'w', board));
+        robot1.moveForward(1);
+        assertEquals(robot1.getX(), 2);
+        assertEquals(robot1.getY(), 1);
 
     }
 }
