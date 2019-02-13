@@ -42,8 +42,8 @@ public class Robot extends TileObject implements IRobot {
                     //the robot on the tile couldnt move, so this robot cant move either
                     return false;
                 }
-            }else if(board.hasWall(x, y)){
-
+            }else if(board.hasWall(newX, newY)){
+                return false;
             }
             else{
                 //robot is free to move to new position
