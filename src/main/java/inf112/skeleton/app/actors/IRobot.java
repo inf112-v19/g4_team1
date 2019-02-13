@@ -17,7 +17,7 @@ public interface IRobot {
      * @param direction direction to move robot
      *
      *
-     * @return whether the robot completed the movement. false if it hit a wall
+     * @return whether the robot completed the movement. false if it hit a wall (or a robot that would not be pushed)
      **/
     boolean move(Direction direction);
 

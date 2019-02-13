@@ -45,4 +45,6 @@ public class RobotTest {
         assertEquals(robot1.getX(), 1);
         assertEquals(robot2.getX(), 2);
     }
+    @Test
+    void wallCollision();
 }
