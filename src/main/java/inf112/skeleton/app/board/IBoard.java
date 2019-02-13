@@ -88,4 +88,11 @@ public interface IBoard {
      * @return the robot
      */
     IRobot getRobot(int x, int y);
+    /**
+     * check if a position contains a wall
+     * @param x x
+     * @param y x
+     * @return true if contains wall
+     */
+    boolean hasWall(int x, int y);
 }

@@ -42,7 +42,10 @@ public class Robot extends TileObject implements IRobot {
                     //the robot on the tile couldnt move, so this robot cant move either
                     return false;
                 }
-            }else{
+            }else if(board.hasWall(x, y)){
+
+            }
+            else{
                 //robot is free to move to new position
                 board.get(x, y).removeContent(this);
                 board.get(newX, newY).addObject(this);

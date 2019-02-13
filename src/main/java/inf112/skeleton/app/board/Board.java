@@ -2,6 +2,7 @@ package inf112.skeleton.app.board;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import inf112.skeleton.app.actors.IRobot;
+import inf112.skeleton.app.board.boardElement.Wall;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,6 +77,17 @@ public class Board implements IBoard {
             }
         }
         throw new IllegalStateException(x+","+y+" does not ccontain robot");
+    }
+
+    @Override
+    public boolean hasWall(int x, int y) {
+        List<ITileObject> tileObjects =  board.get(indexFromCor(x, y)).getContent();
+        for (ITileObject tileObject : tileObjects) {
+            if (tileObject instanceof Wall) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private int indexFromCor(int x, int y){
