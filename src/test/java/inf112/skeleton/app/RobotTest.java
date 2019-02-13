@@ -64,6 +64,23 @@ public class RobotTest {
         robot1.moveForward(1);
         assertEquals(robot1.getX(), 2);
         assertEquals(robot1.getY(), 1);
-
+    }
+    @Test
+    void wallCollision3(){
+        Board board = new Board(10, 10);
+        Robot robot1 = new Robot(1, 1, Direction.EAST, new Player("tobias"), board);
+        board.addTileObject(1, 1, new Wall(Direction.EAST, 1,1, 'w', board));
+        robot1.moveForward(1);
+        assertEquals(robot1.getX(), 1);
+        assertEquals(robot1.getY(), 1);
+    }
+    @Test
+    void wallCollision4(){
+        Board board = new Board(10, 10);
+        Robot robot1 = new Robot(1, 1, Direction.EAST, new Player("tobias"), board);
+        board.addTileObject(1, 1, new Wall(Direction.WEST, 1,1, 'w', board));
+        robot1.moveForward(1);
+        assertEquals(robot1.getX(), 2);
+        assertEquals(robot1.getY(), 1);
     }
 }
