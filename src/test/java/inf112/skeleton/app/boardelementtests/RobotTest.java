@@ -1,4 +1,4 @@
-package inf112.skeleton.app;
+package inf112.skeleton.app.boardelementtests;
 
 import inf112.skeleton.app.actors.*;
 import inf112.skeleton.app.board.*;

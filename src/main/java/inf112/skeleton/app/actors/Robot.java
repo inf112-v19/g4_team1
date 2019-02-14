@@ -42,7 +42,6 @@ public class Robot extends TileObject implements IRobot {
                 IRobot otherRobot = board.getRobot(newX, newY);
                 boolean completedMove = otherRobot.move(moveDirection);
                 if(completedMove){
-                    System.out.println("3");
                     //path is clear now we try again
                     return move(moveDirection);
                 }
@@ -63,9 +62,6 @@ public class Robot extends TileObject implements IRobot {
                     return false;
                 }
             }
-
-
-            System.out.println("6");
             //robot is free to move to new position
             board.get(x, y).removeContent(this);
             board.get(newX, newY).addObject(this);

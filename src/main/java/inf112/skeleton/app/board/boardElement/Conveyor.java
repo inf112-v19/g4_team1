@@ -14,19 +14,20 @@ public class Conveyor extends ActiveElement {
     private Board board;
 
 
-    public Conveyor(Direction dir, int x, int y, char symbol, String name, Board board) {
+    public Conveyor(Direction dir, int x, int y, char symbol, Board board) {
         this.dir = dir;
         this.x = x;
         this.y = y;
         this.symbol = symbol;
-        this.name = name;
+        this.name = "Conveyor";
         this.board = board;
     }
 
     @Override
     public void activate() {
+        //double distance conveyors should be activated twice
         //TODO:
-        //add double distance and  curved conveyors
+        //curved conveyors
         if(board.containsRobot(x, y)){
             IRobot robot = board.getRobot(x, y);
             robot.move(this.dir);
