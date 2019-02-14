@@ -5,6 +5,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import inf112.skeleton.app.gameclasses.Drop;
 import inf112.skeleton.app.gameclasses.DropV2;
 import inf112.skeleton.app.gameclasses.TestTiledMap;
+import inf112.skeleton.app.roborally.RoboRallyGame;
 
 public class Main {
     public static void main(String[] args) {
@@ -19,13 +20,21 @@ public class Main {
         // new LwjglApplication(new LabelAndFont(), cfg);
         new LwjglApplication(new TestTiledMap(), cfg);*/
 
-        LwjglApplicationConfiguration cfg2 = new LwjglApplicationConfiguration();
+        /*LwjglApplicationConfiguration cfg2 = new LwjglApplicationConfiguration();
 
         cfg2.title = "Drop";
         cfg2.width = 800;
         cfg2.height = 480;
 
         // new LwjglApplication(new Drop(), cfg2);
-        new LwjglApplication(new DropV2(), cfg2);
+        new LwjglApplication(new DropV2(), cfg2);*/
+
+        LwjglApplicationConfiguration roboRallyCfg = new LwjglApplicationConfiguration();
+
+        roboRallyCfg.title = "Robo Rally v0.001";
+        roboRallyCfg.width = 1600;
+        roboRallyCfg.height = 1200;
+
+        new LwjglApplication(new RoboRallyGame(), roboRallyCfg);
     }
 }
