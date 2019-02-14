@@ -1,7 +1,7 @@
 package inf112.skeleton.app.board;
 
 import inf112.skeleton.app.actors.IRobot;
-import inf112.skeleton.app.actors.ITileObject;
+import inf112.skeleton.app.utils.Direction;
 
 import java.util.List;
 
@@ -21,13 +21,11 @@ public interface IBoard {
     void setTile(int x, int y, ITile e);
 
     /**
-     * Add a tile object to the board on a position (x, y)
+     * Add a tile object to the board at the position obj.x, obj.y
      *
-     * @param x x
-     * @param y y
      * @param obj object to place on board
      */
-    void addTileObject(int x, int y, ITileObject obj);
+    void addTileObject(ITileObject obj);
 
     /**
      * Get the element from the position x,y
@@ -89,4 +87,11 @@ public interface IBoard {
      * @return the robot
      */
     IRobot getRobot(int x, int y);
+    /**
+     * check if a position contains a wall
+     * @param x x
+     * @param y x
+     * @return the direction the wall is facing, or null if no wall
+     */
+    Direction getWallDir(int x, int y);
 }

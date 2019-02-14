@@ -1,4 +1,4 @@
-package inf112.skeleton.app.actors;
+package inf112.skeleton.app.board;
 
 /**
  * Generic interface for the object that is located on the tile.

@@ -1,5 +1,7 @@
 package inf112.skeleton.app.actors;
 
+import inf112.skeleton.app.board.ITileObject;
+
 public abstract class TileObject implements ITileObject {
     protected int x = -1, y = -1;
     protected String name = "Tile Object";
