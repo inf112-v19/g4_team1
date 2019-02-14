@@ -14,7 +14,7 @@ public class Gear extends ActiveElement {
     private Board board;
 
 
-    public Gear(Direction dir, int x, int y, char symbol, String name, Board board) {
+    public Gear(Direction dir, int x, int y, char symbol, Board board) {
         if(dir == Direction.NORTH || dir == Direction.SOUTH)
             throw new IllegalArgumentException("Use arguments EAST OR WEST for gears");
         this.dir = dir;

@@ -92,6 +92,7 @@ public class Board implements IBoard {
     }
 
 
+
     private int indexFromCor(int x, int y){
         return x + (getWidth() * y);
     }
