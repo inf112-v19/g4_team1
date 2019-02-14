@@ -16,9 +16,9 @@ public class GearTest {
     void robotMove() {
         Board board = new Board(10, 10);
         Robot robot = new Robot(1, 1, Direction.EAST, new Player("tobias"), board);
-        board.addTileObject(1, 1, robot);
+        board.addTileObject(robot);
         Gear gear = new Gear(Direction.EAST, 1, 1, 'a', board);
-        board.addTileObject(1, 1, gear);
+        board.addTileObject(gear);
         gear.activate();
         assertEquals(robot.getDir(), Direction.SOUTH);
     }

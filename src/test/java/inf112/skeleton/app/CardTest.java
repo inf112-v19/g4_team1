@@ -14,7 +14,7 @@ public class CardTest {
     void executeTest() {
         Board board = new Board(10, 10);
         Robot robot = new Robot(1, 1, Direction.NORTH, new Player("tobias"), board);
-        board.addTileObject(1, 1, robot);
+        board.addTileObject(robot);
 
         Card card1 = new Card(CardType.MOVE_1_TILE, 100);
         card1.execute(robot);

@@ -26,9 +26,12 @@ public class Board implements IBoard {
         board.set(indexFromCor(x, y), tile);
     }
 
-    public void addTileObject(int x, int y, ITileObject obj) {
+    public void addTileObject(ITileObject obj) {
+        int x = obj.getX();
+        int y = obj.getY();
         get(x, y).addObject(obj);
     }
+
 
     public ITile get(int x, int y) {
         return board.get(indexFromCor(x, y));
