@@ -32,10 +32,8 @@ public class Robot extends TileObject implements IRobot {
         //TODO::
         //check if there is a wall
         if(board.isValidPos(newX, newY)) {
-            System.out.println("1");
 
             if(board.containsRobot(newX, newY)){
-                System.out.println("2");
                 //robot has to push the other robot
                 IRobot otherRobot = board.getRobot(newX, newY);
                 boolean completedMove = otherRobot.move(moveDirection);
@@ -52,13 +50,11 @@ public class Robot extends TileObject implements IRobot {
 
             //has to check for wall in this and next tile
             if(board.getWallDir(newX, newY) != null){
-                System.out.println("4");
                 if (wallIsBlocking(newX, newY, moveDirection)){
                     return false;
                 }
             }
             if(board.getWallDir(x, y) != null) {
-                System.out.println("5");
                 if (wallIsBlocking(x, y, moveDirection)) {
                     return false;
                 }
