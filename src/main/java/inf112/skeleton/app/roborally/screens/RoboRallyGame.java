@@ -1,4 +1,4 @@
-package inf112.skeleton.app.roborally;
+package inf112.skeleton.app.roborally.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
