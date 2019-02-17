@@ -2,6 +2,7 @@ package inf112.skeleton.app;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import inf112.skeleton.app.roborally.RoboRally;
 import inf112.skeleton.app.roborally.screens.RoboRallyGame;
 
 public class Main {
@@ -32,6 +33,6 @@ public class Main {
         roboRallyCfg.width = 1600;
         roboRallyCfg.height = 1200;
 
-        new LwjglApplication(new RoboRallyGame(), roboRallyCfg);
+        new LwjglApplication(new RoboRally(), roboRallyCfg);
     }
 }
