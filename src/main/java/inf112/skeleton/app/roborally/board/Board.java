@@ -19,9 +19,9 @@ public class Board implements IBoard {
 
         for (int i = 0; i < this.getHeight(); i++)
             for (int j = 0; j < this.getWidth(); j++) {
-                //x = (i + 1) * tileWidthInPixels;
-                //y = (j + 1) * tileHeightInPixels;
-                board.add(new Tile(i, j));
+                x = i * tileWidthInPixels + 16;
+                y = j * tileHeightInPixels + 16;
+                board.add(new Tile(x, y));
             }
 
     }

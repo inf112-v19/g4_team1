@@ -39,7 +39,7 @@ public class RoboRallyGame implements Screen {
 
         sb = new SpriteBatch();
 
-        board = new TmxMapLoader().load("assets/roborally/game_board.tmx");
+        /*board = new TmxMapLoader().load("assets/roborally/game_board.tmx");
 
         MapProperties mProps = board.getProperties();
         tileWidth = mProps.get("tilewidth", Integer.class);
@@ -47,30 +47,30 @@ public class RoboRallyGame implements Screen {
         mapWidthInTiles = mProps.get("width", Integer.class);
         mapHeightInTiles = mProps.get("height", Integer.class);
         mapWidthInPixels = mapWidthInTiles * tileWidth;
-        mapHeightInPixels = mapHeightInTiles * tileHeight;
+        mapHeightInPixels = mapHeightInTiles * tileHeight;*/
 
-        gameBoard = new Board(mapHeightInTiles, mapWidthInTiles,
-                mapWidthInPixels, mapHeightInPixels);
+        gameBoard = new Board(20, 20, 32, 32);
         tiles = new Array<>();
 
         for (int i = 0; i < gameBoard.getWidth(); i++) {
             for (int j = 0; j < gameBoard.getHeight(); j++) {
                 Rectangle tile = new Rectangle();
-                tile.x = gameBoard.get(i, j).getX() / 2f;
-                tile.y = gameBoard.get(i, j).getY() / 2f;
+                tile.x = gameBoard.get(i, j).getX();
+                tile.y = gameBoard.get(i, j).getY();
                 tile.width = tileWidth;
                 tile.height = tileHeight;
                 tiles.add(tile);
             }
         }
 
-        boardRenderer = new OrthogonalTiledMapRenderer(board);
+        // boardRenderer = new OrthogonalTiledMapRenderer(board);
         camera.setToOrtho(false, 639, 639);
-        boardRenderer.setView(camera);
+        // boardRenderer.setView(camera);
 
         sprite = new Sprite(new Texture("assets/roborally/robot.png"));
         sprite.setSize(64,64);
-        sprite.setPosition(gameBoard.get(5, 5).getX(), gameBoard.get(5, 5).getY());
+
+        sprite.setPosition(gameBoard.get(19, 19).getX(), gameBoard.get(19, 19).getY());
 
     }
 
@@ -83,7 +83,7 @@ public class RoboRallyGame implements Screen {
     public void render(float v) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        boardRenderer.render();
+        // boardRenderer.render();
         sb.begin();
         sprite.draw(sb);
         sb.end();
