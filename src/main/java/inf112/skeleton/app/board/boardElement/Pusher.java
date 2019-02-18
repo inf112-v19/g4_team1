@@ -6,16 +6,12 @@ import inf112.skeleton.app.utils.Direction;
 
 public class Pusher extends ActiveElement{
 
-    private Direction dir;
-    private int x;
-    private int y;
-    private char symbol;
-    private String name;
+    private Direction pushDir;
     private Board board;
 
 
-    public Pusher(Direction dir, int x, int y, char symbol, String name, Board board) {
-        this.dir = dir;
+    public Pusher(Direction pushDir, int x, int y, char symbol, String name, Board board) {
+        this.pushDir = pushDir;
         this.x = x;
         this.y = y;
         this.symbol = symbol;
@@ -25,6 +21,8 @@ public class Pusher extends ActiveElement{
 
     @Override
     public void activate() {
-        //TODO:
+        if(board.containsRobot(x, y)){
+            board.getRobot(x, y).move(pushDir);
+        }
     }
 }
