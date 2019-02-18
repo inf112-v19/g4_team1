@@ -7,10 +7,6 @@ import inf112.skeleton.app.utils.Direction;
 public class Gear extends ActiveElement {
 
     private Direction dir;
-    private int x;
-    private int y;
-    private char symbol;
-    private String name;
     private Board board;
 
 

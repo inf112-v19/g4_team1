@@ -1,10 +1,10 @@
 package inf112.skeleton.app.board.boardElement;
 
 public abstract class ActiveElement implements  IActiveElement {
-    private int x;
-    private int y;
-    private char symbol;
-    private String name;
+    protected int x;
+    protected int y;
+    protected char symbol;
+    protected String name;
 
 
     public int getX() {
