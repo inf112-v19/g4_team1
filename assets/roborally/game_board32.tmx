@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="14" height="20" tilewidth="96" tileheight="96" infinite="0" nextlayerid="4" nextobjectid="1">
  <tileset firstgid="1" name="standard-96dpi" tilewidth="96" tileheight="96" tilecount="91" columns="7">
-  <image source="../../../../standard-96dpi.png" width="672" height="1248"/>
+  <image source="standard-96dpi.png" width="672" height="1248"/>
  </tileset>
  <layer id="1" name="Rutelag 1" width="14" height="20">
   <data encoding="csv">

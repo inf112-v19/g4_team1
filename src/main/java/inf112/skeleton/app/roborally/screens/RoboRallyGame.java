@@ -34,12 +34,12 @@ public class RoboRallyGame implements Screen {
         this.roboRally = roboRally;
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 639, 639);
+        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         // camera.setToOrtho(false, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 
         sb = new SpriteBatch();
 
-        board = new TmxMapLoader().load("assets/roborally/game_board.tmx");
+        board = new TmxMapLoader().load("assets/roborally/game_board32.tmx");
 
         MapProperties mProps = board.getProperties();
         tileWidth = mProps.get("tilewidth", Integer.class);
@@ -65,7 +65,7 @@ public class RoboRallyGame implements Screen {
         }
 
         boardRenderer = new OrthogonalTiledMapRenderer(board);
-        camera.setToOrtho(false, 639, 639);
+        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         boardRenderer.setView(camera);
 
         sprite = new Sprite(new Texture("assets/roborally/robot.png"));
