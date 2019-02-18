@@ -2,6 +2,7 @@ package inf112.skeleton.app.board;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import inf112.skeleton.app.actors.IRobot;
+import inf112.skeleton.app.board.boardElement.Pit;
 import inf112.skeleton.app.board.boardElement.Wall;
 import inf112.skeleton.app.utils.Direction;
 
@@ -54,8 +55,8 @@ public class Board implements IBoard {
     }
 
     @Override
-    public boolean isValidPos(int x, int y) {
-        return (x >= 0 && x < getWidth() && y >= 0 & y < getHeight());
+    public boolean outOfBounds(int x, int y) {
+        return (x < 0 || x >= getWidth() || y < 0 || y >= getHeight());
     }
 
     @Override
@@ -95,6 +96,15 @@ public class Board implements IBoard {
     }
 
 
+    public boolean containsPit(int x, int y) {
+        List<ITileObject> tileObjects =  board.get(indexFromCor(x, y)).getContent();
+        for (ITileObject tileObject : tileObjects) {
+            if (tileObject instanceof Pit) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 
     private int indexFromCor(int x, int y){

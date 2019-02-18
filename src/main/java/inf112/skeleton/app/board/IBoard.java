@@ -70,7 +70,7 @@ public interface IBoard {
      * @param y y cor
      * @return True if (x,y) is on the board
      */
-    boolean isValidPos(int x, int y);
+    boolean outOfBounds(int x, int y);
 
     /**
      * check if a position contains a robot
@@ -94,4 +94,6 @@ public interface IBoard {
      * @return the direction the wall is facing, or null if no wall
      */
     Direction getWallDir(int x, int y);
+
+    boolean containsPit(int x, int y);
 }

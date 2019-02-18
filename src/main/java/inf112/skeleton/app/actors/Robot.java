@@ -15,8 +15,6 @@ public class Robot extends TileObject implements IRobot {
         this.x = x;
         this.y = y;
     }
-    //TODO:
-    //find a nice way to get the new coordinates in a given direction, eg DIRECTION.getCor(x, y, dir)
 
     public Direction getDir() {
         return dir;
@@ -33,9 +31,12 @@ public class Robot extends TileObject implements IRobot {
             case NORTH: newY++; break;
             case SOUTH: newY--; break;
         }
-        //TODO::
-        //check if there is a wall
-        if(board.isValidPos(newX, newY)) {
+
+        if (board.outOfBounds(newX, newY) || (board.containsPit(newX, newY))) {
+            //TODO:
+            //robot is moving outside board/to pit
+            throw new UnsupportedOperationException("not implemented");
+        } else {
 
             if(board.containsRobot(newX, newY)){
                 //robot has to push the other robot
@@ -68,12 +69,6 @@ public class Robot extends TileObject implements IRobot {
             x = newX;
             y = newY;
             return true;
-
-
-        }else{
-            //TODO:
-            //robot is moving outside board
-            throw new UnsupportedOperationException("not implemented");
         }
     }
 
