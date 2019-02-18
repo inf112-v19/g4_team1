@@ -1,6 +1,5 @@
 package inf112.skeleton.app.roborally.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -13,27 +12,29 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.app.roborally.RoboRally;
+import inf112.skeleton.app.roborally.board.Board;
 
 public class RoboRallyGame implements Screen {
 
-    RoboRally roboRally;
-    Texture img;
-    TiledMap board;
-    OrthographicCamera camera;
-    TiledMapRenderer boardRenderer;
-    SpriteBatch sb;
-    Sprite sprite;
+    private RoboRally roboRally;
+    private Texture img;
+    private TiledMap board;
+    private OrthographicCamera camera;
+    private TiledMapRenderer boardRenderer;
+    private SpriteBatch sb;
+    private Sprite sprite;
     private int tileWidth, tileHeight, mapWidthInTiles, mapHeightInTiles, mapWidthInPixels, mapHeightInPixels;
+    private Board gameBoard;
+    private Array<Rectangle> tiles;
 
     public RoboRallyGame(RoboRally roboRally) {
         this.roboRally = roboRally;
-    }
 
-    @Override
-    public void show() {
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 640, 480);
+        camera.setToOrtho(false, 639, 639);
         // camera.setToOrtho(false, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 
         sb = new SpriteBatch();
@@ -48,15 +49,34 @@ public class RoboRallyGame implements Screen {
         mapWidthInPixels = mapWidthInTiles * tileWidth;
         mapHeightInPixels = mapHeightInTiles * tileHeight;
 
+        gameBoard = new Board(mapHeightInTiles, mapWidthInTiles,
+                mapWidthInPixels, mapHeightInPixels);
+        tiles = new Array<>();
+
+        for (int i = 0; i < gameBoard.getWidth(); i++) {
+            for (int j = 0; j < gameBoard.getHeight(); j++) {
+                Rectangle tile = new Rectangle();
+                tile.x = gameBoard.get(i, j).getX() / 2f;
+                tile.y = gameBoard.get(i, j).getY() / 2f;
+                tile.width = tileWidth;
+                tile.height = tileHeight;
+                tiles.add(tile);
+            }
+        }
+
         boardRenderer = new OrthogonalTiledMapRenderer(board);
-        camera.setToOrtho(false, mapWidthInPixels, mapHeightInPixels);
+        camera.setToOrtho(false, 639, 639);
         boardRenderer.setView(camera);
 
-
-
         sprite = new Sprite(new Texture("assets/roborally/robot.png"));
-        sprite.setSize(128,128);
-        sprite.setPosition(32, 32);
+        sprite.setSize(64,64);
+        sprite.setPosition(gameBoard.get(5, 5).getX(), gameBoard.get(5, 5).getY());
+
+    }
+
+    @Override
+    public void show() {
+
     }
 
     @Override

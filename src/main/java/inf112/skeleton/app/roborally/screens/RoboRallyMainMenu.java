@@ -45,8 +45,8 @@ public class RoboRallyMainMenu implements Screen {
         mapWidthInPixels = mapWidthInTiles * tileWidth;
         mapHeightInPixels = mapHeightInTiles * tileHeight;
 
-        camera.setToOrtho(false, mapWidthInPixels, mapHeightInPixels);
-        FitViewport viewPort = new FitViewport(mapWidthInPixels, mapHeightInPixels, camera);
+        // camera.setToOrtho(false, mapWidthInPixels, mapHeightInPixels);
+        FitViewport viewPort = new FitViewport(639, 639, camera);
         stage = new Stage(viewPort, roboRally.batch);
         Gdx.input.setInputProcessor(stage);
 
@@ -81,13 +81,13 @@ public class RoboRallyMainMenu implements Screen {
     @Override
     public void show() {
 
-
     }
 
     @Override
     public void render(float v) {
         roboRally.batch.setProjectionMatrix(camera.combined);
 
+        // mapRenderer.setView(camera);
         mapRenderer.setView(camera);
         mapRenderer.render();
 
