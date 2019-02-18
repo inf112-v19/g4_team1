@@ -30,8 +30,8 @@ public class Main {
         LwjglApplicationConfiguration roboRallyCfg = new LwjglApplicationConfiguration();
 
         roboRallyCfg.title = "Robo Rally v0.001";
-        roboRallyCfg.width = 1344-96;
-        roboRallyCfg.height = 1920;
+        roboRallyCfg.width = 1248;
+        roboRallyCfg.height = 1248;
 
         new LwjglApplication(new RoboRally(), roboRallyCfg);
     }
