@@ -42,9 +42,9 @@ public class BoardTest {
     void validPosTest() {
         Board board = new Board(10, 10);
 
-        assertTrue(board.isValidPos(0, 0));
-        assertTrue(board.isValidPos(9, 9));
-        assertFalse(board.isValidPos(1, 10));
-        assertFalse(board.isValidPos(10, 0));
+        assertTrue(!board.outOfBounds(0, 0));
+        assertTrue(!board.outOfBounds(9, 9));
+        assertFalse(!board.outOfBounds(1, 10));
+        assertFalse(!board.outOfBounds(10, 0));
     }
 }
