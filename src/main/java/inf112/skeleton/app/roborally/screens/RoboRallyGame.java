@@ -50,7 +50,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
 
         sb = new SpriteBatch();
 
-        board = new TmxMapLoader().load("assets/roborally/game_board32.tmx");
+        board = new TmxMapLoader().load("assets/roborally/game_board32New.tmx");
 
         MapProperties mProps = board.getProperties();
         tileWidth = mProps.get("tilewidth", Integer.class);
