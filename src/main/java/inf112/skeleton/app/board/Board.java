@@ -37,17 +37,15 @@ public class Board implements IBoard {
         if (arr.length !=2){
             throw new IllegalArgumentException("first line of file is not 2 chars");
         }
-        int width = Integer.parseInt(arr[0]);
-        int height = Integer.parseInt(arr[1]);
-        this.height = height;
-        this.width = width;
+        this.height = Integer.parseInt(arr[1]);
+        this.width = Integer.parseInt(arr[0]);
         board = new ArrayList<>(height * width);
         int y = height;
         while((line = bufferedReader.readLine()) != null) {
             y--;
             for (int x = 0; x < line.length(); x++) {
                 if(line.length()!=width)
-                    throw new IllegalArgumentException("wrong length at board textfile");
+                    throw new IllegalArgumentException("wrong length at board textfile at line "+(height-y));
                 Tile tile = new Tile();
                 Character symbol= line.charAt(x);
                 System.out.println("adder "+symbol+" på "+x +" "+y);

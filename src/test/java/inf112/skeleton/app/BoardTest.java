@@ -55,6 +55,9 @@ public class BoardTest {
         try {
             Board board = new Board("assets/board1.txt");
             assert(board.containsPit(0, 0));
+            assertEquals(board.getWidth(), 10);
+            assertEquals(board.getHeight(), 10);
+            assert(board.outOfBounds(10, 10));
         } catch (IOException e) {
             fail();
         }
