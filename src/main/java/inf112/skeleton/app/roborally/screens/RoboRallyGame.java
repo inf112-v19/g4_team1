@@ -50,7 +50,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
 
         sb = new SpriteBatch();
 
-        board = new TmxMapLoader().load("assets/roborally/game_board32New.tmx");
+        board = new TmxMapLoader().load("assets/roborally/game_boardNew.tmx");
 
         MapProperties mProps = board.getProperties();
         tileWidth = mProps.get("tilewidth", Integer.class);
@@ -75,7 +75,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
         }
 
         boardRenderer = new OrthogonalTiledMapRenderer(board);
-        camera.setToOrtho(false, mapWidthInPixels - 1, mapHeightInPixels - 1);
+        camera.setToOrtho(false,1920,1080);
         boardRenderer.setView(camera);
 
         sprite = new Sprite(new Texture("assets/roborally/robot.png"));
@@ -86,6 +86,10 @@ public class RoboRallyGame implements Screen, InputProcessor {
         Gdx.input.setInputProcessor(this);
 
         FitViewport viewPort = new FitViewport(mapWidthInPixels - 1, mapHeightInPixels - 1, camera);
+
+
+
+
     }
 
     @Override
