@@ -5,6 +5,9 @@ import inf112.skeleton.app.board.*;
 import inf112.skeleton.app.utils.*;
 
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BoardTest {
@@ -46,5 +49,14 @@ public class BoardTest {
         assertTrue(!board.outOfBounds(9, 9));
         assertFalse(!board.outOfBounds(1, 10));
         assertFalse(!board.outOfBounds(10, 0));
+    }
+    @Test
+    void readFromFile(){
+        try {
+            Board board = new Board("assets/board1.txt");
+            assert(board.containsPit(0, 0));
+        } catch (IOException e) {
+            fail();
+        }
     }
 }
