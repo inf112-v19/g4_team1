@@ -75,13 +75,20 @@ public class RoboRallyGame implements Screen, InputProcessor {
         }
 
         boardRenderer = new OrthogonalTiledMapRenderer(board);
-        camera.setToOrtho(false,1920,1080);
-        boardRenderer.setView(camera);
+        Rectangle board = new Rectangle();
+
+
+        camera.setToOrtho(false, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        OrthographicCamera boardCamera = new OrthographicCamera();
+        boardCamera.setToOrtho(false, Gdx.graphics.getWidth() * 2,
+                Gdx.graphics.getHeight() * 2);
+
+        boardRenderer.setView(boardCamera);
 
         sprite = new Sprite(new Texture("assets/roborally/robot.png"));
         sprite.setSize(tileWidth, tileHeight);
 
-        sprite.setPosition(gameBoard.get(19, 8).getX(), gameBoard.get(19, 8).getY());
+        sprite.setPosition(0, 0);
 
         Gdx.input.setInputProcessor(this);
 
