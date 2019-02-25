@@ -80,8 +80,8 @@ public class RoboRallyGame implements Screen, InputProcessor {
 
         camera.setToOrtho(false, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         OrthographicCamera boardCamera = new OrthographicCamera();
-        boardCamera.setToOrtho(false, Gdx.graphics.getWidth() * 2,
-                Gdx.graphics.getHeight() * 2);
+        boardCamera.setToOrtho(false, Gdx.graphics.getWidth(),
+                Gdx.graphics.getHeight());
 
         boardRenderer.setView(boardCamera);
 
@@ -148,9 +148,9 @@ public class RoboRallyGame implements Screen, InputProcessor {
         if (key== Input.Keys.RIGHT)
             sprite.translate(tileWidth, 0);
         if (key== Input.Keys.UP)
-            sprite.translate(0, tileWidth);
+            sprite.translate(0, tileHeight);
         if (key== Input.Keys.DOWN)
-            sprite.translate(0, -tileWidth);
+            sprite.translate(0, -tileHeight);
         return false;
     }
 
