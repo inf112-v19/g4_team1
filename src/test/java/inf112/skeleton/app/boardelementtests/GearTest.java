@@ -1,10 +1,9 @@
 package inf112.skeleton.app.boardelementtests;
 
-import inf112.skeleton.app.actors.*;
-import inf112.skeleton.app.board.*;
-import inf112.skeleton.app.board.boardElement.Gear;
-import inf112.skeleton.app.board.boardElement.Wall;
-import inf112.skeleton.app.utils.*;
+import inf112.skeleton.app.base.actors.*;
+import inf112.skeleton.app.base.board.Board;
+import inf112.skeleton.app.base.board.boardElement.Gear;
+import inf112.skeleton.app.base.utils.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

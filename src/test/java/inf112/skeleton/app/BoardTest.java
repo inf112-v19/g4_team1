@@ -1,8 +1,9 @@
 package inf112.skeleton.app;
 
-import inf112.skeleton.app.actors.*;
-import inf112.skeleton.app.board.*;
-import inf112.skeleton.app.utils.*;
+import inf112.skeleton.app.base.actors.*;
+import inf112.skeleton.app.base.board.Board;
+import inf112.skeleton.app.base.board.Tile;
+import inf112.skeleton.app.base.utils.*;
 
 import org.junit.jupiter.api.Test;
 

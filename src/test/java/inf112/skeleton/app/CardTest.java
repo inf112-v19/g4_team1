@@ -1,9 +1,10 @@
 package inf112.skeleton.app;
 
-import inf112.skeleton.app.actors.*;
-import inf112.skeleton.app.board.*;
-import inf112.skeleton.app.cards.*;
-import inf112.skeleton.app.utils.*;
+import inf112.skeleton.app.base.actors.*;
+import inf112.skeleton.app.base.board.Board;
+import inf112.skeleton.app.base.cards.Card;
+import inf112.skeleton.app.base.cards.CardType;
+import inf112.skeleton.app.base.utils.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
