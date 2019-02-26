@@ -17,9 +17,9 @@ public class BoardTest {
     void putGetTest() {
         Board board = new Board(10, 10);
         Tile test = new Tile();
-
-        board.setTile(0, 0, test);
-        assertEquals(test, board.get(0, 0));
+        Pos pos =new Pos(0, 0);
+        board.setTile(pos,  test);
+        assertEquals(test, board.get(pos));
     }
 
     @Test
@@ -35,11 +35,13 @@ public class BoardTest {
     void boardObjectTest() {
         Board board = new Board(5, 5);
         Tile tile = new Tile();
-        board.setTile(0, 0, tile);
-        Robot robot = new Robot(0, 0, Direction.EAST, new Player("test"), board);
+        Pos pos =new Pos(0, 0);
 
-        board.get(0, 0).addObject(robot);
-        assertEquals(board.getRobot(0, 0), robot);
+        board.setTile(pos, tile);
+        Robot robot = new Robot(pos, Direction.EAST, new Player("test"), board);
+
+        board.get(pos).addObject(robot);
+        assertEquals(board.getRobot(pos), robot);
     }
 
     @Test

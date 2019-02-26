@@ -1,24 +1,25 @@
 package inf112.skeleton.app.base.board.boardElement;
 
+import inf112.skeleton.app.base.board.Board;
+import inf112.skeleton.app.base.utils.Pos;
+
 public abstract class ActiveElement implements  IActiveElement {
-    protected int x;
-    protected int y;
+    protected Pos pos;
     protected char symbol;
     protected String name;
+    protected Board board;
 
+    public ActiveElement(Pos pos, char symbol, String name){
 
-    public int getX() {
-        return x;
+        this.pos = pos;
+        this.symbol = symbol;
+        this.name = name;
     }
 
-    public int getY() {
-        return y;
-    }
+   public Pos getPos(){
+       return pos;
+   }
 
-
-    public Integer[] getXY() {
-        return new Integer[2];
-    }
 
     public char getSymbol() {
         return symbol;

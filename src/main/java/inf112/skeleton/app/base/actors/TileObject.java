@@ -1,29 +1,17 @@
 package inf112.skeleton.app.base.actors;
 
 import inf112.skeleton.app.base.board.ITileObject;
+import inf112.skeleton.app.base.utils.Pos;
 
 public abstract class TileObject implements ITileObject {
-    protected int x = -1, y = -1;
     protected String name = "Tile Object";
     protected char symbol = '#';
+    protected Pos pos;
 
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    @Override
-    public Integer[] getXY() {
-        Integer[] pos = new Integer[2];
-        pos[0] = x;
-        pos[1] = y;
+    public Pos getPos(){
         return pos;
     }
+
 
     @Override
     public char getSymbol() {

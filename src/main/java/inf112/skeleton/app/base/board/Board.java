@@ -6,6 +6,7 @@ import inf112.skeleton.app.base.board.boardElement.Conveyor;
 import inf112.skeleton.app.base.board.boardElement.Pit;
 import inf112.skeleton.app.base.board.boardElement.Wall;
 import inf112.skeleton.app.base.utils.Direction;
+import inf112.skeleton.app.base.utils.Pos;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -61,19 +62,18 @@ public class Board implements IBoard {
         bufferedReader.close();
     }
 
-    public void setTile(int x, int y, ITile tile) {
-        board.set(indexFromCor(x, y), tile);
+    public void setTile(Pos pos, ITile tile) {
+        board.set(indexFromCor(pos), tile);
     }
 
     public void addTileObject(ITileObject obj) {
-        int x = obj.getX();
-        int y = obj.getY();
-        get(x, y).addObject(obj);
+        Pos pos = obj.getPos();
+        get(pos).addObject(obj);
     }
 
 
-    public ITile get(int x, int y) {
-        return board.get(indexFromCor(x, y));
+    public ITile get(Pos pos) {
+        return board.get(indexFromCor(pos));
     }
 
 
@@ -93,8 +93,8 @@ public class Board implements IBoard {
     }
 
     @Override
-    public boolean outOfBounds(int x, int y) {
-        return (x < 0 || x >= getWidth() || y < 0 || y >= getHeight());
+    public boolean outOfBounds(Pos pos) {
+        return (pos.x() < 0 || pos.x() >= getWidth() || pos.y() < 0 || pos.y() >= getHeight());
     }
 
     @Override
@@ -102,8 +102,8 @@ public class Board implements IBoard {
         return getHeight() * getWidth();
     }
 
-    public boolean containsRobot(int x, int y){
-        List<ITileObject> tileObjects =  board.get(indexFromCor(x, y)).getContent();
+    public boolean containsRobot(Pos pos){
+        List<ITileObject> tileObjects =  board.get(indexFromCor(pos)).getContent();
         for (ITileObject tileObject : tileObjects) {
             if (tileObject instanceof IRobot) {
                 return true;
@@ -112,19 +112,19 @@ public class Board implements IBoard {
         return false;
     }
 
-    public IRobot getRobot(int x, int y){
-        List<ITileObject> tileObjects =  board.get(indexFromCor(x, y)).getContent();
+    public IRobot getRobot(Pos pos){
+        List<ITileObject> tileObjects =  board.get(indexFromCor(pos)).getContent();
         for (ITileObject tileObject : tileObjects) {
             if (tileObject instanceof IRobot) {
                 return (IRobot) tileObject;
             }
         }
-        throw new IllegalStateException(x+","+y+" does not ccontain robot");
+        throw new IllegalStateException(pos.x()+","+pos.y()+" does not ccontain robot");
     }
 
     @Override
-    public Direction getWallDir(int x, int y) {
-        List<ITileObject> tileObjects =  board.get(indexFromCor(x, y)).getContent();
+    public Direction getWallDir(Pos pos) {
+        List<ITileObject> tileObjects =  board.get(indexFromCor(pos)).getContent();
         for (ITileObject tileObject : tileObjects) {
             if (tileObject instanceof Wall) {
                 return ((Wall) tileObject).getWallDir();
@@ -134,8 +134,8 @@ public class Board implements IBoard {
     }
 
 
-    public boolean containsPit(int x, int y) {
-        List<ITileObject> tileObjects =  board.get(indexFromCor(x, y)).getContent();
+    public boolean containsPit(Pos pos) {
+        List<ITileObject> tileObjects =  board.get(indexFromCor(pos)).getContent();
         for (ITileObject tileObject : tileObjects) {
             if (tileObject instanceof Pit) {
                 return true;
@@ -145,8 +145,8 @@ public class Board implements IBoard {
     }
 
 
-    private int indexFromCor(int x, int y){
-        return x + (getWidth() * y);
+    private int indexFromCor(Pos pos){
+        return pos.x() + (getWidth() * pos.y());
     }
 
     public void draw(SpriteBatch batch) {
