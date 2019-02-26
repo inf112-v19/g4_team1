@@ -51,9 +51,9 @@ public class Board implements IBoard {
                 System.out.println("adder "+symbol+" på "+x +" "+y);
                 switch(symbol){
                     case '-': break;
-                    case 'r': tile.addObject(new Conveyor(Direction.EAST, x, y, 'r', this));
-                    case 'd': tile.addObject(new Conveyor(Direction.SOUTH, x, y, 'r', this));
-                    case 'p': tile.addObject(new Pit(x, y, 'p', this));
+                    case 'r': tile.addObject(new Conveyor(Direction.EAST, new Pos(x, y), 'r', this));
+                    case 'd': tile.addObject(new Conveyor(Direction.SOUTH, new Pos(x, y), 'r', this));
+                    case 'p': tile.addObject(new Pit(new Pos(x, y), 'p', this));
 
                 }
                 board.add(tile);

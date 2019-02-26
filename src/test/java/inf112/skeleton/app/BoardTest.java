@@ -48,19 +48,19 @@ public class BoardTest {
     void validPosTest() {
         Board board = new Board(10, 10);
 
-        assertTrue(!board.outOfBounds(0, 0));
-        assertTrue(!board.outOfBounds(9, 9));
-        assertFalse(!board.outOfBounds(1, 10));
-        assertFalse(!board.outOfBounds(10, 0));
+        assertFalse(board.outOfBounds(new Pos(0, 0)));
+        assertFalse(board.outOfBounds(new Pos(9, 9)));
+        assertTrue(board.outOfBounds(new Pos(0, -1)));
+        assertTrue(board.outOfBounds(new Pos(10, 5)));
     }
     @Test
     void readFromFile(){
         try {
             Board board = new Board("assets/board1.txt");
-            assert(board.containsPit(0, 0));
+            assert(board.containsPit(new Pos(0, 0)));
             assertEquals(board.getWidth(), 10);
             assertEquals(board.getHeight(), 10);
-            assert(board.outOfBounds(10, 10));
+            assert(board.outOfBounds(new Pos(10, 10)));
         } catch (IOException e) {
             fail();
         }
