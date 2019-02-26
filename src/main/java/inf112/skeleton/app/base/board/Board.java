@@ -7,7 +7,7 @@ import inf112.skeleton.app.base.actors.Robot;
 import inf112.skeleton.app.base.board.boardElement.Conveyor;
 import inf112.skeleton.app.base.board.boardElement.Pit;
 import inf112.skeleton.app.base.board.boardElement.Wall;
-import inf112.skeleton.app.base.utils.Direction;
+import inf112.skeleton.app.roborally.utils.Direction;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -29,15 +29,14 @@ public class Board implements IBoard {
                 board.add(new Tile());
     }
 
-    public Board(String textFile) throws IOException {
+    public Board(String textFile, int tileWidth, int tileHeight) throws IOException {
         FileReader fileReader = new FileReader(textFile);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
-        String line = null;
-        String firstLine = bufferedReader.readLine();
+        String line, firstLine = bufferedReader.readLine();
         String[] arr = firstLine.split(",");
-        if (arr.length !=2){
-            throw new IllegalArgumentException("first line of file is not 2 chars");
-        }
+        if (arr.length != 2)
+            throw new IllegalArgumentException("First line of file is not 2 chars.");
+
         this.height = Integer.parseInt(arr[1]);
         this.width = Integer.parseInt(arr[0]);
         board = new ArrayList<>(height * width);
@@ -45,22 +44,39 @@ public class Board implements IBoard {
         while((line = bufferedReader.readLine()) != null) {
             y--;
             for (int x = 0; x < line.length(); x++) {
-                if(line.length()!=width)
-                    throw new IllegalArgumentException("wrong length at board textfile at line "+(height-y));
+                if (line.length() != width)
+                    throw new IllegalArgumentException(
+                            "Wrong length in board text file at line " + (height - y));
+
                 Tile tile = new Tile();
-                char symbol= line.charAt(x);
-                System.out.println("adder " + symbol +" på " + x +" "+y);
+                char symbol = line.charAt(x);
+                int xPos = x * tileWidth, yPos = y * tileHeight;
+                System.out.println("Added " + symbol + " at " + xPos + " " + yPos);
                 switch (symbol) {
                     case '-': break;
-                    case 'r': tile.addObject(new Conveyor(Direction.EAST, x, y, 'r', this));
-                    case 'd': tile.addObject(new Conveyor(Direction.SOUTH, x, y, 'd', this));
-                    case 'p': tile.addObject(new Pit(x, y, 'p', this));
-                    case 'N': tile.addObject(new Wall(Direction.NORTH, x, y, 'N', this));
-                    case 'E': tile.addObject(new Wall(Direction.EAST, x, y, 'E', this));
-                    case 'S': tile.addObject(new Wall(Direction.SOUTH, x, y, 'S', this));
-                    case 'W': tile.addObject(new Wall(Direction.WEST, x, y, 'W', this));
-                    case 'R': tile.addObject(new Robot(x, y, Direction.SOUTH,
-                            new Player("Player 1"), this));
+                    case 'r': tile.addObject(
+                            new Conveyor(Direction.EAST, xPos, yPos, 'r', this));
+
+                    case 'd': tile.addObject(
+                            new Conveyor(Direction.SOUTH, xPos, yPos, 'd', this));
+
+                    case 'p': tile.addObject(
+                            new Pit(xPos, yPos, 'p', this));
+
+                    case 'N': tile.addObject(
+                            new Wall(Direction.NORTH, xPos, yPos, 'N', this));
+
+                    case 'E': tile.addObject(
+                            new Wall(Direction.EAST, xPos, yPos, 'E', this));
+
+                    case 'S': tile.addObject(
+                            new Wall(Direction.SOUTH, xPos, yPos, 'S', this));
+
+                    case 'W': tile.addObject(
+                            new Wall(Direction.WEST, xPos, yPos, 'W', this));
+
+                    case 'R': tile.addObject(
+                            new Robot(xPos, yPos, Direction.SOUTH, new Player("Player 1"), this));
                 }
                 board.add(tile);
             }
@@ -68,21 +84,22 @@ public class Board implements IBoard {
         bufferedReader.close();
     }
 
+    @Override
     public void setTile(int x, int y, ITile tile) {
         board.set(indexFromCor(x, y), tile);
     }
 
+    @Override
     public void addTileObject(ITileObject obj) {
         int x = obj.getX();
         int y = obj.getY();
         get(x, y).addObject(obj);
     }
 
-
+    @Override
     public ITile get(int x, int y) {
         return board.get(indexFromCor(x, y));
     }
-
 
     @Override
     public int getHeight() {
@@ -109,50 +126,43 @@ public class Board implements IBoard {
         return getHeight() * getWidth();
     }
 
-    public boolean containsRobot(int x, int y){
+    @Override
+    public boolean containsRobot(int x, int y) {
         List<ITileObject> tileObjects =  board.get(indexFromCor(x, y)).getContent();
-        for (ITileObject tileObject : tileObjects) {
-            if (tileObject instanceof IRobot) {
-                return true;
-            }
-        }
+        for (ITileObject tileObject : tileObjects)
+            if (tileObject instanceof IRobot) return true;
+
         return false;
     }
 
-    public IRobot getRobot(int x, int y){
+    @Override
+    public IRobot getRobot(int x, int y) {
         List<ITileObject> tileObjects =  board.get(indexFromCor(x, y)).getContent();
-        for (ITileObject tileObject : tileObjects) {
-            if (tileObject instanceof IRobot) {
-                return (IRobot) tileObject;
-            }
-        }
-        throw new IllegalStateException(x+","+y+" does not ccontain robot");
+        for (ITileObject tileObject : tileObjects)
+            if (tileObject instanceof IRobot) return (IRobot) tileObject;
+
+        throw new IllegalStateException(x + "," + y + " does not contain robot.");
     }
 
     @Override
     public Direction getWallDir(int x, int y) {
         List<ITileObject> tileObjects =  board.get(indexFromCor(x, y)).getContent();
-        for (ITileObject tileObject : tileObjects) {
-            if (tileObject instanceof Wall) {
-                return ((Wall) tileObject).getWallDir();
-            }
-        }
+        for (ITileObject tileObject : tileObjects)
+            if (tileObject instanceof Wall) return ((Wall) tileObject).getWallDir();
+
         return null;
     }
 
-
+    @Override
     public boolean containsPit(int x, int y) {
         List<ITileObject> tileObjects =  board.get(indexFromCor(x, y)).getContent();
-        for (ITileObject tileObject : tileObjects) {
-            if (tileObject instanceof Pit) {
-                return true;
-            }
-        }
+        for (ITileObject tileObject : tileObjects)
+            if (tileObject instanceof Pit) return true;
+
         return false;
     }
 
-
-    private int indexFromCor(int x, int y){
+    private int indexFromCor(int x, int y) {
         return x + (getWidth() * y);
     }
 

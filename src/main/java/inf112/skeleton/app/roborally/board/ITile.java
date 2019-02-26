@@ -1,7 +1,5 @@
 package inf112.skeleton.app.roborally.board;
 
-import inf112.skeleton.app.base.actors.ITileObject;
-
 import java.util.List;
 
 /**

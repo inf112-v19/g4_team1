@@ -1,15 +1,13 @@
-package inf112.skeleton.app.base.board.boardElement;
+package inf112.skeleton.app.roborally.board.boardElement;
 
-import inf112.skeleton.app.base.board.Board;
+import inf112.skeleton.app.roborally.board.Board;
 import inf112.skeleton.app.roborally.utils.Direction;
 
-public class Pusher extends ActiveElement{
-
+public class Pusher extends ActiveElement {
     private Direction pushDir;
     private Board board;
 
-
-    public Pusher(Direction pushDir, int x, int y, char symbol, String name, Board board) {
+    public Pusher(Direction pushDir, int x, int y, char symbol, Board board) {
         this.pushDir = pushDir;
         this.x = x;
         this.y = y;
@@ -20,8 +18,7 @@ public class Pusher extends ActiveElement{
 
     @Override
     public void activate() {
-        if(board.containsRobot(x, y)){
+        if (board.containsRobot(x, y))
             board.getRobot(x, y).move(pushDir);
-        }
     }
 }

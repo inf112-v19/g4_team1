@@ -1,4 +1,4 @@
-package inf112.skeleton.app.base.actors;
+package inf112.skeleton.app.roborally.actors;
 
 import inf112.skeleton.app.roborally.utils.Direction;
 

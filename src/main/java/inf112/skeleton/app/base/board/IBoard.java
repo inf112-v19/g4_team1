@@ -1,7 +1,7 @@
 package inf112.skeleton.app.base.board;
 
 import inf112.skeleton.app.base.actors.IRobot;
-import inf112.skeleton.app.base.utils.Direction;
+import inf112.skeleton.app.roborally.utils.Direction;
 
 import java.util.List;
 

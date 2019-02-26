@@ -26,6 +26,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import inf112.skeleton.app.roborally.RoboRally;
 import inf112.skeleton.app.roborally.board.Board;
 
+import java.io.IOException;
+
 public class RoboRallyGame implements Screen, InputProcessor {
 
     private RoboRally roboRally;
@@ -61,7 +63,12 @@ public class RoboRallyGame implements Screen, InputProcessor {
         mapWidthInPixels = mapWidthInTiles * tileWidth;
         mapHeightInPixels = mapHeightInTiles * tileHeight;
 
-        gameBoard = new Board(mapHeightInTiles, mapWidthInPixels, tileWidth, tileHeight);
+        try {
+            gameBoard = new Board("assets/roborally/board1.txt", tileWidth, tileHeight);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         tiles = new Array<>();
 
         for (int i = 0; i < gameBoard.getWidth(); i++) {

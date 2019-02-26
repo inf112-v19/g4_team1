@@ -1,14 +1,13 @@
-package inf112.skeleton.app.base.board.boardElement;
+package inf112.skeleton.app.roborally.board.boardElement;
 
-import inf112.skeleton.app.base.board.Board;
-import inf112.skeleton.app.base.board.ITileObject;
+import inf112.skeleton.app.roborally.board.Board;
+import inf112.skeleton.app.roborally.board.ITileObject;
 import inf112.skeleton.app.roborally.utils.Direction;
 
 public class Wall implements ITileObject {
 
     private Direction wallDir;
-    private int x;
-    private int y;
+    private int x, y;
     private char symbol;
     private String name;
     private Board board;
@@ -19,7 +18,7 @@ public class Wall implements ITileObject {
         this.y = y;
         this.symbol = symbol;
         this.board = board;
-        name="Wall";
+        this.name = "Wall";
     }
 
     public Direction getWallDir(){

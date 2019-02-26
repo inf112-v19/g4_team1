@@ -3,7 +3,7 @@ package inf112.skeleton.app;
 import inf112.skeleton.app.base.actors.*;
 import inf112.skeleton.app.base.board.Board;
 import inf112.skeleton.app.base.board.Tile;
-import inf112.skeleton.app.base.utils.*;
+import inf112.skeleton.app.roborally.utils.*;
 
 import org.junit.jupiter.api.Test;
 
@@ -55,7 +55,7 @@ public class BoardTest {
     @Test
     void readFromFile(){
         try {
-            Board board = new Board("assets/old/board1.txt");
+            Board board = new Board("assets/old/board1.txt", 96, 96);
             assert(board.containsPit(0, 0));
             assertEquals(board.getWidth(), 10);
             assertEquals(board.getHeight(), 10);

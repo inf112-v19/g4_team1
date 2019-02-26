@@ -1,30 +1,22 @@
-package inf112.skeleton.app.base.board.boardElement;
+package inf112.skeleton.app.roborally.board.boardElement;
 
-import inf112.skeleton.app.base.board.Board;
-import inf112.skeleton.app.base.board.ITileObject;
-import inf112.skeleton.app.roborally.utils.Direction;
+import inf112.skeleton.app.roborally.board.Board;
+import inf112.skeleton.app.roborally.board.ITileObject;
 
-public class Wall implements ITileObject {
-
-    private Direction wallDir;
-    private int x;
-    private int y;
+public class Pit implements ITileObject {
+    private int x, y;
     private char symbol;
     private String name;
     private Board board;
 
-    public Wall(Direction dir, int x, int y, char symbol, Board board) {
-        this.wallDir = dir;
+    public Pit(int x, int y, char symbol, Board board) {
         this.x = x;
         this.y = y;
         this.symbol = symbol;
+        this.name = "Pit";
         this.board = board;
-        name="Wall";
     }
 
-    public Direction getWallDir(){
-        return wallDir;
-    }
     @Override
     public int getX() {
         return x;
@@ -47,7 +39,7 @@ public class Wall implements ITileObject {
 
     @Override
     public void setSymbol(char symbol) {
-        this.symbol=symbol;
+        this.symbol = symbol;
     }
 
     @Override
@@ -57,7 +49,6 @@ public class Wall implements ITileObject {
 
     @Override
     public void setName(String name) {
-        this.name=name;
+        this.name = name;
     }
-
 }

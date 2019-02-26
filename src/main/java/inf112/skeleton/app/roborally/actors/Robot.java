@@ -1,6 +1,6 @@
-package inf112.skeleton.app.base.actors;
+package inf112.skeleton.app.roborally.actors;
 
-import inf112.skeleton.app.base.board.IBoard;
+import inf112.skeleton.app.roborally.board.IBoard;
 import inf112.skeleton.app.roborally.utils.Direction;
 
 public class Robot extends TileObject implements IRobot {
@@ -22,12 +22,13 @@ public class Robot extends TileObject implements IRobot {
         return dir;
     }
 
-    public boolean move(Direction moveDirection){
+    @Override
+    public boolean move(Direction moveDirection) {
         if (moveDirection == null)
             throw new IllegalArgumentException("no direction to move in");
-        int newX=x;
-        int newY=y;
-        switch (moveDirection){
+
+        int newX = x, newY = y;
+        switch (moveDirection) {
             case EAST: newX++; break;
             case WEST: newX--; break;
             case NORTH: newY++; break;
@@ -38,33 +39,31 @@ public class Robot extends TileObject implements IRobot {
             //TODO:
             //robot is moving outside board/to pit
             throw new UnsupportedOperationException("not implemented");
-        } else {
-
-            if(board.containsRobot(newX, newY)){
+        }
+        else {
+            if(board.containsRobot(newX, newY)) {
                 //robot has to push the other robot
                 IRobot otherRobot = board.getRobot(newX, newY);
                 boolean completedMove = otherRobot.move(moveDirection);
-                if(completedMove){
+                if (completedMove) {
                     //path is clear now we try again
                     return move(moveDirection);
                 }
-                else{
+                else {
                     //the robot on the tile couldn't move, so this robot cant move either
                     return false;
                 }
             }
 
             //has to check for wall in this and next tile
-            if(board.getWallDir(newX, newY) != null){
-                if (wallIsBlocking(newX, newY, moveDirection)){
+            if (board.getWallDir(newX, newY) != null)
+                if (wallIsBlocking(newX, newY, moveDirection))
                     return false;
-                }
-            }
-            if(board.getWallDir(x, y) != null) {
-                if (wallIsBlocking(x, y, moveDirection)) {
+
+            if(board.getWallDir(x, y) != null)
+                if (wallIsBlocking(x, y, moveDirection))
                     return false;
-                }
-            }
+
             //robot is free to move to new position
             board.get(x, y).removeContent(this);
             board.get(newX, newY).addObject(this);
@@ -76,18 +75,13 @@ public class Robot extends TileObject implements IRobot {
 
     private boolean wallIsBlocking(int wallX, int wallY, Direction moveDirection){
         Direction walldir = board.getWallDir(wallX, wallY);
-        if (wallX == this.x && wallY == this.y){
+        if (wallX == this.x && wallY == this.y) {
             //the wall is on the same tile. blocks if direction of wall is same as the movement
-            if(moveDirection == walldir){
-                return true;
-            }
-            return false;
-        }else{
+            return moveDirection == walldir;
+        }
+        else {
             //the wall is on the next tile. blocks movement if the directions are opposite
-            if (moveDirection.opposite() == walldir){
-                return true;
-            }
-            return false;
+            return moveDirection.opposite() == walldir;
         }
     }
 
@@ -118,12 +112,9 @@ public class Robot extends TileObject implements IRobot {
 
     @Override
     public void moveForward(int distance) {
-        /*
-        calls moveForward n times so it doesn't jump walls or robots
-         */
-        for(int i = 0; i<distance; i++){
+        // calls moveForward n times so it doesn't jump walls or robots
+        for(int i = 0; i < distance; i++)
             moveForward();
-        }
     }
 
     @Override
