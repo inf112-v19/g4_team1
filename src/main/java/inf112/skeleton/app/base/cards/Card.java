@@ -5,6 +5,7 @@ import inf112.skeleton.app.base.actors.IRobot;
 public class Card implements  ICard{
     private CardType type;
     private int priorityNumber;
+    private String pathToImage;
 
     public Card(CardType type, int priorityNumber) {
         this.type = type;
@@ -17,7 +18,7 @@ public class Card implements  ICard{
 
     @Override
     public String toString() {
-        return "Card type "+ type+", priority "+priorityNumber;
+        return "Card type " + type + ", priority " + priorityNumber;
     }
 
     public void execute(IRobot robot){

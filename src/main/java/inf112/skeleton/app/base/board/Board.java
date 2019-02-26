@@ -2,6 +2,8 @@ package inf112.skeleton.app.base.board;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import inf112.skeleton.app.base.actors.IRobot;
+import inf112.skeleton.app.base.actors.Player;
+import inf112.skeleton.app.base.actors.Robot;
 import inf112.skeleton.app.base.board.boardElement.Conveyor;
 import inf112.skeleton.app.base.board.boardElement.Pit;
 import inf112.skeleton.app.base.board.boardElement.Wall;
@@ -46,14 +48,19 @@ public class Board implements IBoard {
                 if(line.length()!=width)
                     throw new IllegalArgumentException("wrong length at board textfile at line "+(height-y));
                 Tile tile = new Tile();
-                Character symbol= line.charAt(x);
-                System.out.println("adder "+symbol+" på "+x +" "+y);
-                switch(symbol){
+                char symbol= line.charAt(x);
+                System.out.println("adder " + symbol +" på " + x +" "+y);
+                switch (symbol) {
                     case '-': break;
                     case 'r': tile.addObject(new Conveyor(Direction.EAST, x, y, 'r', this));
-                    case 'd': tile.addObject(new Conveyor(Direction.SOUTH, x, y, 'r', this));
+                    case 'd': tile.addObject(new Conveyor(Direction.SOUTH, x, y, 'd', this));
                     case 'p': tile.addObject(new Pit(x, y, 'p', this));
-
+                    case 'N': tile.addObject(new Wall(Direction.NORTH, x, y, 'N', this));
+                    case 'E': tile.addObject(new Wall(Direction.EAST, x, y, 'E', this));
+                    case 'S': tile.addObject(new Wall(Direction.SOUTH, x, y, 'S', this));
+                    case 'W': tile.addObject(new Wall(Direction.WEST, x, y, 'W', this));
+                    case 'R': tile.addObject(new Robot(x, y, Direction.SOUTH,
+                            new Player("Player 1"), this));
                 }
                 board.add(tile);
             }

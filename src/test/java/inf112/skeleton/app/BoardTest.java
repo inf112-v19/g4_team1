@@ -51,10 +51,11 @@ public class BoardTest {
         assertFalse(!board.outOfBounds(1, 10));
         assertFalse(!board.outOfBounds(10, 0));
     }
+
     @Test
     void readFromFile(){
         try {
-            Board board = new Board("assets/board1.txt");
+            Board board = new Board("assets/old/board1.txt");
             assert(board.containsPit(0, 0));
             assertEquals(board.getWidth(), 10);
             assertEquals(board.getHeight(), 10);
