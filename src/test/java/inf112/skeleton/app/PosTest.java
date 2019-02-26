@@ -17,4 +17,12 @@ public class PosTest {
         Pos pos2 = pos1.getAdjacent(Direction.NORTH).getAdjacent(Direction.SOUTH);
         assertEquals(pos1, pos2);
     }
+    @Test
+    void adjacent(){
+        Pos pos = new Pos(1, 1);
+        assertEquals(new Pos (1, 2), pos.getAdjacent(Direction.NORTH));
+        assertEquals(new Pos (2, 1), pos.getAdjacent(Direction.EAST));
+        assertEquals(new Pos (0, 1), pos.getAdjacent(Direction.WEST));
+        assertEquals(new Pos (1, 0), pos.getAdjacent(Direction.SOUTH));
+    }
 }

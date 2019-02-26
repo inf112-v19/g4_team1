@@ -22,10 +22,28 @@ public class RobotTest {
         assertEquals(robot.getPos(), new Pos(2, 1));
 
         robot.turnLeft();
+        assertEquals(robot.getDir(), Direction.NORTH);
         assertEquals(robot.getPos(), new Pos(2, 1));
 
         robot.moveForward(2);
-        assertEquals(robot.getPos(), new Pos(3, 2));
+        assertEquals(robot.getPos(), new Pos(2, 3));
+
+        //robot.moveBackwards();
+        robot.turnLeft();
+        robot.turnLeft();
+        robot.moveForward(1);
+        assertEquals(robot.getPos(), new Pos(2, 2));
+    }
+    @Test
+    void robotMoveBack(){
+        Board board = new Board(10, 10);
+        Pos pos = new Pos(5, 5);
+        Robot robot = new Robot(pos, Direction.EAST, new Player("tobias"), board);
+        board.addTileObject(robot);
+        //robot.moveBackwards();
+        robot.move(Direction.WEST);
+        System.out.println(robot.getPos());
+        assertEquals(robot.getPos(), new Pos(4, 5));
     }
 
     @Test
@@ -37,12 +55,13 @@ public class RobotTest {
         board.addTileObject(robot1);
         board.addTileObject(robot2);
         robot1.moveForward(1);
-        assertEquals(robot1.getPos().x(), 2);
-        assertEquals(robot2.getPos().x(), 3);
+        assertEquals(robot1.getPos(), new Pos(2, 1));
+        assertEquals(robot2.getPos(), new Pos(3, 1));
 
         robot2.moveBackwards();
-        assertEquals(robot1.getPos().x(), 1);
         assertEquals(robot2.getPos().x(), 2);
+
+        assertEquals(robot1.getPos().x(), 1);
     }
     @Test
     void wallCollision1(){

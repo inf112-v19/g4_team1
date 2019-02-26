@@ -38,4 +38,8 @@ public class Pos {
                 y == pos.y;
     }
 
+    public String toString(){
+        return "("+x+", "+y+")";
+    }
+
 }

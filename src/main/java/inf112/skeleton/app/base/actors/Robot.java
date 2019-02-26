@@ -27,8 +27,8 @@ public class Robot extends TileObject implements IRobot {
         if (moveDirection == null)
             throw new IllegalArgumentException("no direction to move in");
 
-
-        Pos newPos = pos.getAdjacent(dir);
+        Pos newPos = pos.getAdjacent(moveDirection);
+        System.out.println("newPos " +newPos);
 
         if (board.outOfBounds(newPos) || (board.containsPit(newPos))) {
             //TODO:
@@ -37,6 +37,7 @@ public class Robot extends TileObject implements IRobot {
         } else {
 
             if(board.containsRobot(newPos)){
+                System.out.println("fant robot");
                 //robot has to push the other robot
                 IRobot otherRobot = board.getRobot(newPos);
                 boolean completedMove = otherRobot.move(moveDirection);
@@ -123,6 +124,7 @@ public class Robot extends TileObject implements IRobot {
 
     @Override
     public void moveBackwards() {
+        System.out.println(dir.opposite());
         move(dir.opposite());
     }
 
