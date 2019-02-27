@@ -5,6 +5,7 @@ import inf112.skeleton.app.base.board.ITileObject;
 import inf112.skeleton.app.base.utils.Pos;
 
 public abstract class BoardElement implements ITileObject {
+
     protected final Board board;
     protected Pos pos;
     protected char symbol;

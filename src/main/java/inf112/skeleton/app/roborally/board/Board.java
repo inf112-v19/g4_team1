@@ -23,7 +23,6 @@ public class Board implements IBoard {
                 y = (j + 1) * tileHeightInPixels / 4;
                 board.add(new Tile(x, y));
             }
-
     }
 
     public void setTile(int x, int y, ITile tile) {
