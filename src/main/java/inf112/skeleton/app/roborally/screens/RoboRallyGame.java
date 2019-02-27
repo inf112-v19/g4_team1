@@ -75,7 +75,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
         }
 
         boardRenderer = new OrthogonalTiledMapRenderer(board);
-        camera.setToOrtho(false,1920,1080);
+        camera.setToOrtho(false,2500,13*96);
         boardRenderer.setView(camera);
 
         sprite = new Sprite(new Texture("assets/roborally/robot.png"));
