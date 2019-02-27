@@ -1,31 +1,14 @@
 package inf112.skeleton.app.base.board;
 
+import inf112.skeleton.app.base.utils.Pos;
+
 /**
  * Generic interface for the object that is located on the tile.
  *
  */
 public interface ITileObject {
 
-    /**
-     * Get the x coordinate of the object
-     *
-     * @return x coordinate
-     */
-    int getX();
-
-    /**
-     * Get the y coordinate of the object
-     *
-     * @return y coordinate
-     */
-    int getY();
-
-    /**
-     * Get the [x,y] array with the coordinates of the object
-     *
-     * @return [x,y] array with coordinates
-     */
-    Integer[] getXY();
+    Pos getPos();
 
     /**
      * Get the symbol associated with the object

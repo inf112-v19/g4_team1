@@ -14,9 +14,10 @@ public class GearTest {
     @Test
     void gearTurn() {
         Board board = new Board(10, 10);
-        Robot robot = new Robot(1, 1, Direction.EAST, new Player("tobias"), board);
+        Pos pos = new Pos(0, 0);
+        Robot robot = new Robot(pos, Direction.EAST, new Player("tobias"), board);
         board.addTileObject(robot);
-        Gear gear = new Gear(Direction.EAST, 1, 1, 'a', board);
+        Gear gear = new Gear(Direction.EAST,  new Pos(0, 0), 'a', board);
         board.addTileObject(gear);
         gear.activate();
         assertEquals(robot.getDir(), Direction.SOUTH);

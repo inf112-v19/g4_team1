@@ -37,6 +37,7 @@ public class Robot extends TileObject implements IRobot {
         } else {
 
             if(board.containsRobot(newPos)){
+                System.out.println("fant robot");
                 //robot has to push the other robot
                 IRobot otherRobot = board.getRobot(newPos);
                 boolean completedMove = otherRobot.move(moveDirection);

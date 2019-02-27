@@ -3,28 +3,24 @@ package inf112.skeleton.app.base.board.boardElement;
 import inf112.skeleton.app.base.actors.IRobot;
 import inf112.skeleton.app.base.board.Board;
 import inf112.skeleton.app.base.utils.Direction;
+import inf112.skeleton.app.base.utils.Pos;
 
-public class Gear extends ActiveElement {
+public class Gear extends BoardElement implements IActiveElement {
 
     private Direction dir;
-    private Board board;
 
 
-    public Gear(Direction dir, int x, int y, char symbol, Board board) {
+    public Gear(Direction dir, Pos pos, char symbol, Board board) {
+        super(pos, symbol, board);
         if(dir == Direction.NORTH || dir == Direction.SOUTH)
             throw new IllegalArgumentException("Use arguments EAST OR WEST for gears");
         this.dir = dir;
-        this.x = x;
-        this.y = y;
-        this.symbol = symbol;
-        this.name = "Gear";
-        this.board = board;
     }
 
     @Override
     public void activate() {
-        if(board.containsRobot(x, y)){
-            IRobot robot = board.getRobot(x, y);
+        if(board.containsRobot(pos)){
+            IRobot robot = board.getRobot(pos);
             if (dir==Direction.EAST){
                 robot.turnRight();
             }

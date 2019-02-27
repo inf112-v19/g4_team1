@@ -3,29 +3,24 @@ package inf112.skeleton.app.base.board.boardElement;
 import inf112.skeleton.app.base.actors.IRobot;
 import inf112.skeleton.app.base.board.Board;
 import inf112.skeleton.app.base.utils.Direction;
+import inf112.skeleton.app.base.utils.Pos;
 
-public class Conveyor extends ActiveElement {
+public class Conveyor extends BoardElement {
 
     private Direction dir;
-    private Board board;
 
-
-    public Conveyor(Direction dir, int x, int y, char symbol, Board board) {
+    public Conveyor(Direction dir, Pos pos, char symbol, Board board) {
+        super(pos, symbol, board);
         this.dir = dir;
-        this.x = x;
-        this.y = y;
-        this.symbol = symbol;
-        this.name = "Conveyor";
-        this.board = board;
     }
 
-    @Override
+
     public void activate() {
         //double distance conveyors should be activated twice
         //TODO:
         //curved conveyors
-        if(board.containsRobot(x, y)){
-            IRobot robot = board.getRobot(x, y);
+        if(board.containsRobot(pos)){
+            IRobot robot = board.getRobot(pos);
             robot.move(this.dir);
         }
     }

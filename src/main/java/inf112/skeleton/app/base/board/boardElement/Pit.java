@@ -2,8 +2,9 @@ package inf112.skeleton.app.base.board.boardElement;
 
 import inf112.skeleton.app.base.board.Board;
 import inf112.skeleton.app.base.board.ITileObject;
+import inf112.skeleton.app.base.utils.Pos;
 
-public class Pit implements ITileObject {
+public class Pit extends BoardElement {
 
     private int x;
     private int y;
@@ -11,47 +12,8 @@ public class Pit implements ITileObject {
     private String name;
     private Board board;
 
-    public Pit(int x, int y, char symbol, Board board) {
-        this.x = x;
-        this.y = y;
-        this.symbol = symbol;
-        this.name = name;
-        this.board = board;
-        name="pit";
-    }
-
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    @Override
-    public Integer[] getXY() {
-        return new Integer[2];
-    }
-
-    @Override
-    public char getSymbol() {
-        return symbol;
-    }
-
-    @Override
-    public void setSymbol(char symbol) {
-        this.symbol=symbol;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public void setName(String name) {
-        this.name=name;
+    public Pit(Pos pos, char symbol, Board board) {
+        super(pos, symbol, board);
     }
 }
+
