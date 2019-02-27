@@ -13,6 +13,13 @@ public class PusherTest {
 
     @Test
     void pushTurn() {
+        Board board = new Board(10, 10);
+        Pos pos = new Pos(0,0);
+        Tile tile = new Tile();
+        Robot robot = new Robot(pos,Direction.EAST,new Player("player"),board);
+        if(tile.contains(robot)){
+           // Pusher.activate();
+        }
 
     }
 
