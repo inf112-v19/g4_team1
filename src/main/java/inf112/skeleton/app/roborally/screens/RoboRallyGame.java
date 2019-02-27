@@ -32,7 +32,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
     private Texture img;
     private TiledMap board;
     private OrthographicCamera camera;
-    private TiledMapRenderer boardRenderer;
+    private OrthogonalTiledMapRenderer boardRenderer;
     private SpriteBatch sb;
     private Sprite sprite;
     private int tileWidth, tileHeight, mapWidthInTiles, mapHeightInTiles, mapWidthInPixels, mapHeightInPixels;
@@ -40,11 +40,14 @@ public class RoboRallyGame implements Screen, InputProcessor {
     private Array<Rectangle> tiles;
     private Stage stage;
     private Skin uiSkin;
+    FitViewport viewPort;
 
     public RoboRallyGame(RoboRally roboRally) {
         this.roboRally = roboRally;
 
         camera = new OrthographicCamera();
+        viewPort = new FitViewport(Constants.WORLD_WIDTH,Constants.WORLD_HEIGHT,camera);
+        camera.position.set(viewPort.getWorldWidth()/2,viewPort.getWorldHeight()/2,0);
         // camera.setToOrtho(false, 639, 639);
         // camera.setToOrtho(false, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 
@@ -63,19 +66,19 @@ public class RoboRallyGame implements Screen, InputProcessor {
         gameBoard = new Board(mapHeightInTiles, mapWidthInPixels, tileWidth, tileHeight);
         tiles = new Array<>();
 
-        for (int i = 0; i < gameBoard.getWidth(); i++) {
-            for (int j = 0; j < gameBoard.getHeight(); j++) {
-                Rectangle tile = new Rectangle();
-                tile.x = gameBoard.get(i, j).getX();
-                tile.y = gameBoard.get(i, j).getY();
-                tile.width = tileWidth;
-                tile.height = tileHeight;
-                tiles.add(tile);
-            }
-        }
+//        for (int i = 0; i < gameBoard.getWidth(); i++) {
+//            for (int j = 0; j < gameBoard.getHeight(); j++) {
+//                Rectangle tile = new Rectangle();
+//                tile.x = gameBoard.get(i, j).getX();
+//                tile.y = gameBoard.get(i, j).getY();
+//                tile.width = tileWidth;
+//                tile.height = tileHeight;
+//                tiles.add(tile);
+//            }
+//        }
 
-        boardRenderer = new OrthogonalTiledMapRenderer(board);
-        camera.setToOrtho(false,2500,13*96);
+        boardRenderer = new OrthogonalTiledMapRenderer(board,Constants.MPP);
+        camera.setToOrtho(false,Constants.WORLD_PIXEL_WIDTH,Constants.WORLD_PIXEL_HEIGHT);
         boardRenderer.setView(camera);
 
         sprite = new Sprite(new Texture("assets/roborally/robot.png"));
@@ -85,7 +88,6 @@ public class RoboRallyGame implements Screen, InputProcessor {
 
         Gdx.input.setInputProcessor(this);
 
-        FitViewport viewPort = new FitViewport(mapWidthInPixels - 1, mapHeightInPixels - 1, camera);
 
 
 
@@ -99,12 +101,19 @@ public class RoboRallyGame implements Screen, InputProcessor {
 
     @Override
     public void render(float v) {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+//        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+//
+//        boardRenderer.render();
+//
+//        sb.begin();
+//        sprite.draw(sb);
+//        sb.end();
+        camera.update();
+        boardRenderer.setView(camera);
         boardRenderer.render();
 
+        sb.setProjectionMatrix(camera.combined);
         sb.begin();
-        sprite.draw(sb);
         sb.end();
     }
 
