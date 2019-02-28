@@ -20,7 +20,7 @@ public class PusherTest {
         if(tile.contains(robot)){
             pusher.activate();
         }
-
+        if(tile.contains(robot)){fail();}
     }
 
 }

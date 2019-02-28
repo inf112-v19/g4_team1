@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -65,29 +64,6 @@ public class LabelAndFont implements ApplicationListener {
         image3.setPosition(Gdx.graphics.getWidth()/3f - image3.getWidth()/2f,
                 Gdx.graphics.getHeight()/3f - image3.getHeight()/2f);
         stage.addActor(image3);
-
-        // freetype font demo
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(
-                Gdx.files.internal("assets/ttffont/segoe.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter =
-                new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 32;
-        parameter.borderWidth = 1;
-        parameter.color = Color.CORAL;
-        parameter.shadowOffsetX = 1;
-        parameter.shadowOffsetY = 1;
-        parameter.shadowColor = new Color(0, 0.5f, 0, 0.75f);
-        BitmapFont fontSegoe32 = generator.generateFont(parameter);
-        generator.dispose();
-
-        Label.LabelStyle label2Style = new Label.LabelStyle();
-        label2Style.font = fontSegoe32;
-
-        Label label2 = new Label("Title (TrueTypeFont Segoe, size 32)", label2Style);
-        label2.setSize(Gdx.graphics.getWidth()/12f * 5, row_height);
-        label2.setPosition(Gdx.graphics.getWidth()/3f - image1.getWidth()/2f,
-                Gdx.graphics.getHeight() - row_height * 5);
-        stage.addActor(label2);
 
 
         // repeating image demo
