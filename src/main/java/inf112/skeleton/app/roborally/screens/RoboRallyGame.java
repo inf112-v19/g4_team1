@@ -32,7 +32,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
     private Texture img;
     private TiledMap board;
     private OrthographicCamera camera;
-    private OrthogonalTiledMapRenderer boardRenderer;
+    private TiledMapRenderer boardRenderer;
     private SpriteBatch sb;
     private Sprite sprite;
     private int tileWidth, tileHeight, mapWidthInTiles, mapHeightInTiles, mapWidthInPixels, mapHeightInPixels;
@@ -48,8 +48,8 @@ public class RoboRallyGame implements Screen, InputProcessor {
         camera = new OrthographicCamera();
         viewPort = new FitViewport(Constants.WORLD_WIDTH,Constants.WORLD_HEIGHT,camera);
         camera.position.set(viewPort.getWorldWidth()/2,viewPort.getWorldHeight()/2,0);
-        // camera.setToOrtho(false, 639, 639);
-        // camera.setToOrtho(false, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+         //camera.setToOrtho(false, 639, 639);
+        //camera.setToOrtho(false, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 
         sb = new SpriteBatch();
 
@@ -77,7 +77,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
 //            }
 //        }
 
-        boardRenderer = new OrthogonalTiledMapRenderer(board,Constants.MPP);
+        boardRenderer = new OrthogonalTiledMapRenderer(board,1);
         camera.setToOrtho(false,Constants.WORLD_PIXEL_WIDTH,Constants.WORLD_PIXEL_HEIGHT);
         boardRenderer.setView(camera);
 
@@ -114,6 +114,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
 
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
+        sprite.draw(sb);
         sb.end();
     }
 

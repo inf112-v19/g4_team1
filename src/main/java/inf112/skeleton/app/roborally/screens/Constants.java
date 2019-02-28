@@ -1,7 +1,7 @@
 package inf112.skeleton.app.roborally.screens;
 
 public class Constants {
-    public static final float PPM=96;
+    public static final float PPM=4;
     public static final float MPP= 1/PPM;
 
     public static final int WORLD_PIXEL_WIDTH=1920;
