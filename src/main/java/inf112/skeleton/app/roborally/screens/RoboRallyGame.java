@@ -79,7 +79,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
 //        }
 
         boardRenderer = new OrthogonalTiledMapRenderer(board,1);
-        camera.setToOrtho(false,Constants.WORLD_PIXEL_WIDTH,Constants.WORLD_PIXEL_HEIGHT);
+        camera.setToOrtho(false, Constants.WORLD_PIXEL_WIDTH, Constants.WORLD_PIXEL_HEIGHT);
         boardRenderer.setView(camera);
 
         sprite = new Sprite(new Texture("assets/roborally/robot.png"));
@@ -88,11 +88,6 @@ public class RoboRallyGame implements Screen, InputProcessor {
         sprite.setPosition(gameBoard.get(19, 8).getX(), gameBoard.get(19, 8).getY());
 
         Gdx.input.setInputProcessor(this);
-
-
-
-
-
     }
 
     @Override
@@ -102,7 +97,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
 
     @Override
     public void render(float v) {
-//        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 //
 //        boardRenderer.render();
 //
