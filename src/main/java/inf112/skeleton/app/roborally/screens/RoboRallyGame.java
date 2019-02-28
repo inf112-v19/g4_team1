@@ -47,6 +47,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
 
         camera = new OrthographicCamera();
         viewPort = new FitViewport(Constants.WORLD_WIDTH,Constants.WORLD_HEIGHT,camera);
+       // viewPort= new FitViewport(3000,2000,camera);
         camera.position.set(viewPort.getWorldWidth()/2,viewPort.getWorldHeight()/2,0);
          //camera.setToOrtho(false, 639, 639);
         //camera.setToOrtho(false, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
