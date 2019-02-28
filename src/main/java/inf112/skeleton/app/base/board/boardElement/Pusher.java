@@ -13,6 +13,7 @@ public class Pusher extends BoardElement implements  IActiveElement{
         super(pos, symbol, board);
         this.pushDir = dir;
     }
+
     public void activate() {
         if(board.containsRobot(pos)){
             board.getRobot(pos).move(pushDir);

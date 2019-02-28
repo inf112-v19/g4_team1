@@ -10,15 +10,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class PusherTest {
 
-
     @Test
     void pushTurn() {
         Board board = new Board(10, 10);
         Pos pos = new Pos(0,0);
         Tile tile = new Tile();
+        Pusher pusher = new Pusher(Direction.NORTH,new Pos(1,1),'a', board);
         Robot robot = new Robot(pos,Direction.EAST,new Player("player"),board);
         if(tile.contains(robot)){
-           // Pusher.activate();
+            pusher.activate();
         }
 
     }
