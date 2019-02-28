@@ -152,9 +152,9 @@ public class RoboRallyGame implements Screen, InputProcessor {
         if (key== Input.Keys.RIGHT)
             sprite.translate(tileWidth, 0);
         if (key== Input.Keys.UP)
-            sprite.translate(0, tileWidth);
+            sprite.translate(0, tileHeight);
         if (key== Input.Keys.DOWN)
-            sprite.translate(0, -tileWidth);
+            sprite.translate(0, -tileHeight);
         return false;
     }
 

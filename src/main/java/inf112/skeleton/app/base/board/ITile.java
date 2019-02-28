@@ -1,6 +1,4 @@
-package inf112.skeleton.app.roborally.board;
-
-import inf112.skeleton.app.base.actors.ITileObject;
+package inf112.skeleton.app.base.board;
 
 import java.util.List;
 
@@ -38,8 +36,4 @@ public interface ITile {
      * @param object element that will be removed.
      */
     void removeContent(ITileObject object);
-
-    int getX();
-
-    int getY();
 }

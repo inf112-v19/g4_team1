@@ -1,8 +1,8 @@
 package inf112.skeleton.app.roborally.board;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import inf112.skeleton.app.actors.IRobot;
-import inf112.skeleton.app.actors.ITileObject;
+import inf112.skeleton.app.base.actors.IRobot;
+import inf112.skeleton.app.base.actors.ITileObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,6 @@ public class Board implements IBoard {
                 y = (j + 1) * tileHeightInPixels / 4;
                 board.add(new Tile(x, y));
             }
-
     }
 
     public void setTile(int x, int y, ITile tile) {
