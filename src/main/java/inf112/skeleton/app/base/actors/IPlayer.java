@@ -27,7 +27,7 @@ public interface IPlayer {
      * Finds and removes the first card in the players card-list.
      * @return first card in the players card-list
      */
-    Card getFirstCard();
+    Card useFirstCard();
 
 
 

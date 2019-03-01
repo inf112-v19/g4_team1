@@ -26,14 +26,13 @@ public class Player {
         return cards;
     }
 
-    public Card getFirstCard() {
-        for(int i = 0; i < cards.size(); i++) {
-            if(cards.get(i) instanceof Card) {
-                Card firstCard = cards.get(i);
-                cards.remove(i);
-                return firstCard;
-            }
+    public Card useFirstCard() {
+        if (cards.isEmpty()) {
+            throw new IllegalStateException("List with playercards is empty!");
         }
-        throw new IllegalStateException("List with playercards is empty!");
+        // retrieves and removes first card in list. Shifts remaining elements to the left
+        Card firstCard = cards.remove(0);
+        return firstCard;
+
     }
 }
