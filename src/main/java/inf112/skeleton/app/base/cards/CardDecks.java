@@ -15,7 +15,7 @@ public class CardDecks {
 
     private ArrayList<Card> cardGenerator(CardType type, int pstart, int pdiff, int pend) {
         ArrayList<Card> cards = new ArrayList<>();
-        for (int priority = pstart; start < pend; priority += pend) {
+        for (int priority = pstart; priority < pend; priority += pend) {
             cards.add(new Card(type, priority));
         }
         return cards;
