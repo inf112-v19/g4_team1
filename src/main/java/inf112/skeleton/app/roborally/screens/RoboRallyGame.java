@@ -47,10 +47,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
 
         camera = new OrthographicCamera();
         viewPort = new FitViewport(Constants.WORLD_WIDTH,Constants.WORLD_HEIGHT,camera);
-       // viewPort= new FitViewport(3000,2000,camera);
-        camera.position.set(viewPort.getWorldWidth()/2,viewPort.getWorldHeight()/2,0);
-         //camera.setToOrtho(false, 639, 639);
-        //camera.setToOrtho(false, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        camera.position.set(viewPort.getWorldWidth() / 2,viewPort.getWorldHeight() / 2,0);
 
         sb = new SpriteBatch();
 
@@ -98,12 +95,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
     @Override
     public void render(float v) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-//
-//        boardRenderer.render();
-//
-//        sb.begin();
-//        sprite.draw(sb);
-//        sb.end();
+
         camera.update();
         boardRenderer.setView(camera);
         boardRenderer.render();
