@@ -1,7 +1,8 @@
 package inf112.skeleton.app.base.board;
 
 import inf112.skeleton.app.base.actors.IRobot;
-import inf112.skeleton.app.roborally.utils.Direction;
+import inf112.skeleton.app.base.utils.Direction;
+import inf112.skeleton.app.base.utils.Pos;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public interface IBoard {
      * @param y y
      * @param e Tile to place
      */
-    void setTile(int x, int y, ITile e);
+    void setTile(Pos pos, ITile e);
 
     /**
      * Add a tile object to the board at the position obj.x, obj.y
@@ -34,7 +35,7 @@ public interface IBoard {
      * @param y y
      * @return tile at x,y
      */
-    ITile get(int x, int y);
+    ITile get(Pos pos);
 
     /**
      * Get the size of the board
@@ -70,7 +71,7 @@ public interface IBoard {
      * @param y y cor
      * @return True if (x,y) is on the board
      */
-    boolean outOfBounds(int x, int y);
+    boolean outOfBounds(Pos pos);
 
     /**
      * check if a position contains a robot
@@ -78,7 +79,7 @@ public interface IBoard {
      * @param y x
      * @return true if contains robot
      */
-    boolean containsRobot(int x, int y);
+    boolean containsRobot(Pos pos);
 
     /**
      * returns the robot in a position
@@ -86,14 +87,14 @@ public interface IBoard {
      * @param y y
      * @return the robot
      */
-    IRobot getRobot(int x, int y);
+    IRobot getRobot(Pos pos);
     /**
      * check if a position contains a wall
      * @param x x
      * @param y x
      * @return the direction the wall is facing, or null if no wall
      */
-    Direction getWallDir(int x, int y);
+    Direction getWallDir(Pos pos);
 
-    boolean containsPit(int x, int y);
+    boolean containsPit(Pos pos);
 }

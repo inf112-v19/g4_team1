@@ -3,7 +3,7 @@ package inf112.skeleton.app;
 import inf112.skeleton.app.base.actors.*;
 import inf112.skeleton.app.base.board.Board;
 import inf112.skeleton.app.base.board.Tile;
-import inf112.skeleton.app.roborally.utils.*;
+import inf112.skeleton.app.base.utils.*;
 
 import org.junit.jupiter.api.Test;
 
@@ -17,9 +17,9 @@ public class BoardTest {
     void putGetTest() {
         Board board = new Board(10, 10);
         Tile test = new Tile();
-
-        board.setTile(0, 0, test);
-        assertEquals(test, board.get(0, 0));
+        Pos pos =new Pos(0, 0);
+        board.setTile(pos,  test);
+        assertEquals(test, board.get(pos));
     }
 
     @Test
@@ -35,31 +35,35 @@ public class BoardTest {
     void boardObjectTest() {
         Board board = new Board(5, 5);
         Tile tile = new Tile();
-        board.setTile(0, 0, tile);
-        Robot robot = new Robot(0, 0, Direction.EAST, new Player("test"), board);
+        Pos pos =new Pos(0, 0);
 
-        board.get(0, 0).addObject(robot);
-        assertEquals(board.getRobot(0, 0), robot);
+        board.setTile(pos, tile);
+        Player player1 = new Player("tobias");
+        Robot robot = new Robot(pos, Direction.EAST, player1, board);
+        player1.addRobot(robot);
+
+        board.get(pos).addObject(robot);
+        assertEquals(board.getRobot(pos), robot);
     }
 
     @Test
     void validPosTest() {
         Board board = new Board(10, 10);
 
-        assertTrue(!board.outOfBounds(0, 0));
-        assertTrue(!board.outOfBounds(9, 9));
-        assertFalse(!board.outOfBounds(1, 10));
-        assertFalse(!board.outOfBounds(10, 0));
+        assertFalse(board.outOfBounds(new Pos(0, 0)));
+        assertFalse(board.outOfBounds(new Pos(9, 9)));
+        assertTrue(board.outOfBounds(new Pos(0, -1)));
+        assertTrue(board.outOfBounds(new Pos(10, 5)));
     }
 
     @Test
     void readFromFile(){
         try {
-            Board board = new Board("assets/old/board1.txt", 96, 96);
-            assert(board.containsPit(0, 0));
+            Board board = new Board("assets/roborally/board1.txt");
+            assert(board.containsPit(new Pos(0, 0)));
             assertEquals(board.getWidth(), 10);
             assertEquals(board.getHeight(), 10);
-            assert(board.outOfBounds(10, 10));
+            assert(board.outOfBounds(new Pos(10, 10)));
         } catch (IOException e) {
             fail();
         }

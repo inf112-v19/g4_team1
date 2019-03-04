@@ -43,13 +43,14 @@ public class RoboRallyGame implements Screen, InputProcessor {
     private Array<Rectangle> tiles;
     private Stage stage;
     private Skin uiSkin;
+    private FitViewport viewPort;
 
     public RoboRallyGame(RoboRally roboRally) {
         this.roboRally = roboRally;
 
         camera = new OrthographicCamera();
-        // camera.setToOrtho(false, 639, 639);
-        // camera.setToOrtho(false, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        viewPort = new FitViewport(Constants.WORLD_WIDTH,Constants.WORLD_HEIGHT,camera);
+        camera.position.set(viewPort.getWorldWidth() / 2,viewPort.getWorldHeight() / 2,0);
 
         sb = new SpriteBatch();
 
@@ -82,24 +83,16 @@ public class RoboRallyGame implements Screen, InputProcessor {
             }
         }
 
-        boardRenderer = new OrthogonalTiledMapRenderer(board);
-
-        camera.setToOrtho(false, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-        OrthographicCamera boardCamera = new OrthographicCamera();
-        boardCamera.setToOrtho(false, Gdx.graphics.getWidth(),
-                Gdx.graphics.getHeight());
-
-        boardRenderer.setView(boardCamera);
+        boardRenderer = new OrthogonalTiledMapRenderer(board,1);
+        camera.setToOrtho(false, Constants.WORLD_PIXEL_WIDTH, Constants.WORLD_PIXEL_HEIGHT);
+        boardRenderer.setView(camera);
 
         sprite = new Sprite(new Texture("assets/roborally/robot.png"));
         sprite.setSize(tileWidth, tileHeight);
 
-        sprite.setPosition(0, 0);
+        sprite.setPosition(gameBoard.get(19, 8).getX(), gameBoard.get(19, 8).getY());
 
         Gdx.input.setInputProcessor(this);
-
-        FitViewport viewPort = new FitViewport(mapWidthInPixels - 1, mapHeightInPixels - 1, camera);
-
     }
 
     @Override
@@ -111,8 +104,11 @@ public class RoboRallyGame implements Screen, InputProcessor {
     public void render(float v) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        camera.update();
+        boardRenderer.setView(camera);
         boardRenderer.render();
 
+        sb.setProjectionMatrix(camera.combined);
         sb.begin();
         sprite.draw(sb);
         sb.end();

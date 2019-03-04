@@ -14,11 +14,14 @@ public class ConveyorTest {
     @Test
     void robotMove() {
         Board board = new Board(10, 10);
-        Robot robot = new Robot(1, 1, Direction.EAST, new Player("tobias"), board);
+        Pos pos = new Pos(1, 1);
+        Player player1 = new Player("tobias");
+        Robot robot = new Robot(pos, Direction.EAST, player1, board);
+        player1.addRobot(robot);
         board.addTileObject(robot);
-        Conveyor belt = new Conveyor(Direction.EAST, 1, 1, 'a', board);
+        Conveyor belt = new Conveyor(Direction.EAST, pos,  'a', board);
         board.addTileObject(belt);
         belt.activate();
-        assertEquals(robot.getX(), 2);
+        assertEquals(robot.getPos().x(), 2);
     }
 }

@@ -14,27 +14,30 @@ public class CardTest {
     @Test
     void executeTest() {
         Board board = new Board(10, 10);
-        Robot robot = new Robot(1, 1, Direction.NORTH, new Player("tobias"), board);
+        Pos pos = new Pos(0, 2);
+        Player player1 = new Player("tobias");
+        Robot robot = new Robot(pos, Direction.EAST, player1, board);
+        player1.addRobot(robot);
         board.addTileObject(robot);
 
         Card card1 = new Card(CardType.MOVE_1_TILE, 100);
         card1.execute(robot);
-        assertEquals(robot.getX(), 1);
-        assertEquals(robot.getY(), 2);
+        assertEquals(robot.getPos().x(), 1);
+        assertEquals(robot.getPos().y(), 2);
 
         Card card2 = new Card(CardType.TURN_RIGHT, 100);
         card2.execute(robot);
-        assertEquals(robot.getX(), 1);
-        assertEquals(robot.getY(), 2);
+        assertEquals(robot.getPos().x(), 1);
+        assertEquals(robot.getPos().y(), 2);
 
         Card card3 = new Card(CardType.MOVE_2_TILE, 100);
         card3.execute(robot);
-        assertEquals(robot.getX(), 3);
-        assertEquals(robot.getY(), 2);
+        assertEquals(robot.getPos().x(), 1);
+        assertEquals(robot.getPos().y(), 0);
 
         Card card4 = new Card(CardType.MOVE_BACK, 100);
         card4.execute(robot);
-        assertEquals(robot.getX(), 2);
-        assertEquals(robot.getY(), 2);
+        assertEquals(robot.getPos().x(), 1);
+        assertEquals(robot.getPos().y(), 1);
     }
 }
