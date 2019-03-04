@@ -1,6 +1,6 @@
 package inf112.skeleton.app.base.actors;
 
-import inf112.skeleton.app.roborally.utils.Direction;
+import inf112.skeleton.app.base.utils.Direction;
 
 public interface IRobot {
 

@@ -59,7 +59,7 @@ public class BoardTest {
     @Test
     void readFromFile(){
         try {
-            Board board = new Board("assets/roborally/board1.txt");
+            Board board = new Board("assets/roborally/board1.txt", 96, 96);
             assert(board.containsPit(new Pos(0, 0)));
             assertEquals(board.getWidth(), 10);
             assertEquals(board.getHeight(), 10);

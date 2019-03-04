@@ -51,7 +51,7 @@ public class Board implements IBoard {
 
                 Tile tile = new Tile();
                 char symbol = line.charAt(x);
-                System.out.println("Added " + symbol + " at " + xPos + " " + yPos);
+                System.out.println("Added " + symbol + " at " + x + " " + y);
                 switch (symbol) {
                     case '-': break;
                     case 'r': tile.addObject(
