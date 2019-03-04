@@ -10,9 +10,8 @@ public class Player {
     private String name;
     private ArrayList<Card> cards;
 
-    public Player(String name, Robot robot) {
+    public Player(String name) {
         this.name = name;
-        this.robot = robot;
     }
     public void setCards(ArrayList<Card> cards) {
         this.cards = cards;
@@ -24,6 +23,10 @@ public class Player {
 
     public ArrayList<Card> getCards(ArrayList<Card> cards) {
         return cards;
+    }
+
+    public void addRobot(Robot robot) {
+        this.robot = robot;
     }
 
     public Card useFirstCard() {

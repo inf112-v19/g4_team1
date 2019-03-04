@@ -15,7 +15,9 @@ public class RobotTest {
     void robotMove() {
         Board board = new Board(10, 10);
         Pos pos = new Pos(1, 1);
-        Robot robot = new Robot(pos, Direction.EAST, new Player("tobias"), board);
+        Player player1 = new Player("tobias");
+        Robot robot = new Robot(pos, Direction.EAST, player1, board);
+        player1.addRobot(robot);
         board.addTileObject(robot);
 
         robot.moveForward(1);

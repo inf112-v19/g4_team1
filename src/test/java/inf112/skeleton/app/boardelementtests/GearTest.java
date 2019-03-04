@@ -15,7 +15,9 @@ public class GearTest {
     void gearTurn() {
         Board board = new Board(10, 10);
         Pos pos = new Pos(0, 0);
-        Robot robot = new Robot(pos, Direction.EAST, new Player("tobias"), board);
+        Player player1 = new Player("tobias");
+        Robot robot = new Robot(pos, Direction.EAST, player1, board);
+        player1.addRobot(robot);
         board.addTileObject(robot);
         Gear gear = new Gear(Direction.EAST,  new Pos(0, 0), 'a', board);
         board.addTileObject(gear);
