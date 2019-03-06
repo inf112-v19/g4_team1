@@ -16,10 +16,7 @@ public class Pusher extends BoardElement implements  IActiveElement{
         this.pushDir = dir;
         this.board = board;
 
-
-
     }
-
 
 
     public void activate() {
@@ -41,7 +38,7 @@ public class Pusher extends BoardElement implements  IActiveElement{
             }
             if (pushDir == Direction.SOUTH) {
                 robot.move(Direction.SOUTH);
-                
+
             }
 
         }

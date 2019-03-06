@@ -122,6 +122,7 @@ public class Robot extends TileObject implements IRobot {
         }
     }
 
+    public void gainHealth(){this.health++;}
 
     @Override
     public void moveBackwards() {
