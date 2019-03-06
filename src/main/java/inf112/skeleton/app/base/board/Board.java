@@ -5,6 +5,8 @@ import inf112.skeleton.app.base.actors.IRobot;
 import inf112.skeleton.app.base.board.boardElement.Conveyor;
 import inf112.skeleton.app.base.board.boardElement.Pit;
 import inf112.skeleton.app.base.board.boardElement.Wall;
+import inf112.skeleton.app.base.board.boardElement.WrenchTile;
+import inf112.skeleton.app.base.board.boardElement.Pusher;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
 
@@ -54,6 +56,11 @@ public class Board implements IBoard {
                     case 'r': tile.addObject(new Conveyor(Direction.EAST, new Pos(x, y), 'r', this));
                     case 'd': tile.addObject(new Conveyor(Direction.SOUTH, new Pos(x, y), 'r', this));
                     case 'p': tile.addObject(new Pit(new Pos(x, y), 'p', this));
+                    case 'w': tile.addObject(new WrenchTile(new Pos(x, y), 'w', this));
+                    case 's': tile.addObject(new Pusher(Direction.EAST, new Pos(x, y), 's', this));
+
+
+
 
                 }
                 board.add(tile);

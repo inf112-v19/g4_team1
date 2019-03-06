@@ -27,9 +27,7 @@ public class PusherTest {
         assertEquals(robot.getPos(), pusher.getPos());
         Pos newPos = new Pos(0,1);
 
-
         pusher.activate();
-
 
         //should be positon after pushing EAST.
         assertEquals(robot.getPos(),newPos);

@@ -1,0 +1,28 @@
+package inf112.skeleton.app.boardelementtests;
+
+import inf112.skeleton.app.base.actors.Player;
+import inf112.skeleton.app.base.actors.Robot;
+import inf112.skeleton.app.base.board.Board;
+import inf112.skeleton.app.base.board.Tile;
+import inf112.skeleton.app.base.board.boardElement.WrenchTile;
+import inf112.skeleton.app.base.utils.Direction;
+import inf112.skeleton.app.base.utils.Pos;
+import org.junit.jupiter.api.Test;
+
+public class WrenchTileTest {
+    private WrenchTile wrenchTile;
+
+    @Test
+    void WrenchTileTurn() {
+        Board board = new Board(10, 10);
+        Pos pos = new Pos(0,0);
+        Tile tile = new Tile();
+        board.addTileObject(wrenchTile);
+        Robot robot = new Robot(pos, Direction.EAST,new Player("player"),board);
+        board.addTileObject(robot);
+
+
+
+    }
+}
+
