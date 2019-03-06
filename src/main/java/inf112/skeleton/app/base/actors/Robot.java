@@ -9,14 +9,14 @@ public class Robot extends TileObject implements IRobot {
     private Direction dir;
     private Player owner;
     private IBoard board;
-    private int health;
+    private static final int health = 10;
 
     public Robot(Pos pos, Direction dir, Player owner, IBoard board) {
         this.dir = dir;
         this.owner = owner;
         this.board = board;
         this.pos = pos;
-        this.health = 10;
+        //this.health = 10;
     }
 
     public Direction getDir() {
