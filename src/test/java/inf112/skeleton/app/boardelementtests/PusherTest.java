@@ -14,17 +14,26 @@ public class PusherTest {
     void pushTurn() {
         Board board = new Board(10, 10);
         Pos pos = new Pos(0,0);
-        Tile tile = new Tile();
-        Pusher pusher = new Pusher(Direction.NORTH,new Pos(0,0),'a', board);
-        Robot robot = new Robot(pos,Direction.EAST,new Player("player"),board);
-        if(tile.contains(robot)){
-            pusher.activate();
-        }
-        //if(tile.contains(robot)){fail();}
 
-        Pos pos1 = new Pos(0,1);
-        if(robot.getPos().equals(pos)){fail();}
-        if(!robot.getPos().equals(pos1)){fail();}
+
+        Tile tile = new Tile();
+        Pusher pusher = new Pusher(Direction.NORTH,pos,'a', board);
+        board.addTileObject(pusher);
+
+
+        Robot robot = new Robot(pos,Direction.EAST,new Player("player"),board);
+        board.addTileObject(robot);
+
+        assertEquals(robot.getPos(), pusher.getPos());
+        Pos newPos = new Pos(0,1);
+
+
+        pusher.activate();
+
+
+        //should be positon after pushing EAST.
+        assertEquals(robot.getPos(),newPos);
+
     }
 
 }

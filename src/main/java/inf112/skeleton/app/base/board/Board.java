@@ -112,6 +112,7 @@ public class Board implements IBoard {
         return false;
     }
 
+
     public IRobot getRobot(Pos pos){
         List<ITileObject> tileObjects =  board.get(indexFromCor(pos)).getContent();
         for (ITileObject tileObject : tileObjects) {
