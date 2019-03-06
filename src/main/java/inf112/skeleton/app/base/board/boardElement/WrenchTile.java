@@ -16,16 +16,19 @@ public class WrenchTile extends BoardElement implements  IActiveElement {
         this.pos = pos;
 
     }
+
     //oppdaterer respawn i robot
-    public void setRespawn(){
+    public void setRespawn() {
 
     }
 
     @Override
     public void activate() {
-        if(board.containsRobot(pos)){
+        if (board.containsRobot(pos)) {
             Robot robot = (Robot) board.getRobot(pos);
-            robot.gainHealth();
+            if (robot.getHealth() < 10) {
+                robot.gainHealth();
+            }
         }
     }
 }

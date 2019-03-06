@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class WrenchTileTest {
-    private WrenchTile wrenchTile;
 
     @Test
     void WrenchTileTurn() {
@@ -21,14 +20,14 @@ public class WrenchTileTest {
         Tile tile = new Tile();
         WrenchTile wrench = new WrenchTile(pos,'w',board);
 
-        board.addTileObject(wrenchTile);
+        board.addTileObject(wrench);
         Robot robot = new Robot(pos, Direction.EAST,new Player("player"),board);
         board.addTileObject(robot);
 
         assertEquals(robot.getPos(), wrench.getPos());
-        wrenchTile.activate();
+        wrench.activate();
 
-        //assertEquals();
+
 
 
 
