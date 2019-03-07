@@ -1,11 +1,12 @@
 package inf112.skeleton.app.base.actors;
 
-import inf112.skeleton.app.base.board.Board;
 import inf112.skeleton.app.base.board.IBoard;
+import inf112.skeleton.app.base.board.boardElement.Flag;
 import inf112.skeleton.app.base.board.boardElement.WrenchTile;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
 
+import java.util.ArrayList;
 
 public class Robot extends TileObject implements IRobot {
     private Pos pos;
@@ -16,6 +17,7 @@ public class Robot extends TileObject implements IRobot {
     private int health;
     private int lives;
     private Pos respawnPos;
+    private ArrayList<Flag> visitedFlags = new ArrayList<Flag>();
 
     public Robot(Pos pos, Direction dir, Player owner, IBoard board) {
         this.dir = dir;
@@ -88,10 +90,16 @@ public class Robot extends TileObject implements IRobot {
         Direction walldir = board.getWallDir(wallPos);
         if (wallPos.equals(pos)){
             //the wall is on the same tile. blocks if direction of wall is same as the movement
-            return moveDirection == walldir;
+            if(moveDirection == walldir){
+                return true;
+            }
+            return false;
         }else{
             //the wall is on the next tile. blocks movement if the directions are opposite
-            return moveDirection.opposite() == walldir;
+            if (moveDirection.opposite() == walldir){
+                return true;
+            }
+            return false;
         }
     }
 
@@ -160,10 +168,15 @@ public class Robot extends TileObject implements IRobot {
     public int getHealth(){
         return this.health;
     }
-
+    
     public void respawned(){
         respawnPos = getPos();
 
     }
-
+    //TODO list over amount of flag robot contains
+    public void addFlag(Flag flag){
+        if(!visitedFlags.contains(flag)){
+            visitedFlags.add(flag);
+        }
+    }
 }
