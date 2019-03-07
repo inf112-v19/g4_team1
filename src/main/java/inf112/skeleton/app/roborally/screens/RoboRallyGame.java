@@ -43,9 +43,9 @@ public class RoboRallyGame implements Screen, InputProcessor {
     private Stage stage;
     private Skin uiSkin;
     FitViewport viewPort;
-    Player player = new Player("test");
+   //TODO? Player player = new Player("test");
     Card[] cards= new Card[9];
-    Sprite[] cardSprite= new Sprite[3];
+    Sprite[] cardSprite= new Sprite[9];
 
 
     public RoboRallyGame(RoboRally roboRally) {
@@ -100,17 +100,27 @@ public class RoboRallyGame implements Screen, InputProcessor {
         setupCard();
     }
 
+
+    //Her e metoden som setter opp kortene med sprites, spritesene e midlertidige for øyeblikket men, nå kver type kort får
+    //sin egen sprite kan me sette den te å ta fra kort istedenfor.
+    //Denne er kun for de 9 første kortene
     private void setupCard() {
 
         int x=13;
         int y=11;
-        for (int i = 0; i < cardSprite.length; i++) {
-            //Card temp= new Card( cards[i].getType(),i);
+        for (int i = 0; i <= cardSprite.length-1; i++) {
+            //TODO   //Card temp= new Card( cards[i].getType(),i);
             cardSprite[i] = new Sprite(new Texture("assets/roborally/cards/option - 5.jpg"));
             cardSprite[i].setSize(tileWidth*2,tileHeight*2);
             cardSprite[i].setPosition(96*x,96*y);
             y=y-2;
-            cardSprite[i].
+            if (y==3) {
+                y = 11;
+                x = 15;
+            }
+            if (i==cardSprite.length-1){
+                cardSprite[i].setPosition(96*14,96*3);
+            }
         }
     }
 
@@ -134,7 +144,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
 
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
-        for (int i = 0; i <cardSprite.length ; i++) {
+        for (int i = 0; i <=cardSprite.length-1 ; i++) {
             cardSprite[i].draw(sb);
         }
         sprite.draw(sb);
