@@ -1,8 +1,8 @@
-## Mandatory Assignment 3 (g4.team1)
+# Mandatory Assignment 3 (g4.team1)
 
-### Part 1
+## Part 1
 
-##### How do the roles of the team work? Do you need to update who is team lead or customer contact? Do you need other roles? Write down some points about what the different roles actually mean to you
+#### How do the roles of the team work? Do you need to update who is team lead or customer contact? Do you need other roles? Write down some points about what the different roles actually mean to you
 The roles in the team work nice, even though we haven’t started 
 implementing the more advanced rules in the game so the customer contact 
 role has not been very relevant.
@@ -21,7 +21,7 @@ the rules of the game, and supporting the rest of the team.
 bugs, discusses design choices.
 
 
-##### Are there any experiences either team-wise or regarding project methodology that is worth mentioning? Does the team think the choices you've made are good? If not, what can you do differently to improve the way the team works? 
+#### Are there any experiences either team-wise or regarding project methodology that is worth mentioning? Does the team think the choices you've made are good? If not, what can you do differently to improve the way the team works? 
 We are using pair programming, scrum sprints and kanban. It works for 
 the most part, but sometimes the progress during the sprint can be not 
 very significant.
@@ -32,19 +32,19 @@ We also need to be more consistent on adding TODO’s in the code, and
 update the TODO kanban board.
 
 
-##### How are the group dynamics?
+#### How are the group dynamics?
 The group works pretty well for the most part. Everyone tries to do 
 their best, depending on their current skills. It’s also worth 
 mentioning that we haven’t missed any planned meeting.
 
 
-##### Specify the knowledge shared within the team, and how the transfer of said knowledge is done between team members
+#### Specify the knowledge shared within the team, and how the transfer of said knowledge is done between team members
 The knowledge is mainly shared during labs and during sprints via 
 face-to-face communication, and also via messages on slack and facebook. 
 Everyone tries to help if someone encounters a problem with specific task.
 
 
-##### How does communication work for you?
+#### How does communication work for you?
 Our group is good at communicating face to face in the meetings we have 
 through the week. We have a lot of discussions of how we are thinking 
 on how we should solve the tasks and problems. 
@@ -54,7 +54,8 @@ should also use it more frequently both when one has problems with the
 code and not just for listing completed tasks and which tasks are in 
 progress.
 
-##### Make a brief retrospective in which you consider what you have done so far and what can be improved
+
+#### Make a brief retrospective in which you consider what you have done so far and what can be improved
 Since the last mandatory we’ve added several game elements such as 
 cards, board with tiles, and others, and we are planning to add game 
 round mechanics and actual cards into the game.
@@ -68,7 +69,7 @@ as well.
 In general we can say that the progress is pretty stable.
 
 
-##### From the retrospective agree and write down three things (max), that the team will follow up during the next sprint
+#### From the retrospective agree and write down three things (max), that the team will follow up during the next sprint
 
 - Be more detailed and provide instructions in the cards that we make on 
 our Kanban board in order to make it easy for other group members to 
@@ -78,10 +79,11 @@ since last time and ten minutes at the end discussing what we want to
 achieve till next meeting.
 - Use slack more for discussion code and problems.
 
-### Part 2
+
+## Part 2
 
 
-##### Clarification of the customer's requirements. What are the actual tasks?
+#### Clarification of the customer's requirements. What are the actual tasks?
 Here’s the list of current requirements and priorities:
 
 * Can get all the types of cards that move the robot 
@@ -105,16 +107,20 @@ Here’s the list of current requirements and priorities:
 * Get new cards to choose from each round
 (CardDecks class generates cards)
 
-##### How do the team prioritize these tasks? 
+
+#### How do the team prioritize these tasks? 
 We focused on finishing the board and its elements (like robot and wrench), and then focus on the game cards as well. We also prioritize the implementation of the game round and phase mechanics, so that we can emulate the basic flow of the game.
 
-##### If changes are made in order from what is given by the customer, why is this done? 
+
+#### If changes are made in order from what is given by the customer, why is this done? 
 We didn’t change the priority of the tasks since we haven’t contacted the customer yet. We have only adjusted the priority of some tasks based on the list of requirements that was posted at mitt uib. Right now we are making sure that all the functions we are implementing are working correctly.
 
-##### How will you verify that the requirements are met? (What are the acceptance criteria?) 
+
+#### How will you verify that the requirements are met? (What are the acceptance criteria?) 
 First of all, all the tests should pass. Then we manually check if the feature works correctly in different situations and that there are no conflicts with other features. The feedback from the customer can also be used to verify if the requirement is met, but we haven’t contacted the customer yet.
 
-##### Update what your priorities are, how far you have come and what you have done since last time
+
+#### Update what your priorities are, how far you have come and what you have done since last time
 Our main priorities now are to implement the game round and game phase functionality, render the cards on the screen at the correct coordinates, and implement fully working game round.
 Since the last report we have migrated from Gradle to Maven, implemented the rendering of the board and the robot on the screen, started on game round and phase functionality, started on rendering the cards on the screen. We also changed the positioning system from (x, y) coordinates to using the “pos” object. We have also added several tests for cards, wrench and pusher objects, and some others. We added the maven test automation to the project too, and the test coverage is 91% of base game logic classes.
 
