@@ -109,6 +109,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
         cards.add(forward);
         cards.add(right);
         player.setCards(cards);
+
         Pos pos = new Pos(5,5);
         Robot robot = new Robot(pos, Direction.EAST, player, gameBoard);
         player.addRobot(robot);
@@ -119,7 +120,6 @@ public class RoboRallyGame implements Screen, InputProcessor {
 
         sprite = new Sprite(new Texture("assets/roborally/robot.png"));
         sprite.setSize(tileWidth, tileHeight);
-
         sprite.setPosition(player.getRobot().getPos().x() * tileWidth, player.getRobot().getPos().y()* tileWidth);
 
         Gdx.input.setInputProcessor(this);
@@ -129,10 +129,11 @@ public class RoboRallyGame implements Screen, InputProcessor {
     }
 
 
-    //Her e metoden som setter opp kortene med sprites, spritesene e midlertidige for øyeblikket men, nå kver type kort får
-    //sin egen sprite kan me sette den te å ta fra kort istedenfor.
-    //Denne er kun for de 9 første kortene
+
     private void setupCard() {
+        //Her e metoden som setter opp kortene med sprites, spritesene e midlertidige for øyeblikket, men når kver type kort får
+        //sin egen sprite kan me sette den te å ta fra kort istedenfor.
+        //Denne er kun for de 9 første kortene
 
         int x=13;
         int y=11;

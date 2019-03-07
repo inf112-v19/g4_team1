@@ -2,7 +2,6 @@ package inf112.skeleton.app.base.board.boardElement;
 
 import inf112.skeleton.app.base.actors.Robot;
 import inf112.skeleton.app.base.board.Board;
-import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
 
 public class WrenchTile extends BoardElement implements  IActiveElement {
@@ -21,7 +20,7 @@ public class WrenchTile extends BoardElement implements  IActiveElement {
     public void setRespawn(){
         if (board.containsRobot(pos)) {
             Robot robot = (Robot) board.getRobot(pos);
-            robot.respawned();
+            robot.setRespawn();
         }
 
     }

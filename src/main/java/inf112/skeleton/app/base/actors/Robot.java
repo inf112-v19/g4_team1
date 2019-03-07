@@ -169,7 +169,7 @@ public class Robot extends TileObject implements IRobot {
         return this.health;
     }
     
-    public void respawned(){
+    public void setRespawn(){
         respawnPos = getPos();
 
     }

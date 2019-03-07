@@ -66,7 +66,7 @@ public interface IRobot {
     /**
      * update the respawn position of the robot. the new respawn position is set as the robots current position
      */
-    void respawned();
+    void setRespawn();
 
 
 }
