@@ -51,6 +51,22 @@ public interface IRobot {
      */
     void damage();
 
+    /**
+     * get the direction the robot is facing
+     * @return robot's direction
+     */
+    Direction getDir();
+
+    /**
+     * get the health of the robot
+     * @return int (normally between 0 and 10)
+     */
+    int getHealth();
+
+    /**
+     * update the respawn position of the robot. the new respawn position is set as the robots current position
+     */
+    void respawned();
 
 
 }

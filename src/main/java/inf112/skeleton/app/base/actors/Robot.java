@@ -12,7 +12,9 @@ public class Robot extends TileObject implements IRobot {
     private Direction dir;
     private Player owner;
     private IBoard board;
-    private int health = 10;
+    private static final int MAX_HEALTH = 10;
+    private int health;
+    private int lives;
     private Pos respawnPos;
 
     public Robot(Pos pos, Direction dir, Player owner, IBoard board) {
@@ -21,6 +23,8 @@ public class Robot extends TileObject implements IRobot {
         this.board = board;
         this.pos = pos;
         this.respawnPos = pos;
+        this.health=MAX_HEALTH;
+        lives = 3;
 
     }
 
@@ -36,9 +40,10 @@ public class Robot extends TileObject implements IRobot {
         System.out.println("newPos " +newPos);
 
         if (board.outOfBounds(newPos) || (board.containsPit(newPos))) {
-            //TODO:
+
             //robot is moving outside board/to pit
-            throw new UnsupportedOperationException("not implemented");
+            respawn();
+            return true;
         } else {
 
             if(board.containsRobot(newPos)){
@@ -79,22 +84,30 @@ public class Robot extends TileObject implements IRobot {
         Direction walldir = board.getWallDir(wallPos);
         if (wallPos.equals(pos)){
             //the wall is on the same tile. blocks if direction of wall is same as the movement
-            if(moveDirection == walldir){
-                return true;
-            }
-            return false;
+            return moveDirection == walldir;
         }else{
             //the wall is on the next tile. blocks movement if the directions are opposite
-            if (moveDirection.opposite() == walldir){
-                return true;
-            }
-            return false;
+            return moveDirection.opposite() == walldir;
         }
     }
 
     @Override
     public void damage() {
         this.health--;
+        if(health<=0){
+            respawn();
+        }
+    }
+    public void respawn(){
+        lives--;
+        if(lives==0){
+            //TODO:
+            //robot is totally dead
+
+        }
+        pos=respawnPos;
+        health=MAX_HEALTH;
+
     }
 
     @Override
@@ -140,10 +153,6 @@ public class Robot extends TileObject implements IRobot {
         move(dir);
     }
 
-    @Override
-    public Pos getPos() {
-        return pos;
-    }
     public int getHealth(){
         return this.health;
     }
