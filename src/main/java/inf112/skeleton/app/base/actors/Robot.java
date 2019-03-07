@@ -11,12 +11,14 @@ public class Robot extends TileObject implements IRobot {
     private Player owner;
     private IBoard board;
     private static int health = 10;
+    private Pos respawnPos;
 
     public Robot(Pos pos, Direction dir, Player owner, IBoard board) {
         this.dir = dir;
         this.owner = owner;
         this.board = board;
         this.pos = pos;
+        this.respawnPos = pos;
 
     }
 
@@ -143,9 +145,9 @@ public class Robot extends TileObject implements IRobot {
     public int getHealth(){
         return this.health;
     }
+    
     public void respawned(){
-        pos = this.pos;
-        
+        respawnPos = getPos();
 
     }
 
