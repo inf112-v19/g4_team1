@@ -4,11 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import inf112.skeleton.app.base.actors.IRobot;
 import inf112.skeleton.app.base.actors.Player;
 import inf112.skeleton.app.base.actors.Robot;
-import inf112.skeleton.app.base.board.boardElement.Conveyor;
-import inf112.skeleton.app.base.board.boardElement.Pit;
-import inf112.skeleton.app.base.board.boardElement.Wall;
-import inf112.skeleton.app.base.board.boardElement.WrenchTile;
-import inf112.skeleton.app.base.board.boardElement.Pusher;
+import inf112.skeleton.app.base.board.boardElement.*;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
 
@@ -177,7 +173,42 @@ public class Board implements IBoard {
         return pos.x() + (getWidth() * pos.y());
     }
 
+    public ArrayList<IActiveElement> getActiveElements(){
+        ArrayList<IActiveElement> elems = new ArrayList<>();
+        for(ITile tile : board){
+            for(ITileObject obj : tile.getContent()){
+                if(obj instanceof IActiveElement){
+                    elems.add((IActiveElement) obj);
+                }
+            }
+        }
+        return elems;
+    }
+    public ArrayList<Flag> getFlags(){
+        ArrayList<Flag> elems = new ArrayList<>();
+        for(ITile tile : board){
+            for(ITileObject obj : tile.getContent()){
+                if(obj instanceof Flag){
+                    elems.add((Flag) obj);
+                }
+            }
+        }
+        return elems;
+    }
+
     public void draw(SpriteBatch batch) {
 
+    }
+
+    public ArrayList<WrenchTile> getWrenches() {
+        ArrayList<WrenchTile> elems = new ArrayList<>();
+        for(ITile tile : board){
+            for(ITileObject obj : tile.getContent()){
+                if(obj instanceof WrenchTile){
+                    elems.add((WrenchTile) obj);
+                }
+            }
+        }
+        return elems;
     }
 }

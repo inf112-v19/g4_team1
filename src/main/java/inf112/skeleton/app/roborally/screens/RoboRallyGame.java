@@ -27,6 +27,7 @@ import inf112.skeleton.app.base.actors.Player;
 import inf112.skeleton.app.base.board.boardElement.Flag;
 import inf112.skeleton.app.base.board.boardElement.IActiveElement;
 import inf112.skeleton.app.base.board.boardElement.Laser;
+import inf112.skeleton.app.base.board.boardElement.WrenchTile;
 import inf112.skeleton.app.base.cards.Card;
 import inf112.skeleton.app.base.cards.CardDecks;
 import inf112.skeleton.app.base.cards.CardType;
@@ -134,15 +135,16 @@ public class RoboRallyGame implements Screen, InputProcessor {
     }
 
     private void startGame(){
-        int NPLAYERS = 2;
+        int NPLAYERS = 1;
         CardDecks cardDecks = new CardDecks();
         ArrayList<IActiveElement> ActiveElements = gameBoard.getActiveElements();
         ArrayList<Flag> flags = gameBoard.getFlags();
+        ArrayList<WrenchTile> wrenches = gameBoard.getWrenches();
 
-        ArrayList<Player> players = new ArrayList<Player>();
+        ArrayList<Player> players = new ArrayList<>();
         for (int i = 0; i < NPLAYERS; i++) {
-            Robot robot = new Robot(board.getSpawn, Direction.NORTH, gameBoard);
             Player player = new Player("test");
+            Robot robot = new Robot(new Pos(5, 5), Direction.NORTH, player, gameBoard);
             player.addRobot(robot);
             players.add(player);
 
@@ -191,10 +193,10 @@ public class RoboRallyGame implements Screen, InputProcessor {
             for (Player player : players){
                 Pos robotpos = player.getRobot().getPos();
                 for (int i = 0; i < flags.size(); i++) {
-                    flags.get(i).activate();
+                    flags.get(i).setRespawn();
                 }
                 for (int i = 0; i < wrenches.size(); i++) {
-                    wrenches.get(i).respawned();
+                    wrenches.get(i).setRespawn();
                 }
             }
             //check for win condition
@@ -207,6 +209,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
     }
 
     private void win(Player player) {
+        //TODO:
         //a player wins
     }
 

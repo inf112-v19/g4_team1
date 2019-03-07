@@ -25,7 +25,7 @@ public class Player {
         cards.clear();
     }
 
-    public ArrayList<Card> getCards(ArrayList<Card> cards) {
+    public ArrayList<Card> getCards() {
         return cards;
     }
 
