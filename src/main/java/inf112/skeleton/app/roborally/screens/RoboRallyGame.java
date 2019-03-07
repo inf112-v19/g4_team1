@@ -31,7 +31,6 @@ import inf112.skeleton.app.roborally.board.Board;
 public class RoboRallyGame implements Screen, InputProcessor {
 
     private RoboRally roboRally;
-    private Texture img;
     private TiledMap board;
     private OrthographicCamera camera;
     private TiledMapRenderer boardRenderer;
@@ -53,10 +52,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
 
         camera = new OrthographicCamera();
         viewPort = new FitViewport(Constants.WORLD_WIDTH,Constants.WORLD_HEIGHT,camera);
-       // viewPort= new FitViewport(3000,2000,camera);
         camera.position.set(viewPort.getWorldWidth()/2,viewPort.getWorldHeight()/2,0);
-         //camera.setToOrtho(false, 639, 639);
-        //camera.setToOrtho(false, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 
         sb = new SpriteBatch();
 
@@ -73,17 +69,6 @@ public class RoboRallyGame implements Screen, InputProcessor {
         gameBoard = new Board(mapHeightInTiles, mapWidthInPixels, tileWidth, tileHeight);
         tiles = new Array<>();
 
-//        for (int i = 0; i < gameBoard.getWidth(); i++) {
-//            for (int j = 0; j < gameBoard.getHeight(); j++) {
-//                Rectangle tile = new Rectangle();
-//                tile.x = gameBoard.get(i, j).getX();
-//                tile.y = gameBoard.get(i, j).getY();
-//                tile.width = tileWidth;
-//                tile.height = tileHeight;
-//                tiles.add(tile);
-//            }
-//        }
-
         boardRenderer = new OrthogonalTiledMapRenderer(board,1);
         camera.setToOrtho(false, Constants.WORLD_PIXEL_WIDTH, Constants.WORLD_PIXEL_HEIGHT);
         boardRenderer.setView(camera);
@@ -91,7 +76,6 @@ public class RoboRallyGame implements Screen, InputProcessor {
         sprite = new Sprite(new Texture("assets/roborally/robot.png"));
         sprite.setSize(tileWidth, tileHeight);
 
-       // sprite.setPosition(gameBoard.get(19, 8).getX(), gameBoard.get(19, 8).getY());
         sprite.setPosition(96*11,96*11);
 
         Gdx.input.setInputProcessor(this);
@@ -132,12 +116,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
     @Override
     public void render(float v) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-//
-//        boardRenderer.render();
-//
-//        sb.begin();
-//        sprite.draw(sb);
-//        sb.end();
+
         camera.update();
         boardRenderer.setView(camera);
         boardRenderer.render();
