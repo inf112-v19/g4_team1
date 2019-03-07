@@ -2,15 +2,18 @@ package inf112.skeleton.app;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import inf112.skeleton.app.roborally.RoboRally;
+import inf112.skeleton.app.roborally.screens.RoboRallyGame;
 
 public class Main {
     public static void main(String[] args) {
-        LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-        cfg.title = "hello-world";
-        cfg.width = 480;
-        cfg.height = 320;
+        LwjglApplicationConfiguration roboRallyCfg = new LwjglApplicationConfiguration();
 
-        new LwjglApplication(new HelloWorld(), cfg);
-        //new LwjglApplication(new ImageTest());
+        roboRallyCfg.title = "Robo Rally v0.002";
+        roboRallyCfg.width = 1920;
+        roboRallyCfg.height = 1080;
+        //roboRallyCfg.fullscreen = true;
+
+        new LwjglApplication(new RoboRally(), roboRallyCfg);
     }
 }
