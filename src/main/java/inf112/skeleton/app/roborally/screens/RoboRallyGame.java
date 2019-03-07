@@ -79,7 +79,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
 //        }
 
         boardRenderer = new OrthogonalTiledMapRenderer(board,1);
-        camera.setToOrtho(false,Constants.WORLD_PIXEL_WIDTH,Constants.WORLD_PIXEL_HEIGHT);
+        camera.setToOrtho(false, Constants.WORLD_PIXEL_WIDTH, Constants.WORLD_PIXEL_HEIGHT);
         boardRenderer.setView(camera);
 
         sprite = new Sprite(new Texture("assets/roborally/robot.png"));
@@ -89,11 +89,6 @@ public class RoboRallyGame implements Screen, InputProcessor {
         sprite.setPosition(96*11,96*11);
 
         Gdx.input.setInputProcessor(this);
-
-
-
-
-
     }
 
     @Override
@@ -103,7 +98,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
 
     @Override
     public void render(float v) {
-//        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 //
 //        boardRenderer.render();
 //
@@ -155,11 +150,17 @@ public class RoboRallyGame implements Screen, InputProcessor {
             if (sprite.getX()<(96*12)-1){
                 sprite.translate(tileWidth, 0);}
         if (key== Input.Keys.UP)
+<<<<<<< HEAD
             if (sprite.getY()<(96*12)-1){
             sprite.translate(0, tileWidth);}
         if (key== Input.Keys.DOWN)
             if (sprite.getY()>2){
             sprite.translate(0, -tileWidth);}
+=======
+            sprite.translate(0, tileHeight);
+        if (key== Input.Keys.DOWN)
+            sprite.translate(0, -tileHeight);
+>>>>>>> 6f95bf5965cdbbad753fe08d850a678e5928558f
         return false;
     }
 

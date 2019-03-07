@@ -1,10 +1,14 @@
 package inf112.skeleton.app;
 
-import inf112.skeleton.app.actors.*;
-import inf112.skeleton.app.board.*;
-import inf112.skeleton.app.utils.*;
+import inf112.skeleton.app.base.actors.*;
+import inf112.skeleton.app.base.board.Board;
+import inf112.skeleton.app.base.board.Tile;
+import inf112.skeleton.app.base.utils.*;
 
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BoardTest {
@@ -13,9 +17,9 @@ public class BoardTest {
     void putGetTest() {
         Board board = new Board(10, 10);
         Tile test = new Tile();
-
-        board.setTile(0, 0, test);
-        assertEquals(test, board.get(0, 0));
+        Pos pos =new Pos(0, 0);
+        board.setTile(pos,  test);
+        assertEquals(test, board.get(pos));
     }
 
     @Test
@@ -31,20 +35,34 @@ public class BoardTest {
     void boardObjectTest() {
         Board board = new Board(5, 5);
         Tile tile = new Tile();
-        board.setTile(0, 0, tile);
-        Robot robot = new Robot(0, 0, Direction.EAST, new Player("test"), board);
+        Pos pos =new Pos(0, 0);
 
-        board.get(0, 0).addObject(robot);
-        assertEquals(board.getRobot(0, 0), robot);
+        board.setTile(pos, tile);
+        Robot robot = new Robot(pos, Direction.EAST, new Player("test"), board);
+
+        board.get(pos).addObject(robot);
+        assertEquals(board.getRobot(pos), robot);
     }
 
     @Test
     void validPosTest() {
         Board board = new Board(10, 10);
 
-        assertTrue(board.isValidPos(0, 0));
-        assertTrue(board.isValidPos(9, 9));
-        assertFalse(board.isValidPos(1, 10));
-        assertFalse(board.isValidPos(10, 0));
+        assertFalse(board.outOfBounds(new Pos(0, 0)));
+        assertFalse(board.outOfBounds(new Pos(9, 9)));
+        assertTrue(board.outOfBounds(new Pos(0, -1)));
+        assertTrue(board.outOfBounds(new Pos(10, 5)));
+    }
+    @Test
+    void readFromFile(){
+        try {
+            Board board = new Board("assets/board1.txt");
+            assert(board.containsPit(new Pos(0, 0)));
+            assertEquals(board.getWidth(), 10);
+            assertEquals(board.getHeight(), 10);
+            assert(board.outOfBounds(new Pos(10, 10)));
+        } catch (IOException e) {
+            fail();
+        }
     }
 }

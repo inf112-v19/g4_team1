@@ -1,24 +1,13 @@
-package inf112.skeleton.app.roborally.board;
-
-import inf112.skeleton.app.base.actors.ITileObject;
+package inf112.skeleton.app.base.board;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Tile implements ITile {
     private List<ITileObject> content;
-    private int x, y;
 
     public Tile() {
         content = new ArrayList<ITileObject>();
-        x = -1;
-        y = -1;
-    }
-
-    public Tile(int x, int y) {
-        content = new ArrayList<ITileObject>();
-        this.x = x;
-        this.y = y;
     }
 
     @Override
@@ -42,13 +31,4 @@ public class Tile implements ITile {
             content.remove(object);
     }
 
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
 }
