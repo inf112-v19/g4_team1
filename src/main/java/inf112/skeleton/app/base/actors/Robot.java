@@ -123,7 +123,7 @@ public class Robot extends TileObject implements IRobot {
     }
 
     public void gainHealth(){
-        if(health < 10) this.health++;}
+        this.health++;}
 
     @Override
     public void moveBackwards() {

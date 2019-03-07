@@ -27,7 +27,7 @@ public class WrenchTileTest {
         assertEquals(robot.getPos(), wrench.getPos());
         wrench.activate();
 
-
+        assertEquals(robot.getHealth(),10);
 
 
 
