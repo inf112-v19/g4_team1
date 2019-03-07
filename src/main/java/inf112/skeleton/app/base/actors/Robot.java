@@ -155,7 +155,7 @@ public class Robot extends TileObject implements IRobot {
     //TODO list over amount of flag robot contains
     public void antFlag(){
         ArrayList a = new ArrayList<>();
-        
+
     }
 
 }
