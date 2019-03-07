@@ -1,4 +1,4 @@
-package inf112.skeleton.app.base.utils;
+package inf112.skeleton.app.roborally.utils;
 
 public enum Direction {
     NORTH,

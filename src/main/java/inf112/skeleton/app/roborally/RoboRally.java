@@ -7,7 +7,6 @@ import inf112.skeleton.app.roborally.screens.RoboRallyGame;
 import inf112.skeleton.app.roborally.screens.RoboRallyMainMenu;
 
 public class RoboRally extends Game {
-
     public SpriteBatch batch;
     public BitmapFont font;
 
@@ -27,6 +26,4 @@ public class RoboRally extends Game {
         batch.dispose();
         font.dispose();
     }
-
-
 }
