@@ -17,8 +17,7 @@ public class CardDecks {
         fresh.addAll(cardGenerator(CardType.MOVE_2_TILE, 670, 10, 780));
         fresh.addAll(cardGenerator(CardType.MOVE_3_TILE, 790, 10, 840));
         fresh.addAll(cardGenerator(CardType.MOVE_BACK, 430, 10, 480));
-        System.out.println(fresh);
-        System.out.println(fresh.size());
+        Collections.shuffle(fresh);
     }
 
     private ArrayList<Card> cardGenerator(CardType type, int pstart, int pdiff, int pend) {
