@@ -85,7 +85,8 @@ public class RoboRallyGame implements Screen, InputProcessor {
         sprite = new Sprite(new Texture("assets/roborally/robot.png"));
         sprite.setSize(tileWidth, tileHeight);
 
-        sprite.setPosition(gameBoard.get(19, 8).getX(), gameBoard.get(19, 8).getY());
+       // sprite.setPosition(gameBoard.get(19, 8).getX(), gameBoard.get(19, 8).getY());
+        sprite.setPosition(96*11,96*11);
 
         Gdx.input.setInputProcessor(this);
 
@@ -148,13 +149,17 @@ public class RoboRallyGame implements Screen, InputProcessor {
     @Override
     public boolean keyDown(int key) {
         if (key== Input.Keys.LEFT)
-            sprite.translate(-tileWidth, 0);
+           if (sprite.getX()>2){
+            sprite.translate(-tileWidth, 0);}
         if (key== Input.Keys.RIGHT)
-            sprite.translate(tileWidth, 0);
+            if (sprite.getX()<(96*12)-1){
+                sprite.translate(tileWidth, 0);}
         if (key== Input.Keys.UP)
-            sprite.translate(0, tileWidth);
+            if (sprite.getY()<(96*12)-1){
+            sprite.translate(0, tileWidth);}
         if (key== Input.Keys.DOWN)
-            sprite.translate(0, -tileWidth);
+            if (sprite.getY()>2){
+            sprite.translate(0, -tileWidth);}
         return false;
     }
 
