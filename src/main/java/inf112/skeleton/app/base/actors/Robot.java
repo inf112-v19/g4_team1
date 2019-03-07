@@ -28,6 +28,10 @@ public class Robot extends TileObject implements IRobot {
 
     }
 
+    public Pos getPos() {
+        return pos;
+    }
+
     public Direction getDir() {
         return dir;
     }
