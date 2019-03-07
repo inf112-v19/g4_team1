@@ -24,6 +24,5 @@ public class Flag extends BoardElement{
         }
 
     }
-    
 
 }

@@ -5,6 +5,8 @@ import inf112.skeleton.app.base.board.boardElement.WrenchTile;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
 
+import java.util.ArrayList;
+
 public class Robot extends TileObject implements IRobot {
     private Pos pos;
     private Direction dir;
@@ -149,6 +151,11 @@ public class Robot extends TileObject implements IRobot {
     public void respawned(){
         respawnPos = getPos();
 
+    }
+    //TODO list over amount of flag robot contains
+    public void antFlag(){
+        ArrayList a = new ArrayList<>();
+        
     }
 
 }
