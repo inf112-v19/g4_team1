@@ -4,7 +4,7 @@ import inf112.skeleton.app.base.actors.Player;
 import inf112.skeleton.app.base.actors.Robot;
 import inf112.skeleton.app.base.board.Board;
 import inf112.skeleton.app.base.board.Tile;
-import inf112.skeleton.app.base.board.boardElement.WrenchTile;
+import inf112.skeleton.app.base.board.boardelement.WrenchTile;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
 import org.junit.jupiter.api.Test;

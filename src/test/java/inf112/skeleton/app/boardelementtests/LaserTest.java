@@ -2,8 +2,7 @@ package inf112.skeleton.app.boardelementtests;
 
 import inf112.skeleton.app.base.actors.*;
 import inf112.skeleton.app.base.board.Board;
-import inf112.skeleton.app.base.board.boardElement.Gear;
-import inf112.skeleton.app.base.board.boardElement.Laser;
+import inf112.skeleton.app.base.board.boardelement.Laser;
 import inf112.skeleton.app.base.utils.*;
 
 import org.junit.jupiter.api.Test;

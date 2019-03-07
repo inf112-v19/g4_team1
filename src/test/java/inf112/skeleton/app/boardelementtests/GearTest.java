@@ -2,7 +2,7 @@ package inf112.skeleton.app.boardelementtests;
 
 import inf112.skeleton.app.base.actors.*;
 import inf112.skeleton.app.base.board.Board;
-import inf112.skeleton.app.base.board.boardElement.Gear;
+import inf112.skeleton.app.base.board.boardelement.Gear;
 import inf112.skeleton.app.base.utils.*;
 
 

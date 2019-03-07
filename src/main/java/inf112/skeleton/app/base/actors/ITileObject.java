@@ -4,9 +4,9 @@ import inf112.skeleton.app.base.utils.Pos;
 
 /**
  * Generic interface for the object that is located on the tile.
- *
  */
 public interface ITileObject {
+
     /**
      * return the Pos object of the object
      */
@@ -46,4 +46,5 @@ public interface ITileObject {
      * @param name new name
      */
     void setName(String name);
+
 }

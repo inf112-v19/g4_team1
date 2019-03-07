@@ -3,11 +3,15 @@ package inf112.skeleton.app.base.board;
 import inf112.skeleton.app.base.utils.Pos;
 
 /**
- * Generic interface for the object that is located on the tile.
- *
+ * Generic interface for the object that is located on the board
  */
-public interface ITileObject {
+public interface IBoardElement {
 
+    /**
+     * Get the position of the object
+     *
+     * @return position
+     */
     Pos getPos();
 
     /**
@@ -37,4 +41,5 @@ public interface ITileObject {
      * @param name new name
      */
     void setName(String name);
+
 }

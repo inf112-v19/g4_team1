@@ -2,7 +2,7 @@ package inf112.skeleton.app.base.cards;
 
 import inf112.skeleton.app.base.actors.IRobot;
 
-public class Card implements  ICard{
+public class Card implements ICard {
     private CardType type;
     private int priorityNumber;
     private String pathToImage;
@@ -12,6 +12,7 @@ public class Card implements  ICard{
         this.priorityNumber = priorityNumber;
     }
 
+    @Override
     public CardType getType() {
         return type;
     }
@@ -21,8 +22,9 @@ public class Card implements  ICard{
         return "Card type " + type + ", priority " + priorityNumber;
     }
 
-    public void execute(IRobot robot){
-        switch (type){
+    @Override
+    public void execute(IRobot robot) {
+        switch (type) {
             case TURN_LEFT: robot.turnLeft();
                 break;
             case TURN_RIGHT: robot.turnRight();
@@ -40,7 +42,9 @@ public class Card implements  ICard{
         }
     }
 
+    @Override
     public int getPriorityNumber() {
         return priorityNumber;
     }
+
 }

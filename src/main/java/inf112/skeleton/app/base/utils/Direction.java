@@ -1,5 +1,8 @@
 package inf112.skeleton.app.base.utils;
 
+/**
+ * Enumerator that contains four directions
+ */
 public enum Direction {
     NORTH,
     EAST,
@@ -8,7 +11,7 @@ public enum Direction {
     ;
 
     /**
-     * methods for returning another relative direction
+     * change the direction to relative left direction
      */
     public Direction left() {
         switch (this) {
@@ -21,6 +24,9 @@ public enum Direction {
         throw new IllegalStateException("no direction");
     }
 
+    /**
+     * change the direction to relative right direction
+     */
     public Direction right() {
         switch (this) {
             case NORTH: return Direction.EAST;
@@ -32,7 +38,13 @@ public enum Direction {
         throw new IllegalStateException("no direction");
     }
 
+    /**
+     * change the direction to the relative opposite direction
+     *
+     * @return opposite direction
+     */
     public Direction opposite(){
         return this.left().left();
     }
+
 }

@@ -15,26 +15,20 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import inf112.skeleton.app.base.actors.Player;
-import inf112.skeleton.app.base.board.boardElement.Flag;
-import inf112.skeleton.app.base.board.boardElement.IActiveElement;
-import inf112.skeleton.app.base.board.boardElement.Laser;
-import inf112.skeleton.app.base.board.boardElement.WrenchTile;
+import inf112.skeleton.app.base.board.boardelement.Flag;
+import inf112.skeleton.app.base.board.boardelement.IActiveElement;
+import inf112.skeleton.app.base.board.boardelement.Laser;
+import inf112.skeleton.app.base.board.boardelement.WrenchTile;
 import inf112.skeleton.app.base.cards.Card;
 import inf112.skeleton.app.base.cards.CardDecks;
 import inf112.skeleton.app.base.cards.CardType;
 
 import inf112.skeleton.app.base.utils.Pos;
-import inf112.skeleton.app.base.actors.Player;
-import inf112.skeleton.app.base.cards.Card;
 import inf112.skeleton.app.roborally.RoboRally;
 import inf112.skeleton.app.base.actors.Robot;
 import inf112.skeleton.app.base.board.Board;
@@ -46,8 +40,10 @@ import java.util.Comparator;
 
 import static inf112.skeleton.app.base.utils.Direction.EAST;
 
+/**
+ * main game screen
+ */
 public class RoboRallyGame implements Screen, InputProcessor {
-
     private RoboRally roboRally;
     private TiledMap board;
     private OrthographicCamera camera;
@@ -55,48 +51,53 @@ public class RoboRallyGame implements Screen, InputProcessor {
     private SpriteBatch sb;
     private Sprite sprite;
     private Player player;
-    private int tileWidth, tileHeight, mapWidthInTiles, mapHeightInTiles,
-            mapWidthInPixels, mapHeightInPixels;
+    private int tileWidth;
+    private int tileHeight;
     private Board gameBoard;
     private Array<Rectangle> tiles;
     private Stage stage;
     private Skin uiSkin;
     private FitViewport viewPort;
-   //TODO? Player player = new Player("test");
     private Card[] cards;
     private Sprite[] cardSprite;
 
+    //TODO? Player player = new Player("test");
 
     public RoboRallyGame(RoboRally roboRally) {
+        // set of cards for testing
         cards = new Card[9];
-        cardSprite= new Sprite[9];
+        cardSprite = new Sprite[9];
 
+        // get the game itself from the previous screen
         this.roboRally = roboRally;
 
+        // set the camera
         camera = new OrthographicCamera();
-        viewPort = new FitViewport(Constants.WORLD_WIDTH,Constants.WORLD_HEIGHT,camera);
+        viewPort = new FitViewport(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT,camera);
         camera.position.set(viewPort.getWorldWidth() / 2,viewPort.getWorldHeight() / 2,0);
 
         sb = new SpriteBatch();
 
         board = new TmxMapLoader().load("assets/roborally/game_boardNew.tmx");
 
+        // get the properties of the tilemap
         MapProperties mProps = board.getProperties();
         tileWidth = mProps.get("tilewidth", Integer.class);
         tileHeight = mProps.get("tileheight", Integer.class);
-        mapWidthInTiles = mProps.get("width", Integer.class);
-        mapHeightInTiles = mProps.get("height", Integer.class);
-        mapWidthInPixels = mapWidthInTiles * tileWidth;
-        mapHeightInPixels = mapHeightInTiles * tileHeight;
+        int mapWidthInTiles = mProps.get("width", Integer.class);
+        int mapHeightInTiles = mProps.get("height", Integer.class);
+        int mapWidthInPixels = mapWidthInTiles * tileWidth;
+        int mapHeightInPixels = mapHeightInTiles * tileHeight;
 
+        // create a board object using the text file
         try {
             gameBoard = new Board("assets/roborally/board1.txt");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        // fill the tiles array depending on the size of the board
         tiles = new Array<>();
-
         for (int i = 0; i < gameBoard.getWidth(); i++) {
             for (int j = 0; j < gameBoard.getHeight(); j++) {
                 Rectangle tile = new Rectangle();
@@ -108,6 +109,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
             }
         }
 
+        // testing of the cards, WIP
         player = new Player("test");
         Card forward = new Card(CardType.MOVE_1_TILE, 100);
         Card right = new Card(CardType.TURN_RIGHT, 100);
@@ -116,25 +118,31 @@ public class RoboRallyGame implements Screen, InputProcessor {
         cards.add(right);
         player.setCards(cards);
 
+        // create the robot and link it with the player
         Pos pos = new Pos(5,5);
         Robot robot = new Robot(pos, Direction.EAST, player, gameBoard);
         player.addRobot(robot);
 
+        // initialize the board renderer that will render the tiled map
         boardRenderer = new OrthogonalTiledMapRenderer(board,1);
         camera.setToOrtho(false, Constants.WORLD_PIXEL_WIDTH, Constants.WORLD_PIXEL_HEIGHT);
         boardRenderer.setView(camera);
 
+        // create a sprite that represents the robot
         sprite = new Sprite(new Texture("assets/roborally/robot.png"));
         sprite.setSize(tileWidth, tileHeight);
         sprite.setPosition(player.getRobot().getPos().x() * tileWidth, player.getRobot().getPos().y()* tileWidth);
 
+        // initialize the input processor for testing purposes
         Gdx.input.setInputProcessor(this);
 
-        //Drawing the cards.
+        // draw the cards
         setupCard();
     }
 
-    private void startGame(){
+    // WIP
+    // trying different approaches to create game round and phase
+    private void startGame() {
         int NPLAYERS = 1;
         CardDecks cardDecks = new CardDecks();
         ArrayList<IActiveElement> ActiveElements = gameBoard.getActiveElements();
@@ -208,13 +216,13 @@ public class RoboRallyGame implements Screen, InputProcessor {
         }
     }
 
+    // WIP
     private void win(Player player) {
         //TODO:
-        //a player wins
+        // player wins
     }
 
-
-
+    // this method adds the sprites to card objects. WIP
     private void setupCard() {
         //Her e metoden som setter opp kortene med sprites, spritesene e midlertidige for øyeblikket, men når kver type kort får
         //sin egen sprite kan me sette den te å ta fra kort istedenfor.
@@ -253,9 +261,11 @@ public class RoboRallyGame implements Screen, InputProcessor {
 
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
-        for (int i = 0; i <=cardSprite.length-1 ; i++) {
+
+        // WIP
+        for (int i = 0; i <=cardSprite.length-1 ; i++)
             cardSprite[i].draw(sb);
-        }
+
         sprite.draw(sb);
         sb.end();
     }
@@ -288,6 +298,8 @@ public class RoboRallyGame implements Screen, InputProcessor {
 
     @Override
     public boolean keyDown(int key) {
+
+        // reads input from user and moves the robot on the screen
         if (key == Input.Keys.LEFT)
             if (sprite.getX() > 2)
                 sprite.translate(-tileWidth, 0);
@@ -302,6 +314,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
 
         /*if (key== Input.Keys.DOWN)
             doStuff();*/
+
         return false;
     }
 
@@ -346,9 +359,10 @@ public class RoboRallyGame implements Screen, InputProcessor {
         move(EAST, player);
     }
 
-    public void move(Direction dir, Player p) {
+    private void move(Direction dir, Player p) {
         p.getRobot().move(dir);
-        sprite.setPosition(p.getRobot().getPos().x() * tileWidth, p.getRobot().getPos().y()* tileWidth);
+        sprite.setPosition(p.getRobot().getPos().x() * tileWidth,
+                p.getRobot().getPos().y() * tileWidth);
 
     }
 

@@ -1,7 +1,7 @@
 package inf112.skeleton.app.base.actors;
 
 import inf112.skeleton.app.base.board.IBoard;
-import inf112.skeleton.app.base.board.boardElement.Flag;
+import inf112.skeleton.app.base.board.boardelement.Flag;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
 
@@ -12,7 +12,7 @@ public class Robot extends TileObject implements IRobot {
     private Direction dir;
     private Player owner;
     private IBoard board;
-    private static final int MAX_HEALTH = 10;
+    private final int MAX_HEALTH = 10;
     private int health;
     private int lives;
     private Pos respawnPos;
@@ -24,101 +24,105 @@ public class Robot extends TileObject implements IRobot {
         this.board = board;
         this.pos = pos;
         this.respawnPos = pos;
-        this.health=MAX_HEALTH;
-        lives = 3;
-
+        this.health = MAX_HEALTH;
+        this.lives = 3;
     }
 
+    @Override
     public Pos getPos() {
         return pos;
     }
 
+    @Override
     public Direction getDir() {
         return dir;
     }
 
-    public boolean move(Direction moveDirection){
+    @Override
+    public boolean move(Direction moveDirection) {
         if (moveDirection == null)
-            throw new IllegalArgumentException("no direction to move in");
+            throw new IllegalArgumentException("No direction to move in.");
 
         Pos newPos = pos.getAdjacent(moveDirection);
-        System.out.println("newPos " +newPos);
+        System.out.println("newPos " + newPos); // for testing purposes
 
+        // robot is moving outside board/to pit
         if (board.outOfBounds(newPos) || (board.containsPit(newPos))) {
-
-            //robot is moving outside board/to pit
             respawn();
             return true;
-        } else {
+        }
 
-            if(board.containsRobot(newPos)){
-                System.out.println("fant robot");
-                //robot has to push the other robot
+        else {
+            if (board.containsRobot(newPos)) {
+                System.out.println("fant robot"); // for testing purposes
+                // robot has to push the other robot
                 IRobot otherRobot = board.getRobot(newPos);
                 boolean completedMove = otherRobot.move(moveDirection);
-                if(completedMove){
-                    //path is clear now we try again
+
+                if (completedMove) {
+                    // path is clear now we try again
                     return move(moveDirection);
-                }
-                else{
-                    //the robot on the tile couldn't move, so this robot cant move either
+                } else {
+                    // the robot on the tile couldn't move, so this robot cant move either
                     return false;
                 }
             }
 
-            //has to check for wall in this and next tile
-            if(board.getWallDir(newPos) != null){
-                if (wallIsBlocking(newPos, moveDirection)){
+            // robot has to check for wall in this and next tile
+            if (board.getWallDir(newPos) != null) {
+                if (wallIsBlocking(newPos, moveDirection)) {
                     return false;
                 }
             }
+
             if(board.getWallDir(pos) != null) {
                 if (wallIsBlocking(pos, moveDirection)) {
                     return false;
                 }
             }
-            //robot is free to move to new position
+
+            // robot is free to move to new position
             board.get(pos).removeContent(this);
             board.get(newPos).addObject(this);
-            pos=newPos;
+            pos = newPos;
             return true;
         }
     }
 
-    private boolean wallIsBlocking(Pos wallPos, Direction moveDirection){
+    private boolean wallIsBlocking(Pos wallPos, Direction moveDirection) {
         Direction walldir = board.getWallDir(wallPos);
-        if (wallPos.equals(pos)){
-            //the wall is on the same tile. blocks if direction of wall is same as the movement
-            if(moveDirection == walldir){
-                return true;
-            }
-            return false;
-        }else{
-            //the wall is on the next tile. blocks movement if the directions are opposite
-            if (moveDirection.opposite() == walldir){
-                return true;
-            }
-            return false;
+
+        if (wallPos.equals(pos)) {
+            // the wall is on the same tile
+            // blocks the robot if direction of wall is same as the movement
+            return moveDirection == walldir;
+        }
+
+        else {
+            // the wall is on the next tile
+            // blocks the robot if the directions are opposite
+            return moveDirection.opposite() == walldir;
         }
     }
 
     @Override
     public void damage() {
         this.health--;
-        if(health<=0){
+        if (health <= 0) {
             respawn();
         }
     }
-    public void respawn(){
+
+    private void respawn() {
         lives--;
-        if(lives==0){
+        if (lives == 0) {
             //TODO:
             //robot is totally dead
 
         }
-        pos=respawnPos;
-        health=MAX_HEALTH;
 
+        pos = respawnPos;
+        health = MAX_HEALTH;
     }
 
     @Override
@@ -128,31 +132,31 @@ public class Robot extends TileObject implements IRobot {
 
     @Override
     public void turnLeft() {
-        dir=dir.left();
+        dir = dir.left();
     }
 
     @Override
     public void turnRight() {
-        dir=dir.right();
+        dir = dir.right();
     }
 
     @Override
     public void turnHalf() {
-        dir=dir.opposite();
+        dir = dir.opposite();
     }
 
     @Override
     public void moveForward(int distance) {
-        /*
-        calls moveForward n times so it doesn't jump walls or robots
-         */
-        for(int i = 0; i<distance; i++){
+        // calls moveForward n times so it doesn't jump walls or robots
+        for (int i = 0; i < distance; i++) {
             moveForward();
         }
     }
 
-    public void gainHealth(){
-        this.health++;}
+    @Override
+    public void gainHealth() {
+        this.health++;
+    }
 
     @Override
     public void moveBackwards() {
@@ -164,20 +168,26 @@ public class Robot extends TileObject implements IRobot {
         move(dir);
     }
 
-    public int getHealth(){
+    @Override
+    public int getHealth() {
         return this.health;
     }
-    
-    public void setRespawn(){
-        respawnPos = getPos();
 
+    @Override
+    public void setRespawn() {
+        respawnPos = getPos();
     }
-    public void addFlag(Flag flag){
-        if(!visitedFlags.contains(flag)){
+
+    @Override
+    public void addFlag(Flag flag) {
+        if (!visitedFlags.contains(flag)) {
             visitedFlags.add(flag);
         }
     }
-    public ArrayList<Flag> getFlags(){
+
+    @Override
+    public ArrayList<Flag> getFlags() {
         return visitedFlags;
     }
+
 }

@@ -20,45 +20,56 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import inf112.skeleton.app.roborally.RoboRally;
 
+/**
+ * main menu screen (WIP :D)
+ */
 public class RoboRallyMainMenu implements Screen {
     private RoboRally roboRally;
     private OrthographicCamera camera;
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
     private Stage stage;
-    private int tileWidth, tileHeight, mapWidthInTiles, mapHeightInTiles,
-            mapWidthInPixels, mapHeightInPixels;
     private Skin uiSkin;
 
     public RoboRallyMainMenu(RoboRally roboRally) {
         this.roboRally = roboRally;
         camera = new OrthographicCamera();
 
+        // load the tiled map
         TmxMapLoader mapLoader = new TmxMapLoader();
         map = mapLoader.load("assets/roborally/mainmenu.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(map);
 
+        // get the props of the tiled map
         MapProperties mProps = map.getProperties();
-        tileWidth = mProps.get("tilewidth", Integer.class);
-        tileHeight = mProps.get("tileheight", Integer.class);
-        mapWidthInTiles = mProps.get("width", Integer.class);
-        mapHeightInTiles = mProps.get("height", Integer.class);
-        mapWidthInPixels = mapWidthInTiles * tileWidth;
-        mapHeightInPixels = mapHeightInTiles * tileHeight;
+        int tileWidth = mProps.get("tilewidth", Integer.class);
+        int tileHeight = mProps.get("tileheight", Integer.class);
+        int mapWidthInTiles = mProps.get("width", Integer.class);
+        int mapHeightInTiles = mProps.get("height", Integer.class);
+        int mapWidthInPixels = mapWidthInTiles * tileWidth;
+        int mapHeightInPixels = mapHeightInTiles * tileHeight;
 
-        // camera.setToOrtho(false, mapWidthInPixels, mapHeightInPixels);
+        // set the position of the camera
         FitViewport viewPort = new FitViewport(1279, 639, camera);
+
+        // stage that contains objects that will be shown on the screen
         stage = new Stage(viewPort, roboRally.batch);
+
+        // read the mouse input
         Gdx.input.setInputProcessor(stage);
 
+        // skin for the buttons
         uiSkin = new Skin(Gdx.files.internal("assets/roborally/skin/comic-ui.json"));
 
+        // create two buttons for "New Game" and "Exit" respectively
+        // and add them to the stage
         Button newGame = new TextButton("New Game", uiSkin);
         newGame.setSize(tileWidth * 10, tileHeight * 2);
         newGame.setPosition(mapWidthInPixels / 4f, mapHeightInPixels / 4.5f);
         newGame.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                // go to main game screen
                 roboRally.setScreen(new RoboRallyGame(roboRally));
                 dispose();
                 return true;
@@ -90,6 +101,7 @@ public class RoboRallyMainMenu implements Screen {
 
         roboRally.batch.setProjectionMatrix(camera.combined);
 
+        // position of the background image is temporary
         // mapRenderer.setView(camera);
         mapRenderer.setView(camera);
         mapRenderer.render();

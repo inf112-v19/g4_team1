@@ -1,5 +1,4 @@
-package inf112.skeleton.app.base.board.boardElement;
-
+package inf112.skeleton.app.base.board.boardelement;
 
 import inf112.skeleton.app.base.actors.Robot;
 import inf112.skeleton.app.base.board.Board;
@@ -14,12 +13,14 @@ public class Flag extends BoardElement{
         this.board = board;
         this.pos = pos;
     }
-    //oppdaterer respawn i robot
-    public void setRespawn(){
+
+    // updates respawn of robot
+    public void setRespawn() {
         if (board.containsRobot(pos)) {
             Robot robot = (Robot) board.getRobot(pos);
             robot.setRespawn();
             robot.addFlag(this);
         }
     }
+
 }

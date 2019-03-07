@@ -1,10 +1,9 @@
 package inf112.skeleton.app.base.board;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import inf112.skeleton.app.base.actors.IRobot;
 import inf112.skeleton.app.base.actors.Player;
 import inf112.skeleton.app.base.actors.Robot;
-import inf112.skeleton.app.base.board.boardElement.*;
+import inf112.skeleton.app.base.board.boardelement.*;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
 
@@ -33,17 +32,20 @@ public class Board implements IBoard {
         final int tileHeight = 96;
         FileReader fileReader = new FileReader(textFile);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
+
         String line, firstLine = bufferedReader.readLine();
         String[] arr = firstLine.split(",");
         if (arr.length != 2)
-            throw new IllegalArgumentException("First line of file is not 2 chars.");
+            throw new IllegalArgumentException("First line of file is not 2 chars");
 
         this.height = Integer.parseInt(arr[1]);
         this.width = Integer.parseInt(arr[0]);
         board = new ArrayList<>(height * width);
         int y = height;
-        while((line = bufferedReader.readLine()) != null) {
+
+        while ((line = bufferedReader.readLine()) != null) {
             y--;
+
             for (int x = 0; x < line.length(); x++) {
                 if (line.length() != width)
                     throw new IllegalArgumentException(
@@ -53,8 +55,10 @@ public class Board implements IBoard {
                 char symbol = line.charAt(x);
                 System.out.println("Added " + symbol + " at " + x + " " + y);
                 Pos pos = new Pos(tileWidth * x, tileHeight * y);
+
                 switch (symbol) {
                     case '-': break;
+
                     case 'r': tile.addObject(
                             new Conveyor(Direction.EAST, pos, 'r', this));
 
@@ -89,6 +93,7 @@ public class Board implements IBoard {
                 board.add(tile);
             }
         }
+
         bufferedReader.close();
     }
 
@@ -98,7 +103,7 @@ public class Board implements IBoard {
     }
 
     @Override
-    public void addTileObject(ITileObject obj) {
+    public void addTileObject(IBoardElement obj) {
         Pos pos = obj.getPos();
         get(pos).addObject(obj);
     }
@@ -135,8 +140,8 @@ public class Board implements IBoard {
 
     @Override
     public boolean containsRobot(Pos pos) {
-        List<ITileObject> tileObjects =  board.get(indexFromCor(pos)).getContent();
-        for (ITileObject tileObject : tileObjects)
+        List<IBoardElement> tileObjects =  board.get(indexFromCor(pos)).getContent();
+        for (IBoardElement tileObject : tileObjects)
             if (tileObject instanceof IRobot) return true;
 
         return false;
@@ -144,26 +149,27 @@ public class Board implements IBoard {
 
     @Override
     public IRobot getRobot(Pos pos) {
-        List<ITileObject> tileObjects =  board.get(indexFromCor(pos)).getContent();
-        for (ITileObject tileObject : tileObjects)
+        List<IBoardElement> tileObjects =  board.get(indexFromCor(pos)).getContent();
+        for (IBoardElement tileObject : tileObjects)
             if (tileObject instanceof IRobot) return (IRobot) tileObject;
 
-        throw new IllegalStateException(pos.x() + "," + pos.y()+ " does not contain robot.");
+        throw new IllegalStateException(pos.x() + "," + pos.y() + " does not contain robot");
     }
 
     @Override
     public Direction getWallDir(Pos pos) {
-        List<ITileObject> tileObjects =  board.get(indexFromCor(pos)).getContent();
-        for (ITileObject tileObject : tileObjects)
-            if (tileObject instanceof Wall) return ((Wall) tileObject).getWallDir();
+        List<IBoardElement> tileObjects =  board.get(indexFromCor(pos)).getContent();
+        for (IBoardElement tileObject : tileObjects)
+            if (tileObject instanceof Wall)
+                return ((Wall) tileObject).getWallDir();
 
         return null;
     }
 
     @Override
     public boolean containsPit(Pos pos) {
-        List<ITileObject> tileObjects =  board.get(indexFromCor(pos)).getContent();
-        for (ITileObject tileObject : tileObjects)
+        List<IBoardElement> tileObjects =  board.get(indexFromCor(pos)).getContent();
+        for (IBoardElement tileObject : tileObjects)
             if (tileObject instanceof Pit) return true;
 
         return false;
@@ -173,42 +179,43 @@ public class Board implements IBoard {
         return pos.x() + (getWidth() * pos.y());
     }
 
-    public ArrayList<IActiveElement> getActiveElements(){
+    @Override
+    public ArrayList<IActiveElement> getActiveElements() {
         ArrayList<IActiveElement> elems = new ArrayList<>();
-        for(ITile tile : board){
-            for(ITileObject obj : tile.getContent()){
-                if(obj instanceof IActiveElement){
+        for (ITile tile : board) {
+            for (IBoardElement obj : tile.getContent()) {
+                if (obj instanceof IActiveElement)
                     elems.add((IActiveElement) obj);
-                }
             }
         }
+
         return elems;
     }
-    public ArrayList<Flag> getFlags(){
+
+    @Override
+    public ArrayList<Flag> getFlags() {
         ArrayList<Flag> elems = new ArrayList<>();
-        for(ITile tile : board){
-            for(ITileObject obj : tile.getContent()){
-                if(obj instanceof Flag){
+        for (ITile tile : board) {
+            for (IBoardElement obj : tile.getContent()) {
+                if (obj instanceof Flag)
                     elems.add((Flag) obj);
-                }
             }
         }
+
         return elems;
     }
 
-    public void draw(SpriteBatch batch) {
-
-    }
-
+    @Override
     public ArrayList<WrenchTile> getWrenches() {
         ArrayList<WrenchTile> elems = new ArrayList<>();
-        for(ITile tile : board){
-            for(ITileObject obj : tile.getContent()){
-                if(obj instanceof WrenchTile){
+        for (ITile tile : board) {
+            for (IBoardElement obj : tile.getContent()) {
+                if (obj instanceof WrenchTile)
                     elems.add((WrenchTile) obj);
-                }
             }
         }
+
         return elems;
     }
+
 }

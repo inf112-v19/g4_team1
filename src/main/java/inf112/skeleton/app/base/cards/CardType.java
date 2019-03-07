@@ -1,5 +1,8 @@
 package inf112.skeleton.app.base.cards;
 
+/**
+ * Enumerator that contains different types of cards
+ */
 public enum CardType {
     TURN_RIGHT,
     TURN_LEFT,
@@ -9,10 +12,9 @@ public enum CardType {
     MOVE_3_TILE,
     MOVE_BACK;
 
-
     @Override
     public String toString() {
-        switch (this){
+        switch (this) {
             case TURN_HALF: return "Turn 180 degrees";
             case TURN_LEFT: return "Quarter Turn Left";
             case TURN_RIGHT: return "Quarter Turn Right";
@@ -21,6 +23,8 @@ public enum CardType {
             case MOVE_3_TILE: return "Move 2 Tile forward";
             case MOVE_BACK: return "Move 1 Tile backwards";
         }
-        throw new IllegalStateException("no cardtype");
+
+        throw new IllegalStateException("no card type");
     }
+
 }
