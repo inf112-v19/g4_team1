@@ -1,6 +1,7 @@
 package inf112.skeleton.app.base.actors;
 
 import inf112.skeleton.app.base.board.IBoard;
+import inf112.skeleton.app.base.board.boardElement.WrenchTile;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
 
@@ -141,6 +142,11 @@ public class Robot extends TileObject implements IRobot {
     }
     public int getHealth(){
         return this.health;
+    }
+    public void respawned(){
+        this.pos = pos;
+
+
     }
 
 }
