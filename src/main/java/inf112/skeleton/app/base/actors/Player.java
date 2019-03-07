@@ -17,6 +17,10 @@ public class Player {
         this.cards = cards;
     }
 
+    public Robot getRobot() {
+        return robot;
+    }
+
     public void clearCards() {
         cards.clear();
     }

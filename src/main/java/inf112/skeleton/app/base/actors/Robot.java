@@ -1,17 +1,19 @@
 package inf112.skeleton.app.base.actors;
 
+import inf112.skeleton.app.base.board.Board;
 import inf112.skeleton.app.base.board.IBoard;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
+
 
 public class Robot extends TileObject implements IRobot {
     private Pos pos;
     private Direction dir;
     private Player owner;
-    private IBoard board;
+    private Board board;
     private int health;
 
-    public Robot(Pos pos, Direction dir, Player owner, IBoard board) {
+    public Robot(Pos pos, Direction dir, Player owner, Board board) {
         this.dir = dir;
         this.owner = owner;
         this.board = board;
