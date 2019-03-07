@@ -22,6 +22,7 @@ public class GearTest {
         board.addTileObject(robot);
         Gear gear = new Gear(Direction.EAST,  new Pos(0, 0), 'a', board);
         board.addTileObject(gear);
+
         gear.activate();
         assertEquals(robot.getDir(), Direction.SOUTH);
     }

@@ -7,6 +7,8 @@ import inf112.skeleton.app.base.actors.Robot;
 import inf112.skeleton.app.base.board.boardElement.Conveyor;
 import inf112.skeleton.app.base.board.boardElement.Pit;
 import inf112.skeleton.app.base.board.boardElement.Wall;
+import inf112.skeleton.app.base.board.boardElement.WrenchTile;
+import inf112.skeleton.app.base.board.boardElement.Pusher;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
 
@@ -30,7 +32,7 @@ public class Board implements IBoard {
                 board.add(new Tile());
     }
 
-    public Board(String textFile, int tileWidth, int tileHeight) throws IOException {
+    public Board(String textFile) throws IOException {
         FileReader fileReader = new FileReader(textFile);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
         String line, firstLine = bufferedReader.readLine();

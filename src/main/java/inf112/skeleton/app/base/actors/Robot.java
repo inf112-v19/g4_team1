@@ -2,6 +2,7 @@ package inf112.skeleton.app.base.actors;
 
 import inf112.skeleton.app.base.board.Board;
 import inf112.skeleton.app.base.board.IBoard;
+import inf112.skeleton.app.base.board.boardElement.WrenchTile;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
 
@@ -10,15 +11,17 @@ public class Robot extends TileObject implements IRobot {
     private Pos pos;
     private Direction dir;
     private Player owner;
-    private Board board;
-    private int health;
+    private IBoard board;
+    private int health = 10;
+    private Pos respawnPos;
 
-    public Robot(Pos pos, Direction dir, Player owner, Board board) {
+    public Robot(Pos pos, Direction dir, Player owner, IBoard board) {
         this.dir = dir;
         this.owner = owner;
         this.board = board;
         this.pos = pos;
-        this.health = 10;
+        this.respawnPos = pos;
+
     }
 
     public Direction getDir() {
@@ -124,6 +127,9 @@ public class Robot extends TileObject implements IRobot {
         }
     }
 
+    public void gainHealth(){
+        this.health++;}
+
     @Override
     public void moveBackwards() {
         System.out.println(dir.opposite());
@@ -138,8 +144,13 @@ public class Robot extends TileObject implements IRobot {
     public Pos getPos() {
         return pos;
     }
-
     public int getHealth(){
         return this.health;
     }
+
+    public void respawned(){
+        respawnPos = getPos();
+
+    }
+
 }

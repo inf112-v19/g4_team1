@@ -8,7 +8,7 @@
   <artifactId>mvn-app</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>RoboRallyG4T1</name>
+  <name>mvn-app</name>
   <url>https://github.com/inf112-v19/g4_team1</url>
 
   <repositories>
@@ -20,20 +20,15 @@
   </repositories>
 
   <properties>
-    <java.version>11</java.version>
+    <set-configuration-property name="gdx.assetpath" value="..\assets" />
+    <java.version>1.8</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
   </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>com.badlogicgames.gdx</groupId>
-      <artifactId>gdx-freetype-platform</artifactId>
-      <version>1.9.9</version>
-      <classifier>natives-desktop</classifier>
-    </dependency>
-
+    <!-- https://mvnrepository.com/artifact/com.kotcrab.vis/vis-ui -->
     <!-- https://mvnrepository.com/artifact/com.kotcrab.vis/vis-ui -->
     <dependency>
       <groupId>com.kotcrab.vis</groupId>
@@ -41,12 +36,24 @@
       <version>1.4.2</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.kotcrab.vis</groupId>
+      <artifactId>vis-ui</artifactId>
+      <version>1.4.2</version>
+    </dependency>
+
     <!-- https://mvnrepository.com/artifact/com.badlogicgames.gdx/gdx -->
+    <!-- https://mvnrepository.com/artifact/com.kotcrab.vis/vis-ui -->
+    <dependency>
+      <groupId>com.kotcrab.vis</groupId>
+      <artifactId>vis-ui</artifactId>
+      <version>1.4.2</version>
+    </dependency>
+
     <dependency>
       <groupId>com.badlogicgames.gdx</groupId>
       <artifactId>gdx</artifactId>
       <version>1.9.9</version>
-      <classifier>natives-desktop</classifier>
     </dependency>
 
     <dependency>
@@ -62,26 +69,18 @@
       <classifier>natives-desktop</classifier>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/com.badlogicgames.gdx/gdx-freetype -->
-    <dependency>
-      <groupId>com.badlogicgames.gdx</groupId>
-      <artifactId>gdx-freetype</artifactId>
-      <version>1.9.9</version>
-    </dependency>
-
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
-
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-api</artifactId>
-      <version>5.4.0-RC2</version>
-      <scope>test</scope>
-    </dependency>
+      <dependency>
+          <groupId>org.junit.jupiter</groupId>
+          <artifactId>junit-jupiter-api</artifactId>
+          <version>5.4.0-RC2</version>
+          <scope>test</scope>
+      </dependency>
   </dependencies>
 
   <build>

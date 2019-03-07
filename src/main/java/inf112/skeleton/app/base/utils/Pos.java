@@ -17,6 +17,7 @@ public class Pos {
     public int y() {
         return y;
     }
+
     public Pos getAdjacent(Direction dir){
         int newX = x;
         int newY = y;
@@ -28,6 +29,9 @@ public class Pos {
         }
         return new Pos(newX, newY);
     }
+
+
+
 
     @Override
     public boolean equals(Object o) {
