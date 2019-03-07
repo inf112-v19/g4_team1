@@ -33,6 +33,8 @@ public class Board implements IBoard {
     }
 
     public Board(String textFile) throws IOException {
+        final int tileWidth = 96;
+        final int tileHeight = 96;
         FileReader fileReader = new FileReader(textFile);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
         String line, firstLine = bufferedReader.readLine();
@@ -54,32 +56,40 @@ public class Board implements IBoard {
                 Tile tile = new Tile();
                 char symbol = line.charAt(x);
                 System.out.println("Added " + symbol + " at " + x + " " + y);
+                Pos pos = new Pos(tileWidth * x, tileHeight * y);
                 switch (symbol) {
                     case '-': break;
                     case 'r': tile.addObject(
-                            new Conveyor(Direction.EAST, new Pos(x, y), 'r', this));
+                            new Conveyor(Direction.EAST, pos, 'r', this));
 
                     case 'd': tile.addObject(
-                            new Conveyor(Direction.SOUTH, new Pos(x, y), 'd', this));
+                            new Conveyor(Direction.SOUTH, pos, 'd', this));
 
                     case 'p': tile.addObject(
-                            new Pit(new Pos(x, y), 'p', this));
+                            new Pit(pos, 'p', this));
 
                     case 'N': tile.addObject(
-                            new Wall(Direction.NORTH, new Pos(x, y), 'N', this));
+                            new Wall(Direction.NORTH, pos, 'N', this));
 
                     case 'E': tile.addObject(
-                            new Wall(Direction.EAST, new Pos(x, y), 'E', this));
+                            new Wall(Direction.EAST, pos, 'E', this));
 
                     case 'S': tile.addObject(
-                            new Wall(Direction.SOUTH, new Pos(x, y), 'S', this));
+                            new Wall(Direction.SOUTH, pos, 'S', this));
 
                     case 'W': tile.addObject(
-                            new Wall(Direction.WEST, new Pos(x, y), 'W', this));
+                            new Wall(Direction.WEST, pos, 'W', this));
 
                     case 'R': tile.addObject(
-                            new Robot(new Pos(x, y), Direction.SOUTH, new Player("Player 1"), this));
+                            new Robot(pos, Direction.SOUTH, new Player("Player 1"), this));
+
+                    case 'w': tile.addObject(
+                            new WrenchTile(pos, 'w', this));
+
+                    case 's': tile.addObject(
+                            new Pusher(Direction.EAST, pos, 's', this));
                 }
+
                 board.add(tile);
             }
         }

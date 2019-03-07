@@ -57,11 +57,14 @@ public class RoboRallyGame implements Screen, InputProcessor {
     private Skin uiSkin;
     private FitViewport viewPort;
    //TODO? Player player = new Player("test");
-    Card[] cards= new Card[9];
-    Sprite[] cardSprite= new Sprite[9];
+    private Card[] cards;
+    private Sprite[] cardSprite;
 
 
     public RoboRallyGame(RoboRally roboRally) {
+        cards = new Card[9];
+        cardSprite= new Sprite[9];
+
         this.roboRally = roboRally;
 
         camera = new OrthographicCamera();
@@ -80,11 +83,11 @@ public class RoboRallyGame implements Screen, InputProcessor {
         mapWidthInPixels = mapWidthInTiles * tileWidth;
         mapHeightInPixels = mapHeightInTiles * tileHeight;
 
-        //try {
-            gameBoard = new Board(tileWidth, tileHeight);
-       /* } catch (IOException e) {
+        try {
+            gameBoard = new Board("assets/roborally/board1.txt");
+        } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
 
         tiles = new Array<>();
 
@@ -117,7 +120,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
         sprite = new Sprite(new Texture("assets/roborally/robot.png"));
         sprite.setSize(tileWidth, tileHeight);
 
-        sprite.setPosition(96*11,96*11);
+        sprite.setPosition(player.getRobot().getPos().x() * tileWidth, player.getRobot().getPos().y()* tileWidth);
 
         Gdx.input.setInputProcessor(this);
 
@@ -199,19 +202,20 @@ public class RoboRallyGame implements Screen, InputProcessor {
 
     @Override
     public boolean keyDown(int key) {
-        if (key== Input.Keys.LEFT)
-           if (sprite.getX()>2){
-            sprite.translate(-tileWidth, 0);}
-        if (key== Input.Keys.RIGHT)
-            if (sprite.getX()<(96*12)-1){
-                sprite.translate(tileWidth, 0);}
-        if (key== Input.Keys.UP)
+        if (key == Input.Keys.LEFT)
+            if (sprite.getX() > 2)
+                sprite.translate(-tileWidth, 0);
 
-            if (sprite.getY()<(96*12)-1){
-            sprite.translate(0, tileWidth);}
-        if (key== Input.Keys.DOWN)
-            if (sprite.getY()>2){
-            sprite.translate(0, -tileWidth);}
+        if (key == Input.Keys.RIGHT)
+            if (sprite.getX() < (96 * 12) - 1)
+                sprite.translate(tileWidth, 0);
+
+        if (key == Input.Keys.UP)
+            if (sprite.getY() < (96 * 12) - 1)
+                sprite.translate(0, tileHeight);
+
+        /*if (key== Input.Keys.DOWN)
+            doStuff();*/
         return false;
     }
 
@@ -250,6 +254,8 @@ public class RoboRallyGame implements Screen, InputProcessor {
         return false;
     }
 
+    // method to test if the changing the coordinates in the Robot object
+    // changes the position on the screen
     public void doStuff() {
         move(EAST, player);
     }
