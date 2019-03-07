@@ -1,6 +1,7 @@
 package inf112.skeleton.app.base.actors;
 
 import inf112.skeleton.app.base.board.IBoard;
+import inf112.skeleton.app.base.board.boardElement.Flag;
 import inf112.skeleton.app.base.board.boardElement.WrenchTile;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
@@ -14,6 +15,7 @@ public class Robot extends TileObject implements IRobot {
     private IBoard board;
     private static int health = 10;
     private Pos respawnPos;
+    private ArrayList<Flag> visitedFlags = new ArrayList<Flag>();
 
     public Robot(Pos pos, Direction dir, Player owner, IBoard board) {
         this.dir = dir;
@@ -153,9 +155,9 @@ public class Robot extends TileObject implements IRobot {
 
     }
     //TODO list over amount of flag robot contains
-    public void antFlag(){
-        ArrayList a = new ArrayList<>();
-
+    public void addFlag(Flag flag){
+        if(!visitedFlags.contains(flag)){
+            visitedFlags.add(flag);
+        }
     }
-
 }

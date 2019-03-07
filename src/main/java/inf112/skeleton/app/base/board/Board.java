@@ -58,10 +58,6 @@ public class Board implements IBoard {
                     case 'p': tile.addObject(new Pit(new Pos(x, y), 'p', this));
                     case 'w': tile.addObject(new WrenchTile(new Pos(x, y), 'w', this));
                     case 's': tile.addObject(new Pusher(Direction.EAST, new Pos(x, y), 's', this));
-
-
-
-
                 }
                 board.add(tile);
             }

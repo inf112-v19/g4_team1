@@ -13,16 +13,13 @@ public class Flag extends BoardElement{
         super(pos, symbol, board);
         this.board = board;
         this.pos = pos;
-
     }
-
     //oppdaterer respawn i robot
     public void setRespawn(){
         if (board.containsRobot(pos)) {
             Robot robot = (Robot) board.getRobot(pos);
             robot.respawned();
+            robot.addFlag(this);
         }
-
     }
-
 }
