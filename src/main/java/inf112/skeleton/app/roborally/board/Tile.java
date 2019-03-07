@@ -1,7 +1,5 @@
 package inf112.skeleton.app.roborally.board;
 
-import inf112.skeleton.app.base.actors.ITileObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,8 +36,7 @@ public class Tile implements ITile {
 
     @Override
     public void removeContent(ITileObject object) {
-        if (this.contains(object))
-            content.remove(object);
+        if (this.contains(object)) content.remove(object);
     }
 
     @Override

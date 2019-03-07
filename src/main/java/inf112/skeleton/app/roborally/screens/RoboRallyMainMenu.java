@@ -26,7 +26,8 @@ public class RoboRallyMainMenu implements Screen {
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
     private Stage stage;
-    private int tileWidth, tileHeight, mapWidthInTiles, mapHeightInTiles, mapWidthInPixels, mapHeightInPixels;
+    private int tileWidth, tileHeight, mapWidthInTiles, mapHeightInTiles,
+            mapWidthInPixels, mapHeightInPixels;
     private Skin uiSkin;
 
     public RoboRallyMainMenu(RoboRally roboRally) {
@@ -46,7 +47,7 @@ public class RoboRallyMainMenu implements Screen {
         mapHeightInPixels = mapHeightInTiles * tileHeight;
 
         // camera.setToOrtho(false, mapWidthInPixels, mapHeightInPixels);
-        FitViewport viewPort = new FitViewport(639, 639, camera);
+        FitViewport viewPort = new FitViewport(1279, 639, camera);
         stage = new Stage(viewPort, roboRally.batch);
         Gdx.input.setInputProcessor(stage);
 
@@ -80,11 +81,13 @@ public class RoboRallyMainMenu implements Screen {
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
     public void render(float v) {
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         roboRally.batch.setProjectionMatrix(camera.combined);
 
         // mapRenderer.setView(camera);

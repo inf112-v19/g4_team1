@@ -38,7 +38,9 @@ public class BoardTest {
         Pos pos =new Pos(0, 0);
 
         board.setTile(pos, tile);
-        Robot robot = new Robot(pos, Direction.EAST, new Player("test"), board);
+        Player player1 = new Player("tobias");
+        Robot robot = new Robot(pos, Direction.EAST, player1, board);
+        player1.addRobot(robot);
 
         board.get(pos).addObject(robot);
         assertEquals(board.getRobot(pos), robot);
@@ -53,10 +55,11 @@ public class BoardTest {
         assertTrue(board.outOfBounds(new Pos(0, -1)));
         assertTrue(board.outOfBounds(new Pos(10, 5)));
     }
+
     @Test
     void readFromFile(){
         try {
-            Board board = new Board("assets/board1.txt");
+            Board board = new Board("assets/roborally/board1.txt");
             assert(board.containsPit(new Pos(0, 0)));
             assertEquals(board.getWidth(), 10);
             assertEquals(board.getHeight(), 10);

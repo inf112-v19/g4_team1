@@ -1,8 +1,8 @@
-package inf112.skeleton.app.base.cards;
+package inf112.skeleton.app.roborally.cards;
 
-import inf112.skeleton.app.base.actors.IRobot;
+import inf112.skeleton.app.roborally.actors.IRobot;
 
-public class Card implements  ICard{
+public class Card implements ICard {
     private CardType type;
     private int priorityNumber;
     private String pathToImage;

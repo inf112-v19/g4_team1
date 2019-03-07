@@ -1,4 +1,4 @@
-package inf112.skeleton.app.base.cards;
+package inf112.skeleton.app.roborally.cards;
 
 public enum CardType {
     TURN_RIGHT,
