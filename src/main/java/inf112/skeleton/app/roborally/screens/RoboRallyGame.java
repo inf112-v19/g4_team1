@@ -23,10 +23,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import inf112.skeleton.app.base.actors.Player;
+import inf112.skeleton.app.base.cards.Card;
+import inf112.skeleton.app.base.cards.CardType;
+
+import inf112.skeleton.app.base.utils.Pos;
 import inf112.skeleton.app.roborally.RoboRally;
-import inf112.skeleton.app.roborally.board.Board;
+import inf112.skeleton.app.base.actors.Robot;
+import inf112.skeleton.app.base.board.Board;
+import inf112.skeleton.app.base.utils.Direction;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
+import static inf112.skeleton.app.base.utils.Direction.EAST;
 
 public class RoboRallyGame implements Screen, InputProcessor {
 
@@ -37,6 +47,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
     private TiledMapRenderer boardRenderer;
     private SpriteBatch sb;
     private Sprite sprite;
+    private Player player;
     private int tileWidth, tileHeight, mapWidthInTiles, mapHeightInTiles,
             mapWidthInPixels, mapHeightInPixels;
     private Board gameBoard;
@@ -64,11 +75,11 @@ public class RoboRallyGame implements Screen, InputProcessor {
         mapWidthInPixels = mapWidthInTiles * tileWidth;
         mapHeightInPixels = mapHeightInTiles * tileHeight;
 
-        try {
-            gameBoard = new Board("assets/roborally/board1.txt", tileWidth, tileHeight);
-        } catch (IOException e) {
+        //try {
+            gameBoard = new Board(tileWidth, tileHeight);
+       /* } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
 
         tiles = new Array<>();
 
@@ -83,6 +94,17 @@ public class RoboRallyGame implements Screen, InputProcessor {
             }
         }
 
+        player = new Player("test");
+        Card forward = new Card(CardType.MOVE_1_TILE, 100);
+        Card right = new Card(CardType.TURN_RIGHT, 100);
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add(forward);
+        cards.add(right);
+        player.setCards(cards);
+        Pos pos = new Pos(5,5);
+        Robot robot = new Robot(pos, Direction.EAST, player, gameBoard);
+        player.addRobot(robot);
+
         boardRenderer = new OrthogonalTiledMapRenderer(board,1);
         camera.setToOrtho(false, Constants.WORLD_PIXEL_WIDTH, Constants.WORLD_PIXEL_HEIGHT);
         boardRenderer.setView(camera);
@@ -90,7 +112,8 @@ public class RoboRallyGame implements Screen, InputProcessor {
         sprite = new Sprite(new Texture("assets/roborally/robot.png"));
         sprite.setSize(tileWidth, tileHeight);
 
-        sprite.setPosition(gameBoard.get(19, 8).getX(), gameBoard.get(19, 8).getY());
+        sprite.setPosition(player.getRobot().getPos().x() * tileWidth, player.getRobot().getPos().y()* tileWidth);
+
 
         Gdx.input.setInputProcessor(this);
     }
@@ -148,8 +171,10 @@ public class RoboRallyGame implements Screen, InputProcessor {
             sprite.translate(tileWidth, 0);
         if (key == Input.Keys.UP)
             sprite.translate(0, tileHeight);
+       /* if (key == Input.Keys.DOWN)
+            sprite.translate(0, -tileHeight); */
         if (key == Input.Keys.DOWN)
-            sprite.translate(0, -tileHeight);
+            doStuff();
         return false;
     }
 
@@ -187,4 +212,15 @@ public class RoboRallyGame implements Screen, InputProcessor {
     public boolean scrolled(int i) {
         return false;
     }
+
+    public void doStuff() {
+        move(EAST, player);
+    }
+
+    public void move(Direction dir, Player p) {
+        p.getRobot().move(dir);
+        sprite.setPosition(p.getRobot().getPos().x() * tileWidth, p.getRobot().getPos().y()* tileWidth);
+
+    }
+
 }
