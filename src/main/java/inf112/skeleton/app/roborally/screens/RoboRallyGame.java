@@ -28,6 +28,8 @@ import inf112.skeleton.app.base.cards.Card;
 import inf112.skeleton.app.base.cards.CardType;
 
 import inf112.skeleton.app.base.utils.Pos;
+import inf112.skeleton.app.base.actors.Player;
+import inf112.skeleton.app.base.cards.Card;
 import inf112.skeleton.app.roborally.RoboRally;
 import inf112.skeleton.app.base.actors.Robot;
 import inf112.skeleton.app.base.board.Board;
@@ -41,7 +43,6 @@ import static inf112.skeleton.app.base.utils.Direction.EAST;
 public class RoboRallyGame implements Screen, InputProcessor {
 
     private RoboRally roboRally;
-    private Texture img;
     private TiledMap board;
     private OrthographicCamera camera;
     private TiledMapRenderer boardRenderer;
@@ -55,6 +56,10 @@ public class RoboRallyGame implements Screen, InputProcessor {
     private Stage stage;
     private Skin uiSkin;
     private FitViewport viewPort;
+   //TODO? Player player = new Player("test");
+    Card[] cards= new Card[9];
+    Sprite[] cardSprite= new Sprite[9];
+
 
     public RoboRallyGame(RoboRally roboRally) {
         this.roboRally = roboRally;
@@ -112,10 +117,36 @@ public class RoboRallyGame implements Screen, InputProcessor {
         sprite = new Sprite(new Texture("assets/roborally/robot.png"));
         sprite.setSize(tileWidth, tileHeight);
 
-        sprite.setPosition(player.getRobot().getPos().x() * tileWidth, player.getRobot().getPos().y()* tileWidth);
-
+        sprite.setPosition(96*11,96*11);
 
         Gdx.input.setInputProcessor(this);
+
+        //Drawing the cards.
+        setupCard();
+    }
+
+
+    //Her e metoden som setter opp kortene med sprites, spritesene e midlertidige for øyeblikket men, nå kver type kort får
+    //sin egen sprite kan me sette den te å ta fra kort istedenfor.
+    //Denne er kun for de 9 første kortene
+    private void setupCard() {
+
+        int x=13;
+        int y=11;
+        for (int i = 0; i <= cardSprite.length-1; i++) {
+            //TODO   //Card temp= new Card( cards[i].getType(),i);
+            cardSprite[i] = new Sprite(new Texture("assets/roborally/cards/option - 5.jpg"));
+            cardSprite[i].setSize(tileWidth*2,tileHeight*2);
+            cardSprite[i].setPosition(96*x,96*y);
+            y=y-2;
+            if (y==3) {
+                y = 11;
+                x = 15;
+            }
+            if (i==cardSprite.length-1){
+                cardSprite[i].setPosition(96*14,96*3);
+            }
+        }
     }
 
     @Override
@@ -133,6 +164,9 @@ public class RoboRallyGame implements Screen, InputProcessor {
 
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
+        for (int i = 0; i <=cardSprite.length-1 ; i++) {
+            cardSprite[i].draw(sb);
+        }
         sprite.draw(sb);
         sb.end();
     }
@@ -165,16 +199,19 @@ public class RoboRallyGame implements Screen, InputProcessor {
 
     @Override
     public boolean keyDown(int key) {
-        if (key == Input.Keys.LEFT)
-            sprite.translate(-tileWidth, 0);
-        if (key == Input.Keys.RIGHT)
-            sprite.translate(tileWidth, 0);
-        if (key == Input.Keys.UP)
-            sprite.translate(0, tileHeight);
-       /* if (key == Input.Keys.DOWN)
-            sprite.translate(0, -tileHeight); */
-        if (key == Input.Keys.DOWN)
-            doStuff();
+        if (key== Input.Keys.LEFT)
+           if (sprite.getX()>2){
+            sprite.translate(-tileWidth, 0);}
+        if (key== Input.Keys.RIGHT)
+            if (sprite.getX()<(96*12)-1){
+                sprite.translate(tileWidth, 0);}
+        if (key== Input.Keys.UP)
+
+            if (sprite.getY()<(96*12)-1){
+            sprite.translate(0, tileWidth);}
+        if (key== Input.Keys.DOWN)
+            if (sprite.getY()>2){
+            sprite.translate(0, -tileWidth);}
         return false;
     }
 

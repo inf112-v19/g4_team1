@@ -14,7 +14,7 @@ public class RoboRally extends Game {
     public void create() {
         batch = new SpriteBatch();
         font = new BitmapFont();
-        this.setScreen(new RoboRallyGame(this));
+        this.setScreen(new RoboRallyMainMenu(this));
     }
 
     @Override
