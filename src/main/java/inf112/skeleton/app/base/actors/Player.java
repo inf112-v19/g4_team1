@@ -33,9 +33,7 @@ public class Player {
         if (cards.isEmpty()) {
             throw new IllegalStateException("List with playercards is empty!");
         }
-        // retrieves and removes first card in list. Shifts remaining elements to the left
-        Card firstCard = cards.remove(0);
-        return firstCard;
-
+        // retrieves and removes first card in list.
+        return cards.remove(0);
     }
 }

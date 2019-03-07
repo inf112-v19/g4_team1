@@ -19,6 +19,9 @@ public class CardDeckTest {
         Board board = new Board(10, 10);
         Player player = new Player("test");
         CardDecks decks = new CardDecks();
+        player.setCards(decks.getCards(80));
+        decks.addUsed(player.useFirstCard());
+
     }
 
 
