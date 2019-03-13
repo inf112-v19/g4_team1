@@ -125,6 +125,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
 
         // initialize the board renderer that will render the tiled map
         boardRenderer = new OrthogonalTiledMapRenderer(board,1);
+        //This line decides how much the gamescreen will show in addition to the gameboard
         camera.setToOrtho(false, Constants.WORLD_PIXEL_WIDTH, Constants.WORLD_PIXEL_HEIGHT);
         boardRenderer.setView(camera);
 
@@ -228,21 +229,21 @@ public class RoboRallyGame implements Screen, InputProcessor {
         //sin egen sprite kan me sette den te å ta fra kort istedenfor.
         //Denne er kun for de 9 første kortene
 
-        int x=13;
-        int y=11;
+        int x=0;
+        int y=13;
         for (int i = 0; i <= cardSprite.length-1; i++) {
             //TODO   //Card temp= new Card( cards[i].getType(),i);
             cardSprite[i] = new Sprite(new Texture("assets/roborally/cards/option - 5.jpg"));
             cardSprite[i].setSize(tileWidth*2,tileHeight*2);
             cardSprite[i].setPosition(96*x,96*y);
-            y=y-2;
-            if (y==3) {
-                y = 11;
-                x = 15;
-            }
-            if (i==cardSprite.length-1){
-                cardSprite[i].setPosition(96*14,96*3);
-            }
+            x=x+2;
+//            if (y==3) {
+//                y = 11;
+//                x = 15;
+//            }
+//            if (i==cardSprite.length-1){
+//                cardSprite[i].setPosition(96*14,96*3);
+//            }
         }
     }
 
