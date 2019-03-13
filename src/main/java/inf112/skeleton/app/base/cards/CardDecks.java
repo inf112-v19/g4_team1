@@ -7,19 +7,19 @@ import java.util.Collections;
  * A class for managing the deck of cards
  */
 public class CardDecks {
-    private ArrayList<Card> fresh = new ArrayList<>();
-    private ArrayList<Card> used = new ArrayList<>();
+    private ArrayList<Card> freshDeck = new ArrayList<>();
+    private ArrayList<Card> usedDeck = new ArrayList<>();
 
     // adds a certain range of cards with related priority
     public CardDecks() {
-        fresh.addAll(cardGenerator(CardType.TURN_RIGHT, 80, 20, 420));
-        fresh.addAll(cardGenerator(CardType.TURN_LEFT, 70, 20, 400));
-        fresh.addAll(cardGenerator(CardType.TURN_HALF, 10, 10, 60));
-        fresh.addAll(cardGenerator(CardType.MOVE_1_TILE, 490, 10, 660));
-        fresh.addAll(cardGenerator(CardType.MOVE_2_TILE, 670, 10, 780));
-        fresh.addAll(cardGenerator(CardType.MOVE_3_TILE, 790, 10, 840));
-        fresh.addAll(cardGenerator(CardType.MOVE_BACK, 430, 10, 480));
-        Collections.shuffle(fresh);
+        freshDeck.addAll(cardGenerator(CardType.TURN_RIGHT, 80, 20, 420));
+        freshDeck.addAll(cardGenerator(CardType.TURN_LEFT, 70, 20, 400));
+        freshDeck.addAll(cardGenerator(CardType.TURN_HALF, 10, 10, 60));
+        freshDeck.addAll(cardGenerator(CardType.MOVE_1_TILE, 490, 10, 660));
+        freshDeck.addAll(cardGenerator(CardType.MOVE_2_TILE, 670, 10, 780));
+        freshDeck.addAll(cardGenerator(CardType.MOVE_3_TILE, 790, 10, 840));
+        freshDeck.addAll(cardGenerator(CardType.MOVE_BACK, 430, 10, 480));
+        Collections.shuffle(freshDeck);
     }
 
     /**
@@ -46,17 +46,17 @@ public class CardDecks {
      * @return a card
      */
     public Card getCard() {
-        if (fresh.isEmpty() && used.isEmpty())
+        if (freshDeck.isEmpty() && usedDeck.isEmpty())
             throw new IllegalStateException("no more cards");
 
-        if (fresh.isEmpty()) {
-            Collections.shuffle(used);
-            fresh = used;
-            used.clear();
+        if (freshDeck.isEmpty()) {
+            Collections.shuffle(usedDeck);
+            freshDeck.addAll(usedDeck);
+            usedDeck.clear();
         }
 
-        Card card = fresh.get(0);
-        fresh.remove(0);
+        Card card = freshDeck.get(0);
+        freshDeck.remove(0);
         return card;
     }
 
@@ -75,10 +75,10 @@ public class CardDecks {
     /**
      * add a card that was played
      *
-     * @param card used card
+     * @param card usedDeck card
      */
     public void addUsed(Card card) {
-        used.add(card);
+        usedDeck.add(card);
     }
 
 }
