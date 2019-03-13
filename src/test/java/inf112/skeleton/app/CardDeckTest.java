@@ -23,10 +23,7 @@ public class CardDeckTest {
         player.setCards(decks.getCards(50));
         for (int i = 0; i < 45; i++) {
             decks.addUsed(player.useFirstCard());
-            System.out.println("fresh "+decks.getFreshDeck().size());
-            System.out.println("used "+decks.getUsedDeck().size());
-            System.out.println("player "+player.getCards().size());
-            System.out.println("---------");
+
         }
 
         player.setCards(decks.getCards(50));
