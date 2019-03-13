@@ -15,9 +15,18 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import inf112.skeleton.app.base.actors.Player;
 import inf112.skeleton.app.base.board.boardelement.Flag;
@@ -64,6 +73,8 @@ public class RoboRallyGame implements Screen, InputProcessor {
     //TODO? Player player = new Player("test");
 
     public RoboRallyGame(RoboRally roboRally) {
+        stage = new Stage();
+
         // set of cards for testing
         cards = new Card[9];
         cardSprite = new Sprite[9];
@@ -139,6 +150,19 @@ public class RoboRallyGame implements Screen, InputProcessor {
 
         // draw the cards
         setupCard();
+
+        // testing ImageButton for handling clicks on cards
+        Texture testTexture = new Texture("assets/roborally/cards/movement/BCK430.png");
+        Drawable drawable = new TextureRegionDrawable(testTexture);
+        ImageButton testButton = new ImageButton(drawable);
+        testButton.setPosition(96, 96);
+        // testButton.setSize();
+        stage.addActor(testButton);
+        testButton.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y){
+                System.out.println("Button is pressed!");
+            }
+        });
     }
 
     // WIP
@@ -267,6 +291,8 @@ public class RoboRallyGame implements Screen, InputProcessor {
         for (int i = 0; i <=cardSprite.length-1 ; i++)
             cardSprite[i].draw(sb);
 
+        stage.act(v);
+        stage.draw();
         sprite.draw(sb);
         sb.end();
     }
