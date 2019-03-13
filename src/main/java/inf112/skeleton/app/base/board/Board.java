@@ -53,7 +53,6 @@ public class Board implements IBoard {
 
                 Tile tile = new Tile();
                 char symbol = line.charAt(x);
-                System.out.println("Added " + symbol + " at " + x + " " + y);
                 Pos pos = new Pos(tileWidth * x, tileHeight * y);
 
                 switch (symbol) {

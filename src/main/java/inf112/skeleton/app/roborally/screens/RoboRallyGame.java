@@ -15,16 +15,15 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -67,8 +66,9 @@ public class RoboRallyGame implements Screen, InputProcessor {
     private Stage stage;
     private Skin uiSkin;
     private FitViewport viewPort;
-    private Card[] cards;
     private Sprite[] cardSprite;
+    private CardDecks cardDecks = new CardDecks();
+
 
     //TODO? Player player = new Player("test");
 
@@ -76,8 +76,8 @@ public class RoboRallyGame implements Screen, InputProcessor {
         stage = new Stage();
 
         // set of cards for testing
-        cards = new Card[9];
-        cardSprite = new Sprite[9];
+        //cards = new Card[9];
+        //cardSprite = new Sprite[9];
 
         // get the game itself from the previous screen
         this.roboRally = roboRally;
@@ -125,8 +125,8 @@ public class RoboRallyGame implements Screen, InputProcessor {
         Card forward = new Card(CardType.MOVE_1_TILE, 100);
         Card right = new Card(CardType.TURN_RIGHT, 100);
         ArrayList<Card> cards = new ArrayList<>();
-        cards.add(forward);
-        cards.add(right);
+        //cards.add(forward);
+        //cards.add(right);
         player.setCards(cards);
 
         // create the robot and link it with the player
@@ -146,30 +146,19 @@ public class RoboRallyGame implements Screen, InputProcessor {
         sprite.setPosition(player.getRobot().getPos().x() * tileWidth, player.getRobot().getPos().y()* tileWidth);
 
         // initialize the input processor for testing purposes
-        Gdx.input.setInputProcessor(this);
+        Gdx.input.setInputProcessor(stage);
 
         // draw the cards
-        setupCard();
+        //setupCard();
 
-        // testing ImageButton for handling clicks on cards
-        Texture testTexture = new Texture("assets/roborally/cards/movement/BCK430.png");
-        Drawable drawable = new TextureRegionDrawable(testTexture);
-        ImageButton testButton = new ImageButton(drawable);
-        testButton.setPosition(96, 96);
-        // testButton.setSize();
-        stage.addActor(testButton);
-        testButton.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y){
-                System.out.println("Button is pressed!");
-            }
-        });
+        cards = chooseCards(5);
+        System.out.println(cards);
     }
 
     // WIP
     // trying different approaches to create game round and phase
     private void startGame() {
         int NPLAYERS = 1;
-        CardDecks cardDecks = new CardDecks();
         ArrayList<IActiveElement> ActiveElements = gameBoard.getActiveElements();
         ArrayList<Flag> flags = gameBoard.getFlags();
         ArrayList<WrenchTile> wrenches = gameBoard.getWrenches();
@@ -189,7 +178,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
         while(!gameFinished){
             for (int i = 0; i < players.size(); i++) {
                 //players program their robots
-
+                players.get(i).setCards(chooseCards(player.getRobot().getHealth()));
                 //after the players' list of cards should be what they have programmed
             }
             //here the program card should be revealed to other players
@@ -241,6 +230,30 @@ public class RoboRallyGame implements Screen, InputProcessor {
         }
     }
 
+    private ArrayList<Card> chooseCards(int nCards) {
+        ArrayList<Card> availableCards = cardDecks.getCards(nCards);
+        ArrayList<Card> selectedCards = new ArrayList<>();
+        //Creating a button for each card
+        for (int i = 0; i < availableCards.size(); i++) {
+            Card card = availableCards.get(i);
+            Texture testTexture = new Texture("assets/roborally/cards/movement/" + card.imageFileName());
+            Drawable drawable = new TextureRegionDrawable(testTexture);
+            Button button = new Button(drawable);
+            button.setPosition(96+200*i, 96);
+            stage.addActor(button);
+            button.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent changeEvent, Actor actor) {
+                    System.out.println("klicked "+card);
+
+
+                }
+
+            });
+        }
+        return selectedCards;
+    }
+
     // WIP
     private void win(Player player) {
         //TODO:
@@ -288,8 +301,8 @@ public class RoboRallyGame implements Screen, InputProcessor {
         sb.begin();
 
         // WIP
-        for (int i = 0; i <=cardSprite.length-1 ; i++)
-            cardSprite[i].draw(sb);
+        //for (int i = 0; i <=cardSprite.length-1 ; i++)
+        //    cardSprite[i].draw(sb);
 
         stage.act(v);
         stage.draw();
@@ -392,5 +405,4 @@ public class RoboRallyGame implements Screen, InputProcessor {
                 p.getRobot().getPos().y() * tileWidth);
 
     }
-
 }
