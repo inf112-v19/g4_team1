@@ -5,23 +5,20 @@ import inf112.skeleton.app.base.board.Board;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
 
-public class Conveyor extends BoardElement implements IActiveElement {
+public class DoubleSpeedConveyor extends BoardElement implements IActiveElement{
     private Direction dir;
 
-    public Conveyor(Direction dir, Pos pos, char symbol, Board board) {
+    public DoubleSpeedConveyor(Direction dir, Pos pos, char symbol, Board board) {
         super(pos, symbol, board);
         this.dir = dir;
     }
 
     @Override
     public void activate() {
-        //double distance conveyors should be activated twice, create DoubleSpeedConveyor class?
-        //TODO:
-        //curved conveyors
+        //double distance conveyors should be activated twice
         if (board.containsRobot(pos)) {
             IRobot robot = board.getRobot(pos);
             robot.move(this.dir);
         }
     }
-
 }
