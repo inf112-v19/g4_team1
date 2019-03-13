@@ -3,7 +3,7 @@ package inf112.skeleton.app.boardelementtests;
 import inf112.skeleton.app.base.actors.Player;
 import inf112.skeleton.app.base.actors.Robot;
 import inf112.skeleton.app.base.board.Board;
-import inf112.skeleton.app.base.board.boardelement.Conveyor;
+import inf112.skeleton.app.base.board.boardelement.DoubleSpeedConveyor;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@ public class DoubleSpeedConveyorTest {
         Robot robot = new Robot(pos, Direction.EAST, player1, board);
         player1.addRobot(robot);
         board.addTileObject(robot);
-        Conveyor belt = new Conveyor(Direction.EAST, pos,  'a', board);
+        DoubleSpeedConveyor belt = new DoubleSpeedConveyor(Direction.EAST, pos,  'a', board);
         board.addTileObject(belt);
         belt.activate();
         assertEquals(robot.getPos().x(), 2);
