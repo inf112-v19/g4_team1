@@ -41,4 +41,10 @@ public class CardTest {
         assertEquals(robot.getPos().x(), 1);
         assertEquals(robot.getPos().y(), 1);
     }
+
+    @Test
+    void filenametest(){
+        Card card = new Card(CardType.MOVE_BACK, 440);
+        assertEquals(card.imageFileName(), "BCK440.png");
+    }
 }
