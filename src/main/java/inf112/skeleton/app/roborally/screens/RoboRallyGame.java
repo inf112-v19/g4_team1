@@ -68,6 +68,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
     private FitViewport viewPort;
     private Sprite[] cardSprite;
     private CardDecks cardDecks = new CardDecks();
+    private ArrayList<Card > currentPlayerCards = new ArrayList<>();
 
 
     //TODO? Player player = new Player("test");
@@ -151,8 +152,11 @@ public class RoboRallyGame implements Screen, InputProcessor {
         // draw the cards
         //setupCard();
 
-        cards = chooseCards(5);
-        System.out.println(cards);
+        /**
+         * added for testing, is supposed to be in the game loop
+         */
+        chooseCards(5);
+        System.out.println(currentPlayerCards);
     }
 
     // WIP
@@ -178,7 +182,10 @@ public class RoboRallyGame implements Screen, InputProcessor {
         while(!gameFinished){
             for (int i = 0; i < players.size(); i++) {
                 //players program their robots
-                players.get(i).setCards(chooseCards(player.getRobot().getHealth()));
+
+                //choosecards() updates currentPlayerCards
+                chooseCards(player.getRobot().getHealth());
+                players.get(i).setCards(currentPlayerCards);
                 //after the players' list of cards should be what they have programmed
             }
             //here the program card should be revealed to other players
@@ -230,12 +237,22 @@ public class RoboRallyGame implements Screen, InputProcessor {
         }
     }
 
-    private ArrayList<Card> chooseCards(int nCards) {
+    private void chooseCards(int nCards) {
+        /**
+         * this method updates currentPlayerCards with the cards that is selected
+         */
+        currentPlayerCards.clear();
         ArrayList<Card> availableCards = cardDecks.getCards(nCards);
         ArrayList<Card> selectedCards = new ArrayList<>();
+        ArrayList<Boolean> usedslots = new ArrayList<>();
+        ArrayList<Boolean> finished = new ArrayList<>();
+        for (int i = 0; i < nCards; i++) {
+            usedslots.add(false);
+        }
         //Creating a button for each card
         for (int i = 0; i < availableCards.size(); i++) {
             Card card = availableCards.get(i);
+            int number = i;
             Texture testTexture = new Texture("assets/roborally/cards/movement/" + card.imageFileName());
             Drawable drawable = new TextureRegionDrawable(testTexture);
             Button button = new Button(drawable);
@@ -245,13 +262,34 @@ public class RoboRallyGame implements Screen, InputProcessor {
                 @Override
                 public void changed(ChangeEvent changeEvent, Actor actor) {
                     System.out.println("klicked "+card);
+                    if(usedslots.get(number)){
 
-
+                    }else{
+                        selectedCards.add(card);
+                    }
                 }
-
             });
         }
-        return selectedCards;
+        //make finish button
+        Texture testTexture = new Texture("assets/roborally/robot.png");
+        Drawable drawable = new TextureRegionDrawable(testTexture);
+        Button button = new Button(drawable);
+        button.setPosition(96, 300);
+        stage.addActor(button);
+        finished.add(false);
+        button.addListener(new ChangeListener() {
+
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                System.out.println("klicked finish");
+                if(selectedCards.size()==5){
+                    currentPlayerCards.addAll(selectedCards);
+                    System.out.println("selected: "+currentPlayerCards);
+                }else{
+                    System.out.println("not enough cards");
+                }
+            }
+        });
     }
 
     // WIP
