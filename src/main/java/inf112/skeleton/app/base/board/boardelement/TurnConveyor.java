@@ -1,7 +1,6 @@
 package inf112.skeleton.app.base.board.boardelement;
 
 import inf112.skeleton.app.base.actors.IRobot;
-import inf112.skeleton.app.base.actors.Robot;
 import inf112.skeleton.app.base.board.Board;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
@@ -11,8 +10,6 @@ public class TurnConveyor extends BoardElement implements IActiveElement{
 
     public TurnConveyor(Direction dir, Pos pos, char symbol, Board board) {
         super(pos, symbol, board);
-        if (dir == Direction.NORTH || dir == Direction.SOUTH)
-            throw new IllegalArgumentException("Use arguments EAST or WEST for gears");
 
         this.dir = dir;
     }
@@ -20,28 +17,24 @@ public class TurnConveyor extends BoardElement implements IActiveElement{
     @Override
     public void activate() {
         if (board.containsRobot(pos)) {
-            IRobot robot = (Robot)board.getRobot(pos);
+            IRobot robot = board.getRobot(pos);
 
             if (dir == Direction.EAST) {
                 robot.turnLeft();
-                robot.move(Direction.EAST);
+                robot.move(Direction.NORTH);
             }
             if (dir == Direction.NORTH) {
                 robot.turnRight();
-                robot.move(Direction.NORTH);
+                robot.move(Direction.EAST);
             }
             if (dir == Direction.WEST) {
                 robot.turnRight();
-                robot.move(Direction.WEST);
-            }
-            if (dir == Direction.SOUTH) {
-                robot.turnRight();
                 robot.move(Direction.SOUTH);
             }
-
-            else throw new IllegalArgumentException("Use arguments EAST or WEST for gears");
-
-
+            if(dir == Direction.SOUTH){
+                robot.turnRight();
+                robot.move(Direction.EAST);
+            }
 
         }
 
