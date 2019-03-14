@@ -9,7 +9,7 @@ import inf112.skeleton.app.base.utils.Pos;
 public class TurnConveyor extends BoardElement implements IActiveElement{
     private Direction dir;
 
-    public TurnConveyor(Pos pos, char symbol, Board board) {
+    public TurnConveyor(Direction dir, Pos pos, char symbol, Board board) {
         super(pos, symbol, board);
         if (dir == Direction.NORTH || dir == Direction.SOUTH)
             throw new IllegalArgumentException("Use arguments EAST or WEST for gears");
@@ -23,7 +23,7 @@ public class TurnConveyor extends BoardElement implements IActiveElement{
             IRobot robot = (Robot)board.getRobot(pos);
 
             if (dir == Direction.EAST) {
-                robot.turnRight();
+                robot.turnLeft();
                 robot.move(Direction.EAST);
             }
             if (dir == Direction.NORTH) {

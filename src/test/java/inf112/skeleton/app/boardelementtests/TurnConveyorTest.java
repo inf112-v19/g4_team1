@@ -5,7 +5,7 @@ import inf112.skeleton.app.base.actors.Player;
 import inf112.skeleton.app.base.actors.Robot;
 import inf112.skeleton.app.base.board.Board;
 import inf112.skeleton.app.base.board.Tile;
-import inf112.skeleton.app.base.board.boardelement.Pusher;
+import inf112.skeleton.app.base.board.boardelement.TurnConveyor;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
 import org.junit.jupiter.api.Test;
@@ -21,17 +21,17 @@ public class TurnConveyorTest {
 
 
         Tile tile = new Tile();
-        Pusher pusher = new Pusher(Direction.NORTH, pos, 'a', board);
-        board.addTileObject(pusher);
+        TurnConveyor conveyor = new TurnConveyor(Direction.NORTH, pos, 'a', board);
+        board.addTileObject(conveyor);
 
 
         Robot robot = new Robot(pos, Direction.EAST, new Player("player"), board);
         board.addTileObject(robot);
 
-        assertEquals(robot.getPos(), pusher.getPos());
-        Pos newPos = new Pos(0, 1);
+        assertEquals(robot.getPos(), conveyor.getPos());
+        Pos newPos = new Pos(1, 1);
 
-        pusher.activate();
+        conveyor.activate();
 
         //should be positon after pushing EAST.
         assertEquals(robot.getPos(), newPos);
