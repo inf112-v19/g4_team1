@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
@@ -45,6 +46,7 @@ import inf112.skeleton.app.base.utils.Direction;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 
 import static inf112.skeleton.app.base.utils.Direction.EAST;
 
@@ -155,7 +157,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
         /**
          * added for testing, is supposed to be in the game loop
          */
-        chooseCards(5);
+        chooseCards(9);
         System.out.println(currentPlayerCards);
     }
 
@@ -249,6 +251,9 @@ public class RoboRallyGame implements Screen, InputProcessor {
         for (int i = 0; i < nCards; i++) {
             usedslots.add(false);
         }
+
+        HashMap<Card, Button> buttonsAndCards = new HashMap<>();
+
         //Creating a button for each card
         for (int i = 0; i < availableCards.size(); i++) {
             Card card = availableCards.get(i);
@@ -256,20 +261,32 @@ public class RoboRallyGame implements Screen, InputProcessor {
             Texture testTexture = new Texture("assets/roborally/cards/movement/" + card.imageFileName());
             Drawable drawable = new TextureRegionDrawable(testTexture);
             Button button = new Button(drawable);
-            button.setPosition(96+200*i, 96);
+            button.setPosition(96 + 125 * i, 96 * 9);
+            buttonsAndCards.put(card, button);
             stage.addActor(button);
             button.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent changeEvent, Actor actor) {
-                    System.out.println("klicked "+card);
-                    if(usedslots.get(number)){
+                    System.out.println("klicked " + card);
 
-                    }else{
-                        selectedCards.add(card);
+                    //stage.getActors().removeIndex(stage.getActors().indexOf(button, false));
+
+                    if (usedslots.get(number)) {
+
+                    } else {
+                        if (selectedCards.size() < 5) {
+                            stage.getActors().get(stage.getActors().indexOf(
+                                    button, false)).setPosition(
+                                            96 * 16, 96 * (9 - selectedCards.size() * 2));
+                            selectedCards.add(card);
+                            availableCards.remove(card);
+                        }
                     }
                 }
             });
         }
+
+
         //make finish button
         Texture testTexture = new Texture("assets/roborally/robot.png");
         Drawable drawable = new TextureRegionDrawable(testTexture);
