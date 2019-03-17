@@ -88,6 +88,9 @@ public class Board implements IBoard {
 
                     case 's': tile.addObject(
                             new Pusher(Direction.EAST, pos, 's', this));
+
+                    case 'Q': tile.addObject(
+                            new Spawn(pos, 'Q', this));
                 }
 
                 board.add(tile);
