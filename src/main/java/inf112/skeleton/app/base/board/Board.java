@@ -223,15 +223,14 @@ public class Board implements IBoard {
     }
 
     public Pos getSpawn() {
-        ArrayList<Spawn> spawns = new ArrayList<>();
+    //    ArrayList<Spawn> spawns = new ArrayList<>();
         for (ITile tile  : board) {
             for (IBoardElement obj : tile.getContent()) {
-                if (obj instanceof Spawn && !(tile.contains())) {
-                    spawns.add((Spawn) obj);
+                if (obj instanceof Spawn && !tile.containsRobot()) {
+                    return obj.getPos();
                 }
             }
         }
-        return spawns.get(0).getPos();
     }
 
 }

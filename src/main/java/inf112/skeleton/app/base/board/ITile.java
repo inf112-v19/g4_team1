@@ -36,4 +36,9 @@ public interface ITile {
      */
     void removeContent(IBoardElement object);
 
+    /**
+     *
+     * @return true if tile contains instance of Robot-class
+     */
+    boolean containsRobot();
 }

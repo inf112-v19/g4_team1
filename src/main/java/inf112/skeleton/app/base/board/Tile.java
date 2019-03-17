@@ -27,6 +27,7 @@ public class Tile implements ITile {
         return content;
     }
 
+
     public boolean containsRobot() {
         for (IBoardElement e : content) {
             if ( e instanceof Robot) {
