@@ -6,6 +6,7 @@ import inf112.skeleton.app.base.actors.Robot;
 import inf112.skeleton.app.base.board.boardelement.*;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
+import org.graalvm.compiler.nodes.java.ArrayLengthNode;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -219,6 +220,18 @@ public class Board implements IBoard {
         }
 
         return elems;
+    }
+
+    public Pos getSpawn() {
+        ArrayList<Spawn> spawns = new ArrayList<>();
+        for (ITile tile  : board) {
+            for (IBoardElement obj : tile.getContent()) {
+                if (obj instanceof Spawn && !(tile.contains())) {
+                    spawns.add((Spawn) obj);
+                }
+            }
+        }
+        return spawns.get(0).getPos();
     }
 
 }
