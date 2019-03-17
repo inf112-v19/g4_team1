@@ -127,4 +127,12 @@ public interface IBoard {
      */
     ArrayList<WrenchTile> getWrenches();
 
+    /**
+     * Finds a available spawn on the board. Returns first spawn with no robot currently at it,
+     * or a random spawn with a robot if every spawn-point is occupied.
+     * Throws exception if no spawns is found on board.
+     * @return position of an available spawn on the board
+     */
+    Pos getSpawn();
+
 }

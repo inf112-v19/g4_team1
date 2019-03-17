@@ -222,15 +222,25 @@ public class Board implements IBoard {
         return elems;
     }
 
+    @Override
     public Pos getSpawn() {
-    //    ArrayList<Spawn> spawns = new ArrayList<>();
+        ArrayList<Spawn> spawns = new ArrayList<>();
         for (ITile tile  : board) {
             for (IBoardElement obj : tile.getContent()) {
-                if (obj instanceof Spawn && !tile.containsRobot()) {
-                    return obj.getPos();
+                if (obj instanceof Spawn) {
+                    if(tile.containsRobot()) {
+                        spawns.add((Spawn) obj);
+                    }
+                    else {
+                        return obj.getPos();
+                    }
                 }
             }
         }
+        if (spawns.isEmpty()) {
+            throw  new IllegalStateException("No available spawns");
+        }
+        return spawns.get(0).getPos();
     }
 
 }
