@@ -27,15 +27,6 @@ public class Tile implements ITile {
         return content;
     }
 
-    @Override
-    public boolean containsRobot() {
-        for (IBoardElement e : content) {
-            if ( e instanceof Robot) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     @Override
     public void removeContent(IBoardElement object) {

@@ -152,10 +152,10 @@ public class RoboRallyGame implements Screen, InputProcessor {
         ArrayList<Player> players = new ArrayList<>();
         for (int i = 0; i < NPLAYERS; i++) {
             Player player = new Player("test");
-            Robot robot = new Robot(new Pos(5, 5), Direction.NORTH, player, gameBoard);
+            Robot robot = new Robot(gameBoard.getSpawn(), Direction.NORTH, player, gameBoard);
+            gameBoard.addTileObject(robot);
             player.addRobot(robot);
             players.add(player);
-
         }
         boolean gameFinished = false;
         boolean finishedExecute;
