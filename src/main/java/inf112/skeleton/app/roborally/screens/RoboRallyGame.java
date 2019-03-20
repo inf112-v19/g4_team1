@@ -276,12 +276,13 @@ public class RoboRallyGame implements Screen, InputProcessor {
 
                     } else {
                         if (selectedCards.size() < 5) {
-                            stage.getActors().get(stage.getActors().indexOf(
-                                    button, false)).setPosition(
-                                            96 * 16, 96 * (9 - selectedCards.size() * 2));
-                            selectedCards.add(card);
-                            availableCards.remove(card);
-                            System.out.println(availableCards.size());
+                            if (!selectedCards.contains(card)) {
+                                stage.getActors().get(stage.getActors().indexOf(
+                                        button, false)).setPosition(
+                                        96 * 16, 96 * (9 - selectedCards.size() * 2));
+                                selectedCards.add(card);
+                                availableCards.remove(card);
+                            }
                         }
                     }
                 }
@@ -347,8 +348,11 @@ public class RoboRallyGame implements Screen, InputProcessor {
                     stage.getActors().removeValue(finish_button, false);
                     stage.getActors().removeValue(reset_button,false);
                     for(Card card : selectedCards){
-                        stage.getActors().get(stage.getActors().indexOf(buttonsAndCards.get(card),false)).removeListener(buttonsAndCards.get(card).getListeners().get(0));
+                        stage.getActors().get(stage.getActors().indexOf(
+                                buttonsAndCards.get(card),false)).removeListener(buttonsAndCards.get(
+                                        card).getListeners().get(0));
                     }
+
                 }else{
                     System.out.println("not enough cards");
                 }
