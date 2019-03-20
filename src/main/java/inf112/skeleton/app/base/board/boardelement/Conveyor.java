@@ -15,9 +15,6 @@ public class Conveyor extends BoardElement implements IActiveElement {
 
     @Override
     public void activate() {
-        //double distance conveyors should be activated twice, create DoubleSpeedConveyor class?
-        //TODO:
-        //curved conveyors
         if (board.containsRobot(pos)) {
             IRobot robot = board.getRobot(pos);
             robot.move(this.dir);

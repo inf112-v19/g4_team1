@@ -22,19 +22,23 @@ public class TurnConveyor extends BoardElement implements IActiveElement{
             if (dir == Direction.EAST) {
                 robot.move(Direction.EAST);
                 robot.turnLeft();
-            }
+            }else{robot.turnRight();}
+
             if (dir == Direction.NORTH) {
                 robot.turnRight();
                 robot.move(Direction.NORTH);
-            }
+            }else{robot.turnLeft();}
+
             if (dir == Direction.WEST) {
                 robot.turnRight();
                 robot.move(Direction.WEST);
-            }
+            }else{robot.turnLeft();}
+            
             if(dir == Direction.SOUTH){
                 robot.turnRight();
                 robot.move(Direction.SOUTH);
-            }
+            }else{robot.turnLeft();}
+            // trenger vi 8 forskjellige turncoveyor?
 
         }
 
