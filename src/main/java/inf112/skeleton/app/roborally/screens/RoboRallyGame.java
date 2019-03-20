@@ -37,6 +37,8 @@ import inf112.skeleton.app.base.utils.Direction;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
 import static inf112.skeleton.app.base.utils.Direction.EAST;
 
@@ -60,6 +62,15 @@ public class RoboRallyGame implements Screen, InputProcessor {
     private FitViewport viewPort;
     private Card[] cards;
     private Sprite[] cardSprite;
+    Map<Robot, Sprite> robotSprites = new HashMap<>();
+    ArrayList<Player> players = new ArrayList<>();
+    int NPLAYERS = 2;
+    CardDecks cardDecks = new CardDecks();
+    ArrayList<IActiveElement> ActiveElements;
+    ArrayList<Flag> flags  ;
+    ArrayList<WrenchTile> wrenches ;
+
+
 
     //TODO? Player player = new Player("test");
 
@@ -95,6 +106,9 @@ public class RoboRallyGame implements Screen, InputProcessor {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        ActiveElements = gameBoard.getActiveElements();
+        flags = gameBoard.getFlags();
+        wrenches = gameBoard.getWrenches();
 
         // fill the tiles array depending on the size of the board
         tiles = new Array<>();
@@ -129,92 +143,108 @@ public class RoboRallyGame implements Screen, InputProcessor {
         boardRenderer.setView(camera);
 
         // create a sprite that represents the robot
-        sprite = new Sprite(new Texture("assets/roborally/robot.png"));
-        sprite.setSize(tileWidth, tileHeight);
-        sprite.setPosition(player.getRobot().getPos().x() * tileWidth, player.getRobot().getPos().y()* tileWidth);
+        //sprite = new Sprite(new Texture("assets/roborally/robot.png"));
+        //sprite.setSize(tileWidth, tileHeight);
+        //sprite.setPosition(player.getRobot().getPos().x() * tileWidth, player.getRobot().getPos().y()* tileWidth);
 
         // initialize the input processor for testing purposes
         Gdx.input.setInputProcessor(this);
 
         // draw the cards
-        setupCard();
+        //setupCard();
+        try {
+            startGame();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     // WIP
     // trying different approaches to create game round and phase
-    private void startGame() {
-        int NPLAYERS = 1;
-        CardDecks cardDecks = new CardDecks();
-        ArrayList<IActiveElement> ActiveElements = gameBoard.getActiveElements();
-        ArrayList<Flag> flags = gameBoard.getFlags();
-        ArrayList<WrenchTile> wrenches = gameBoard.getWrenches();
+    private void startGame() throws InterruptedException {
 
-        ArrayList<Player> players = new ArrayList<>();
+
         for (int i = 0; i < NPLAYERS; i++) {
             Player player = new Player("test");
             Robot robot = new Robot(gameBoard.getSpawn(), Direction.NORTH, player, gameBoard);
             gameBoard.addTileObject(robot);
             player.addRobot(robot);
             players.add(player);
+            Sprite sprite  = new Sprite(new Texture("assets/roborally/robot.png"));
+            sprite.setSize(tileWidth, tileHeight);
+
+            robotSprites.put(robot, sprite);
+
         }
-        boolean gameFinished = false;
-        boolean finishedExecute;
-
-
-        while(!gameFinished){
-            for (int i = 0; i < players.size(); i++) {
-                //players program their robots
-
-                //after the players' list of cards should be what they have programmed
-            }
-            //here the program card should be revealed to other players
-            finishedExecute=false;
-            while(!finishedExecute){
-                //players should be sorted by their first cards priority number
-                players.sort(new Comparator<Player>() {
-                    public int compare(Player player2, Player player1) {
-                        return player2.getCards().get(0).getPriorityNumber()-player1.getCards().get(0).getPriorityNumber();
-                    }
-                });
-                for(Player current : players){
-                    if(current.getCards().size()!=0){
-                        finishedExecute=true;
-                        Card card = current.useFirstCard();
-                        card.execute(current.getRobot());
-                        cardDecks.addUsed(card);
-                    }
-                }
-                //activate board elements, then lasers
-                for(IActiveElement elem : ActiveElements){
-                    if(!(elem instanceof Laser)){
-                        elem.activate();
-                    }
-                }
-                for(IActiveElement elem : ActiveElements){
-                    if(elem instanceof Laser){
-                        elem.activate();
-                    }
-                }
-                //end of phase
-            }
-            //check for flags and wrenches at end of turn
-            for (Player player : players){
-                Pos robotpos = player.getRobot().getPos();
-                for (int i = 0; i < flags.size(); i++) {
-                    flags.get(i).setRespawn();
-                }
-                for (int i = 0; i < wrenches.size(); i++) {
-                    wrenches.get(i).setRespawn();
-                }
-            }
-            //check for win condition
-            for(Player player : players){
-                if (player.getRobot().getFlags().size() == flags.size()){
-                    win(player);
-                }
-            }
+        updateAllSprites(players);
+        for (int i = 0; i < 5; i++) {
+            doTurn();
         }
+
     }
+    private void doTurn(){
+        for (Player player1 : players) {
+            //players program their robots
+            player1.setCards(cardDecks.getCards(5));
+            //after the players' list of cards should be what they have programmed
+        }
+        //here the program card should be revealed to other players
+        boolean finishedExecute=false;
+        while(!finishedExecute){
+            //players should be sorted by their first cards priority number
+            players.sort(new Comparator<Player>() {
+                public int compare(Player player2, Player player1) {
+                    return player2.getCards().get(0).getPriorityNumber()-player1.getCards().get(0).getPriorityNumber();
+                }
+            });
+            for(Player current : players){
+                if(current.getCards().size()!=0){
+                    finishedExecute=true;
+                    Card card = current.useFirstCard();
+                    card.execute(current.getRobot());
+                    System.out.println(current.getRobot().getPos());
+                    updateAllSprites(players);
+                    cardDecks.addUsed(card);
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            //activate board elements, then lasers
+            for(IActiveElement elem : ActiveElements){
+                if(!(elem instanceof Laser)){
+                    elem.activate();
+                }
+            }
+            for(IActiveElement elem : ActiveElements){
+                if(elem instanceof Laser){
+                    elem.activate();
+                }
+            }
+            //end of phase
+        }
+        //check for flags and wrenches at end of turn
+        for (Player player : players){
+            Pos robotpos = player.getRobot().getPos();
+            for (int i = 0; i < flags.size(); i++) {
+                flags.get(i).setRespawn();
+            }
+            for (int i = 0; i < wrenches.size(); i++) {
+                wrenches.get(i).setRespawn();
+            }
+        }
+        //check for win condition
+        for(Player player : players){
+            if (player.getRobot().getFlags().size() == flags.size()){
+                win(player);
+            }
+        }
+
+    }
+
+
 
     // WIP
     private void win(Player player) {
@@ -261,12 +291,15 @@ public class RoboRallyGame implements Screen, InputProcessor {
 
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
-
+        /*
         // WIP
         for (int i = 0; i <=cardSprite.length-1 ; i++)
             cardSprite[i].draw(sb);
-
-        sprite.draw(sb);
+        */
+        //sprite.draw(sb);
+        for(Player player : players){
+            robotSprites.get(player.getRobot()).draw(sb);
+        }
         sb.end();
     }
 
@@ -353,17 +386,12 @@ public class RoboRallyGame implements Screen, InputProcessor {
         return false;
     }
 
-    // method to test if the changing the coordinates in the Robot object
-    // changes the position on the screen
-    public void doStuff() {
-        move(EAST, player);
+
+    private void updateAllSprites(ArrayList<Player> players) {
+        for(Player player : players){
+            Robot robot = player.getRobot();
+            Sprite sprite = robotSprites.get(robot);
+            sprite.setPosition(robot.getPos().x() * tileWidth, robot.getPos().y() * tileWidth);
+        }
     }
-
-    private void move(Direction dir, Player p) {
-        p.getRobot().move(dir);
-        sprite.setPosition(p.getRobot().getPos().x() * tileWidth,
-                p.getRobot().getPos().y() * tileWidth);
-
-    }
-
 }

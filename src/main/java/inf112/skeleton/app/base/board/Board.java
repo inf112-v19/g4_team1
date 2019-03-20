@@ -6,7 +6,6 @@ import inf112.skeleton.app.base.actors.Robot;
 import inf112.skeleton.app.base.board.boardelement.*;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
-import org.graalvm.compiler.nodes.java.ArrayLengthNode;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -55,7 +54,8 @@ public class Board implements IBoard {
                 Tile tile = new Tile();
                 char symbol = line.charAt(x);
                 System.out.println("Added " + symbol + " at " + x + " " + y);
-                Pos pos = new Pos(tileWidth * x, tileHeight * y);
+                //Pos pos = new Pos(tileWidth * x, tileHeight * y);
+                Pos pos = new Pos( x,  y);
 
                 switch (symbol) {
                     case '-': break;
@@ -144,7 +144,9 @@ public class Board implements IBoard {
 
     @Override
     public boolean containsRobot(Pos pos) {
-        List<IBoardElement> tileObjects =  board.get(indexFromCor(pos)).getContent();
+        if(outOfBounds(pos))
+            throw new IllegalArgumentException(pos+" out of bounds");
+        List<IBoardElement> tileObjects =  get(pos).getContent();
         for (IBoardElement tileObject : tileObjects)
             if (tileObject instanceof IRobot) return true;
 
