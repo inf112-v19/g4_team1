@@ -72,6 +72,12 @@ public class RoboRallyGame implements Screen, InputProcessor {
     private CardDecks cardDecks = new CardDecks();
     private ArrayList<Card > currentPlayerCards = new ArrayList<>();
 
+    private enum State {
+        PAUSE,
+        RUN
+    }
+    private State state = State.RUN;
+
 
     //TODO? Player player = new Player("test");
 
@@ -397,23 +403,25 @@ public class RoboRallyGame implements Screen, InputProcessor {
 
     @Override
     public void render(float v) {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        if (state == State.RUN) {
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        camera.update();
-        boardRenderer.setView(camera);
-        boardRenderer.render();
+            camera.update();
+            boardRenderer.setView(camera);
+            boardRenderer.render();
 
-        sb.setProjectionMatrix(camera.combined);
-        sb.begin();
+            sb.setProjectionMatrix(camera.combined);
+            sb.begin();
 
-        // WIP
-        //for (int i = 0; i <=cardSprite.length-1 ; i++)
-        //    cardSprite[i].draw(sb);
+            // WIP
+            //for (int i = 0; i <=cardSprite.length-1 ; i++)
+            //    cardSprite[i].draw(sb);
 
-        stage.act(v);
-        stage.draw();
-        sprite.draw(sb);
-        sb.end();
+            stage.act(v);
+            stage.draw();
+            sprite.draw(sb);
+            sb.end();
+        }
     }
 
     @Override
