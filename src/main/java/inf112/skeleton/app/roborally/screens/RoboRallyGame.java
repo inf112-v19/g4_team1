@@ -280,6 +280,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
                                             96 * 16, 96 * (9 - selectedCards.size() * 2));
                             selectedCards.add(card);
                             availableCards.remove(card);
+                            System.out.println(availableCards.size());
                         }
                     }
                 }
@@ -290,18 +291,29 @@ public class RoboRallyGame implements Screen, InputProcessor {
         //make finish button
         Texture testTexture = new Texture("assets/roborally/robot.png");
         Drawable drawable = new TextureRegionDrawable(testTexture);
-        Button button = new Button(drawable);
-        button.setPosition(96, 300);
-        stage.addActor(button);
+        Button finish_button = new Button(drawable);
+        finish_button.setPosition(96, 300);
+        stage.addActor(finish_button);
         finished.add(false);
-        button.addListener(new ChangeListener() {
+        finish_button.addListener(new ChangeListener() {
 
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 System.out.println("klicked finish");
-                if(selectedCards.size()==5){
+                if(selectedCards.size() == 5) {
                     currentPlayerCards.addAll(selectedCards);
-                    System.out.println("selected: "+currentPlayerCards);
+                    System.out.println("selected: " + currentPlayerCards);
+
+                    // remove the available cards from the screen
+                    for (int i = 0; i <= availableCards.size() + 2; i++) {
+                        stage.getActors().removeValue(buttonsAndCards.get(
+                                availableCards.remove(0)), false);
+                    }
+
+                    // remove the finish button from the screen
+                    stage.getActors().removeValue(finish_button, false);
+
+
                 }else{
                     System.out.println("not enough cards");
                 }
