@@ -239,6 +239,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
         }
     }
 
+
     private void chooseCards(int nCards) {
         /**
          * this method updates currentPlayerCards with the cards that is selected
@@ -287,6 +288,37 @@ public class RoboRallyGame implements Screen, InputProcessor {
             });
         }
 
+        //make reset button
+        Texture resetTexture = new Texture("assets/roborally/cards/option - 3.jpg");
+        Drawable resetDrawable = new TextureRegionDrawable(resetTexture);
+        Button reset_button = new Button(resetDrawable);
+        reset_button.setPosition((96*15)-30,96*5);
+        reset_button.setSize(96,96);
+        stage.addActor(reset_button);
+        reset_button.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+
+                if (selectedCards.size() > 0) {
+                    currentPlayerCards.removeAll(selectedCards);
+
+
+                    // remove the available cards from the screen
+                    int count= buttonsAndCards.size();
+                    int j = 0;
+                    for (Button btn: buttonsAndCards.values()) {
+//                        stage.getActors().removeValue(buttonsAndCards.get(
+//                                selectedCards.remove(0)), false);
+                        stage.getActors().get(stage.getActors().indexOf(btn,false)).setPosition(
+                                96+125*j,96*9);
+                        j++;
+
+                    }
+                  availableCards.addAll(selectedCards);
+                    selectedCards.clear();
+                }
+            }
+        });
 
         //make finish button
         Texture testTexture = new Texture("assets/roborally/robot.png");
@@ -305,15 +337,18 @@ public class RoboRallyGame implements Screen, InputProcessor {
                     System.out.println("selected: " + currentPlayerCards);
 
                     // remove the available cards from the screen
-                    for (int i = 0; i <= availableCards.size() + 2; i++) {
+                    int count = availableCards.size();
+                    for (int i = 0; i <count; i++) {
                         stage.getActors().removeValue(buttonsAndCards.get(
                                 availableCards.remove(0)), false);
                     }
 
                     // remove the finish button from the screen
                     stage.getActors().removeValue(finish_button, false);
-
-
+                    stage.getActors().removeValue(reset_button,false);
+                    for(Card card : selectedCards){
+                        stage.getActors().get(stage.getActors().indexOf(buttonsAndCards.get(card),false)).removeListener(buttonsAndCards.get(card).getListeners().get(0));
+                    }
                 }else{
                     System.out.println("not enough cards");
                 }
