@@ -1,16 +1,17 @@
 package inf112.skeleton.app.base.board.boardelement;
 
 import inf112.skeleton.app.base.board.Board;
+import inf112.skeleton.app.base.board.IBoard;
 import inf112.skeleton.app.base.board.IBoardElement;
 import inf112.skeleton.app.base.utils.Pos;
 
 public abstract class BoardElement implements IBoardElement {
-    protected final Board board;
+    protected final IBoard board;
     protected Pos pos;
     protected char symbol;
     protected String name;
 
-    public BoardElement(Pos pos, char symbol, Board board) {
+    public BoardElement(Pos pos, char symbol, IBoard board) {
         this.pos = pos;
         this.symbol = symbol;
         this.name = name;

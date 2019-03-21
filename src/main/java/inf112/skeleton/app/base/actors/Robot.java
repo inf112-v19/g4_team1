@@ -195,10 +195,11 @@ public class Robot extends TileObject implements IRobot {
 
   public void laser( ) {
 
-      Enum dir = this.getDir();
-      Pos pos = this.getPos();
-          Laser laser = new Laser(this.dir, pos, 'a', (Board) board);
-          laser.activate();
+      Direction dir = getDir();
+      Pos pos = getPos();
+
+      Laser laser = new Laser(dir,pos.getAdjacent(dir), 'a', board);
+      laser.activate();
 
 
    /*     new Wall(Direction.EAST,1,'a',board)

@@ -118,7 +118,7 @@ public class RobotTest {
     void ShootLaser(){
         Board board = new Board(10, 10);
         Robot robot = new Robot(new Pos(0, 0), Direction.EAST, new Player("tobias"), board);
-        Robot robot2 = new Robot(new Pos(2, 0), Direction.EAST, new Player("tobias"), board);
+        Robot robot2 = new Robot(new Pos(1, 0), Direction.EAST, new Player("tobias"), board);
         board.addTileObject(robot);
         board.addTileObject(robot2);
         int hp = robot2.getHealth();
