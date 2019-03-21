@@ -74,13 +74,13 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private Skin uiSkin;
     private FitViewport viewPort;
     private Sprite[] cardSprite;
-    Map<Robot, Sprite> robotSprites = new HashMap<>();
-    ArrayList<Player> players = new ArrayList<>();
-    int NPLAYERS = 1;
-    CardDecks cardDecks = new CardDecks();
-    ArrayList<IActiveElement> ActiveElements;
-    ArrayList<Flag> flags  ;
-    ArrayList<WrenchTile> wrenches ;
+    private Map<Robot, Sprite> robotSprites = new HashMap<>();
+    private ArrayList<Player> players = new ArrayList<>();
+    private int NPLAYERS = 1;
+    private CardDecks cardDecks = new CardDecks();
+    private ArrayList<IActiveElement> ActiveElements;
+    private ArrayList<Flag> flags  ;
+    private ArrayList<WrenchTile> wrenches ;
 
     private ArrayList<Card > currentPlayerCards = new ArrayList<>();
 
@@ -117,36 +117,13 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         MapProperties mProps = board.getProperties();
         tileWidth = mProps.get("tilewidth", Integer.class);
         tileHeight = mProps.get("tileheight", Integer.class);
-        int mapWidthInTiles = mProps.get("width", Integer.class);
-        int mapHeightInTiles = mProps.get("height", Integer.class);
-        int mapWidthInPixels = mapWidthInTiles * tileWidth;
-        int mapHeightInPixels = mapHeightInTiles * tileHeight;
 
-        // create a board object using the text file
-        //try {
-        //    gameBoard = new Board("assets/roborally/board1.txt");
-        //} catch (IOException e) {
-        //    e.printStackTrace();
-        //}
         //create gameboard from tmx file
         gameBoard = new Board(board);
 
         ActiveElements = gameBoard.getActiveElements();
         flags = gameBoard.getFlags();
         wrenches = gameBoard.getWrenches();
-
-
-        // testing of the cards, WIP
-        player = new Player("test");
-        Card forward = new Card(CardType.MOVE_1_TILE, 100);
-        Card right = new Card(CardType.TURN_RIGHT, 100);
-        ArrayList<Card> cards = new ArrayList<>();
-        player.setCards(cards);
-
-        // create the robot and link it with the player
-        Pos pos = new Pos(5,5);
-        Robot robot = new Robot(pos, Direction.EAST, player, gameBoard);
-        player.addRobot(robot);
 
         // initialize the board renderer that will render the tiled map
         boardRenderer = new OrthogonalTiledMapRenderer(board,1);
@@ -158,7 +135,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         // initialize the input processor for testing purposes
         Gdx.input.setInputProcessor(stage);
 
-        // draw the cards
         try {
             System.out.println("Start game");
             startGame();
@@ -167,8 +143,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         }
     }
 
-    // WIP
-    // trying different approaches to create game round and phase
+    // set up the players before starting game
     private void startGame() throws InterruptedException {
         for (int i = 0; i < NPLAYERS; i++) {
             Player player = new Player("test");
@@ -183,7 +158,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             System.out.println("finished adding robots");
         }
         updateAllSprites(players);
-            doTurn();
+        doTurn();
 
 
     }
@@ -199,7 +174,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         }
     }
     private void continueTurn(){
-        //here the program card should be revealed to other players
+        //player have finished choosing cards
         boolean finishedExecute = false;
         while (!finishedExecute) {
             //players should be sorted by their first cards priority number
@@ -256,6 +231,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             }
         }
         try {
+            //starts next round
             doTurn();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -379,7 +355,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 //                                buttonsAndCards.get(card),false)).removeListener(buttonsAndCards.get(
 //                                card).getListeners().get(0));
                     }
-                    //continue game
+                    //continue game when finished selecting cards
                     continueTurn();
 
                 }else{
@@ -461,9 +437,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         if (key == Input.Keys.UP)
             if (sprite.getY() < (96 * 12) - 1)
                 sprite.translate(0, tileHeight);
-
-        /*if (key== Input.Keys.DOWN)
-            doStuff();*/
 
         return false;
     }
