@@ -469,6 +469,16 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             Robot robot = player.getRobot();
             Sprite sprite = robotSprites.get(robot);
             sprite.setPosition(robot.getPos().x() * tileWidth, robot.getPos().y() * tileWidth);
+            sprite.setRotation(getRotationDegrees(robot.getDir()));
         }
+    }
+    private int getRotationDegrees(Direction dir){
+        switch(dir){
+            case NORTH: return 0;
+            case EAST: return 90;
+            case SOUTH: return 180;
+            case WEST: return 270;
+        }
+        throw new IllegalArgumentException();
     }
 }
