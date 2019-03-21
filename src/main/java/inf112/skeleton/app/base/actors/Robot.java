@@ -1,7 +1,11 @@
 package inf112.skeleton.app.base.actors;
 
+import inf112.skeleton.app.base.board.Board;
 import inf112.skeleton.app.base.board.IBoard;
+import inf112.skeleton.app.base.board.Tile;
 import inf112.skeleton.app.base.board.boardelement.Flag;
+import inf112.skeleton.app.base.board.boardelement.Laser;
+import inf112.skeleton.app.base.board.boardelement.Wall;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
 
@@ -50,9 +54,7 @@ public class Robot extends TileObject implements IRobot {
         if (board.outOfBounds(newPos) || (board.containsPit(newPos))) {
             respawn();
             return true;
-        }
-
-        else {
+        } else {
             if (board.containsRobot(newPos)) {
                 System.out.println("fant robot"); // for testing purposes
                 // robot has to push the other robot
@@ -75,7 +77,7 @@ public class Robot extends TileObject implements IRobot {
                 }
             }
 
-            if(board.getWallDir(pos) != null) {
+            if (board.getWallDir(pos) != null) {
                 if (wallIsBlocking(pos, moveDirection)) {
                     return false;
                 }
@@ -96,9 +98,7 @@ public class Robot extends TileObject implements IRobot {
             // the wall is on the same tile
             // blocks the robot if direction of wall is same as the movement
             return moveDirection == walldir;
-        }
-
-        else {
+        } else {
             // the wall is on the next tile
             // blocks the robot if the directions are opposite
             return moveDirection.opposite() == walldir;
@@ -117,7 +117,7 @@ public class Robot extends TileObject implements IRobot {
         lives--;
         if (lives == 0) {
             //TODO:
-            //robot is totally dead
+            //robot is totally dead.. game over?
 
         }
 
@@ -189,5 +189,72 @@ public class Robot extends TileObject implements IRobot {
     public ArrayList<Flag> getFlags() {
         return visitedFlags;
     }
+
+
+
+
+  public void laser( ) {
+
+      Enum dir = this.getDir();
+      Pos pos = this.getPos();
+      if (dir == Direction.EAST) {
+          Laser laser = new Laser(Direction.EAST, pos, 'a', (Board) board);
+          laser.activate();
+
+
+      }
+      if (dir == Direction.WEST) {
+          Laser laser = new Laser(Direction.WEST, pos, 'a', (Board) board);
+          laser.activate();
+      }
+      if (dir == Direction.NORTH) {
+
+          Laser laser = new Laser(Direction.NORTH, pos, 'a', (Board) board);
+          laser.activate();
+      }
+      if (dir == Direction.SOUTH) {
+          Laser laser = new Laser(Direction.SOUTH, pos, 'a', (Board) board);
+          laser.activate();
+      }
+
+   /*     new Wall(Direction.EAST,1,'a',board)
+        if(dir.equals(Direction.EAST)){
+            Tile newTile = new Tile(getPos(y), +1);
+            while(!newTile.contains(Wall || andre elementer) {
+                if(newTile.contain(robot){
+                    robot.hp --;
+                } else {
+                    fortsett i loopen
+                }
+            }
+
+        }
+        }
+/*
+        if()
+
+        // checks for wall at the near side of the tile
+        if (board.getWallDir() != null)
+            if (dir == board.getWallDir(laserPos).opposite())
+                return;
+
+        // damages robot at the tile
+        if (board.containsRobot(laserPos)) {
+            // shoots robot
+            board.getRobot(laserPos).damage();
+            return;
+        }
+
+        // check if hits wall at the far side of the tile
+        if (board.getWallDir(laserPos) != null)
+            if (dir == board.getWallDir(laserPos))
+                return;
+
+        // checks next tile in the loop
+        laserPos = laserPos.getAdjacent(dir);
+
+        if (board.outOfBounds(laserPos)) return;*/
+
+  }
 
 }

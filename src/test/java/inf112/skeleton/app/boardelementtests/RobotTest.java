@@ -2,6 +2,7 @@ package inf112.skeleton.app.boardelementtests;
 
 import inf112.skeleton.app.base.actors.*;
 import inf112.skeleton.app.base.board.Board;
+import inf112.skeleton.app.base.board.boardelement.Laser;
 import inf112.skeleton.app.base.board.boardelement.Wall;
 import inf112.skeleton.app.base.utils.*;
 
@@ -113,5 +114,18 @@ public class RobotTest {
         robot1.moveForward(1);
         assertEquals(robot1.getPos().x(), 1);
         assertEquals(robot2.getPos().x(), 2);
+    }@Test
+    void ShootLaser(){
+        Board board = new Board(10, 10);
+        Robot robot = new Robot(new Pos(0, 0), Direction.EAST, new Player("tobias"), board);
+        Robot robot2 = new Robot(new Pos(2, 0), Direction.EAST, new Player("tobias"), board);
+        board.addTileObject(robot);
+        Laser laser = new Laser(Direction.EAST,  robot.getPos(), 'a', board);
+        board.addTileObject(laser);
+        int hp = robot2.getHealth();
+        laser.activate();
+        assertEquals(robot2.getHealth(), hp-1);
     }
+
+
 }
