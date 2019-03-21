@@ -47,4 +47,31 @@ public class Card implements ICard {
         return priorityNumber;
     }
 
+
+    public String imageFileName () {
+        String file = "";
+        switch (type) {
+            case TURN_LEFT: file+="RL";
+                break;
+            case TURN_RIGHT: file+="RR";
+                break;
+            case TURN_HALF: file+="UT";
+                break;
+            case MOVE_1_TILE: file+="MV1";
+                break;
+            case MOVE_2_TILE: file+="MV2";
+                break;
+            case MOVE_3_TILE: file+="MV3";
+                break;
+            case MOVE_BACK: file+="BCK";
+                break;
+        }
+        file+=Integer.toString(priorityNumber);
+        file+=".png";
+        return file;
+
+    }
+
+
+
 }
