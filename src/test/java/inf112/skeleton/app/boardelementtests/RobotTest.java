@@ -120,10 +120,9 @@ public class RobotTest {
         Robot robot = new Robot(new Pos(0, 0), Direction.EAST, new Player("tobias"), board);
         Robot robot2 = new Robot(new Pos(2, 0), Direction.EAST, new Player("tobias"), board);
         board.addTileObject(robot);
-        Laser laser = new Laser(Direction.EAST,  robot.getPos(), 'a', board);
-        board.addTileObject(laser);
+        board.addTileObject(robot2);
         int hp = robot2.getHealth();
-        laser.activate();
+        robot.laser();
         assertEquals(robot2.getHealth(), hp-1);
     }
 

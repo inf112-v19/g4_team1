@@ -197,25 +197,9 @@ public class Robot extends TileObject implements IRobot {
 
       Enum dir = this.getDir();
       Pos pos = this.getPos();
-      if (dir == Direction.EAST) {
-          Laser laser = new Laser(Direction.EAST, pos, 'a', (Board) board);
+          Laser laser = new Laser(this.dir, pos, 'a', (Board) board);
           laser.activate();
 
-
-      }
-      if (dir == Direction.WEST) {
-          Laser laser = new Laser(Direction.WEST, pos, 'a', (Board) board);
-          laser.activate();
-      }
-      if (dir == Direction.NORTH) {
-
-          Laser laser = new Laser(Direction.NORTH, pos, 'a', (Board) board);
-          laser.activate();
-      }
-      if (dir == Direction.SOUTH) {
-          Laser laser = new Laser(Direction.SOUTH, pos, 'a', (Board) board);
-          laser.activate();
-      }
 
    /*     new Wall(Direction.EAST,1,'a',board)
         if(dir.equals(Direction.EAST)){
