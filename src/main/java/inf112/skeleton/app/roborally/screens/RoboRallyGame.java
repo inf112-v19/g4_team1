@@ -368,7 +368,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     currentPlayerCards.addAll(selectedCards);
                     System.out.println("selected: " + currentPlayerCards);
 
-                    // remove the available cards from the screen
+                    // remove the available and selected cards from the screen
                     int count = availableCards.size();
                     for (int i = 0; i <count; i++) {
                         cardDecks.addUsed(availableCards.get(0));
@@ -381,8 +381,12 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     stage.getActors().removeValue(reset_button,false);
                     for(Card card : selectedCards){
                         stage.getActors().get(stage.getActors().indexOf(
-                                buttonsAndCards.get(card),false)).removeListener(buttonsAndCards.get(
-                                        card).getListeners().get(0));
+                                buttonsAndCards.get(card),false)).remove();
+
+                        // backup code to remove listeners from buttons
+//                        stage.getActors().get(stage.getActors().indexOf(
+//                                buttonsAndCards.get(card),false)).removeListener(buttonsAndCards.get(
+//                                card).getListeners().get(0));
                     }
                     //continue game
                     continueTurn();
