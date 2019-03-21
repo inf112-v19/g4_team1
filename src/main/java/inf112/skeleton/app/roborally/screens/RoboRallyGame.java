@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.Map;
+//import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
@@ -48,6 +48,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import static inf112.skeleton.app.base.utils.Direction.EAST;
 
@@ -161,6 +162,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
 
         // draw the cards
         try {
+            System.out.println("Start game");
             startGame();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -170,8 +172,6 @@ public class RoboRallyGame implements Screen, InputProcessor {
     // WIP
     // trying different approaches to create game round and phase
     private void startGame() throws InterruptedException {
-
-
         for (int i = 0; i < NPLAYERS; i++) {
             Player player = new Player("test");
             Robot robot = new Robot(gameBoard.getSpawn(), Direction.NORTH, player, gameBoard);
@@ -182,7 +182,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
             sprite.setSize(tileWidth, tileHeight);
 
             robotSprites.put(robot, sprite);
-
+            System.out.println("finished adding robots");
         }
         updateAllSprites(players);
         for (int i = 0; i < 5; i++) {
@@ -190,37 +190,41 @@ public class RoboRallyGame implements Screen, InputProcessor {
         }
 
     }
-    private void doTurn(){
-        for (Player player1 : players) {
+    private void doTurn() throws InterruptedException {
+        for (Player player : players) {
             //players program their robots
-            player1.setCards(cardDecks.getCards(5));
             //choosecards() updates currentPlayerCards
+            System.out.println("choose cards");
             chooseCards(player.getRobot().getHealth());
-            players.get(i).setCards(currentPlayerCards);
+            player.setCards(currentPlayerCards);
             //after the players' list of cards should be what they have programmed
+
         }
         //here the program card should be revealed to other players
-        boolean finishedExecute=false;
-        while(!finishedExecute){
+        boolean finishedExecute = false;
+        while (!finishedExecute) {
             //players should be sorted by their first cards priority number
-            players.sort(new Comparator<Player>() {
-                public int compare(Player player2, Player player1) {
-                    return player2.getCards().get(0).getPriorityNumber()-player1.getCards().get(0).getPriorityNumber();
-                }
-            });
-            for(Player current : players){
-                if(current.getCards().size()!=0){
-                    finishedExecute=true;
+//            players.sort(new Comparator<Player>() {
+//                public int compare(Player player2, Player player1) {
+//                    if (!player1.getCards().isEmpty() && !player2.getCards().isEmpty())
+//                        return player2.getCards().get(0).getPriorityNumber()-player1.getCards().get(0).getPriorityNumber();
+//                    else return 0;
+//                }
+//            });
+            finishedExecute = true;
+            for (Player current : players) {
+                if (current.getCards().size() != 0) {
+                    finishedExecute = false;
                     Card card = current.useFirstCard();
                     card.execute(current.getRobot());
                     System.out.println(current.getRobot().getPos());
                     updateAllSprites(players);
                     cardDecks.addUsed(card);
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+//                    try {
+//                        Thread.sleep(2000);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
                 }
             }
             //activate board elements, then lasers
@@ -254,11 +258,10 @@ public class RoboRallyGame implements Screen, InputProcessor {
         }
     }
 
-
-    private void chooseCards(int nCards) {
-        /**
-         * this method updates currentPlayerCards with the cards that is selected
-         */
+    /**
+     * this method updates currentPlayerCards with the cards that is selected
+     */
+    private void chooseCards(int nCards) throws InterruptedException {
         currentPlayerCards.clear();
         ArrayList<Card> availableCards = cardDecks.getCards(nCards);
         ArrayList<Card> selectedCards = new ArrayList<>();
@@ -318,7 +321,6 @@ public class RoboRallyGame implements Screen, InputProcessor {
                 if (selectedCards.size() > 0) {
                     currentPlayerCards.removeAll(selectedCards);
 
-
                     // remove the available cards from the screen
                     int count= buttonsAndCards.size();
                     int j = 0;
@@ -330,7 +332,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
                         j++;
 
                     }
-                  availableCards.addAll(selectedCards);
+                    availableCards.addAll(selectedCards);
                     selectedCards.clear();
                 }
             }
@@ -355,6 +357,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
                     // remove the available cards from the screen
                     int count = availableCards.size();
                     for (int i = 0; i <count; i++) {
+                        cardDecks.addUsed(availableCards.get(0));
                         stage.getActors().removeValue(buttonsAndCards.get(
                                 availableCards.remove(0)), false);
                     }
@@ -381,31 +384,6 @@ public class RoboRallyGame implements Screen, InputProcessor {
         // player wins
     }
 
-    // CHECK HERE
-    // this method adds the sprites to card objects. WIP
-    private void setupCard() {
-        //Her e metoden som setter opp kortene med sprites, spritesene e midlertidige for øyeblikket, men når kver type kort får
-        //sin egen sprite kan me sette den te å ta fra kort istedenfor.
-        //Denne er kun for de 9 første kortene
-
-        int x=0;
-        int y=13;
-        for (int i = 0; i <= cardSprite.length-1; i++) {
-            //TODO   //Card temp= new Card( cards[i].getType(),i);
-            cardSprite[i] = new Sprite(new Texture("assets/roborally/cards/option - 5.jpg"));
-            cardSprite[i].setSize(tileWidth*2,tileHeight*2);
-            cardSprite[i].setPosition(96*x,96*y);
-            x=x+2;
-//            if (y==3) {
-//                y = 11;
-//                x = 15;
-//            }
-//            if (i==cardSprite.length-1){
-//                cardSprite[i].setPosition(96*14,96*3);
-//            }
-        }
-    }
-
     @Override
     public void show() {
 
@@ -413,24 +391,23 @@ public class RoboRallyGame implements Screen, InputProcessor {
 
     @Override
     public void render(float v) {
-        if (state == State.RUN) {
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-            camera.update();
-            boardRenderer.setView(camera);
-            boardRenderer.render();
+        camera.update();
+        boardRenderer.setView(camera);
+        boardRenderer.render();
 
-            sb.setProjectionMatrix(camera.combined);
-            sb.begin();
+        sb.setProjectionMatrix(camera.combined);
+        sb.begin();
 
-            for(Player player : players){
+        for (Player player : players) {
             robotSprites.get(player.getRobot()).draw(sb);
-            }
-
-            sb.end();
-            stage.act(v);
-            stage.draw();
         }
+        sb.end();
+
+        stage.act(v);
+        stage.draw();
+    }
 
     @Override
     public void resize(int i, int i1) {
