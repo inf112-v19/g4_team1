@@ -60,6 +60,7 @@ public class CardDecks {
      * take n cards from the deck
      */
     public ArrayList<Card> getCards(int n) {
+        //System.out.println("gets cards "+n);
         ArrayList<Card> cards = new ArrayList<>();
         for (int i = 0; i < n; i++)
             cards.add(getCard());
@@ -73,6 +74,7 @@ public class CardDecks {
      * @param card usedDeck card
      */
     public void addUsed(Card card) {
+        //System.out.println("adds a used card");
         usedDeck.add(card);
     }
 

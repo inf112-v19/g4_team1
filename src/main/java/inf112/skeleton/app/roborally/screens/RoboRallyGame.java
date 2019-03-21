@@ -43,6 +43,8 @@ import inf112.skeleton.app.base.actors.Robot;
 import inf112.skeleton.app.base.board.Board;
 import inf112.skeleton.app.base.utils.Direction;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -55,7 +57,7 @@ import static inf112.skeleton.app.base.utils.Direction.EAST;
 /**
  * main game screen
  */
-public class RoboRallyGame implements Screen, InputProcessor {
+public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private RoboRally roboRally;
     private TiledMap board;
     private OrthographicCamera camera;
@@ -73,13 +75,18 @@ public class RoboRallyGame implements Screen, InputProcessor {
     private Sprite[] cardSprite;
     Map<Robot, Sprite> robotSprites = new HashMap<>();
     ArrayList<Player> players = new ArrayList<>();
-    int NPLAYERS = 2;
+    int NPLAYERS = 1;
     CardDecks cardDecks = new CardDecks();
     ArrayList<IActiveElement> ActiveElements;
     ArrayList<Flag> flags  ;
     ArrayList<WrenchTile> wrenches ;
 
     private ArrayList<Card > currentPlayerCards = new ArrayList<>();
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+    }
 
     private enum State {
         PAUSE,
@@ -185,9 +192,8 @@ public class RoboRallyGame implements Screen, InputProcessor {
             System.out.println("finished adding robots");
         }
         updateAllSprites(players);
-        for (int i = 0; i < 5; i++) {
             doTurn();
-        }
+
 
     }
     private void doTurn() throws InterruptedException {
@@ -200,6 +206,8 @@ public class RoboRallyGame implements Screen, InputProcessor {
             //after the players' list of cards should be what they have programmed
 
         }
+    }
+    private void continueTurn(){
         //here the program card should be revealed to other players
         boolean finishedExecute = false;
         while (!finishedExecute) {
@@ -255,6 +263,11 @@ public class RoboRallyGame implements Screen, InputProcessor {
             if (player.getRobot().getFlags().size() == flags.size()){
                 win(player);
             }
+        }
+        try {
+            doTurn();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
@@ -345,6 +358,7 @@ public class RoboRallyGame implements Screen, InputProcessor {
         finish_button.setPosition(96, 300);
         stage.addActor(finish_button);
         finished.add(false);
+
         finish_button.addListener(new ChangeListener() {
 
             @Override
@@ -370,6 +384,8 @@ public class RoboRallyGame implements Screen, InputProcessor {
                                 buttonsAndCards.get(card),false)).removeListener(buttonsAndCards.get(
                                         card).getListeners().get(0));
                     }
+                    //continue game
+                    continueTurn();
 
                 }else{
                     System.out.println("not enough cards");
