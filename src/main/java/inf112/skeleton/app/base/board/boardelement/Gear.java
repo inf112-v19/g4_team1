@@ -8,8 +8,8 @@ import inf112.skeleton.app.base.utils.Pos;
 public class Gear extends BoardElement implements IActiveElement {
     private Direction dir;
 
-    public Gear(Direction dir, Pos pos, char symbol, Board board) {
-        super(pos, symbol, board);
+    public Gear(Direction dir, Pos pos, Board board) {
+        super(pos, board);
 
         if (dir == Direction.NORTH || dir == Direction.SOUTH)
             throw new IllegalArgumentException("Use arguments EAST or WEST for gears");

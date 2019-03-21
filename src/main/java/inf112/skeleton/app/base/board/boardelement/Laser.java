@@ -7,8 +7,8 @@ import inf112.skeleton.app.base.utils.Pos;
 public class Laser extends BoardElement implements IActiveElement {
     private Direction dir;
 
-    public Laser(Direction dir, Pos pos, char symbol, Board board) {
-        super(pos, symbol, board);
+    public Laser(Direction dir, Pos pos, Board board) {
+        super(pos, board);
         this.dir = dir;
     }
 

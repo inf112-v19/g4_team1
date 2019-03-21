@@ -8,8 +8,8 @@ public class Flag extends BoardElement{
     private Board board;
     private Pos pos;
 
-    public Flag(Pos pos, char symbol, Board board) {
-        super(pos, symbol, board);
+    public Flag(Pos pos, Board board) {
+        super(pos, board);
         this.board = board;
         this.pos = pos;
     }

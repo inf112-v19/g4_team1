@@ -3,7 +3,6 @@ package inf112.skeleton.app.base.board;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import inf112.skeleton.app.base.actors.IRobot;
-import inf112.skeleton.app.base.actors.ITileObject;
 import inf112.skeleton.app.base.actors.Player;
 import inf112.skeleton.app.base.actors.Robot;
 import inf112.skeleton.app.base.board.boardelement.*;
@@ -64,34 +63,34 @@ public class Board implements IBoard {
                     case '-': break;
 
                     case 'r': tile.addObject(
-                            new Conveyor(Direction.EAST, pos, 'r', this));
+                            new Conveyor(Direction.EAST, pos,  this));
 
                     case 'd': tile.addObject(
-                            new Conveyor(Direction.SOUTH, pos, 'd', this));
+                            new Conveyor(Direction.SOUTH, pos,  this));
 
                     case 'p': tile.addObject(
                             new Pit(pos, 'p', this));
 
                     case 'N': tile.addObject(
-                            new Wall(Direction.NORTH, pos, 'N', this));
+                            new Wall(Direction.NORTH, pos,  this));
 
                     case 'E': tile.addObject(
-                            new Wall(Direction.EAST, pos, 'E', this));
+                            new Wall(Direction.EAST, pos,  this));
 
                     case 'S': tile.addObject(
-                            new Wall(Direction.SOUTH, pos, 'S', this));
+                            new Wall(Direction.SOUTH, pos,  this));
 
                     case 'W': tile.addObject(
-                            new Wall(Direction.WEST, pos, 'W', this));
+                            new Wall(Direction.WEST, pos,  this));
 
                     case 'R': tile.addObject(
                             new Robot(pos, Direction.SOUTH, new Player("Player 1"), this));
 
                     case 'w': tile.addObject(
-                            new WrenchTile(pos, 'w', this));
+                            new WrenchTile(pos,  this));
 
                     case 's': tile.addObject(
-                            new Pusher(Direction.EAST, pos, 's', this));
+                            new Pusher(Direction.EAST, pos,  this));
 
                     case 'Q': tile.addObject(
                             new Spawn(pos, 'Q', this));
@@ -126,10 +125,10 @@ public class Board implements IBoard {
 
     private IBoardElement getBoardElemFromTmx(int id, Pos pos) {
         switch(id){
-            case 1: return new Pusher(Direction.SOUTH, pos, 'a', this);
-            case 2: return new Pusher(Direction.WEST, pos, 'a', this);
-            case 3: return new Pusher(Direction.NORTH, pos, 'a', this);
-            case 4: return new Pusher(Direction.EAST, pos, 'a', this);
+            case 1: return new Pusher(Direction.SOUTH, pos , this);
+            case 2: return new Pusher(Direction.WEST, pos , this);
+            case 3: return new Pusher(Direction.NORTH, pos , this);
+            case 4: return new Pusher(Direction.EAST, pos , this);
         }
         return new Spawn(pos, 'a', this);
     }

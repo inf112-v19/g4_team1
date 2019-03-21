@@ -1,13 +1,14 @@
 package inf112.skeleton.app.base.actors;
 
 import inf112.skeleton.app.base.board.IBoard;
+import inf112.skeleton.app.base.board.IBoardElement;
 import inf112.skeleton.app.base.board.boardelement.Flag;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
 
 import java.util.ArrayList;
 
-public class Robot extends TileObject implements IRobot {
+public class Robot implements IRobot, IBoardElement {
     private Pos pos;
     private Direction dir;
     private Player owner;

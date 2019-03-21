@@ -6,6 +6,6 @@ import inf112.skeleton.app.base.utils.Pos;
 public class Spawn extends BoardElement {
 
     public Spawn(Pos pos, char symbol, Board board) {
-        super(pos, symbol, board);
+        super(pos, board);
     }
 }

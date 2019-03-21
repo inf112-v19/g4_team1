@@ -70,7 +70,7 @@ public class RobotTest {
     void wallCollision1(){
         Board board = new Board(10, 10);
         Robot robot1 = new Robot(new Pos(1, 1), Direction.EAST, new Player("tobias"), board);
-        board.addTileObject(new Wall(Direction.WEST, new Pos(2, 1), 'w', board));
+        board.addTileObject(new Wall(Direction.WEST, new Pos(2, 1),  board));
         robot1.moveForward(1);
         assertEquals(robot1.getPos().x(), 1);
         assertEquals(robot1.getPos().x(), 1);
@@ -80,7 +80,7 @@ public class RobotTest {
     void wallCollision2(){
         Board board = new Board(10, 10);
         Robot robot1 = new Robot(new Pos(1, 1), Direction.EAST, new Player("tobias"), board);
-        board.addTileObject(new Wall(Direction.EAST, new Pos(2, 1), 'w', board));
+        board.addTileObject(new Wall(Direction.EAST, new Pos(2, 1),  board));
         robot1.moveForward(1);
         assertEquals(robot1.getPos().x(), 2);
         assertEquals(robot1.getPos().y(), 1);
@@ -89,7 +89,7 @@ public class RobotTest {
     void wallCollision3(){
         Board board = new Board(10, 10);
         Robot robot1 = new Robot(new Pos(1, 1), Direction.EAST, new Player("tobias"), board);
-        board.addTileObject(new Wall(Direction.EAST, new Pos(1, 1), 'w', board));
+        board.addTileObject(new Wall(Direction.EAST, new Pos(1, 1),  board));
         robot1.moveForward(1);
         assertEquals(robot1.getPos().x(), 1);
         assertEquals(robot1.getPos().y(), 1);
@@ -98,7 +98,7 @@ public class RobotTest {
     void wallCollision4(){
         Board board = new Board(10, 10);
         Robot robot1 = new Robot(new Pos(1, 1), Direction.EAST, new Player("tobias"), board);
-        board.addTileObject(new Wall(Direction.WEST, new Pos(1, 1), 'w', board));
+        board.addTileObject(new Wall(Direction.WEST, new Pos(1, 1),  board));
         robot1.moveForward(1);
         assertEquals(robot1.getPos().x(), 2);
         assertEquals(robot1.getPos().y(), 1);
@@ -107,7 +107,7 @@ public class RobotTest {
         Board board = new Board(10, 10);
         Robot robot1 = new Robot(new Pos(1, 1), Direction.EAST, new Player("tobias"), board);
         Robot robot2 = new Robot(new Pos(2, 1), Direction.EAST, new Player("tobias"), board);
-        board.addTileObject( new Wall(Direction.WEST, new Pos(3, 1), 'w', board));
+        board.addTileObject( new Wall(Direction.WEST, new Pos(3, 1), board));
         board.addTileObject( robot1);
         board.addTileObject(robot2);
         robot1.moveForward(1);

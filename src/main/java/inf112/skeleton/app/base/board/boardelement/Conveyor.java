@@ -8,8 +8,8 @@ import inf112.skeleton.app.base.utils.Pos;
 public class Conveyor extends BoardElement implements IActiveElement {
     private Direction dir;
 
-    public Conveyor(Direction dir, Pos pos, char symbol, Board board) {
-        super(pos, symbol, board);
+    public Conveyor(Direction dir, Pos pos, Board board) {
+        super(pos, board);
         this.dir = dir;
     }
 
