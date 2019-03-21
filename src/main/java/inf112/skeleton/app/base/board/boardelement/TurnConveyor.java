@@ -18,16 +18,21 @@ public class TurnConveyor extends BoardElement implements IActiveElement{
     public void activate() {
         if (board.containsRobot(pos)) {
             IRobot robot = board.getRobot(pos);
+                int startPosX= getPos().x();
+                int startPosY= getPos().y();
 
             if (dir == Direction.EAST) {
                 robot.move(Direction.EAST);
+                if(startPosY<getPos().y());
                 robot.turnLeft();
             }else{robot.turnRight();}
 
             if (dir == Direction.NORTH) {
-                robot.turnRight();
                 robot.move(Direction.NORTH);
-            }else{robot.turnLeft();}
+                if (startPosX<getPos().x())
+                robot.turnRight();
+                else{robot.turnLeft();}
+            }
 
             if (dir == Direction.WEST) {
                 robot.turnRight();
@@ -35,9 +40,11 @@ public class TurnConveyor extends BoardElement implements IActiveElement{
             }else{robot.turnLeft();}
 
             if(dir == Direction.SOUTH){
-                robot.turnRight();
                 robot.move(Direction.SOUTH);
-            }else{robot.turnLeft();}
+                if (startPosX<getPos().x())
+                    robot.turnLeft();
+                else{robot.turnRight(); }
+            }
             // trenger vi 8 forskjellige turncoveyor?
 
         }

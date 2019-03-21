@@ -191,55 +191,13 @@ public class Robot extends TileObject implements IRobot {
     }
 
 
+    public void laser() {
+        Direction dir = getDir();
+        Pos pos = getPos();
 
+        Laser laser = new Laser(dir, pos.getAdjacent(dir), 'a', board);
+        laser.activate();
 
-  public void laser( ) {
-
-      Direction dir = getDir();
-      Pos pos = getPos();
-
-      Laser laser = new Laser(dir,pos.getAdjacent(dir), 'a', board);
-      laser.activate();
-
-
-   /*     new Wall(Direction.EAST,1,'a',board)
-        if(dir.equals(Direction.EAST)){
-            Tile newTile = new Tile(getPos(y), +1);
-            while(!newTile.contains(Wall || andre elementer) {
-                if(newTile.contain(robot){
-                    robot.hp --;
-                } else {
-                    fortsett i loopen
-                }
-            }
-
-        }
-        }
-/*
-        if()
-
-        // checks for wall at the near side of the tile
-        if (board.getWallDir() != null)
-            if (dir == board.getWallDir(laserPos).opposite())
-                return;
-
-        // damages robot at the tile
-        if (board.containsRobot(laserPos)) {
-            // shoots robot
-            board.getRobot(laserPos).damage();
-            return;
-        }
-
-        // check if hits wall at the far side of the tile
-        if (board.getWallDir(laserPos) != null)
-            if (dir == board.getWallDir(laserPos))
-                return;
-
-        // checks next tile in the loop
-        laserPos = laserPos.getAdjacent(dir);
-
-        if (board.outOfBounds(laserPos)) return;*/
-
-  }
+    }
 
 }
