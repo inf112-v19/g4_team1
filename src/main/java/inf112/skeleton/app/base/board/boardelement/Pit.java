@@ -4,7 +4,7 @@ import inf112.skeleton.app.base.board.Board;
 import inf112.skeleton.app.base.utils.Pos;
 
 public class Pit extends BoardElement {
-    public Pit(Pos pos, char symbol, Board board) {
+    public Pit(Pos pos, Board board) {
         super(pos, board);
     }
 

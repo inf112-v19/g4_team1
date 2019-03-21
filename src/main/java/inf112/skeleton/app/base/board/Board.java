@@ -104,7 +104,8 @@ public class Board implements IBoard {
         for (int x = 0; x < mapWidth;   x++) {
             for (int y = 0; y < mapHeight; y++) {
                 int id = ((TiledMapTileLayer) board.getLayers().get(0)).getCell(x, y).getTile().getId();
-                addTileObject(getBoardElemFromTmx(id, new Pos(x, y)));
+                if(getBoardElemFromTmx(id, new Pos(x, y))!= null)
+                    addTileObject(getBoardElemFromTmx(id, new Pos(x, y)));
             }
         }
     }
@@ -118,6 +119,9 @@ public class Board implements IBoard {
             case 2: return new Pusher(Direction.WEST, pos , this);
             case 3: return new Pusher(Direction.NORTH, pos , this);
             case 4: return new Pusher(Direction.EAST, pos , this);
+            case 5: return null;
+            case 6: return new Pit(pos, this);
+            case 7: return new WrenchTile(pos, this);
         }
         return new Spawn(pos, 'a', this);
         //throw new IllegalArgumentException("not a valid id");

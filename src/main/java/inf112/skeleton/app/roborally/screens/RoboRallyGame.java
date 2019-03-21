@@ -163,8 +163,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             System.out.println("choose cards");
             chooseCards(player.getRobot().getHealth());
             player.setCards(currentPlayerCards);
-            //after the players' list of cards should be what they have programmed
-
         }
     }
     private void continueTurn(){
