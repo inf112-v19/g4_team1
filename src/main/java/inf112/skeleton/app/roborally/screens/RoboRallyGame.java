@@ -64,23 +64,16 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private OrthographicCamera camera;
     private TiledMapRenderer boardRenderer;
     private SpriteBatch sb;
-    private Sprite sprite;
-    private Player player;
     private int tileWidth;
     private int tileHeight;
     private Board gameBoard;
-    private Array<Rectangle> tiles;
     private Stage stage;
-    private Skin uiSkin;
-    private FitViewport viewPort;
-    private Sprite[] cardSprite;
     private Map<Robot, Sprite> robotSprites = new HashMap<>();
     private ArrayList<Player> players = new ArrayList<>();
-    private int NPLAYERS = 1;
     private CardDecks cardDecks = new CardDecks();
     private ArrayList<IActiveElement> ActiveElements;
     private ArrayList<Flag> flags  ;
-    private ArrayList<WrenchTile> wrenches ;
+    private ArrayList<WrenchTile> wrenches;
 
     private ArrayList<Card > currentPlayerCards = new ArrayList<>();
 
@@ -106,8 +99,8 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
         // set the camera
         camera = new OrthographicCamera();
-        viewPort = new FitViewport(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT,camera);
-        camera.position.set(viewPort.getWorldWidth() / 2,viewPort.getWorldHeight() / 2,0);
+        FitViewport viewPort = new FitViewport(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, camera);
+        camera.position.set(viewPort.getWorldWidth() / 2, viewPort.getWorldHeight() / 2,0);
 
         sb = new SpriteBatch();
 
@@ -145,6 +138,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
     // set up the players before starting game
     private void startGame() throws InterruptedException {
+        int NPLAYERS = 1;
         for (int i = 0; i < NPLAYERS; i++) {
             Player player = new Player("test");
             Robot robot = new Robot(gameBoard.getSpawn(), Direction.NORTH, player, gameBoard);
@@ -424,20 +418,15 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
     @Override
     public boolean keyDown(int key) {
-
-        // reads input from user and moves the robot on the screen
+        // reads input from user and moves the first robot on the screen for testing
         if (key == Input.Keys.LEFT)
-            if (sprite.getX() > 2)
-                sprite.translate(-tileWidth, 0);
-
+            players.get(0).getRobot().move(Direction.WEST);
         if (key == Input.Keys.RIGHT)
-            if (sprite.getX() < (96 * 12) - 1)
-                sprite.translate(tileWidth, 0);
-
+            players.get(0).getRobot().move(EAST);
         if (key == Input.Keys.UP)
-            if (sprite.getY() < (96 * 12) - 1)
-                sprite.translate(0, tileHeight);
-
+            players.get(0).getRobot().move(Direction.NORTH);
+        if (key == Input.Keys.DOWN)
+            players.get(0).getRobot().move(Direction.SOUTH);
         return false;
     }
 
