@@ -186,22 +186,19 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     System.out.println(current.getRobot().getPos());
                     updateAllSprites(players);
                     cardDecks.addUsed(card);
-//                    try {
-//                        Thread.sleep(2000);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
                 }
             }
             //activate board elements, then lasers
             for(IActiveElement elem : ActiveElements){
                 if(!(elem instanceof Laser)){
                     elem.activate();
+                    updateAllSprites(players);
                 }
             }
             for(IActiveElement elem : ActiveElements){
                 if(elem instanceof Laser){
                     elem.activate();
+                    updateAllSprites(players);
                 }
             }
             //end of phase
@@ -361,6 +358,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private void win(Player player) {
         //TODO:
         // player wins
+        System.out.println(player+" won");
     }
 
     @Override
