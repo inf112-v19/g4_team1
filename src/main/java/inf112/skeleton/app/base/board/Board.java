@@ -63,7 +63,7 @@ public class Board implements IBoard {
                     case 'd': tile.addObject(
                             new Conveyor(Direction.SOUTH, pos,  this));
                     case 'p': tile.addObject(
-                            new Pit(pos, 'p', this));
+                            new Pit(pos,  this));
                     case 'N': tile.addObject(
                             new Wall(Direction.NORTH, pos,  this));
                     case 'E': tile.addObject(
@@ -119,7 +119,7 @@ public class Board implements IBoard {
             case 2: return new Pusher(Direction.WEST, pos , this);
             case 3: return new Pusher(Direction.NORTH, pos , this);
             case 4: return new Pusher(Direction.EAST, pos , this);
-            case 5: return null;
+            case 5: return null; //this is the empty tile
             case 6: return new Pit(pos, this);
             case 7: return new WrenchTile(pos, this);
         }
@@ -134,7 +134,6 @@ public class Board implements IBoard {
 
     @Override
     public void addTileObject(IBoardElement obj) {
-        System.out.println("adder "+obj+" på "+obj.getPos());
         Pos pos = obj.getPos();
         get(pos).addObject(obj);
     }
