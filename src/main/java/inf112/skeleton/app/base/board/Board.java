@@ -20,7 +20,7 @@ public class Board implements IBoard {
     private int height, width;
 
     public Board(int height, int width) {
-        board = new ArrayList<ITile>(height * width);
+        board = new ArrayList<>(height * width);
         this.height = height;
         this.width = width;
 
@@ -30,8 +30,6 @@ public class Board implements IBoard {
     }
 
     public Board(String textFile) throws IOException {
-        final int tileWidth = 96;
-        final int tileHeight = 96;
         FileReader fileReader = new FileReader(textFile);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
 
@@ -55,8 +53,6 @@ public class Board implements IBoard {
 
                 Tile tile = new Tile();
                 char symbol = line.charAt(x);
-                //  System.out.println("Added " + symbol + " at " + x + " " + y);
-                //Pos pos = new Pos(tileWidth * x, tileHeight * y);
                 Pos pos = new Pos( x,  y);
 
                 switch (symbol) {
@@ -64,46 +60,37 @@ public class Board implements IBoard {
 
                     case 'r': tile.addObject(
                             new Conveyor(Direction.EAST, pos,  this));
-
                     case 'd': tile.addObject(
                             new Conveyor(Direction.SOUTH, pos,  this));
-
                     case 'p': tile.addObject(
                             new Pit(pos, 'p', this));
-
                     case 'N': tile.addObject(
                             new Wall(Direction.NORTH, pos,  this));
-
                     case 'E': tile.addObject(
                             new Wall(Direction.EAST, pos,  this));
-
                     case 'S': tile.addObject(
                             new Wall(Direction.SOUTH, pos,  this));
-
                     case 'W': tile.addObject(
                             new Wall(Direction.WEST, pos,  this));
-
                     case 'R': tile.addObject(
                             new Robot(pos, Direction.SOUTH, new Player("Player 1"), this));
-
                     case 'w': tile.addObject(
                             new WrenchTile(pos,  this));
-
                     case 's': tile.addObject(
                             new Pusher(Direction.EAST, pos,  this));
-
                     case 'Q': tile.addObject(
                             new Spawn(pos, 'Q', this));
                 }
-
                 board.add(tile);
             }
         }
-
         bufferedReader.close();
     }
 
     public Board(TiledMap board) {
+        /*
+          constructor that adds all elements according to the tiles in the tmx object
+         */
         int mapWidth = board.getProperties().get("width", Integer.class);
         int mapHeight = board.getProperties().get("height", Integer.class);
         this.board = new ArrayList<>(height * width);
@@ -119,11 +106,13 @@ public class Board implements IBoard {
                 int id = ((TiledMapTileLayer) board.getLayers().get(0)).getCell(x, y).getTile().getId();
                 addTileObject(getBoardElemFromTmx(id, new Pos(x, y)));
             }
-
         }
     }
 
     private IBoardElement getBoardElemFromTmx(int id, Pos pos) {
+        /*
+          id is the number of the tile used in the tmx file
+         */
         switch(id){
             case 1: return new Pusher(Direction.SOUTH, pos , this);
             case 2: return new Pusher(Direction.WEST, pos , this);
@@ -131,6 +120,7 @@ public class Board implements IBoard {
             case 4: return new Pusher(Direction.EAST, pos , this);
         }
         return new Spawn(pos, 'a', this);
+        //throw new IllegalArgumentException("not a valid id");
     }
 
     @Override
