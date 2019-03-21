@@ -1,6 +1,9 @@
 package inf112.skeleton.app.base.board;
 
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import inf112.skeleton.app.base.actors.IRobot;
+import inf112.skeleton.app.base.actors.ITileObject;
 import inf112.skeleton.app.base.actors.Player;
 import inf112.skeleton.app.base.actors.Robot;
 import inf112.skeleton.app.base.board.boardelement.*;
@@ -53,7 +56,7 @@ public class Board implements IBoard {
 
                 Tile tile = new Tile();
                 char symbol = line.charAt(x);
-                System.out.println("Added " + symbol + " at " + x + " " + y);
+                //  System.out.println("Added " + symbol + " at " + x + " " + y);
                 //Pos pos = new Pos(tileWidth * x, tileHeight * y);
                 Pos pos = new Pos( x,  y);
 
@@ -101,6 +104,36 @@ public class Board implements IBoard {
         bufferedReader.close();
     }
 
+    public Board(TiledMap board) {
+        int mapWidth = board.getProperties().get("width", Integer.class);
+        int mapHeight = board.getProperties().get("height", Integer.class);
+        this.board = new ArrayList<>(height * width);
+        this.height = mapHeight;
+        this.width = mapWidth;
+
+        for (int i = 0; i < this.getHeight(); i++)
+            for (int j = 0; j < this.getWidth(); j++)
+                this.board.add(new Tile());
+
+        for (int x = 0; x < mapWidth;   x++) {
+            for (int y = 0; y < mapHeight; y++) {
+                int id = ((TiledMapTileLayer) board.getLayers().get(0)).getCell(x, y).getTile().getId();
+                addTileObject(getBoardElemFromTmx(id, new Pos(x, y)));
+            }
+
+        }
+    }
+
+    private IBoardElement getBoardElemFromTmx(int id, Pos pos) {
+        switch(id){
+            case 1: return new Pusher(Direction.SOUTH, pos, 'a', this);
+            case 2: return new Pusher(Direction.WEST, pos, 'a', this);
+            case 3: return new Pusher(Direction.NORTH, pos, 'a', this);
+            case 4: return new Pusher(Direction.EAST, pos, 'a', this);
+        }
+        return new Spawn(pos, 'a', this);
+    }
+
     @Override
     public void setTile(Pos pos, ITile tile) {
         board.set(indexFromCor(pos), tile);
@@ -108,6 +141,7 @@ public class Board implements IBoard {
 
     @Override
     public void addTileObject(IBoardElement obj) {
+        System.out.println("adder "+obj+" på "+obj.getPos());
         Pos pos = obj.getPos();
         get(pos).addObject(obj);
     }

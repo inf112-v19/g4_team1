@@ -10,11 +10,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 //import com.badlogic.gdx.maps.Map;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -122,28 +123,18 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         int mapHeightInPixels = mapHeightInTiles * tileHeight;
 
         // create a board object using the text file
-        try {
-            gameBoard = new Board("assets/roborally/board1.txt");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        //try {
+        //    gameBoard = new Board("assets/roborally/board1.txt");
+        //} catch (IOException e) {
+        //    e.printStackTrace();
+        //}
+        //create gameboard from tmx file
+        gameBoard = new Board(board);
 
         ActiveElements = gameBoard.getActiveElements();
         flags = gameBoard.getFlags();
         wrenches = gameBoard.getWrenches();
 
-        // fill the tiles array depending on the size of the board
-        tiles = new Array<>();
-        for (int i = 0; i < gameBoard.getWidth(); i++) {
-            for (int j = 0; j < gameBoard.getHeight(); j++) {
-                Rectangle tile = new Rectangle();
-                tile.width = tileWidth;
-                tile.height = tileHeight;
-                tile.x = i * tileWidth;
-                tile.y = j * tileHeight;
-                tiles.add(tile);
-            }
-        }
 
         // testing of the cards, WIP
         player = new Player("test");
