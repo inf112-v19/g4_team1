@@ -156,6 +156,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
 
     }
+
     private void doTurn() throws InterruptedException {
         for (Player player : players) {
             //players program their robots
@@ -165,7 +166,8 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             player.setCards(currentPlayerCards);
         }
     }
-    private void continueTurn(){
+
+    private void continueTurn() {
         //player have finished choosing cards
         boolean finishedExecute = false;
         while (!finishedExecute) {
@@ -311,7 +313,8 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         Texture testTexture = new Texture("assets/roborally/robot.png");
         Drawable drawable = new TextureRegionDrawable(testTexture);
         Button finish_button = new Button(drawable);
-        finish_button.setPosition(96, 300);
+        finish_button.setPosition((96*15)-30,96*3);
+        finish_button.setSize(96,96);
         stage.addActor(finish_button);
         finished.add(false);
 

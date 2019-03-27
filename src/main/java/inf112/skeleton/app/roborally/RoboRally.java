@@ -1,6 +1,7 @@
 package inf112.skeleton.app.roborally;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import inf112.skeleton.app.roborally.screens.RoboRallyGame;
@@ -15,6 +16,8 @@ public class RoboRally extends Game {
 
     @Override
     public void create() {
+//        Gdx.graphics.setContinuousRendering(false);
+//        Gdx.graphics.requestRendering();
         batch = new SpriteBatch();
         font = new BitmapFont();
 
