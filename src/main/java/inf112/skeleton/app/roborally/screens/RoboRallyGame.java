@@ -142,7 +142,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         int NPLAYERS = 1;
         for (int i = 0; i < NPLAYERS; i++) {
             Player player = new Player("test");
-            Robot robot = new Robot(gameBoard.getSpawn(), Direction.NORTH, player, gameBoard);
+            Robot robot = new Robot(gameBoard.getSpawn(), Direction.SOUTH, player, gameBoard);
             gameBoard.addTileObject(robot);
             player.addRobot(robot);
             players.add(player);
@@ -484,9 +484,9 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private int getRotationDegrees(Direction dir){
         switch(dir){
             case NORTH: return 0;
-            case EAST: return 90;
+            case EAST: return 270;
             case SOUTH: return 180;
-            case WEST: return 270;
+            case WEST: return 90;
         }
         throw new IllegalArgumentException();
     }
