@@ -49,7 +49,6 @@ public class Robot implements IRobot, IBoardElement {
 
         // robot is moving outside board/to pit
         if (board.outOfBounds(newPos) || (board.containsPit(newPos))) {
-            System.out.println("LETS GO BOYS!!");
             respawn();
             return true;
         }
@@ -120,11 +119,12 @@ public class Robot implements IRobot, IBoardElement {
     private void respawn() {
         lives--;
         if (lives >= 0) {
-            //TODO:
-            //robot is totally dead
+
+            board.get(pos).removeContent(this);
 
         }
-
+        board.get(pos).removeContent(this);
+        board.get(respawnPos).addObject(this);
         pos = respawnPos;
         health = MAX_HEALTH;
     }
