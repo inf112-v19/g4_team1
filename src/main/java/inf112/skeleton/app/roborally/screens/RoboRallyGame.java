@@ -28,6 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import inf112.skeleton.app.base.actors.Player;
 import inf112.skeleton.app.base.board.boardelement.Flag;
@@ -184,6 +185,13 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 if (current.getCards().size() != 0) {
                     finishedExecute = false;
                     Card card = current.useFirstCard();
+//                    Timer.schedule(new Timer.Task() {
+//                        @Override
+//                        public void run() {
+//                            card.execute(current.getRobot());
+//                            System.out.println(current.getRobot().getPos());
+//                        }
+//                    }, 3);
                     card.execute(current.getRobot());
                     System.out.println(current.getRobot().getPos());
                     updateAllSprites(players);
