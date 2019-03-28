@@ -184,18 +184,11 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             for (Player current : players) {
                 if (current.getCards().size() != 0) {
                     finishedExecute = false;
-                    Card card = current.useFirstCard();
-//                    Timer.schedule(new Timer.Task() {
-//                        @Override
-//                        public void run() {
-//                            card.execute(current.getRobot());
-//                            System.out.println(current.getRobot().getPos());
-//                        }
-//                    }, 3);
-                    card.execute(current.getRobot());
+                    moveRobot(current);
                     System.out.println(current.getRobot().getPos());
+
                     updateAllSprites(players);
-                    cardDecks.addUsed(card);
+
                 }
             }
             //activate board elements, then lasers
@@ -489,5 +482,14 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             case WEST: return 90;
         }
         throw new IllegalArgumentException();
+    }
+    /*
+
+     */
+    public void moveRobot(Player player) {
+        Card card = player.useFirstCard();
+        card.execute(player.getRobot());
+        cardDecks.addUsed(card);
+
     }
 }
