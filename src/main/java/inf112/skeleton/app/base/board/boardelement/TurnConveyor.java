@@ -35,8 +35,9 @@ public class TurnConveyor extends BoardElement implements IActiveElement{
             }
 
             if (dir == Direction.WEST) {
-                robot.turnRight();
                 robot.move(Direction.WEST);
+                if(startPosY<getPos().y());
+                robot.turnRight();
             }else{robot.turnLeft();}
 
             if(dir == Direction.SOUTH){
