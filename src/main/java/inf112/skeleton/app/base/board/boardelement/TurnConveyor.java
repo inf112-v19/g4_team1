@@ -46,7 +46,6 @@ public class TurnConveyor extends BoardElement implements IActiveElement{
                     robot.turnLeft();
                 else{robot.turnRight(); }
             }
-            // trenger vi 8 forskjellige turncoveyor?
 
         }
 

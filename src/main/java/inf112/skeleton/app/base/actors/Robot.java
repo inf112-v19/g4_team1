@@ -190,6 +190,16 @@ public class Robot extends TileObject implements IRobot {
         return visitedFlags;
     }
 
+    public void win() {
+        if(visitedFlags.size() == 3){
+            System.out.println("you win!");
+
+        }
+
+
+
+    }
+
 
     public void laser() {
         Direction dir = getDir();
