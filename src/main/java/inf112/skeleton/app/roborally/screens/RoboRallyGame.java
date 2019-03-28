@@ -64,17 +64,19 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private TiledMap board;
     private OrthographicCamera camera;
     private TiledMapRenderer boardRenderer;
-    private SpriteBatch sb;
+   // private SpriteBatch sb;
     private int tileWidth;
     private int tileHeight;
     private Board gameBoard;
     private Stage stage;
-    private Map<Robot, Sprite> robotSprites = new HashMap<>();
+    private Map<Robot, Image> robotSprites = new HashMap<>();
     private ArrayList<Player> players = new ArrayList<>();
     private CardDecks cardDecks = new CardDecks();
     private ArrayList<IActiveElement> ActiveElements;
     private ArrayList<Flag> flags  ;
     private ArrayList<WrenchTile> wrenches;
+    Texture texture= new Texture("assets/roborally/robot.png");
+
 
     private ArrayList<Card > currentPlayerCards = new ArrayList<>();
 
@@ -103,7 +105,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         FitViewport viewPort = new FitViewport(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, camera);
         camera.position.set(viewPort.getWorldWidth() / 2, viewPort.getWorldHeight() / 2,0);
 
-        sb = new SpriteBatch();
+        //sb = new SpriteBatch();
 
         board = new TmxMapLoader().load("assets/roborally/game_boardNew.tmx");
 
@@ -142,14 +144,20 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         int NPLAYERS = 1;
         for (int i = 0; i < NPLAYERS; i++) {
             Player player = new Player("test");
-            Robot robot = new Robot(gameBoard.getSpawn(), Direction.SOUTH, player, gameBoard);
+            Robot robot = new Robot(gameBoard.getSpawn(), Direction.NORTH, player, gameBoard);
             gameBoard.addTileObject(robot);
             player.addRobot(robot);
             players.add(player);
-            Sprite sprite  = new Sprite(new Texture("assets/roborally/robot.png"));
-            sprite.setSize(tileWidth, tileHeight);
 
-            robotSprites.put(robot, sprite);
+
+
+            Drawable drawable= new TextureRegionDrawable(texture);
+            Image robotImage= new Image(drawable);
+            robotImage.setSize(tileWidth - 16,tileHeight-16);
+            robotImage.setPosition(4*tileWidth,4*tileHeight);
+            stage.addActor(robotImage);
+            robotSprites.put(robot, robotImage);
+
             System.out.println("finished adding robots");
         }
         updateAllSprites(players);
@@ -378,13 +386,13 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         boardRenderer.setView(camera);
         boardRenderer.render();
 
-        sb.setProjectionMatrix(camera.combined);
-        sb.begin();
-
-        for (Player player : players) {
-            robotSprites.get(player.getRobot()).draw(sb);
-        }
-        sb.end();
+//        sb.setProjectionMatrix(camera.combined);
+//        sb.begin();
+//
+//        for (Player player : players) {
+//            robotSprites.get(player.getRobot()).draw(sb);
+//        }
+       // sb.end();
 
         stage.act(v);
         stage.draw();
@@ -413,7 +421,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     @Override
     public void dispose() {
         board.dispose();
-        sb.dispose();
+        //sb.dispose();
     }
 
     @Override
@@ -469,9 +477,9 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private void updateAllSprites(ArrayList<Player> players) {
         for(Player player : players){
             Robot robot = player.getRobot();
-            Sprite sprite = robotSprites.get(robot);
-            sprite.setPosition(robot.getPos().x() * tileWidth, robot.getPos().y() * tileWidth);
-            sprite.setRotation(getRotationDegrees(robot.getDir()));
+            Image robotImage = robotSprites.get(robot);
+            robotImage.setPosition(robot.getPos().x() * tileWidth, robot.getPos().y() * tileWidth);
+            robotImage.setRotation(getRotationDegrees(robot.getDir()));
         }
     }
     private int getRotationDegrees(Direction dir){
