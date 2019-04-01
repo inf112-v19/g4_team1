@@ -18,7 +18,7 @@ public class WrenchTileTest {
         Board board = new Board(10, 10);
         Pos pos = new Pos(0,0);
         Tile tile = new Tile();
-        WrenchTile wrench = new WrenchTile(pos,'w',board);
+        WrenchTile wrench = new WrenchTile(pos,board);
 
         board.addTileObject(wrench);
         Robot robot = new Robot(pos, Direction.EAST,new Player("player"),board);

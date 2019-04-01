@@ -17,7 +17,7 @@ public class PusherTest {
 
 
         Tile tile = new Tile();
-        Pusher pusher = new Pusher(Direction.NORTH,pos,'a', board);
+        Pusher pusher = new Pusher(Direction.NORTH,pos, board);
         board.addTileObject(pusher);
 
 

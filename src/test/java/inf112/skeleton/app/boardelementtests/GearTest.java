@@ -20,7 +20,7 @@ public class GearTest {
         Robot robot = new Robot(pos, Direction.EAST, player1, board);
         player1.addRobot(robot);
         board.addTileObject(robot);
-        Gear gear = new Gear(Direction.EAST,  new Pos(0, 0), 'a', board);
+        Gear gear = new Gear(Direction.EAST,  new Pos(0, 0),  board);
         board.addTileObject(gear);
 
         gear.activate();

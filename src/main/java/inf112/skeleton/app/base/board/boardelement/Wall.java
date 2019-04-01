@@ -8,8 +8,8 @@ import inf112.skeleton.app.base.utils.Pos;
 public class Wall extends BoardElement implements IBoardElement {
     private Direction wallDir;
 
-    public Wall(Direction dir, Pos pos, char symbol, Board board) {
-        super(pos, symbol, board);
+    public Wall(Direction dir, Pos pos, Board board) {
+        super(pos, board);
         this.wallDir = dir;
     }
 

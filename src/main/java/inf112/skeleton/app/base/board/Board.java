@@ -1,5 +1,7 @@
 package inf112.skeleton.app.base.board;
 
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import inf112.skeleton.app.base.actors.IRobot;
 import inf112.skeleton.app.base.actors.Player;
 import inf112.skeleton.app.base.actors.Robot;
@@ -18,7 +20,7 @@ public class Board implements IBoard {
     private int height, width;
 
     public Board(int height, int width) {
-        board = new ArrayList<ITile>(height * width);
+        board = new ArrayList<>(height * width);
         this.height = height;
         this.width = width;
 
@@ -28,8 +30,6 @@ public class Board implements IBoard {
     }
 
     public Board(String textFile) throws IOException {
-        final int tileWidth = 96;
-        final int tileHeight = 96;
         FileReader fileReader = new FileReader(textFile);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
 
@@ -53,48 +53,97 @@ public class Board implements IBoard {
 
                 Tile tile = new Tile();
                 char symbol = line.charAt(x);
-                System.out.println("Added " + symbol + " at " + x + " " + y);
-                Pos pos = new Pos(tileWidth * x, tileHeight * y);
+                Pos pos = new Pos( x,  y);
 
                 switch (symbol) {
                     case '-': break;
 
                     case 'r': tile.addObject(
-                            new Conveyor(Direction.EAST, pos, 'r', this));
-
+                            new Conveyor(Direction.EAST, pos,  this));
                     case 'd': tile.addObject(
-                            new Conveyor(Direction.SOUTH, pos, 'd', this));
-
+                            new Conveyor(Direction.SOUTH, pos,  this));
                     case 'p': tile.addObject(
-                            new Pit(pos, 'p', this));
-
+                            new Pit(pos,  this));
                     case 'N': tile.addObject(
-                            new Wall(Direction.NORTH, pos, 'N', this));
-
+                            new Wall(Direction.NORTH, pos,  this));
                     case 'E': tile.addObject(
-                            new Wall(Direction.EAST, pos, 'E', this));
-
+                            new Wall(Direction.EAST, pos,  this));
                     case 'S': tile.addObject(
-                            new Wall(Direction.SOUTH, pos, 'S', this));
-
+                            new Wall(Direction.SOUTH, pos,  this));
                     case 'W': tile.addObject(
-                            new Wall(Direction.WEST, pos, 'W', this));
-
+                            new Wall(Direction.WEST, pos,  this));
                     case 'R': tile.addObject(
                             new Robot(pos, Direction.SOUTH, new Player("Player 1"), this));
-
                     case 'w': tile.addObject(
-                            new WrenchTile(pos, 'w', this));
-
+                            new WrenchTile(pos,  this));
                     case 's': tile.addObject(
-                            new Pusher(Direction.EAST, pos, 's', this));
+                            new Pusher(Direction.EAST, pos,  this));
+                    case 'Q': tile.addObject(
+                            new Spawn(pos, this));
                 }
-
                 board.add(tile);
             }
         }
-
         bufferedReader.close();
+    }
+
+    public Board(TiledMap board) {
+        /*
+          constructor that adds all elements according to the tiles in the tmx object
+         */
+        int mapWidth = board.getProperties().get("width", Integer.class);
+        int mapHeight = board.getProperties().get("height", Integer.class);
+        this.board = new ArrayList<>(height * width);
+        this.height = mapHeight;
+        this.width = mapWidth;
+
+        for (int i = 0; i < this.getHeight(); i++)
+            for (int j = 0; j < this.getWidth(); j++)
+                this.board.add(new Tile());
+
+        for (int x = 0; x < mapWidth;   x++) {
+            for (int y = 0; y < mapHeight; y++) {
+                int id = ((TiledMapTileLayer) board.getLayers().get(0)).getCell(x, y).getTile().getId();
+                if(getBoardElemFromTmx(id, new Pos(x, y))!= null)
+                    addTileObject(getBoardElemFromTmx(id, new Pos(x, y)));
+            }
+        }
+    }
+
+    private IBoardElement getBoardElemFromTmx(int id, Pos pos) {
+        /*
+          id is the number of the tile used in the tmx file
+         */
+        switch(id){
+            case 1: return new Pusher(Direction.SOUTH, pos , this);
+            case 2: return new Pusher(Direction.WEST, pos , this);
+            case 3: return new Pusher(Direction.NORTH, pos , this);
+            case 4: return new Pusher(Direction.EAST, pos , this);
+            case 5: return null; //this is the empty tile
+            case 6: return new Pit(pos, this);
+            case 12: return new DoubleSpeedConveyor(Direction.NORTH, pos, this);
+            case 13: return new DoubleSpeedConveyor(Direction.EAST, pos, this);
+            case 14: return new WrenchTile(pos, this);
+            /*
+            case 15: return new Conveyor();
+            case 16: return new Conveyor();
+            case 17: return new Conveyor();
+            case 18: return new Conveyor();
+            */
+            case 19: return new DoubleSpeedConveyor(Direction.SOUTH, pos, this);
+            case 20: return new DoubleSpeedConveyor(Direction.WEST, pos, this);
+            case 21: return new Wall(Direction.EAST, pos, this);
+            case 26: return new Wall(Direction.SOUTH, pos, this);
+            case 27: return new Wall(Direction.WEST, pos, this);
+            case 28: return new Wall(Direction.NORTH, pos ,this);
+            case 47: return new Gear(Direction.WEST, pos ,this);
+            case 48: return new Gear(Direction.EAST, pos ,this);
+            case 49: return new Flag(pos, this);
+            case 50: return new Spawn(pos, this);
+
+        }
+        return null;
+        //throw new IllegalArgumentException("not a valid id");
     }
 
     @Override
@@ -140,7 +189,9 @@ public class Board implements IBoard {
 
     @Override
     public boolean containsRobot(Pos pos) {
-        List<IBoardElement> tileObjects =  board.get(indexFromCor(pos)).getContent();
+        if(outOfBounds(pos))
+            throw new IllegalArgumentException(pos+" out of bounds");
+        List<IBoardElement> tileObjects =  get(pos).getContent();
         for (IBoardElement tileObject : tileObjects)
             if (tileObject instanceof IRobot) return true;
 
@@ -216,6 +267,20 @@ public class Board implements IBoard {
         }
 
         return elems;
+    }
+
+    @Override
+    public Pos getSpawn() {
+        for (ITile tile  : board) {
+            for (IBoardElement obj : tile.getContent()) {
+                if (obj instanceof Spawn) {
+                    if (!containsRobot(obj.getPos())) {
+                        return obj.getPos();
+                    }
+                }
+            }
+        }
+        throw  new IllegalStateException("No available spawns");
     }
 
 }

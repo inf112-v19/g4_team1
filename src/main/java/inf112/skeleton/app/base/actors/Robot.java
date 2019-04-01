@@ -1,13 +1,16 @@
 package inf112.skeleton.app.base.actors;
 
+import inf112.skeleton.app.base.board.Board;
 import inf112.skeleton.app.base.board.IBoard;
+import inf112.skeleton.app.base.board.Tile;
 import inf112.skeleton.app.base.board.boardelement.Flag;
+import inf112.skeleton.app.base.board.boardelement.Laser;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
 
 import java.util.ArrayList;
 
-public class Robot extends TileObject implements IRobot {
+public class Robot implements IRobot {
     private Pos pos;
     private Direction dir;
     private Player owner;
@@ -28,7 +31,7 @@ public class Robot extends TileObject implements IRobot {
         this.lives = 3;
     }
 
-    @Override
+
     public Pos getPos() {
         return pos;
     }
@@ -54,14 +57,16 @@ public class Robot extends TileObject implements IRobot {
 
         else {
             if (board.containsRobot(newPos)) {
-                System.out.println("fant robot"); // for testing purposes
+                //System.out.println("fant robot"); // for testing purposes
                 // robot has to push the other robot
                 IRobot otherRobot = board.getRobot(newPos);
                 boolean completedMove = otherRobot.move(moveDirection);
-
+                //temp
                 if (completedMove) {
                     // path is clear now we try again
+                    //for testing
                     return move(moveDirection);
+                    //return false;
                 } else {
                     // the robot on the tile couldn't move, so this robot cant move either
                     return false;
@@ -114,13 +119,15 @@ public class Robot extends TileObject implements IRobot {
     }
 
     private void respawn() {
+        System.out.println("respawn");
         lives--;
-        if (lives == 0) {
-            //TODO:
-            //robot is totally dead
+        if (lives >= 0) {
+
+            board.get(pos).removeContent(this);
 
         }
-
+        board.get(pos).removeContent(this);
+        board.get(respawnPos).addObject(this);
         pos = respawnPos;
         health = MAX_HEALTH;
     }
@@ -188,6 +195,18 @@ public class Robot extends TileObject implements IRobot {
     @Override
     public ArrayList<Flag> getFlags() {
         return visitedFlags;
+    }
+
+
+
+
+    public void laser() {
+        Direction dir = getDir();
+        Pos pos = getPos();
+
+        Laser laser = new Laser(dir, pos.getAdjacent(dir), board);
+        laser.activate();
+
     }
 
 }

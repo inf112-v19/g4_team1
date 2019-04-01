@@ -1,5 +1,7 @@
 package inf112.skeleton.app.base.board;
 
+import inf112.skeleton.app.base.actors.Robot;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +26,7 @@ public class Tile implements ITile {
     public List<IBoardElement> getContent() {
         return content;
     }
+
 
     @Override
     public void removeContent(IBoardElement object) {

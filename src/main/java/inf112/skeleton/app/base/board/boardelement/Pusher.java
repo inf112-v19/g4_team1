@@ -9,8 +9,8 @@ public class Pusher extends BoardElement implements  IActiveElement {
     private Direction pushDir;
     private Board board;
 
-    public Pusher(Direction dir, Pos pos, char symbol, Board board) {
-        super(pos, symbol, board);
+    public Pusher(Direction dir, Pos pos, Board board) {
+        super(pos, board);
         this.pushDir = dir;
         this.board = board;
     }
