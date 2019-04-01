@@ -1,13 +1,14 @@
 package inf112.skeleton.app.base.board.boardelement;
 
 import inf112.skeleton.app.base.board.Board;
+import inf112.skeleton.app.base.board.IBoard;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
 
 public class Laser extends BoardElement implements IActiveElement {
     private Direction dir;
 
-    public Laser(Direction dir, Pos pos, Board board) {
+    public Laser(Direction dir, Pos pos, IBoard board) {
         super(pos, board);
         this.dir = dir;
     }

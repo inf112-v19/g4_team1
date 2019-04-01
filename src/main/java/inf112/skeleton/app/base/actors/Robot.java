@@ -1,14 +1,16 @@
 package inf112.skeleton.app.base.actors;
 
+import inf112.skeleton.app.base.board.Board;
 import inf112.skeleton.app.base.board.IBoard;
-import inf112.skeleton.app.base.board.IBoardElement;
+import inf112.skeleton.app.base.board.Tile;
 import inf112.skeleton.app.base.board.boardelement.Flag;
+import inf112.skeleton.app.base.board.boardelement.Laser;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
 
 import java.util.ArrayList;
 
-public class Robot implements IRobot, IBoardElement {
+public class Robot implements IRobot {
     private Pos pos;
     private Direction dir;
     private Player owner;
@@ -29,7 +31,7 @@ public class Robot implements IRobot, IBoardElement {
         this.lives = 3;
     }
 
-    @Override
+
     public Pos getPos() {
         return pos;
     }
@@ -45,7 +47,7 @@ public class Robot implements IRobot, IBoardElement {
             throw new IllegalArgumentException("No direction to move in.");
 
         Pos newPos = pos.getAdjacent(moveDirection);
-        //System.out.println("newPos " + newPos); // for testing purposes
+        System.out.println("newPos " + newPos); // for testing purposes
 
         // robot is moving outside board/to pit
         if (board.outOfBounds(newPos) || (board.containsPit(newPos))) {
@@ -83,10 +85,10 @@ public class Robot implements IRobot, IBoardElement {
                     return false;
                 }
             }
-//             robot is free to move to new position
+
+            // robot is free to move to new position
             board.get(pos).removeContent(this);
             board.get(newPos).addObject(this);
-
             pos = newPos;
             return true;
         }
@@ -192,6 +194,18 @@ public class Robot implements IRobot, IBoardElement {
     @Override
     public ArrayList<Flag> getFlags() {
         return visitedFlags;
+    }
+
+
+
+
+    public void laser() {
+        Direction dir = getDir();
+        Pos pos = getPos();
+
+        Laser laser = new Laser(dir, pos.getAdjacent(dir), board);
+        laser.activate();
+
     }
 
 }
