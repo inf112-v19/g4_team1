@@ -60,7 +60,6 @@ import static inf112.skeleton.app.base.utils.Direction.EAST;
  * main game screen
  */
 public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
-    private RoboRally roboRally;
     private TiledMap board;
     private OrthographicCamera camera;
     private TiledMapRenderer boardRenderer;
@@ -83,20 +82,10 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
     }
 
-    private enum State {
-        PAUSE,
-        RUN
-    }
-    private State state = State.RUN;
 
-
-    //TODO? Player player = new Player("test");
 
     public RoboRallyGame(RoboRally roboRally) {
         stage = new Stage();
-
-        // get the game itself from the previous screen
-        this.roboRally = roboRally;
 
         // set the camera
         camera = new OrthographicCamera();
@@ -210,12 +199,11 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         }
         //check for flags and wrenches at end of turn
         for (Player player : players){
-            Pos robotpos = player.getRobot().getPos();
-            for (int i = 0; i < flags.size(); i++) {
-                flags.get(i).setRespawn();
+            for (Flag flag : flags) {
+                flag.setRespawn();
             }
-            for (int i = 0; i < wrenches.size(); i++) {
-                wrenches.get(i).setRespawn();
+            for (WrenchTile wrench : wrenches) {
+                wrench.setRespawn();
             }
         }
         //check for win condition
@@ -240,7 +228,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         ArrayList<Card> availableCards = cardDecks.getCards(nCards);
         ArrayList<Card> selectedCards = new ArrayList<>();
         ArrayList<Boolean> usedslots = new ArrayList<>();
-        ArrayList<Boolean> finished = new ArrayList<>();
         for (int i = 0; i < nCards; i++) {
             usedslots.add(false);
         }
@@ -296,7 +283,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     currentPlayerCards.removeAll(selectedCards);
 
                     // remove the available cards from the screen
-                    int count= buttonsAndCards.size();
                     int j = 0;
                     for (Button btn: buttonsAndCards.values()) {
 //                        stage.getActors().removeValue(buttonsAndCards.get(
@@ -319,8 +305,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         finish_button.setPosition((96*15)-30,96*3);
         finish_button.setSize(96,96);
         stage.addActor(finish_button);
-        finished.add(false);
-
         finish_button.addListener(new ChangeListener() {
 
             @Override
@@ -345,10 +329,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                         stage.getActors().get(stage.getActors().indexOf(
                                 buttonsAndCards.get(card),false)).remove();
 
-                        // backup code to remove listeners from buttons
-//                        stage.getActors().get(stage.getActors().indexOf(
-//                                buttonsAndCards.get(card),false)).removeListener(buttonsAndCards.get(
-//                                card).getListeners().get(0));
                     }
                     //continue game when finished selecting cards
                     continueTurn();
@@ -428,6 +408,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             players.get(0).getRobot().move(Direction.NORTH);
         if (key == Input.Keys.DOWN)
             players.get(0).getRobot().move(Direction.SOUTH);
+        updateAllSprites(players);
         return false;
     }
 
@@ -472,7 +453,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             Robot robot = player.getRobot();
             Sprite sprite = robotSprites.get(robot);
             sprite.setPosition(robot.getPos().x() * tileWidth, robot.getPos().y() * tileWidth);
-            sprite.setRotation(getRotationDegrees(robot.getDir()));
+            //sprite.setRotation(getRotationDegrees(robot.getDir()));
         }
     }
     private int getRotationDegrees(Direction dir){
@@ -484,10 +465,8 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         }
         throw new IllegalArgumentException();
     }
-    /*
 
-     */
-    public void moveRobot(Player player) {
+    private void moveRobot(Player player) {
         Card card = player.useFirstCard();
         System.out.println(card);
         System.out.println(player.getRobot().getDir());
