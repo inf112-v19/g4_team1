@@ -58,13 +58,13 @@ public class Robot implements IRobot, IBoardElement {
                 //System.out.println("fant robot"); // for testing purposes
                 // robot has to push the other robot
                 IRobot otherRobot = board.getRobot(newPos);
-                boolean completedMove = false;// = otherRobot.move(moveDirection);
+                boolean completedMove = otherRobot.move(moveDirection);
                 //temp
                 if (completedMove) {
                     // path is clear now we try again
                     //for testing
-                    //return move(moveDirection);
-                    return false;
+                    return move(moveDirection);
+                    //return false;
                 } else {
                     // the robot on the tile couldn't move, so this robot cant move either
                     return false;
