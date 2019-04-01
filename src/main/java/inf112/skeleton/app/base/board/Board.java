@@ -79,7 +79,7 @@ public class Board implements IBoard {
                     case 's': tile.addObject(
                             new Pusher(Direction.EAST, pos,  this));
                     case 'Q': tile.addObject(
-                            new Spawn(pos, 'Q', this));
+                            new Spawn(pos, this));
                 }
                 board.add(tile);
             }
@@ -121,9 +121,28 @@ public class Board implements IBoard {
             case 4: return new Pusher(Direction.EAST, pos , this);
             case 5: return null; //this is the empty tile
             case 6: return new Pit(pos, this);
-            case 7: return new WrenchTile(pos, this);
+            case 12: return new DoubleSpeedConveyor(Direction.NORTH, pos, this);
+            case 13: return new DoubleSpeedConveyor(Direction.EAST, pos, this);
+            case 14: return new WrenchTile(pos, this);
+            /*
+            case 15: return new Conveyor();
+            case 16: return new Conveyor();
+            case 17: return new Conveyor();
+            case 18: return new Conveyor();
+            */
+            case 19: return new DoubleSpeedConveyor(Direction.SOUTH, pos, this);
+            case 20: return new DoubleSpeedConveyor(Direction.WEST, pos, this);
+            case 21: return new Wall(Direction.EAST, pos, this);
+            case 26: return new Wall(Direction.SOUTH, pos, this);
+            case 27: return new Wall(Direction.WEST, pos, this);
+            case 28: return new Wall(Direction.NORTH, pos ,this);
+            case 47: return new Gear(Direction.WEST, pos ,this);
+            case 48: return new Gear(Direction.EAST, pos ,this);
+            case 49: return new Flag(pos, this);
+            case 50: return new Spawn(pos, this);
+
         }
-        return new Spawn(pos, 'a', this);
+        return null;
         //throw new IllegalArgumentException("not a valid id");
     }
 

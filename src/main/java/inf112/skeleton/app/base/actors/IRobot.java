@@ -1,5 +1,6 @@
 package inf112.skeleton.app.base.actors;
 
+import inf112.skeleton.app.base.board.IBoardElement;
 import inf112.skeleton.app.base.board.boardelement.Flag;
 import inf112.skeleton.app.base.utils.Direction;
 
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 /**
  * Basic interface that describes the functionality of the Robot.
  */
-public interface IRobot {
+public interface IRobot extends IBoardElement {
 
     /**
      * Get the name of the player that controls the object (if applicable)
