@@ -142,6 +142,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         int NPLAYERS = 1;
         for (int i = 0; i < NPLAYERS; i++) {
             Player player = new Player("test");
+            System.out.println((gameBoard.getSpawn()));
             Robot robot = new Robot(gameBoard.getSpawn(), Direction.SOUTH, player, gameBoard);
             gameBoard.addTileObject(robot);
             player.addRobot(robot);
@@ -150,6 +151,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             sprite.setSize(tileWidth, tileHeight);
 
             robotSprites.put(robot, sprite);
+            System.out.println("r " +robot.getPos());
             System.out.println("finished adding robots");
         }
         updateAllSprites(players);
@@ -373,7 +375,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     @Override
     public void render(float v) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         camera.update();
         boardRenderer.setView(camera);
         boardRenderer.render();
@@ -488,8 +489,9 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
      */
     public void moveRobot(Player player) {
         Card card = player.useFirstCard();
+        System.out.println(card);
+        System.out.println(player.getRobot().getDir());
         card.execute(player.getRobot());
         cardDecks.addUsed(card);
-
     }
 }

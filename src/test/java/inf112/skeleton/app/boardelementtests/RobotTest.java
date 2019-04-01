@@ -67,6 +67,7 @@ public class RobotTest {
 
         assertEquals(robot1.getPos().x(), 1);
     }
+
     @Test
     void wallCollision1(){
         Board board = new Board(10, 10);
