@@ -7,21 +7,23 @@ import inf112.skeleton.app.base.utils.Pos;
 
 public class TurnConveyor extends BoardElement implements IActiveElement{
     private Direction dir;
+    private final Direction turndir;
 
-    public TurnConveyor(Direction dir, Pos pos, IBoard board) {
+    public TurnConveyor(Direction dir,Direction turndir,  Pos pos, IBoard board) {
         super(pos, board);
 
         this.dir = dir;
+        this.turndir = turndir;
     }
 
     @Override
     public void activate() {
         if (board.containsRobot(pos)) {
             IRobot robot = board.getRobot(pos);
-                int startPosX= getPos().x();
+                /*int startPosX= getPos().x();
                 int startPosY= getPos().y();
 
-            if (dir == Direction.EAST) {
+            if (dir == Direction.EAST &&) {
                 robot.move(Direction.EAST);
                 if(startPosY<getPos().y());
                 robot.turnLeft();
@@ -45,8 +47,14 @@ public class TurnConveyor extends BoardElement implements IActiveElement{
                 if (startPosX<getPos().x())
                     robot.turnLeft();
                 else{robot.turnRight(); }
-            }
+            }*/
 
+            robot.move(dir);
+            if(turndir == Direction.EAST) {
+                robot.turnRight();
+            }else if(turndir== Direction.WEST){
+                robot.turnLeft();
+            }
         }
 
     }

@@ -20,7 +20,7 @@ public class TurnConveyorTest {
         Board board = new Board(10, 10);
         Pos pos = new Pos(1, 0);
 
-        TurnConveyor turnconveyor = new TurnConveyor(Direction.NORTH, pos, board);
+        TurnConveyor turnconveyor = new TurnConveyor(Direction.NORTH, Direction.EAST,pos, board);
         board.addTileObject(turnconveyor);
 
         Robot robot = new Robot(pos, Direction.EAST, new Player("player"), board);
