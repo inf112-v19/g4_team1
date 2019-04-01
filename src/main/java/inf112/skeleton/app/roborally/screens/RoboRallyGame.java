@@ -471,8 +471,9 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         for(Player player : players){
             Robot robot = player.getRobot();
             Sprite sprite = robotSprites.get(robot);
-            sprite.setPosition(robot.getPos().x() * tileWidth, robot.getPos().y() * tileWidth);
-            sprite.setRotation(getRotationDegrees(robot.getDir()));
+            sprite.setPosition(robot.getPos().x() * tileWidth, robot.getPos().y() * tileHeight);
+            //TODO: rotation affects robot position
+            //sprite.setRotation(getRotationDegrees(robot.getDir()));
         }
     }
     private int getRotationDegrees(Direction dir){
@@ -487,7 +488,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     /*
 
      */
-    public void moveRobot(Player player) {
+    private void moveRobot(Player player) {
         Card card = player.useFirstCard();
         System.out.println(card);
         System.out.println(player.getRobot().getDir());
