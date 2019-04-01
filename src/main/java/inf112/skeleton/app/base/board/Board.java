@@ -121,7 +121,23 @@ public class Board implements IBoard {
             case 4: return new Pusher(Direction.EAST, pos , this);
             case 5: return null; //this is the empty tile
             case 6: return new Pit(pos, this);
-            case 7: return new WrenchTile(pos, this);
+            case 12: return new Conveyor();
+            case 14: return new WrenchTile(pos, this);
+            case 15: return new Conveyor();
+            case 16: return new Conveyor();
+            case 17: return new Conveyor();
+            case 18: return new Conveyor();
+            case 19: return new Conveyor();
+            case 20: return new Conveyor();
+            case 21: return new Wall(Direction.EAST, pos, this);
+            case 26: return new Wall(Direction.SOUTH, pos, this);
+            case 27: return new Wall(Direction.WEST, pos, this);
+            case 28: return new Wall(Direction.NORTH, pos ,this);
+            case 47: return new Gear(Direction.WEST, pos ,this);
+            case 48: return new Gear(Direction.EAST, pos ,this);
+            case 49: return new Flag(pos, this);
+            case 50: return new Spawn(pos, board);
+
         }
         return new Spawn(pos, 'a', this);
         //throw new IllegalArgumentException("not a valid id");

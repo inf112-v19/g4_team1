@@ -373,7 +373,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     @Override
     public void render(float v) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         camera.update();
         boardRenderer.setView(camera);
         boardRenderer.render();
@@ -488,8 +487,9 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
      */
     public void moveRobot(Player player) {
         Card card = player.useFirstCard();
+        System.out.println(card);
+        System.out.println(player.getRobot().getDir());
         card.execute(player.getRobot());
         cardDecks.addUsed(card);
-
     }
 }

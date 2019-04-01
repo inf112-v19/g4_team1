@@ -117,6 +117,7 @@ public class Robot implements IRobot, IBoardElement {
     }
 
     private void respawn() {
+        System.out.println("respawn");
         lives--;
         if (lives >= 0) {
 
