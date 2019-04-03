@@ -104,6 +104,8 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         // set the camera
         camera = new OrthographicCamera();
         FitViewport viewPort = new FitViewport(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, camera);
+
+        System.out.println( viewPort.getWorldWidth() +" hhhh");
         camera.position.set(viewPort.getWorldWidth() / 2, viewPort.getWorldHeight() / 2,0);
 
         //sb = new SpriteBatch();
@@ -156,12 +158,19 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
             robotSprites.put(robot, robotImage);
 
-            robotImage.setSize((int) (tileWidth / 1.5),(int) (tileHeight/1.5));
+            robotImage.setSize((int) (tileWidth / 1.5),(int) (tileHeight / 1.5));
+            System.out.println(tileWidth + " " + tileHeight);
+            int spawnX = 0;
+            int spawnY = 0;
+            System.out.println(robot.getPos());
+            System.out.println(coordToPixel(spawnX) + " " + coordToPixel(spawnY));
+
+
             stage.addActor(robotImage);
 
-            int destX = coordToPixel(7);
-            int destY = coordToPixel(0);
-            robotImage.addAction(Actions.moveTo(destX, destY,3f));
+            int destX = coordToPixel(0);
+            int destY = coordToPixel(12);
+          //  robotImage.addAction(Actions.moveTo(destX, destY,3f));
 
 
 
@@ -393,9 +402,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         boardRenderer.setView(camera);
         boardRenderer.render();
 
-        stage.act(v);
 
-        stage.draw();
         camera.update();
 
 
@@ -409,6 +416,9 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             robotImage.draw(sb,1.0f);
         } */
         sb.end();
+        stage.act(v);
+
+        stage.draw();
 
 
     }
@@ -534,4 +544,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         int pixel = (int) (x*tileWidth/1.5);
         return pixel;
     }
+
+  
 }
