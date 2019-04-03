@@ -518,9 +518,14 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         cardDecks.addUsed(card);
 
     }
+
+     
     public int coordToPixel(int x) {
         if(x == 0) {
             return x;
+        }
+        if(x > 12) {
+            throw new IllegalArgumentException("coordinate is outside of grid");
         }
         int pixel = (int) (x*tileWidth/1.5);
         return pixel;
