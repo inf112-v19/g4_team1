@@ -159,8 +159,8 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             robotImage.setSize((int) (tileWidth / 1.5),(int) (tileHeight/1.5));
             stage.addActor(robotImage);
 
-            int destX = (int) (96/1.5);
-            int destY = 0;
+            int destX = coordToPixel(7);
+            int destY = coordToPixel(0);
             robotImage.addAction(Actions.moveTo(destX, destY,3f));
 
 
