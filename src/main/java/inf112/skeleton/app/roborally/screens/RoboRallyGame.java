@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -155,9 +156,13 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
             robotSprites.put(robot, robotImage);
 
-            robotImage.setSize(tileWidth,tileHeight);
+            robotImage.setSize((int) (tileWidth / 1.5),(int) (tileHeight/1.5));
+            stage.addActor(robotImage);
 
-          //  stage.addActor(robotImage);
+            int destX = (int) (96/1.5);
+            int destY = 0;
+            robotImage.addAction(Actions.moveTo(destX, destY,3f));
+
 
 
             System.out.println("finished adding robots");
@@ -397,12 +402,12 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
 
-        for (Player player : players) {
+      /*  for (Player player : players) {
             //robotSprites.get(player.getRobot()).draw(sb);
             Robot robot = player.getRobot();
             Image robotImage = robotSprites.get(robot);
             robotImage.draw(sb,1.0f);
-        }
+        } */
         sb.end();
 
 
@@ -512,5 +517,12 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         card.execute(player.getRobot());
         cardDecks.addUsed(card);
 
+    }
+    public int coordToPixel(int x) {
+        if(x == 0) {
+            return x;
+        }
+        int pixel = (int) (x*tileWidth/1.5);
+        return pixel;
     }
 }
