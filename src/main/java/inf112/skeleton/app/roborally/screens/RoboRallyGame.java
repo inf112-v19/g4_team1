@@ -520,8 +520,8 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     }
 
     /**
-     * Translates a grid-coordinate to a pixel-coordinate
-     * @param x The grid-coordinate
+     * Translates a grid-coordinate to a pixel-coordinate.
+     * @param x The grid-coordinate(row or column number)
      * @return Pixel-coordinate
      */
     public int coordToPixel(int x) {
