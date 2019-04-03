@@ -519,7 +519,11 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
     }
 
-     
+    /**
+     * Translates a grid-coordinate to a pixel-coordinate
+     * @param x The grid-coordinate
+     * @return Pixel-coordinate
+     */
     public int coordToPixel(int x) {
         if(x == 0) {
             return x;
