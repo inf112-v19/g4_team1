@@ -31,6 +31,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import inf112.skeleton.app.base.actors.Player;
 import inf112.skeleton.app.base.board.boardelement.*;
@@ -100,13 +101,14 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
         // get the game itself from the previous screen
         this.roboRally = roboRally;
-//(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, camera);
         // set the camera
         camera = new OrthographicCamera();
-        FitViewport viewPort = new FitViewport(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, camera);
+        //FitViewport viewPort = new FitViewport(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, camera);
+        ScalingViewport viewPort = new ScalingViewport(Scaling.none, Constants.WORLD_PIXEL_WIDTH, Constants.WORLD_PIXEL_HEIGHT);
+        viewPort.update(Constants.WORLD_PIXEL_WIDTH, Constants.WORLD_PIXEL_HEIGHT);
 
-        System.out.println( viewPort.getWorldWidth() +" hhhh");
-        camera.position.set(viewPort.getWorldWidth() / 2, viewPort.getWorldHeight() / 2,0);
+        System.out.println(viewPort.getWorldWidth() + " width");
+        System.out.println(viewPort.getWorldHeight() + " height");
 
         //sb = new SpriteBatch();
 
@@ -127,7 +129,8 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         // initialize the board renderer that will render the tiled map
         boardRenderer = new OrthogonalTiledMapRenderer(board,1);
         //This line decides how much the gamescreen will show in addition to the gameboard
-        camera.setToOrtho(false, Constants.WORLD_PIXEL_WIDTH, Constants.WORLD_PIXEL_HEIGHT);
+        camera.setToOrtho(false, Gdx.graphics.getWidth()*1.5f, Gdx.graphics.getHeight()*1.5f);
+        camera.update();
         boardRenderer.setView(camera);
 
         // can be changed to "this"
@@ -158,21 +161,18 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
             robotSprites.put(robot, robotImage);
 
-            robotImage.setSize((int) (tileWidth / 1.5),(int) (tileHeight / 1.5));
+            robotImage.setSize(tileWidth / 1.5f, tileHeight / 1.5f);
             System.out.println(tileWidth + " " + tileHeight);
             int spawnX = 0;
             int spawnY = 0;
             System.out.println(robot.getPos());
             System.out.println(coordToPixel(spawnX) + " " + coordToPixel(spawnY));
 
-
             stage.addActor(robotImage);
 
             int destX = coordToPixel(0);
-            int destY = coordToPixel(12);
-          //  robotImage.addAction(Actions.moveTo(destX, destY,3f));
-
-
+            int destY = coordToPixel(6);
+            robotImage.addAction(Actions.moveTo(destX, destY,3f));
 
             System.out.println("finished adding robots");
         }
@@ -401,8 +401,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         boardRenderer.setView(camera);
         boardRenderer.render();
-
-
         camera.update();
 
 
@@ -417,7 +415,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         } */
         sb.end();
         stage.act(v);
-
         stage.draw();
 
 
@@ -505,7 +502,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         for(Player player : players){
             Robot robot = player.getRobot();
             Image robotImage = robotSprites.get(robot);
-            robotImage.setPosition((robot.getPos().x() * tileWidth), (robot.getPos().y() * tileHeight));
+            robotImage.setPosition((robot.getPos().x() * tileWidth/1.5f), (robot.getPos().y() * tileHeight/1.5f));
             robotImage.setOrigin(tileWidth/2.0f,tileHeight/2.0f);
             robotImage.setRotation(getRotationDegrees(robot.getDir()));
         }
@@ -541,7 +538,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         if(x > 12) {
             throw new IllegalArgumentException("coordinate is outside of grid");
         }
-        int pixel = (int) (x*tileWidth/1.5);
+        int pixel = (int) (x*tileWidth / 1.5f);
         return pixel;
     }
 
