@@ -152,7 +152,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         int NPLAYERS = 1;
         for (int i = 0; i < NPLAYERS; i++) {
             Player player = new Player("test");
-            Pos robPos = new Pos(0,0);
             Robot robot = new Robot(gameBoard.getSpawn(), Direction.NORTH, player, gameBoard);
             gameBoard.addTileObject(robot);
             player.addRobot(robot);
@@ -164,11 +163,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             robotSprites.put(robot, robotImage);
 
             robotImage.setSize(tileWidth / 1.5f, tileHeight / 1.5f);
-            System.out.println(tileWidth + " " + tileHeight);
-            int spawnX = 0;
-            int spawnY = 0;
-            System.out.println(robot.getPos());
-            System.out.println(coordToPixel(spawnX) + " " + coordToPixel(spawnY));
 
             stage.addActor(robotImage);
 
@@ -177,16 +171,14 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             int destX2 = coordToPixel(6);
             SequenceAction seq = new SequenceAction();
             seq.addAction(Actions.moveTo(destX, destY,3f));
-            //DelayAction delay = new DelayAction(3f);
-
             seq.addAction(Actions.moveTo(destX2, destY,3f));
 
-            robotImage.addAction(seq);
+          //  robotImage.addAction(seq);
             //delay.setAction(seq);
 
             System.out.println("finished adding robots");
         }
-        updateAllSprites(players);
+    //    updateAllSprites(players);
         doTurn();
 
 
