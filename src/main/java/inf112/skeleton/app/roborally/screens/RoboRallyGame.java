@@ -22,6 +22,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -151,7 +153,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         for (int i = 0; i < NPLAYERS; i++) {
             Player player = new Player("test");
             Pos robPos = new Pos(0,0);
-            Robot robot = new Robot(robPos, Direction.NORTH, player, gameBoard);
+            Robot robot = new Robot(gameBoard.getSpawn(), Direction.NORTH, player, gameBoard);
             gameBoard.addTileObject(robot);
             player.addRobot(robot);
             players.add(player);
@@ -172,7 +174,15 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
             int destX = coordToPixel(0);
             int destY = coordToPixel(6);
-            robotImage.addAction(Actions.moveTo(destX, destY,3f));
+            int destX2 = coordToPixel(6);
+            SequenceAction seq = new SequenceAction();
+            //seq.addAction(Actions.moveTo(destX, destY,3f));
+            DelayAction delay = new DelayAction(3f);
+
+            //seq.addAction(Actions.moveTo(destX2, destY,3f));
+
+            robotImage.addAction(seq);
+            delay.setAction(seq);
 
             System.out.println("finished adding robots");
         }
