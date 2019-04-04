@@ -5,11 +5,11 @@ import inf112.skeleton.app.base.board.IBoard;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
 
-public class Laser extends BoardElement implements IActiveElement {
+public class Laser extends Wall implements IActiveElement {
     private Direction dir;
 
     public Laser(Direction dir, Pos pos, IBoard board) {
-        super(pos, board);
+        super(dir.opposite(), pos, board);
         this.dir = dir;
     }
 
