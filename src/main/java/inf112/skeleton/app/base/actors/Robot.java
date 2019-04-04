@@ -47,7 +47,7 @@ public class Robot implements IRobot {
             throw new IllegalArgumentException("No direction to move in.");
 
         Pos newPos = pos.getAdjacent(moveDirection);
-        System.out.println("newPos " + newPos); // for testing purposes
+        //System.out.println("newPos " + newPos); // for testing purposes
 
         // robot is moving outside board/to pit
         if (board.outOfBounds(newPos) || (board.containsPit(newPos))) {
@@ -90,6 +90,7 @@ public class Robot implements IRobot {
             board.get(pos).removeContent(this);
             board.get(newPos).addObject(this);
             pos = newPos;
+            System.out.println("robot moved to new pos "+pos+" facing "+dir);
             return true;
         }
     }
@@ -167,7 +168,6 @@ public class Robot implements IRobot {
 
     @Override
     public void moveBackwards() {
-        System.out.println(dir.opposite());
         move(dir.opposite());
     }
 

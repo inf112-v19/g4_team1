@@ -11,6 +11,9 @@ public class TurnConveyor extends BoardElement implements IActiveElement{
 
     public TurnConveyor(Direction dir,Direction turndir,  Pos pos, IBoard board) {
         super(pos, board);
+        if (turndir == Direction.NORTH || turndir == Direction.SOUTH){
+            throw new IllegalArgumentException();
+        }
 
         this.dir = dir;
         this.turndir = turndir;

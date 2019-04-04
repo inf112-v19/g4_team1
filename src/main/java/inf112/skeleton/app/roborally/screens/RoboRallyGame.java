@@ -187,8 +187,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 if (current.getCards().size() != 0) {
                     finishedExecute = false;
                     moveRobot(current);
-                    System.out.println(current.getRobot().getPos());
-
                     updateAllSprites(players);
 
                 }
@@ -210,12 +208,11 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         }
         //check for flags and wrenches at end of turn
         for (Player player : players){
-            Pos robotpos = player.getRobot().getPos();
-            for (int i = 0; i < flags.size(); i++) {
-                flags.get(i).setRespawn();
+            for (Flag flag : flags) {
+                flag.setRespawn();
             }
-            for (int i = 0; i < wrenches.size(); i++) {
-                wrenches.get(i).setRespawn();
+            for (WrenchTile wrench : wrenches) {
+                wrench.setRespawn();
             }
         }
         //check for win condition
@@ -491,7 +488,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private void moveRobot(Player player) {
         Card card = player.useFirstCard();
         System.out.println(card);
-        System.out.println(player.getRobot().getDir());
+        //System.out.println(player.getRobot().getDir());
         card.execute(player.getRobot());
         cardDecks.addUsed(card);
     }
