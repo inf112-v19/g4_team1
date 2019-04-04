@@ -163,18 +163,10 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             robotSprites.put(robot, robotImage);
 
             robotImage.setSize(tileWidth / 1.5f, tileHeight / 1.5f);
-
+            robotImage.setPosition(coordToPixel(robot.getPos().x()), coordToPixel(robot.getPos().y()));
             stage.addActor(robotImage);
 
-            int destX = coordToPixel(0);
-            int destY = coordToPixel(6);
-            int destX2 = coordToPixel(6);
-            SequenceAction seq = new SequenceAction();
-            seq.addAction(Actions.moveTo(destX, destY,3f));
-            seq.addAction(Actions.moveTo(destX2, destY,3f));
 
-          //  robotImage.addAction(seq);
-            //delay.setAction(seq);
 
             System.out.println("finished adding robots");
         }
@@ -192,6 +184,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             chooseCards(player.getRobot().getHealth());
             player.setCards(currentPlayerCards);
         }
+
     }
 
     private void continueTurn() {
@@ -211,9 +204,15 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 if (current.getCards().size() != 0) {
                     finishedExecute = false;
                     moveRobot(current);
-                    System.out.println(current.getRobot().getPos());
+                    int x = coordToPixel(current.getRobot().getPos().x());
+                    int y = coordToPixel(current.getRobot().getPos().y());
+                    Image roboImage = robotSprites.get(current.getRobot());
 
-                    updateAllSprites(players);
+                    //get center of image so rotation is correct
+                    roboImage.setOrigin(roboImage.getWidth()/2, roboImage.getHeight()/2);
+                    roboImage.addAction(Actions.moveTo(x, y,3f));
+                    //If we want we can use another rotation method so the robot always will animate the shortest path.
+                    roboImage.addAction(Actions.rotateTo(getRotationDegrees(current.getRobot().getDir()), 0.5f));
 
                 }
             }
@@ -221,13 +220,13 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             for(IActiveElement elem : ActiveElements){
                 if(!(elem instanceof Laser)){
                     elem.activate();
-                    updateAllSprites(players);
+                 //   updateAllSprites(players);
                 }
             }
             for(IActiveElement elem : ActiveElements){
                 if(elem instanceof Laser){
                     elem.activate();
-                    updateAllSprites(players);
+                 //   updateAllSprites(players);
                 }
             }
             //end of phase
