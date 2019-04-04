@@ -17,7 +17,7 @@ public class Pusher extends Wall implements  IActiveElement {
 
     @Override
     public void activate() {
-        if (board.containsRobot(pos)) {
+        if (board.containsRobot(pos) && board.getRobot(pos).hasNotMoved()) {
             Robot robot = (Robot) board.getRobot(pos);
             int x = robot.getPos().x();
             int y = robot.getPos().y();

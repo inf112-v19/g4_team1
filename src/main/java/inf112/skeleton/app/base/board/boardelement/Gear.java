@@ -19,7 +19,7 @@ public class Gear extends BoardElement implements IActiveElement {
 
     @Override
     public void activate() {
-        if (board.containsRobot(pos)) {
+        if (board.containsRobot(pos)&& board.getRobot(pos).hasNotMoved()) {
             IRobot robot = board.getRobot(pos);
 
             if (dir == Direction.EAST) robot.turnRight();

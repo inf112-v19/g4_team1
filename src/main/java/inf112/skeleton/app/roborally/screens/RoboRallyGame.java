@@ -192,6 +192,9 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 }
             }
             //activate board elements, then lasers
+            for (Player player : players) {
+                player.getRobot().setMoved(false);
+            }
             for(IActiveElement elem : ActiveElements){
                 if(!(elem instanceof Laser)){
                     elem.activate();

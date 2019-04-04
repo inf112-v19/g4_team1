@@ -10,6 +10,17 @@ import java.util.ArrayList;
  * Basic interface that describes the functionality of the Robot.
  */
 public interface IRobot extends IBoardElement {
+    /**
+     * check if the robot has not been moved by pushers this phase
+     * @return
+     */
+    boolean hasNotMoved();
+
+    /**
+     * set the moved by pushers state
+     * @param moved true if it has been moved this round
+     */
+    void setMoved(boolean moved);
 
     /**
      * Get the name of the player that controls the object (if applicable)
