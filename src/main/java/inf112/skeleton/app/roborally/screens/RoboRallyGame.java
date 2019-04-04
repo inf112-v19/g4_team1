@@ -31,10 +31,7 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import inf112.skeleton.app.base.actors.Player;
-import inf112.skeleton.app.base.board.boardelement.Flag;
-import inf112.skeleton.app.base.board.boardelement.IActiveElement;
-import inf112.skeleton.app.base.board.boardelement.Laser;
-import inf112.skeleton.app.base.board.boardelement.WrenchTile;
+import inf112.skeleton.app.base.board.boardelement.*;
 import inf112.skeleton.app.base.cards.Card;
 import inf112.skeleton.app.base.cards.CardDecks;
 import inf112.skeleton.app.base.cards.CardType;
@@ -192,6 +189,15 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 }
             }
             //activate board elements, then lasers
+            for (Player player : players) {
+                player.getRobot().setMoved(false);
+            }
+            for(IActiveElement elem : ActiveElements){
+                if(elem instanceof DoubleSpeedConveyor){
+                    elem.activate();
+                    updateAllSprites(players);
+                }
+            }
             for (Player player : players) {
                 player.getRobot().setMoved(false);
             }

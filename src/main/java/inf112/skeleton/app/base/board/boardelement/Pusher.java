@@ -19,21 +19,8 @@ public class Pusher extends Wall implements  IActiveElement {
     public void activate() {
         if (board.containsRobot(pos) && board.getRobot(pos).hasNotMoved()) {
             Robot robot = (Robot) board.getRobot(pos);
-            int x = robot.getPos().x();
-            int y = robot.getPos().y();
-
-            if (pushDir == Direction.EAST)
-                robot.move(Direction.EAST);
-
-            if (pushDir == Direction.WEST)
-                robot.move(Direction.WEST);
-
-            if (pushDir == Direction.NORTH)
-                robot.move(Direction.NORTH);
-
-            if (pushDir == Direction.SOUTH)
-                robot.move(Direction.SOUTH);
+            robot.setMoved(true);
+            robot.move(pushDir);
         }
     }
-
 }

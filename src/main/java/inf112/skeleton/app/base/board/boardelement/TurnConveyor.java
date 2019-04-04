@@ -24,12 +24,12 @@ public class TurnConveyor extends BoardElement implements IActiveElement{
         if (board.containsRobot(pos)&& board.getRobot(pos).hasNotMoved()) {
             IRobot robot = board.getRobot(pos);
             robot.move(dir);
+            robot.setMoved(true);
             if(turndir == Direction.EAST) {
                 robot.turnRight();
             }else{
                 robot.turnLeft();
             }
         }
-
     }
 }

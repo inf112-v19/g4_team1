@@ -20,7 +20,7 @@ public class Robot implements IRobot {
     private int lives;
     private Pos respawnPos;
     private ArrayList<Flag> visitedFlags = new ArrayList<Flag>();
-    private boolean movedthisround;
+    private boolean movedthisround=false;
 
     public Robot(Pos pos, Direction dir, Player owner, IBoard board) {
         this.dir = dir;
@@ -35,7 +35,8 @@ public class Robot implements IRobot {
     public boolean hasNotMoved(){
         return !movedthisround;
     }
-    public void setMoved(Boolean moved){
+
+    public void setMoved(boolean moved){
          movedthisround = moved;
     }
 

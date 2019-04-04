@@ -19,6 +19,7 @@ public class DoubleSpeedConveyor extends BoardElement implements IActiveElement{
         //double distance conveyors should be activated twice
         if (board.containsRobot(pos)&& board.getRobot(pos).hasNotMoved()) {
             IRobot robot = board.getRobot(pos);
+            robot.setMoved(true);
             robot.move(this.dir);
         }
     }

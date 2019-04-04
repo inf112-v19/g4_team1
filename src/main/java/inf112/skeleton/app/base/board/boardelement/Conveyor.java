@@ -18,6 +18,8 @@ public class Conveyor extends BoardElement implements IActiveElement {
         if (board.containsRobot(pos)&& board.getRobot(pos).hasNotMoved()) {
             IRobot robot = board.getRobot(pos);
             robot.move(this.dir);
+            robot.setMoved(true);
+
         }
     }
 
