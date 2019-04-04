@@ -176,13 +176,13 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             int destY = coordToPixel(6);
             int destX2 = coordToPixel(6);
             SequenceAction seq = new SequenceAction();
-            //seq.addAction(Actions.moveTo(destX, destY,3f));
-            DelayAction delay = new DelayAction(3f);
+            seq.addAction(Actions.moveTo(destX, destY,3f));
+            //DelayAction delay = new DelayAction(3f);
 
-            //seq.addAction(Actions.moveTo(destX2, destY,3f));
+            seq.addAction(Actions.moveTo(destX2, destY,3f));
 
             robotImage.addAction(seq);
-            delay.setAction(seq);
+            //delay.setAction(seq);
 
             System.out.println("finished adding robots");
         }
