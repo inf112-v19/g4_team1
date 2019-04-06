@@ -20,8 +20,9 @@ public class PreferencesScreen implements Screen, TextInputListener {
 
     private Stage stage;
     private RoboRally roboRally;
+    //todo: Every player should be able to enter their player-name. Names should go in this list.
     private ArrayList<String> names = new ArrayList<>();
-    private String numPlayers;
+    private int numPlayers = 0;
 
 
     public PreferencesScreen(RoboRally roboRally) {
@@ -68,12 +69,12 @@ public class PreferencesScreen implements Screen, TextInputListener {
         start.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if(numPlayers == null) {
+                if(numPlayers < 1 || numPlayers > 4) {
                     //todo: Should be explained with a message on the screen
-                    System.out.println("Number of players not entered");
+                    System.out.println("Number of players not valid");
                     return;
                 }
-                roboRally.setScreen(new RoboRallyGame(roboRally, Integer.parseInt(numPlayers)));
+                roboRally.setScreen(new RoboRallyGame(roboRally, numPlayers));
                 dispose();
 
             }
@@ -117,7 +118,8 @@ public class PreferencesScreen implements Screen, TextInputListener {
 
     @Override
     public void input(String s) {
-        numPlayers = s;
+        //todo: input needs be between an integer and a valid number of players. If not, an error message should be displayed.
+        numPlayers = Integer.parseInt(s);
     }
 
     @Override
@@ -126,5 +128,10 @@ public class PreferencesScreen implements Screen, TextInputListener {
     }
     public void getInput() {
         Gdx.input.getTextInput(this, "Number of Players", "", "1-4");
+
+    }
+
+    public ArrayList<String> getNames() {
+        return names;
     }
 }
