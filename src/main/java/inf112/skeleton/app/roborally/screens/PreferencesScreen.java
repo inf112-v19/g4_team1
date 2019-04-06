@@ -52,7 +52,7 @@ public class PreferencesScreen implements Screen {
         playerTable.add(players).fillX().uniformX();
         table.row();
 
-        table.row().pad(10, 0, 10, 0);
+     //   table.row().pad(10, 0, 10, 0);
 
         table.add(start).fillX().uniformX();
         table.row();
@@ -113,7 +113,7 @@ public class PreferencesScreen implements Screen {
                     System.out.println("Number of players not valid");
                     return;
                 }
-                roboRally.setScreen(new RoboRallyGame(roboRally, names.size()));
+                roboRally.setScreen(new RoboRallyGame(roboRally, names));
                 dispose();
 
 

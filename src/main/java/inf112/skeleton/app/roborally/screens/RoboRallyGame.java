@@ -79,6 +79,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private ArrayList<IActiveElement> ActiveElements;
     private ArrayList<Flag> flags  ;
     private ArrayList<WrenchTile> wrenches;
+    private ArrayList<String> names = new ArrayList<>();
     ArrayList<Texture> textures = new ArrayList<>();
 
 
@@ -99,8 +100,9 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
     //TODO? Player player = new Player("test");
 
-    public RoboRallyGame(RoboRally roboRally, int numPlayers) {
-        this.numPlayers = numPlayers;
+    public RoboRallyGame(RoboRally roboRally, ArrayList<String> names) {
+        this.names = names;
+        this.numPlayers = names.size();
         stage = new Stage();
         sb= new SpriteBatch();
 
@@ -159,14 +161,14 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
     // set up the players before starting game
     private void startGame() throws InterruptedException {
-        for (int i = 1; i <= numPlayers; i++) {
-            Player player = new Player("Player" + i);
+        for (int i = 0; i < numPlayers; i++) {
+            Player player = new Player(names.get(i));
             Robot robot = new Robot(gameBoard.getSpawn(), Direction.NORTH, player, gameBoard);
             gameBoard.addTileObject(robot);
             player.addRobot(robot);
             players.add(player);
 
-            Drawable drawable= new TextureRegionDrawable(textures.get(i-1));
+            Drawable drawable= new TextureRegionDrawable(textures.get(i));
             Image robotImage= new Image(drawable);
 
             robotSprites.put(robot, robotImage);
@@ -175,13 +177,12 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             robotImage.setPosition(coordToPixel(robot.getPos().x()), coordToPixel(robot.getPos().y()));
             stage.addActor(robotImage);
 
-
-
+            
             System.out.println("finished adding robots");
-        }
-    //    updateAllSprites(players);
-        doTurn();
 
+
+        }
+        doTurn();
 
     }
 
