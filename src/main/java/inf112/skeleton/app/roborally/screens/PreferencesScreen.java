@@ -110,7 +110,7 @@ public class PreferencesScreen implements Screen {
                 }
                 roboRally.setScreen(new RoboRallyGame(roboRally, names));
                 dispose();
-                
+
             }
         });
     }

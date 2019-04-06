@@ -79,7 +79,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private ArrayList<IActiveElement> ActiveElements;
     private ArrayList<Flag> flags  ;
     private ArrayList<WrenchTile> wrenches;
-    private ArrayList<String> names = new ArrayList<>();
+    private ArrayList<String> names;
     ArrayList<Texture> textures = new ArrayList<>();
 
 
