@@ -19,7 +19,6 @@ public class PreferencesScreen implements Screen {
     private Stage stage;
     private RoboRally roboRally;
     private Table playerTable;
-    //todo: Every player should be able to enter their player-name. Names should go in this list.
     private ArrayList<String> names = new ArrayList<>();
 
 
