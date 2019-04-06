@@ -79,7 +79,8 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private ArrayList<IActiveElement> ActiveElements;
     private ArrayList<Flag> flags  ;
     private ArrayList<WrenchTile> wrenches;
-    Texture texture= new Texture("assets/roborally/robot.png");
+    ArrayList<Texture> textures = new ArrayList<>();
+
 
 
     private ArrayList<Card > currentPlayerCards = new ArrayList<>();
@@ -102,6 +103,13 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         this.numPlayers = numPlayers;
         stage = new Stage();
         sb= new SpriteBatch();
+
+        //Create list of Robot textures
+        Texture texture = new Texture("assets/roborally/robot.png");
+        Texture texture2 = new Texture("assets/roborally/robot2.png");
+        textures.add(texture);
+        textures.add(texture2);
+
 
         // get the game itself from the previous screen
         this.roboRally = roboRally;
@@ -151,15 +159,14 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
     // set up the players before starting game
     private void startGame() throws InterruptedException {
-        int NPLAYERS = 1;
-        for (int i = 0; i < NPLAYERS; i++) {
-            Player player = new Player("test");
+        for (int i = 1; i <= numPlayers; i++) {
+            Player player = new Player("Player" + i);
             Robot robot = new Robot(gameBoard.getSpawn(), Direction.NORTH, player, gameBoard);
             gameBoard.addTileObject(robot);
             player.addRobot(robot);
             players.add(player);
 
-            Drawable drawable= new TextureRegionDrawable(texture);
+            Drawable drawable= new TextureRegionDrawable(textures.get(i-1));
             Image robotImage= new Image(drawable);
 
             robotSprites.put(robot, robotImage);
