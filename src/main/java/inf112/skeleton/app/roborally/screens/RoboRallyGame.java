@@ -62,6 +62,7 @@ import static inf112.skeleton.app.base.utils.Direction.EAST;
  * main game screen
  */
 public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
+    private int numPlayers;
     private SpriteBatch sb;
     private RoboRally roboRally;
     private TiledMap board;
@@ -97,7 +98,8 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
     //TODO? Player player = new Player("test");
 
-    public RoboRallyGame(RoboRally roboRally) {
+    public RoboRallyGame(RoboRally roboRally, int numPlayers) {
+        this.numPlayers = numPlayers;
         stage = new Stage();
         sb= new SpriteBatch();
 
