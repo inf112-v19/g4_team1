@@ -43,6 +43,7 @@ public class PreferencesScreen implements Screen, TextInputListener {
         TextButton numP = new TextButton("Enter Number of Players", skin);
         TextButton start = new TextButton("Start Game", skin);
         TextButton back = new TextButton("Back", skin);
+        TextButton players = new TextButton("Back", skin);
 
         table.add(numP).fillX().uniformX();
         table.row().pad(10, 0, 10, 0);
@@ -62,14 +63,13 @@ public class PreferencesScreen implements Screen, TextInputListener {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 getInput();
-                System.out.println(numPlayers);
             }
         });
 
         start.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if(numPlayers < 1 || numPlayers > 4) {
+                if(numPlayers < 1 || numPlayers > 2) {
                     //todo: Should be explained with a message on the screen
                     System.out.println("Number of players not valid");
                     return;
