@@ -7,22 +7,20 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import inf112.skeleton.app.roborally.RoboRally;
 
 import java.util.ArrayList;
 
-public class PreferencesScreen implements Screen, TextInputListener {
+public class PreferencesScreen implements Screen {
 
     private Stage stage;
     private RoboRally roboRally;
+    private Table playerTable;
     //todo: Every player should be able to enter their player-name. Names should go in this list.
     private ArrayList<String> names = new ArrayList<>();
-    private int numPlayers = 0;
 
 
     public PreferencesScreen(RoboRally roboRally) {
@@ -34,22 +32,33 @@ public class PreferencesScreen implements Screen, TextInputListener {
     @Override
     public void show() {
         Table table = new Table();
+        playerTable = new Table();
+        playerTable.setFillParent(true);
+        playerTable.setDebug(true);
+        playerTable.right().top();
         table.setFillParent(true);
-        table.setDebug(true);
+        table.setDebug(false);
         stage.addActor(table);
-
+        stage.addActor(playerTable);
         Skin skin = new Skin(Gdx.files.internal("assets/roborally/skin/comic-ui.json"));
 
-        TextButton numP = new TextButton("Enter Number of Players", skin);
+        TextButton add = new TextButton("Add Player", skin);
         TextButton start = new TextButton("Start Game", skin);
         TextButton back = new TextButton("Back", skin);
-        TextButton players = new TextButton("Back", skin);
+        TextButton players = new TextButton("Players: ", skin);
 
-        table.add(numP).fillX().uniformX();
+
+        table.add(add).fillX().uniformX();
+        playerTable.add(players).fillX().uniformX();
+        table.row();
+
         table.row().pad(10, 0, 10, 0);
+
         table.add(start).fillX().uniformX();
         table.row();
         table.add(back).fillX().uniformX();
+
+
 
         back.addListener(new ChangeListener() {
             @Override
@@ -59,23 +68,54 @@ public class PreferencesScreen implements Screen, TextInputListener {
             }
         });
 
-        numP.addListener(new ChangeListener() {
+        add.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                getInput();
+                if(names.size() == 2) {
+                    //todo: should display msg on screen
+                    System.out.println("Cant add more players");
+                    return;
+                }
+                TextInputListener inputName = new TextInputListener() {
+                    @Override
+                    public void input(String s) {
+                        if(names.contains(s)) {
+                            //todo: should display msg on screen
+                            //name already exist
+                            System.out.println("Name already taken");
+                            return;
+                        }
+                       names.add(s);
+                       //Create button with playername
+                       TextButton pl = new TextButton(s, skin);
+                       playerTable.row();
+                       playerTable.add(pl).uniformX().fillX();
+
+
+                    }
+
+                    @Override
+                    public void canceled() {
+
+                    }
+                };
+                Gdx.input.getTextInput(inputName, "Enter Player Name", "", "");
+
+
             }
         });
 
         start.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if(numPlayers < 1 || numPlayers > 2) {
+                if(names.size() < 1 || names.size() > 2) {
                     //todo: Should be explained with a message on the screen
                     System.out.println("Number of players not valid");
                     return;
                 }
-                roboRally.setScreen(new RoboRallyGame(roboRally, numPlayers));
+                roboRally.setScreen(new RoboRallyGame(roboRally, names.size()));
                 dispose();
+
 
             }
         });
@@ -87,8 +127,10 @@ public class PreferencesScreen implements Screen, TextInputListener {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 
+
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
+
     }
 
     @Override
@@ -116,22 +158,5 @@ public class PreferencesScreen implements Screen, TextInputListener {
 
     }
 
-    @Override
-    public void input(String s) {
-        //todo: input needs be between an integer and a valid number of players. If not, an error message should be displayed.
-        numPlayers = Integer.parseInt(s);
-    }
 
-    @Override
-    public void canceled() {
-
-    }
-    public void getInput() {
-        Gdx.input.getTextInput(this, "Number of Players", "", "1-4");
-
-    }
-
-    public ArrayList<String> getNames() {
-        return names;
-    }
 }
