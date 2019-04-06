@@ -20,6 +20,7 @@ public class PreferencesScreen implements Screen {
     private RoboRally roboRally;
     private Table playerTable;
     private ArrayList<String> names = new ArrayList<>();
+    private Skin skin;
 
 
     public PreferencesScreen(RoboRally roboRally) {
@@ -39,7 +40,7 @@ public class PreferencesScreen implements Screen {
         table.setDebug(false);
         stage.addActor(table);
         stage.addActor(playerTable);
-        Skin skin = new Skin(Gdx.files.internal("assets/roborally/skin/comic-ui.json"));
+        skin = new Skin(Gdx.files.internal("assets/roborally/skin/comic-ui.json"));
 
         //todo: button for removing player from playerlist?
         TextButton add = new TextButton("Add Player", skin);
@@ -47,13 +48,9 @@ public class PreferencesScreen implements Screen {
         TextButton back = new TextButton("Back", skin);
         TextButton players = new TextButton("Players: ", skin);
 
-
-        table.add(add).fillX().uniformX();
         playerTable.add(players).fillX().uniformX();
+        table.add(add).fillX().uniformX();
         table.row();
-
-     //   table.row().pad(10, 0, 10, 0);
-
         table.add(start).fillX().uniformX();
         table.row();
         table.add(back).fillX().uniformX();
@@ -91,7 +88,6 @@ public class PreferencesScreen implements Screen {
                        playerTable.row();
                        playerTable.add(pl).uniformX().fillX();
 
-
                     }
 
                     @Override
@@ -100,7 +96,6 @@ public class PreferencesScreen implements Screen {
                     }
                 };
                 Gdx.input.getTextInput(inputName, "Enter Player Name", "", "");
-
 
             }
         });
@@ -115,8 +110,7 @@ public class PreferencesScreen implements Screen {
                 }
                 roboRally.setScreen(new RoboRallyGame(roboRally, names));
                 dispose();
-
-
+                
             }
         });
     }
@@ -125,8 +119,6 @@ public class PreferencesScreen implements Screen {
     public void render(float v) {
         Gdx.gl.glClearColor(0f, 0f, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-
 
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
@@ -155,7 +147,8 @@ public class PreferencesScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
+        skin.dispose();
     }
 
 

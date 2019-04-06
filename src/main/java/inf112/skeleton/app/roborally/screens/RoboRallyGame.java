@@ -177,7 +177,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             robotImage.setPosition(coordToPixel(robot.getPos().x()), coordToPixel(robot.getPos().y()));
             stage.addActor(robotImage);
 
-            
+
             System.out.println("finished adding robots");
 
 
