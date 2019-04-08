@@ -87,6 +87,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
 
     private ArrayList<Card > currentPlayerCards = new ArrayList<>();
+    private Player currentPlayer;
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -200,9 +201,9 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             for (Player player : players) {
                 if(player.getCards().isEmpty()) {
                     System.out.println("choose cards");
+                    currentPlayer = player;
                     chooseCards(player.getRobot().getHealth());
-                    player.setCards(currentPlayerCards);
-                    System.out.println(player+" cards is "+currentPlayerCards);
+                    //player.setCards(currentPlayerCards);
                     break;
                 }
             }
@@ -211,6 +212,9 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     }
 
     private void continueTurn() {
+        for (Player p : players){
+            System.out.println(p +" has cards "+p.getCards());
+        }
         //player have finished choosing cards
         boolean finishedExecute = false;
         sequenceAction = new SequenceAction();
@@ -224,23 +228,25 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 //                }
 //            });
             finishedExecute = true;
-            for (Player current : players) {
-                if (current.getCards().size() != 0) {
-                    System.out.println("inside execution");
+            for (Player currentPlayer : players) {
+                if (currentPlayer.getCards().size() != 0) {
+
+                    System.out.println("inside execution"+currentPlayer);
                     finishedExecute = false;
-                    moveRobot(current);
-                    int x = coordToPixel(current.getRobot().getPos().x());
-                    int y = coordToPixel(current.getRobot().getPos().y());
-                    Image roboImage = robotSprites.get(current.getRobot());
+                    moveRobot(currentPlayer);
+                    int x = coordToPixel(currentPlayer.getRobot().getPos().x());
+                    int y = coordToPixel(currentPlayer.getRobot().getPos().y());
+                    Image roboImage = robotSprites.get(currentPlayer.getRobot());
+                    System.out.println(roboImage);
 
                     //get center of image so rotation is correct
                     roboImage.setOrigin(roboImage.getWidth()/2, roboImage.getHeight()/2);
                     //If we want we can use another rotation method so the robot always will animate the shortest path.
-//                    roboImage.addAction(Actions.rotateTo(getRotationDegrees(current.getRobot().getDir()), 2f));
+//                    roboImage.addAction(Actions.rotateTo(getRotationDegrees(currentPlayer.getRobot().getDir()), 2f));
 //                    roboImage.addAction(Actions.moveTo(x, y,3f));
-                    sequenceAction.addAction(Actions.rotateTo(getRotationDegrees(current.getRobot().getDir()), 2f));
-                    sequenceAction.addAction(Actions.moveTo(x, y,1f));
                     sequenceAction.setActor(roboImage);
+                    sequenceAction.addAction(Actions.rotateTo(getRotationDegrees(currentPlayer.getRobot().getDir()), 2f));
+                    sequenceAction.addAction(Actions.moveTo(x, y,1f));
                     //roboImage.addAction(sequenceAction);
                 }
             }
@@ -381,7 +387,8 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 //SATT TIL 1 for testing
                 if(selectedCards.size() == 5) {
                     currentPlayerCards.addAll(selectedCards);
-                    System.out.println("selected: " + currentPlayerCards);
+                    currentPlayer.setCards(new ArrayList<>(currentPlayerCards));
+                    System.out.println("selected for "+currentPlayer+" : " + currentPlayerCards);
 
                     // remove the available and selected cards from the screen
                     int count = availableCards.size();
