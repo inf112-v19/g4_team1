@@ -14,13 +14,15 @@ public class Conveyor extends BoardElement implements IActiveElement {
     }
 
     @Override
-    public void activate() {
+    public IRobot activate() {
         if (board.containsRobot(pos)&& board.getRobot(pos).hasNotMoved()) {
             IRobot robot = board.getRobot(pos);
             robot.move(this.dir);
             robot.setMoved(true);
+            return robot;
 
         }
+        return null;
     }
 
 }

@@ -7,40 +7,26 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 //import com.badlogic.gdx.maps.Map;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 import com.badlogic.gdx.scenes.scene2d.actions.RemoveActorAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
-import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import inf112.skeleton.app.base.actors.IRobot;
 import inf112.skeleton.app.base.actors.Player;
 import inf112.skeleton.app.base.board.boardelement.*;
 import inf112.skeleton.app.base.cards.Card;
 import inf112.skeleton.app.base.cards.CardDecks;
-import inf112.skeleton.app.base.cards.CardType;
 
 import inf112.skeleton.app.base.utils.Pos;
 import inf112.skeleton.app.roborally.RoboRally;
@@ -50,12 +36,9 @@ import inf112.skeleton.app.base.utils.Direction;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import static inf112.skeleton.app.base.utils.Direction.EAST;
 
@@ -184,10 +167,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             robotImage.setSize(tileWidth / 1.5f, tileHeight / 1.5f);
             robotImage.setPosition(coordToPixel(robot.getPos().x()), coordToPixel(robot.getPos().y()));
             stage.addActor(robotImage);
-
-
             System.out.println("finished adding robots");
-
 
         }
         doTurn();
@@ -208,12 +188,10 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     System.out.println("choose cards");
                     currentPlayer = player;
                     chooseCards(player.getRobot().getHealth());
-                    //player.setCards(currentPlayerCards);
                     break;
                 }
             }
         }
-
     }
 
     private void continueTurn() {
@@ -240,36 +218,25 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     finishedExecute = false;
 
                     moveRobot(currentPlayer);
-                    int x = coordToPixel(currentPlayer.getRobot().getPos().x());
-                    int y = coordToPixel(currentPlayer.getRobot().getPos().y());
                     Image roboImage = robotSprites.get(currentPlayer.getRobot());
-                    System.out.println(roboImage);
-
                     //get center of image so rotation is correct
                     roboImage.setOrigin(roboImage.getWidth()/2, roboImage.getHeight()/2);
-                    //If we want we can use another rotation method so the robot always will animate the shortest path.
-//                    roboImage.addAction(Actions.rotateTo(getRotationDegrees(currentPlayer.getRobot().getDir()), 2f));
-//                    roboImage.addAction(Actions.moveTo(x, y,3f));
-                    sequenceAction.setActor(roboImage);
-                    sequenceAction.addAction(Actions.rotateTo(getRotationDegrees(currentPlayer.getRobot().getDir()), 2f));
-                    sequenceAction.addAction(Actions.moveTo(x, y,1f));
-                    //roboImage.addAction(sequenceAction);
+                    addActionToRobot(currentPlayer.getRobot());
                 }
             }
             //activate board elements, then lasers
             for(IActiveElement elem : ActiveElements){
                 if(!(elem instanceof Laser)){
-                    elem.activate();
-                 //   updateAllSprites(players);
+                    IRobot robot = elem.activate();
+                    if(robot != null) System.out.println("activates "+elem.getClass().getSimpleName()+" on "+robot.getOwner());
+                    addActionToRobot(robot);
                 }
             }
             for(IActiveElement elem : ActiveElements){
                 if(elem instanceof Laser){
                     elem.activate();
-                 //   updateAllSprites(players);
                 }
             }
-            //end of phase
         }
 
         allCards.clear();
@@ -278,12 +245,11 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
         //check for flags and wrenches at end of turn
         for (Player player : players){
-            Pos robotpos = player.getRobot().getPos();
-            for (int i = 0; i < flags.size(); i++) {
-                flags.get(i).setRespawn();
+            for (Flag flag : flags) {
+                flag.setRespawn();
             }
-            for (int i = 0; i < wrenches.size(); i++) {
-                wrenches.get(i).setRespawn();
+            for (WrenchTile wrench : wrenches) {
+                wrench.setRespawn();
             }
         }
         //check for win condition
@@ -300,10 +266,23 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         }
     }
 
+    private void addActionToRobot(IRobot robot){
+        if(robot != null){
+            System.out.println("adding action to "+robot.getOwner());
+            sequenceAction.setActor(robotSprites.get(robot));
+
+            //if(getRotationDegrees(robot.getDir()) != robotSprites.get(currentPlayer.getRobot()).getRotation()){
+                //needs to rotate
+                sequenceAction.addAction(Actions.rotateTo(getRotationDegrees(robot.getDir()), 2f));
+            //}
+            sequenceAction.addAction(Actions.moveTo(coordToPixel(robot.getPos().x()), coordToPixel(robot.getPos().y()),1f));
+        }
+    }
+
     /**
      * this method updates currentPlayerCards with the cards that is selected
      */
-    private void chooseCards(int nCards) throws InterruptedException {
+    private void chooseCards(int nCards) {
         currentPlayerCards.clear();
         ArrayList<Card> availableCards = cardDecks.getCards(nCards);
         ArrayList<Card> selectedCards = new ArrayList<>();
@@ -327,7 +306,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             button.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent changeEvent, Actor actor) {
-                    System.out.println("klicked " + card);
+                    //System.out.println("klicked " + card);
 
                     //stage.getActors().removeIndex(stage.getActors().indexOf(button, false));
 
@@ -372,8 +351,8 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     int count= buttonsAndCards.size();
                     int j = 0;
                     for (Button btn: buttonsAndCards.values()) {
-                        stage.getActors().removeValue(buttonsAndCards.get(
-                                selectedCards.remove(0)), false);
+//                        stage.getActors().removeValue(buttonsAndCards.get(
+//                                selectedCards.remove(0)), false);
                         stage.getActors().get(stage.getActors().indexOf(btn,false)).setPosition(
                                 96+125*j,96*9);
                         j++;
@@ -566,16 +545,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         return false;
     }
 
-
-    private void updateAllSprites(ArrayList<Player> players) {
-        for(Player player : players){
-            Robot robot = player.getRobot();
-            Image robotImage = robotSprites.get(robot);
-            robotImage.setPosition((robot.getPos().x() * tileWidth/1.5f), (robot.getPos().y() * tileHeight/1.5f));
-            robotImage.setOrigin(tileWidth/2.0f,tileHeight/2.0f);
-            robotImage.setRotation(getRotationDegrees(robot.getDir()));
-        }
-    }
     private int getRotationDegrees(Direction dir){
         switch(dir){
             case NORTH: return 0;
@@ -585,10 +554,9 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         }
         throw new IllegalArgumentException();
     }
-    /*
 
-     */
-    public void moveRobot(Player player) {
+
+    private void moveRobot(Player player) {
         Card card = player.useFirstCard();
         card.execute(player.getRobot());
         cardDecks.addUsed(card);
@@ -603,7 +571,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
      * @param x The grid-coordinate(row or column number)
      * @return Pixel-coordinate
      */
-    public int coordToPixel(int x) {
+    private int coordToPixel(int x) {
         if(x == 0) {
             return x;
         }

@@ -20,7 +20,7 @@ public class TurnConveyor extends BoardElement implements IActiveElement{
     }
 
     @Override
-    public void activate() {
+    public IRobot activate() {
         if (board.containsRobot(pos)&& board.getRobot(pos).hasNotMoved()) {
             IRobot robot = board.getRobot(pos);
             robot.move(dir);
@@ -30,6 +30,8 @@ public class TurnConveyor extends BoardElement implements IActiveElement{
             }else{
                 robot.turnLeft();
             }
+            return robot;
         }
+        return null;
     }
 }

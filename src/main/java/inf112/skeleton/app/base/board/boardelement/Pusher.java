@@ -1,5 +1,6 @@
 package inf112.skeleton.app.base.board.boardelement;
 
+import inf112.skeleton.app.base.actors.IRobot;
 import inf112.skeleton.app.base.actors.Robot;
 import inf112.skeleton.app.base.board.Board;
 import inf112.skeleton.app.base.utils.Direction;
@@ -16,11 +17,13 @@ public class Pusher extends Wall implements  IActiveElement {
     }
 
     @Override
-    public void activate() {
+    public IRobot activate() {
         if (board.containsRobot(pos) && board.getRobot(pos).hasNotMoved()) {
             Robot robot = (Robot) board.getRobot(pos);
             robot.setMoved(true);
             robot.move(pushDir);
+            return robot;
         }
+        return null;
     }
 }
