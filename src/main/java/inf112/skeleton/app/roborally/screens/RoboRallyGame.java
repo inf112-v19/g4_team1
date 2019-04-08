@@ -220,9 +220,10 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
                     //get center of image so rotation is correct
                     roboImage.setOrigin(roboImage.getWidth()/2, roboImage.getHeight()/2);
-                    roboImage.addAction(Actions.moveTo(x, y,3f));
                     //If we want we can use another rotation method so the robot always will animate the shortest path.
-                    roboImage.addAction(Actions.rotateTo(getRotationDegrees(current.getRobot().getDir()), 0.5f));
+                    roboImage.addAction(Actions.rotateTo(getRotationDegrees(current.getRobot().getDir()), 2f));
+                    roboImage.addAction(Actions.moveTo(x, y,3f));
+
 
                 }
             }
