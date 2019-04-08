@@ -23,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
+import com.badlogic.gdx.scenes.scene2d.actions.RemoveActorAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -384,10 +385,13 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     stage.getActors().removeValue(finish_button, false);
                     stage.getActors().removeValue(reset_button,false);
 
+                    float n = 0;
                     for(Card card : selectedCards) {
                         stage.getActors().get(stage.getActors().indexOf(
-                                buttonsAndCards.get(card),false)).remove();
+                                buttonsAndCards.get(card),false)).addAction(new SequenceAction(
+                                        Actions.delay(n), Actions.fadeOut(3f), new RemoveActorAction()));
 
+                        n += 3f;
                         // backup code to remove listeners from buttons
 //                        stage.getActors().get(stage.getActors().indexOf(
 //                                buttonsAndCards.get(card),false)).removeListener(buttonsAndCards.get(
