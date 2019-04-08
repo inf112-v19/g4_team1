@@ -88,6 +88,10 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
 
     private ArrayList<Card > currentPlayerCards = new ArrayList<>();
+    private ArrayList<Card> allCards = new ArrayList<>();
+    private HashMap<Card, Button> buttonsAndCards = new HashMap<>();
+    private float delay = 0f;
+
     private Player currentPlayer;
 
     @Override
@@ -234,6 +238,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
                     System.out.println("inside execution"+currentPlayer);
                     finishedExecute = false;
+
                     moveRobot(currentPlayer);
                     int x = coordToPixel(currentPlayer.getRobot().getPos().x());
                     int y = coordToPixel(currentPlayer.getRobot().getPos().y());
@@ -266,6 +271,11 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             }
             //end of phase
         }
+
+        allCards.clear();
+        buttonsAndCards = new HashMap<>();
+        delay = 0f;
+
         //check for flags and wrenches at end of turn
         for (Player player : players){
             Pos robotpos = player.getRobot().getPos();
@@ -298,12 +308,11 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         ArrayList<Card> availableCards = cardDecks.getCards(nCards);
         ArrayList<Card> selectedCards = new ArrayList<>();
         ArrayList<Boolean> usedslots = new ArrayList<>();
-        ArrayList<Boolean> finished = new ArrayList<>();
         for (int i = 0; i < nCards; i++) {
             usedslots.add(false);
         }
 
-        HashMap<Card, Button> buttonsAndCards = new HashMap<>();
+
 
         //Creating a button for each card
         for (int i = 0; i < availableCards.size(); i++) {
@@ -327,9 +336,15 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     } else {
                         if (selectedCards.size() < 5) {
                             if (!selectedCards.contains(card)) {
-                                stage.getActors().get(stage.getActors().indexOf(
-                                        button, false)).setPosition(
-                                        96 * 16, 96 * (9 - selectedCards.size() * 2));
+                                if (allCards.size() < 5) {
+                                    stage.getActors().get(stage.getActors().indexOf(
+                                            button, false)).setPosition(
+                                            96 * 16, 96 * (9 - selectedCards.size() * 2));
+                                } else {
+                                    stage.getActors().get(stage.getActors().indexOf(
+                                            button, false)).setPosition(
+                                            96 * 18, 96 * (9 - selectedCards.size() * 2));
+                                }
                                 selectedCards.add(card);
                                 availableCards.remove(card);
                             }
@@ -357,8 +372,8 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     int count= buttonsAndCards.size();
                     int j = 0;
                     for (Button btn: buttonsAndCards.values()) {
-//                        stage.getActors().removeValue(buttonsAndCards.get(
-//                                selectedCards.remove(0)), false);
+                        stage.getActors().removeValue(buttonsAndCards.get(
+                                selectedCards.remove(0)), false);
                         stage.getActors().get(stage.getActors().indexOf(btn,false)).setPosition(
                                 96+125*j,96*9);
                         j++;
@@ -377,7 +392,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         finish_button.setPosition((96*15)-30,96*3);
         finish_button.setSize(96,96);
         stage.addActor(finish_button);
-        finished.add(false);
 
         finish_button.addListener(new ChangeListener() {
 
@@ -389,6 +403,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 if(selectedCards.size() == 5) {
                     currentPlayerCards.addAll(selectedCards);
                     currentPlayer.setCards(new ArrayList<>(currentPlayerCards));
+                    allCards.addAll(currentPlayer.getCards());
                     System.out.println("selected for "+currentPlayer+" : " + currentPlayerCards);
 
                     // remove the available and selected cards from the screen
@@ -403,18 +418,25 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     stage.getActors().removeValue(finish_button, false);
                     stage.getActors().removeValue(reset_button,false);
 
-                    float n = 0;
-                    for(Card card : selectedCards) {
-                        stage.getActors().get(stage.getActors().indexOf(
-                                buttonsAndCards.get(card),false)).addAction(new SequenceAction(
-                                        Actions.delay(n), Actions.fadeOut(3f), new RemoveActorAction()));
+//                    if (allCards.size() == 10) {
+//                        float n = 0;
+//                        for(Card card : allCards) {
+//                            System.out.println(card);
+//                            System.out.println(buttonsAndCards.keySet());
+//                            stage.getActors().get(stage.getActors().indexOf(
+//                                    buttonsAndCards.get(card),false)).addAction(new SequenceAction(
+//                                    Actions.delay(n), Actions.fadeOut(3f), new RemoveActorAction()));
+//
+//                            n += 3f;
+//                            // backup code to remove listeners from buttons
+////                        stage.getActors().get(stage.getActors().indexOf(
+////                                buttonsAndCards.get(card),false)).removeListener(buttonsAndCards.get(
+////                                card).getListeners().get(0));
+//                        }
+//                        allCards.clear();
+//                        buttonsAndCards = new HashMap<>();
+//                    }
 
-                        n += 3f;
-                        // backup code to remove listeners from buttons
-//                        stage.getActors().get(stage.getActors().indexOf(
-//                                buttonsAndCards.get(card),false)).removeListener(buttonsAndCards.get(
-//                                card).getListeners().get(0));
-                    }
                     //continue game when finished selecting cards if there are no more players
 
                     try {
@@ -570,7 +592,10 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         Card card = player.useFirstCard();
         card.execute(player.getRobot());
         cardDecks.addUsed(card);
-
+        stage.getActors().get(stage.getActors().indexOf(
+                buttonsAndCards.get(card),false)).addAction(new SequenceAction(
+                Actions.delay(delay), Actions.fadeOut(3f), new RemoveActorAction()));
+        delay += 3f;
     }
 
     /**
