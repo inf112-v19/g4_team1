@@ -18,7 +18,7 @@ public class Gear extends BoardElement implements IActiveElement {
     }
 
     @Override
-    public void activate() {
+    public IRobot activate() {
         if (board.containsRobot(pos)&& board.getRobot(pos).hasNotMoved()) {
             IRobot robot = board.getRobot(pos);
             robot.setMoved(true);
@@ -28,7 +28,9 @@ public class Gear extends BoardElement implements IActiveElement {
             else if (dir == Direction.WEST) robot.turnLeft();
 
             else throw new IllegalArgumentException("Use arguments EAST or WEST for gears");
+            return robot;
         }
+        return null;
     }
 
 }

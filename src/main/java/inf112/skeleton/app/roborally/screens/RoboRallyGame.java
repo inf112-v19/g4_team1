@@ -7,40 +7,26 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 //import com.badlogic.gdx.maps.Map;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 import com.badlogic.gdx.scenes.scene2d.actions.RemoveActorAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
-import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import inf112.skeleton.app.base.actors.IRobot;
 import inf112.skeleton.app.base.actors.Player;
 import inf112.skeleton.app.base.board.boardelement.*;
 import inf112.skeleton.app.base.cards.Card;
 import inf112.skeleton.app.base.cards.CardDecks;
-import inf112.skeleton.app.base.cards.CardType;
 
 import inf112.skeleton.app.base.utils.Pos;
 import inf112.skeleton.app.roborally.RoboRally;
@@ -50,12 +36,9 @@ import inf112.skeleton.app.base.utils.Direction;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import static inf112.skeleton.app.base.utils.Direction.EAST;
 
@@ -235,45 +218,33 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     System.out.println("inside execution"+currentPlayer);
                     finishedExecute = false;
                     moveRobot(currentPlayer);
-                    int x = coordToPixel(currentPlayer.getRobot().getPos().x());
-                    int y = coordToPixel(currentPlayer.getRobot().getPos().y());
                     Image roboImage = robotSprites.get(currentPlayer.getRobot());
-                    System.out.println(roboImage);
-
                     //get center of image so rotation is correct
                     roboImage.setOrigin(roboImage.getWidth()/2, roboImage.getHeight()/2);
-                    //If we want we can use another rotation method so the robot always will animate the shortest path.
-//                    roboImage.addAction(Actions.rotateTo(getRotationDegrees(currentPlayer.getRobot().getDir()), 2f));
-//                    roboImage.addAction(Actions.moveTo(x, y,3f));
-                    sequenceAction.setActor(roboImage);
-                    sequenceAction.addAction(Actions.rotateTo(getRotationDegrees(currentPlayer.getRobot().getDir()), 2f));
-                    sequenceAction.addAction(Actions.moveTo(x, y,1f));
-                    //roboImage.addAction(sequenceAction);
+                    addActionToRobot(currentPlayer.getRobot(), sequenceAction);
                 }
             }
             //activate board elements, then lasers
             for(IActiveElement elem : ActiveElements){
                 if(!(elem instanceof Laser)){
-                    elem.activate();
-                 //   updateAllSprites(players);
+                    IRobot robot = elem.activate();
+                    if(robot != null) System.out.println("activates "+elem+" on "+robot.getOwner());
+                    addActionToRobot(robot, sequenceAction);
                 }
             }
             for(IActiveElement elem : ActiveElements){
                 if(elem instanceof Laser){
                     elem.activate();
-                 //   updateAllSprites(players);
                 }
             }
-            //end of phase
         }
         //check for flags and wrenches at end of turn
         for (Player player : players){
-            Pos robotpos = player.getRobot().getPos();
-            for (int i = 0; i < flags.size(); i++) {
-                flags.get(i).setRespawn();
+            for (Flag flag : flags) {
+                flag.setRespawn();
             }
-            for (int i = 0; i < wrenches.size(); i++) {
-                wrenches.get(i).setRespawn();
+            for (WrenchTile wrench : wrenches) {
+                wrench.setRespawn();
             }
         }
         //check for win condition
@@ -287,6 +258,18 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             doTurn();
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void addActionToRobot(IRobot robot, SequenceAction seq){
+        if(robot != null){
+            sequenceAction.setActor(robotSprites.get(robot));
+
+            if(getRotationDegrees(robot.getDir()) != robotSprites.get(currentPlayer.getRobot()).getRotation()){
+                //needs to rotate
+                sequenceAction.addAction(Actions.rotateTo(getRotationDegrees(currentPlayer.getRobot().getDir()), 2f));
+            }
+            sequenceAction.addAction(Actions.moveTo(coordToPixel(robot.getPos().x()), coordToPixel(robot.getPos().y()),1f));
         }
     }
 
@@ -566,11 +549,10 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     /*
 
      */
-    public void moveRobot(Player player) {
+    private void moveRobot(Player player) {
         Card card = player.useFirstCard();
         card.execute(player.getRobot());
         cardDecks.addUsed(card);
-
     }
 
     /**
@@ -578,7 +560,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
      * @param x The grid-coordinate(row or column number)
      * @return Pixel-coordinate
      */
-    public int coordToPixel(int x) {
+    private int coordToPixel(int x) {
         if(x == 0) {
             return x;
         }
