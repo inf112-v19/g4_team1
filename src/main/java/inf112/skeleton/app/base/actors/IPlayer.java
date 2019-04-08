@@ -46,4 +46,10 @@ public interface IPlayer {
      */
     void addRobot(Robot robot);
 
+    /**
+     *
+     * @return player name
+     */
+    String getName();
+
 }

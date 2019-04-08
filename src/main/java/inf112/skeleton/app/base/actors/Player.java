@@ -48,4 +48,9 @@ public class Player implements IPlayer {
         return cards.remove(0);
     }
 
+    @Override
+    public String getName() {
+        return name;
+    }
+
 }

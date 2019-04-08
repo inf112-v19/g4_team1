@@ -70,7 +70,7 @@ public class RoboRallyMainMenu implements Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 // go to main game screen
-                roboRally.setScreen(new RoboRallyGame(roboRally));
+                roboRally.setScreen(new PreferencesScreen(roboRally));
                 dispose();
                 return true;
             }
