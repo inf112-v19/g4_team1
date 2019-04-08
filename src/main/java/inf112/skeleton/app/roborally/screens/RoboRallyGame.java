@@ -187,12 +187,23 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     }
 
     private void doTurn() throws InterruptedException {
-        for (Player player : players) {
-            //players program their robots
-            //choosecards() updates currentPlayerCards
-            System.out.println("choose cards");
-            chooseCards(player.getRobot().getHealth());
-            player.setCards(currentPlayerCards);
+        //check if finished
+        boolean finished=true;
+        for (Player player : players){
+            if(player.getCards().isEmpty()) finished=false;
+        }
+        if(finished) {
+            continueTurn();
+        }else{
+            for (Player player : players) {
+                if(player.getCards().isEmpty()) {
+                    System.out.println("choose cards");
+                    chooseCards(player.getRobot().getHealth());
+                    player.setCards(currentPlayerCards);
+                    System.out.println(player+" cards is "+currentPlayerCards);
+                    break;
+                }
+            }
         }
 
     }
@@ -360,7 +371,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 System.out.println("klicked finish");
-                //TODO ENDRE TILBAKE TIL 5
+                //TODO: ENDRE TILBAKE TIL 5
                 //SATT TIL 1 for testing
                 if(selectedCards.size() == 1) {
                     currentPlayerCards.addAll(selectedCards);
@@ -386,8 +397,14 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 //                                buttonsAndCards.get(card),false)).removeListener(buttonsAndCards.get(
 //                                card).getListeners().get(0));
                     }
-                    //continue game when finished selecting cards
-                    continueTurn();
+                    //continue game when finished selecting cards if there are no more players
+
+                    try {
+                        doTurn();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
 
                 }else{
                     System.out.println("not enough cards");
