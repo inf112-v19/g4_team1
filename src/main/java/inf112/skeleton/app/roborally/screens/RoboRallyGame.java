@@ -82,6 +82,8 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private ArrayList<String> names;
     ArrayList<Texture> textures = new ArrayList<>();
 
+    private SequenceAction sequenceAction = new SequenceAction();
+
 
 
     private ArrayList<Card > currentPlayerCards = new ArrayList<>();
@@ -200,6 +202,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private void continueTurn() {
         //player have finished choosing cards
         boolean finishedExecute = false;
+        sequenceAction = new SequenceAction();
         while (!finishedExecute) {
             //players should be sorted by their first cards priority number
 //            players.sort(new Comparator<Player>() {
@@ -212,6 +215,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             finishedExecute = true;
             for (Player current : players) {
                 if (current.getCards().size() != 0) {
+                    System.out.println("inside execution");
                     finishedExecute = false;
                     moveRobot(current);
                     int x = coordToPixel(current.getRobot().getPos().x());
@@ -221,10 +225,12 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     //get center of image so rotation is correct
                     roboImage.setOrigin(roboImage.getWidth()/2, roboImage.getHeight()/2);
                     //If we want we can use another rotation method so the robot always will animate the shortest path.
-                    roboImage.addAction(Actions.rotateTo(getRotationDegrees(current.getRobot().getDir()), 2f));
-                    roboImage.addAction(Actions.moveTo(x, y,3f));
-
-
+//                    roboImage.addAction(Actions.rotateTo(getRotationDegrees(current.getRobot().getDir()), 2f));
+//                    roboImage.addAction(Actions.moveTo(x, y,3f));
+                    sequenceAction.addAction(Actions.rotateTo(getRotationDegrees(current.getRobot().getDir()), 2f));
+                    sequenceAction.addAction(Actions.moveTo(x, y,1f));
+                    sequenceAction.setActor(roboImage);
+                    //roboImage.addAction(sequenceAction);
                 }
             }
             //activate board elements, then lasers
@@ -362,7 +368,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 System.out.println("klicked finish");
                 //TODO ENDRE TILBAKE TIL 5
                 //SATT TIL 1 for testing
-                if(selectedCards.size() == 1) {
+                if(selectedCards.size() == 5) {
                     currentPlayerCards.addAll(selectedCards);
                     System.out.println("selected: " + currentPlayerCards);
 
@@ -377,7 +383,8 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     // remove the finish button from the screen
                     stage.getActors().removeValue(finish_button, false);
                     stage.getActors().removeValue(reset_button,false);
-                    for(Card card : selectedCards){
+
+                    for(Card card : selectedCards) {
                         stage.getActors().get(stage.getActors().indexOf(
                                 buttonsAndCards.get(card),false)).remove();
 
@@ -429,7 +436,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         stage.act(v);
         stage.draw();
 
-
+        sequenceAction.act(v);
     }
 
     @Override
@@ -441,12 +448,12 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
     @Override
     public void pause() {
-
+        state = State.PAUSE;
     }
 
     @Override
     public void resume() {
-
+        state = State.RUN;
     }
 
     @Override
