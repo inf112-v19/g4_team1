@@ -98,7 +98,7 @@ public class Robot implements IRobot {
             board.get(pos).removeContent(this);
             board.get(newPos).addObject(this);
             pos = newPos;
-            System.out.println("robot moved to new pos "+pos+" facing "+dir);
+            System.out.println(owner +" moved to new pos "+pos+" facing "+dir);
             return true;
         }
     }

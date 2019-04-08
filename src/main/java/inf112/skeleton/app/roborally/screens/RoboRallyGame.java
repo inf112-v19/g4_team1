@@ -163,10 +163,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             robotImage.setSize(tileWidth / 1.5f, tileHeight / 1.5f);
             robotImage.setPosition(coordToPixel(robot.getPos().x()), coordToPixel(robot.getPos().y()));
             stage.addActor(robotImage);
-
-
             System.out.println("finished adding robots");
-
 
         }
         doTurn();
@@ -187,12 +184,10 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     System.out.println("choose cards");
                     currentPlayer = player;
                     chooseCards(player.getRobot().getHealth());
-                    //player.setCards(currentPlayerCards);
                     break;
                 }
             }
         }
-
     }
 
     private void continueTurn() {
@@ -221,15 +216,15 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     Image roboImage = robotSprites.get(currentPlayer.getRobot());
                     //get center of image so rotation is correct
                     roboImage.setOrigin(roboImage.getWidth()/2, roboImage.getHeight()/2);
-                    addActionToRobot(currentPlayer.getRobot(), sequenceAction);
+                    addActionToRobot(currentPlayer.getRobot());
                 }
             }
             //activate board elements, then lasers
             for(IActiveElement elem : ActiveElements){
                 if(!(elem instanceof Laser)){
                     IRobot robot = elem.activate();
-                    if(robot != null) System.out.println("activates "+elem+" on "+robot.getOwner());
-                    addActionToRobot(robot, sequenceAction);
+                    if(robot != null) System.out.println("activates "+elem.getClass().getSimpleName()+" on "+robot.getOwner());
+                    addActionToRobot(robot);
                 }
             }
             for(IActiveElement elem : ActiveElements){
@@ -261,14 +256,15 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         }
     }
 
-    private void addActionToRobot(IRobot robot, SequenceAction seq){
+    private void addActionToRobot(IRobot robot){
         if(robot != null){
+            System.out.println("adding action to "+robot.getOwner());
             sequenceAction.setActor(robotSprites.get(robot));
 
-            if(getRotationDegrees(robot.getDir()) != robotSprites.get(currentPlayer.getRobot()).getRotation()){
+            //if(getRotationDegrees(robot.getDir()) != robotSprites.get(currentPlayer.getRobot()).getRotation()){
                 //needs to rotate
-                sequenceAction.addAction(Actions.rotateTo(getRotationDegrees(currentPlayer.getRobot().getDir()), 2f));
-            }
+                sequenceAction.addAction(Actions.rotateTo(getRotationDegrees(robot.getDir()), 2f));
+            //}
             sequenceAction.addAction(Actions.moveTo(coordToPixel(robot.getPos().x()), coordToPixel(robot.getPos().y()),1f));
         }
     }
@@ -276,7 +272,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     /**
      * this method updates currentPlayerCards with the cards that is selected
      */
-    private void chooseCards(int nCards) throws InterruptedException {
+    private void chooseCards(int nCards) {
         currentPlayerCards.clear();
         ArrayList<Card> availableCards = cardDecks.getCards(nCards);
         ArrayList<Card> selectedCards = new ArrayList<>();
@@ -301,7 +297,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             button.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent changeEvent, Actor actor) {
-                    System.out.println("klicked " + card);
+                    //System.out.println("klicked " + card);
 
                     //stage.getActors().removeIndex(stage.getActors().indexOf(button, false));
 
@@ -527,16 +523,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         return false;
     }
 
-
-    private void updateAllSprites(ArrayList<Player> players) {
-        for(Player player : players){
-            Robot robot = player.getRobot();
-            Image robotImage = robotSprites.get(robot);
-            robotImage.setPosition((robot.getPos().x() * tileWidth/1.5f), (robot.getPos().y() * tileHeight/1.5f));
-            robotImage.setOrigin(tileWidth/2.0f,tileHeight/2.0f);
-            robotImage.setRotation(getRotationDegrees(robot.getDir()));
-        }
-    }
     private int getRotationDegrees(Direction dir){
         switch(dir){
             case NORTH: return 0;
@@ -546,9 +532,8 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         }
         throw new IllegalArgumentException();
     }
-    /*
 
-     */
+
     private void moveRobot(Player player) {
         Card card = player.useFirstCard();
         card.execute(player.getRobot());
