@@ -251,6 +251,17 @@ public class Board implements IBoard {
         return false;
     }
 
+    @Override
+    public boolean containsFlag(Pos pos) {
+        List<IBoardElement> tileObjects =  board.get(indexFromCor(pos)).getContent();
+        for (IBoardElement tileObject : tileObjects)
+            if (tileObject instanceof Flag) return true;
+
+        return false;
+    }
+
+
+
     private int indexFromCor(Pos pos) {
         return pos.x() + (getWidth() * pos.y());
     }
