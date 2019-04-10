@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Player implements IPlayer {
     private Robot robot;
     private String name;
-    private ArrayList<Card> cards;
+    private ArrayList<Card> cards = new ArrayList<>();
 
     public Player(String name) {
         this.name = name;
@@ -50,6 +50,10 @@ public class Player implements IPlayer {
 
     @Override
     public String getName() {
+        return name;
+    }
+
+    public String toString(){
         return name;
     }
 

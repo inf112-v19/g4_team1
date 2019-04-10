@@ -20,6 +20,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import inf112.skeleton.app.roborally.RoboRally;
 
+import java.util.ArrayList;
+
 /**
  * main menu screen (WIP :D)
  */
@@ -70,7 +72,11 @@ public class RoboRallyMainMenu implements Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 // go to main game screen
-                roboRally.setScreen(new PreferencesScreen(roboRally));
+                //roboRally.setScreen(new PreferencesScreen(roboRally));
+                ArrayList<String> names = new ArrayList<>();
+                names.add("player1");
+                names.add("Player2");
+                roboRally.setScreen(new RoboRallyGame(roboRally, names));
                 dispose();
                 return true;
             }
