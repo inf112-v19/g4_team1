@@ -13,6 +13,10 @@ public class Main {
         roboRallyCfg.width = 1920;
         roboRallyCfg.height = 1080;
         //roboRallyCfg.fullscreen = true;
+        roboRallyCfg.useHDPI =true;
+
+        LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
+
 
         new LwjglApplication(new RoboRally(), roboRallyCfg);
     }

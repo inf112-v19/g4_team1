@@ -118,7 +118,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         // set the camera
         camera = new OrthographicCamera();
         //FitViewport viewPort = new FitViewport(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, camera);
-        ScalingViewport viewPort = new ScalingViewport(Scaling.none, Constants.WORLD_PIXEL_WIDTH, Constants.WORLD_PIXEL_HEIGHT);
+        ScalingViewport viewPort = new ScalingViewport(Scaling.stretch, Constants.WORLD_PIXEL_WIDTH, Constants.WORLD_PIXEL_HEIGHT);
         viewPort.update(Constants.WORLD_PIXEL_WIDTH, Constants.WORLD_PIXEL_HEIGHT);
 
         System.out.println(viewPort.getWorldWidth() + " width");
@@ -399,8 +399,12 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     // WIP
     private void win(Player player) {
         //TODO:
-        // player wins
-        System.out.println(player+" won");
+        ArrayList<Flag> flags = player.getRobot().getFlags();
+        if(flags.size() == 3){
+            System.out.println(player+" won");
+
+        }
+
     }
 
     @Override

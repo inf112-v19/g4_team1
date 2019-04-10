@@ -1,5 +1,6 @@
 package inf112.skeleton.app.base.board;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import inf112.skeleton.app.base.actors.IRobot;
@@ -22,6 +23,7 @@ public class Board implements IBoard {
     public Board(int height, int width) {
         board = new ArrayList<>(height * width);
         this.height = height;
+        //this.height = Gdx.graphics.getHeight();
         this.width = width;
 
         for (int i = 0; i < this.getHeight(); i++)
@@ -91,7 +93,13 @@ public class Board implements IBoard {
         /*
           constructor that adds all elements according to the tiles in the tmx object
          */
+
+        //Denne bredden er egendefinert, og ikke flytende. dvs. den vil ikke tilpasse seg grafikk-skjermen
         int mapWidth = board.getProperties().get("width", Integer.class);
+
+        //denne bredden er flytende, og tilpasser seg alltid cfg.width
+        float mapwidth = Gdx.graphics.getWidth();
+
         int mapHeight = board.getProperties().get("height", Integer.class);
         this.board = new ArrayList<>(height * width);
         this.height = mapHeight;
