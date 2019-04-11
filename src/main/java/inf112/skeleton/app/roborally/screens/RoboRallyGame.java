@@ -57,16 +57,14 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private int tileHeight;
     private Board gameBoard;
     private Stage stage;
-    private Map<Robot, Image> robotSprites = new HashMap<>();
     private ArrayList<Player> players = new ArrayList<>();
     private CardDecks cardDecks = new CardDecks();
     private ArrayList<IActiveElement> ActiveElements;
     private ArrayList<Flag> flags  ;
     private ArrayList<WrenchTile> wrenches;
     private ArrayList<String> names;
-    ArrayList<Texture> textures = new ArrayList<>();
 
-    private SequenceAction sequenceAction = new SequenceAction();
+    //private SequenceAction sequenceAction = new SequenceAction();
 
 
 
@@ -76,6 +74,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private float delay = 0f;
 
     private Player currentPlayer;
+    private RobotGraphics robotGraphics;
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -97,11 +96,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         stage = new Stage();
         sb= new SpriteBatch();
 
-        //Create list of Robot textures
-        Texture texture = new Texture("assets/roborally/robot.png");
-        Texture texture2 = new Texture("assets/roborally/robot2.png");
-        textures.add(texture);
-        textures.add(texture2);
+
 
 
         // get the game itself from the previous screen
@@ -118,7 +113,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         //sb = new SpriteBatch();
 
         board = new TmxMapLoader().load("assets/roborally/game_boardNew.tmx");
-
+        robotGraphics = new RobotGraphics(this);
         // get the properties of the tilemap
         MapProperties mProps = board.getProperties();
         tileWidth = mProps.get("tilewidth", Integer.class);
@@ -159,19 +154,16 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             player.addRobot(robot);
             players.add(player);
 
-            Drawable drawable= new TextureRegionDrawable(textures.get(i));
-            Image robotImage= new Image(drawable);
+            robotGraphics.addImage(robot);
 
-            robotSprites.put(robot, robotImage);
-
-            robotImage.setSize(tileWidth / 1.5f, tileHeight / 1.5f);
-            robotImage.setPosition(coordToPixel(robot.getPos().x()), coordToPixel(robot.getPos().y()));
-            stage.addActor(robotImage);
             System.out.println("finished adding robots");
-
         }
         doTurn();
 
+    }
+
+    public Stage getStage(){
+        return stage;
     }
 
     private void doTurn() throws InterruptedException {
@@ -200,7 +192,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         }
         //player have finished choosing cards
         boolean finishedExecute = false;
-        sequenceAction = new SequenceAction();
+        //sequenceAction = new SequenceAction();
         while (!finishedExecute) {
             //players should be sorted by their first cards priority number
 //            players.sort(new Comparator<Player>() {
@@ -218,10 +210,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     finishedExecute = false;
 
                     moveRobot(currentPlayer);
-                    Image roboImage = robotSprites.get(currentPlayer.getRobot());
-                    //get center of image so rotation is correct
-                    roboImage.setOrigin(roboImage.getWidth()/2, roboImage.getHeight()/2);
-                    addActionToRobot(currentPlayer.getRobot());
+                    robotGraphics.addActionToRobot(currentPlayer.getRobot());
                 }
             }
             //activate board elements, then lasers
@@ -229,7 +218,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 if(!(elem instanceof Laser)){
                     IRobot robot = elem.activate();
                     if(robot != null) System.out.println("activates "+elem.getClass().getSimpleName()+" on "+robot.getOwner());
-                    addActionToRobot(robot);
+                    robotGraphics.addActionToRobot(robot);
                 }
             }
             for(IActiveElement elem : ActiveElements){
@@ -266,18 +255,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         }
     }
 
-    private void addActionToRobot(IRobot robot){
-        if(robot != null){
-            System.out.println("adding action to "+robot.getOwner());
-            sequenceAction.setActor(robotSprites.get(robot));
-
-            //if(getRotationDegrees(robot.getDir()) != robotSprites.get(currentPlayer.getRobot()).getRotation()){
-                //needs to rotate
-                sequenceAction.addAction(Actions.rotateTo(getRotationDegrees(robot.getDir()), 2f));
-            //}
-            sequenceAction.addAction(Actions.moveTo(coordToPixel(robot.getPos().x()), coordToPixel(robot.getPos().y()),1f));
-        }
-    }
 
     /**
      * this method updates currentPlayerCards with the cards that is selected
@@ -469,7 +446,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         stage.act(v);
         stage.draw();
 
-        sequenceAction.act(v);
+        robotGraphics.getSeqAction().act(v);
     }
 
     @Override
@@ -549,15 +526,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         return false;
     }
 
-    private int getRotationDegrees(Direction dir){
-        switch(dir){
-            case NORTH: return 0;
-            case EAST: return 270;
-            case SOUTH: return 180;
-            case WEST: return 90;
-        }
-        throw new IllegalArgumentException();
-    }
+
 
 
     private void moveRobot(Player player) {
@@ -570,21 +539,13 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         delay += 3f;
     }
 
-    /**
-     * Translates a grid-coordinate to a pixel-coordinate.
-     * @param x The grid-coordinate(row or column number)
-     * @return Pixel-coordinate
-     */
-    private int coordToPixel(int x) {
-        if(x == 0) {
-            return x;
-        }
-        if(x > 12) {
-            throw new IllegalArgumentException("coordinate is outside of grid");
-        }
-        int pixel = (int) (x*tileWidth / 1.5f);
-        return pixel;
+
+
+
+    public TiledMap getTiledMap(){
+        return board;
     }
+
 
   
 }
