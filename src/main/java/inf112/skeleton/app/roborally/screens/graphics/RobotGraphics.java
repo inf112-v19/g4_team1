@@ -1,4 +1,4 @@
-package inf112.skeleton.app.roborally.screens;
+package inf112.skeleton.app.roborally.screens.graphics;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -11,6 +11,7 @@ import inf112.skeleton.app.base.actors.IRobot;
 import inf112.skeleton.app.base.actors.Robot;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.roborally.RoboRally;
+import inf112.skeleton.app.roborally.screens.RoboRallyGame;
 
 import java.util.ArrayList;
 import java.util.HashMap;

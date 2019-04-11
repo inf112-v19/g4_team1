@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 //import com.badlogic.gdx.maps.Map;
-import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -18,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RemoveActorAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
@@ -28,17 +26,17 @@ import inf112.skeleton.app.base.board.boardelement.*;
 import inf112.skeleton.app.base.cards.Card;
 import inf112.skeleton.app.base.cards.CardDecks;
 
-import inf112.skeleton.app.base.utils.Pos;
 import inf112.skeleton.app.roborally.RoboRally;
 import inf112.skeleton.app.base.actors.Robot;
 import inf112.skeleton.app.base.board.Board;
 import inf112.skeleton.app.base.utils.Direction;
+import inf112.skeleton.app.roborally.screens.graphics.CardPhaseButtons;
+import inf112.skeleton.app.roborally.screens.graphics.RobotGraphics;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import static inf112.skeleton.app.base.utils.Direction.EAST;
 
@@ -60,12 +58,9 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private ArrayList<Flag> flags  ;
     private ArrayList<WrenchTile> wrenches;
     private ArrayList<String> names;
-    private ArrayList<Card > currentPlayerCards = new ArrayList<>();
-    private ArrayList<Card> allCards = new ArrayList<>();
-    private HashMap<Card, Button> buttonsAndCards = new HashMap<>();
     private float delay = 0f;
-    private Player currentPlayer;
     private RobotGraphics robotGraphics = new RobotGraphics(this);
+    private CardPhaseButtons cardPhaseButtons;
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -89,8 +84,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         ScalingViewport viewPort = new ScalingViewport(Scaling.stretch, Constants.WORLD_PIXEL_WIDTH, Constants.WORLD_PIXEL_HEIGHT);
         viewPort.update(Constants.WORLD_PIXEL_WIDTH, Constants.WORLD_PIXEL_HEIGHT);
 
-        System.out.println(viewPort.getWorldWidth() + " width");
-        System.out.println(viewPort.getWorldHeight() + " height");
+        cardPhaseButtons = new CardPhaseButtons(this, cardDecks);
 
         //create gameboard from tmx file
         gameBoard = new Board(board);
@@ -127,7 +121,10 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         doTurn();
     }
 
-    private void doTurn() {
+    /**
+     * start a turn after all cards have been selected
+     */
+    public void doTurn() {
         //check if finished
         boolean finished=true;
         for (Player player : players){
@@ -139,8 +136,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             for (Player player : players) {
                 if(player.getCards().isEmpty()) {
                     System.out.println("choose cards");
-                    currentPlayer = player;
-                    chooseCards(player.getRobot().getHealth());
+                    cardPhaseButtons.chooseCards(player.getRobot().getHealth(), player);
                     break;
                 }
             }
@@ -188,10 +184,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 }
             }
         }
-
-        allCards.clear();
-        buttonsAndCards = new HashMap<>();
-        delay = 0f;
+        cardPhaseButtons.clear();
 
         //check for flags and wrenches at end of turn
         for (Player ignored : players){
@@ -212,148 +205,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         doTurn();
     }
 
-    /**
-     * this method updates currentPlayerCards with the cards that is selected
-     */
-    private void chooseCards(int nCards) {
-        currentPlayerCards.clear();
-        ArrayList<Card> availableCards = cardDecks.getCards(nCards);
-        ArrayList<Card> selectedCards = new ArrayList<>();
-        ArrayList<Boolean> usedslots = new ArrayList<>();
-        for (int i = 0; i < nCards; i++) {
-            usedslots.add(false);
-        }
 
-        //Creating a button for each card
-        for (int i = 0; i < availableCards.size(); i++) {
-            Card card = availableCards.get(i);
-            int number = i;
-            Texture testTexture = new Texture("assets/roborally/cards/movement/" + card.imageFileName());
-            Drawable drawable = new TextureRegionDrawable(testTexture);
-            Button button = new Button(drawable);
-            button.setPosition(96 + 125 * i, 96 * 9);
-            buttonsAndCards.put(card, button);
-            stage.addActor(button);
-            button.addListener(new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent changeEvent, Actor actor) {
-                    //System.out.println("klicked " + card);
-                    //stage.getActors().removeIndex(stage.getActors().indexOf(button, false));
-
-                    if (usedslots.get(number)) {
-
-                    } else {
-                        if (selectedCards.size() < 5) {
-                            if (!selectedCards.contains(card)) {
-                                if (allCards.size() < 5) {
-                                    stage.getActors().get(stage.getActors().indexOf(
-                                            button, false)).setPosition(
-                                            96 * 16, 96 * (9 - selectedCards.size() * 2));
-                                } else {
-                                    stage.getActors().get(stage.getActors().indexOf(
-                                            button, false)).setPosition(
-                                            96 * 18, 96 * (9 - selectedCards.size() * 2));
-                                }
-                                selectedCards.add(card);
-                                availableCards.remove(card);
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        //make reset button
-        Texture resetTexture = new Texture("assets/roborally/cards/option - 3.jpg");
-        Drawable resetDrawable = new TextureRegionDrawable(resetTexture);
-        Button reset_button = new Button(resetDrawable);
-        reset_button.setPosition((96*15)-30,96*5);
-        reset_button.setSize(96,96);
-        stage.addActor(reset_button);
-        reset_button.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
-
-                if (selectedCards.size() > 0) {
-                    currentPlayerCards.removeAll(selectedCards);
-
-                    // remove the available cards from the screen
-                    int j = 0;
-                    for (Button btn: buttonsAndCards.values()) {
-//                        stage.getActors().removeValue(buttonsAndCards.get(
-//                                selectedCards.remove(0)), false);
-                        stage.getActors().get(stage.getActors().indexOf(btn,false)).setPosition(
-                                96+125*j,96*9);
-                        j++;
-
-                    }
-                    availableCards.addAll(selectedCards);
-                    selectedCards.clear();
-                }
-            }
-        });
-
-        //make finish button
-        Texture testTexture = new Texture("assets/roborally/robot.png");
-        Drawable drawable = new TextureRegionDrawable(testTexture);
-        Button finish_button = new Button(drawable);
-        finish_button.setPosition((96*15)-30,96*3);
-        finish_button.setSize(96,96);
-        stage.addActor(finish_button);
-
-        finish_button.addListener(new ChangeListener() {
-
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
-                System.out.println("klicked finish");
-                if(selectedCards.size() == 5) {
-                    currentPlayerCards.addAll(selectedCards);
-                    currentPlayer.setCards(new ArrayList<>(currentPlayerCards));
-                    allCards.addAll(currentPlayer.getCards());
-                    System.out.println("selected for "+currentPlayer+" : " + currentPlayerCards);
-
-                    // remove the available and selected cards from the screen
-                    int count = availableCards.size();
-                    for (int i = 0; i <count; i++) {
-                        cardDecks.addUsed(availableCards.get(0));
-                        stage.getActors().removeValue(buttonsAndCards.get(
-                                availableCards.remove(0)), false);
-                    }
-
-                    // remove the finish button from the screen
-                    stage.getActors().removeValue(finish_button, false);
-                    stage.getActors().removeValue(reset_button,false);
-
-//                    if (allCards.size() == 10) {
-//                        float n = 0;
-//                        for(Card card : allCards) {
-//                            System.out.println(card);
-//                            System.out.println(buttonsAndCards.keySet());
-//                            stage.getActors().get(stage.getActors().indexOf(
-//                                    buttonsAndCards.get(card),false)).addAction(new SequenceAction(
-//                                    Actions.delay(n), Actions.fadeOut(3f), new RemoveActorAction()));
-//
-//                            n += 3f;
-//                            // backup code to remove listeners from buttons
-////                        stage.getActors().get(stage.getActors().indexOf(
-////                                buttonsAndCards.get(card),false)).removeListener(buttonsAndCards.get(
-////                                card).getListeners().get(0));
-//                        }
-//                        allCards.clear();
-//                        buttonsAndCards = new HashMap<>();
-//                    }
-
-                    //continue game when finished selecting cards if there are no more players
-
-                    doTurn();
-
-
-                }else{
-                    System.out.println("not enough cards");
-                }
-            }
-        });
-    }
 
     private void win(Player player) {
         //TODO:
@@ -465,10 +317,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         Card card = player.useFirstCard();
         card.execute(player.getRobot());
         cardDecks.addUsed(card);
-        stage.getActors().get(stage.getActors().indexOf(
-                buttonsAndCards.get(card),false)).addAction(new SequenceAction(
-                Actions.delay(delay), Actions.fadeOut(3f), new RemoveActorAction()));
-        delay += 3f;
+        cardPhaseButtons.fadeCard(card);
     }
 
     public TiledMap getTiledMap(){
