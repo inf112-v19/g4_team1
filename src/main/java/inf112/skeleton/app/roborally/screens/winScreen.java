@@ -8,13 +8,19 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import inf112.skeleton.app.base.actors.Player;
 import inf112.skeleton.app.roborally.RoboRally;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 
 public class winScreen implements Screen, InputProcessor, ActionListener {
@@ -23,19 +29,41 @@ public class winScreen implements Screen, InputProcessor, ActionListener {
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
     private Stage stage;
+    private Skin uiskin;
 
-    public winScreen(RoboRally roboRally){
+
+    public winScreen(RoboRally roboRally) {
         this.roboRally = roboRally;
         camera = new OrthographicCamera();
-        
 
-        FitViewport viewport = new FitViewport(1279,639,camera);
-        stage = new Stage(viewport,roboRally.batch);
+
+        FitViewport viewport = new FitViewport(1279, 639, camera);
+        stage = new Stage(viewport, roboRally.batch);
         Gdx.input.setInputProcessor(stage);
 
+        //buttons
+        uiskin = new Skin(Gdx.files.internal("assets/roborally/skin/comic-ui.json"));
 
+        Button newGame = new TextButton("new Game", uiskin);
+        newGame.setSize(111, 111);
+        newGame.setPosition(400, 400);
+        newGame.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                // go to main game screen
+                //roboRally.setScreen(new PreferencesScreen(roboRally));
+                ArrayList<String> names = new ArrayList<>();
+                names.add("player1");
+                names.add("Player2");
+                roboRally.setScreen(new RoboRallyGame(roboRally, names));
+                dispose();
+                return true;
 
+            }
+        });
+        stage.addActor(newGame);
     }
+
 
     @Override
     public boolean keyDown(int i) {
@@ -87,9 +115,8 @@ public class winScreen implements Screen, InputProcessor, ActionListener {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         roboRally.batch.setProjectionMatrix(camera.combined);
-
-        mapRenderer.setView(camera);
-        mapRenderer.render();
+        //mapRenderer.setView(camera);
+       // mapRenderer.render();
         stage.act();
         stage.draw();
 
