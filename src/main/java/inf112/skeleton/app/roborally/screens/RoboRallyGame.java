@@ -435,10 +435,10 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
     // WIP
     private void win(Player player) {
-        //TODO:
+
         ArrayList<Flag> flags = player.getRobot().getFlags();
         if(flags.size() == 3){
-            System.out.println("WIN");
+           roboRally.setScreen(new winScreen(roboRally));
 
         }
 

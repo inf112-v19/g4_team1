@@ -98,7 +98,8 @@ public class Board implements IBoard {
         int mapWidth = board.getProperties().get("width", Integer.class);
 
         //denne bredden er flytende, og tilpasser seg alltid cfg.width
-        float mapwidth = Gdx.graphics.getWidth();
+        //float mapWidth = Gdx.graphics.getWidth();
+        //float mapHeight = Gdx.graphics.getHeight();
 
         int mapHeight = board.getProperties().get("height", Integer.class);
         this.board = new ArrayList<>(height * width);
