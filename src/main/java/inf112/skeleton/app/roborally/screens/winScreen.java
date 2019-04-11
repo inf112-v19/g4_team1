@@ -3,8 +3,12 @@ package inf112.skeleton.app.roborally.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -30,12 +34,18 @@ public class winScreen implements Screen, InputProcessor, ActionListener {
     private OrthogonalTiledMapRenderer mapRenderer;
     private Stage stage;
     private Skin uiskin;
-
+    private SpriteBatch batch;
+    private BitmapFont font;
+    private String winner;
 
     public winScreen(RoboRally roboRally) {
         this.roboRally = roboRally;
         camera = new OrthographicCamera();
-
+         winner = "Player is the winner!!!";
+        font= new BitmapFont();
+        font.setColor(Color.RED);
+        font.getData().scale(13);
+        batch= new SpriteBatch();
 
         FitViewport viewport = new FitViewport(1279, 639, camera);
         stage = new Stage(viewport, roboRally.batch);
@@ -46,7 +56,7 @@ public class winScreen implements Screen, InputProcessor, ActionListener {
 
         Button newGame = new TextButton("new Game", uiskin);
         newGame.setSize(200, 111);
-        newGame.setPosition(400, 400);
+        newGame.setPosition(300, 100);
         newGame.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -64,7 +74,7 @@ public class winScreen implements Screen, InputProcessor, ActionListener {
         stage.addActor(newGame);
         Button exit = new TextButton("exit",uiskin);
         exit.setSize(200, 111);
-        exit.setPosition(300, 300);
+        exit.setPosition(700, 100);
         exit.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -123,7 +133,7 @@ public class winScreen implements Screen, InputProcessor, ActionListener {
 
     @Override
     public void render(float v) {
-        Gdx.gl.glClearColor(119/255f,136/255f,153/255f,1);
+      //  Gdx.gl.glClearColor(119/255f,136/255f,153/255f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         roboRally.batch.setProjectionMatrix(camera.combined);
@@ -131,6 +141,9 @@ public class winScreen implements Screen, InputProcessor, ActionListener {
        // mapRenderer.render();
         stage.act();
         stage.draw();
+        batch.begin();
+        font.draw(batch, winner,500,1200);
+        batch.end();
 
     }
 
