@@ -45,7 +45,7 @@ public class winScreen implements Screen, InputProcessor, ActionListener {
         uiskin = new Skin(Gdx.files.internal("assets/roborally/skin/comic-ui.json"));
 
         Button newGame = new TextButton("new Game", uiskin);
-        newGame.setSize(111, 111);
+        newGame.setSize(200, 111);
         newGame.setPosition(400, 400);
         newGame.addListener(new InputListener() {
             @Override
@@ -62,6 +62,17 @@ public class winScreen implements Screen, InputProcessor, ActionListener {
             }
         });
         stage.addActor(newGame);
+        Button exit = new TextButton("exit",uiskin);
+        exit.setSize(200, 111);
+        exit.setPosition(300, 300);
+        exit.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                Gdx.app.exit();
+                return true;
+            }
+        });
+        stage.addActor(exit);
     }
 
 
@@ -112,6 +123,7 @@ public class winScreen implements Screen, InputProcessor, ActionListener {
 
     @Override
     public void render(float v) {
+        Gdx.gl.glClearColor(119/255f,136/255f,153/255f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         roboRally.batch.setProjectionMatrix(camera.combined);
