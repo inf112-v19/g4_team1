@@ -38,14 +38,14 @@ public class winScreen implements Screen, InputProcessor, ActionListener {
     private BitmapFont font;
     private String winner;
 
-    public winScreen(RoboRally roboRally) {
+    public winScreen(RoboRally roboRally, String name) {
         this.roboRally = roboRally;
         camera = new OrthographicCamera();
-         winner = "Player is the winner!!!";
-        font= new BitmapFont();
+        winner = name + " is the winner!!!";
+        font = new BitmapFont();
         font.setColor(Color.RED);
         font.getData().scale(13);
-        batch= new SpriteBatch();
+        batch = new SpriteBatch();
 
         FitViewport viewport = new FitViewport(1279, 639, camera);
         stage = new Stage(viewport, roboRally.batch);
@@ -72,7 +72,7 @@ public class winScreen implements Screen, InputProcessor, ActionListener {
             }
         });
         stage.addActor(newGame);
-        Button exit = new TextButton("exit",uiskin);
+        Button exit = new TextButton("exit", uiskin);
         exit.setSize(200, 111);
         exit.setPosition(700, 100);
         exit.addListener(new InputListener() {
@@ -84,6 +84,8 @@ public class winScreen implements Screen, InputProcessor, ActionListener {
         });
         stage.addActor(exit);
     }
+
+
 
 
     @Override
@@ -133,16 +135,16 @@ public class winScreen implements Screen, InputProcessor, ActionListener {
 
     @Override
     public void render(float v) {
-      //  Gdx.gl.glClearColor(119/255f,136/255f,153/255f,1);
+        //  Gdx.gl.glClearColor(119/255f,136/255f,153/255f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         roboRally.batch.setProjectionMatrix(camera.combined);
         //mapRenderer.setView(camera);
-       // mapRenderer.render();
+        // mapRenderer.render();
         stage.act();
         stage.draw();
         batch.begin();
-        font.draw(batch, winner,500,1200);
+        font.draw(batch, winner, 500, 1200);
         batch.end();
 
     }

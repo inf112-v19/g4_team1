@@ -438,7 +438,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
         ArrayList<Flag> flags = player.getRobot().getFlags();
         if(flags.size() == 3){
-           roboRally.setScreen(new winScreen(roboRally));
+           roboRally.setScreen(new winScreen(roboRally,player.getName()));
 
         }
 
