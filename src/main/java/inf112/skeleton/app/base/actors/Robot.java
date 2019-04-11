@@ -2,7 +2,9 @@ package inf112.skeleton.app.base.actors;
 
 import inf112.skeleton.app.base.board.Board;
 import inf112.skeleton.app.base.board.IBoard;
+import inf112.skeleton.app.base.board.ITile;
 import inf112.skeleton.app.base.board.Tile;
+import inf112.skeleton.app.base.board.boardelement.BoardElement;
 import inf112.skeleton.app.base.board.boardelement.Flag;
 import inf112.skeleton.app.base.board.boardelement.Laser;
 import inf112.skeleton.app.base.utils.Direction;
@@ -57,6 +59,11 @@ public class Robot implements IRobot {
         Pos newPos = pos.getAdjacent(moveDirection);
         //System.out.println("newPos " + newPos); // for testing purposes
 
+        if(board.get(newPos).getContent().get(0) instanceof Flag){
+            visitedFlags.add((Flag)board.get(newPos).getContent().get(0));
+        }
+
+
         // robot is moving outside board/to pit
         if (board.outOfBounds(newPos) || (board.containsPit(newPos))) {
             respawn();
@@ -87,6 +94,7 @@ public class Robot implements IRobot {
                     return false;
                 }
             }
+
 
             if(board.getWallDir(pos) != null) {
                 if (wallIsBlocking(pos, moveDirection)) {
@@ -193,12 +201,14 @@ public class Robot implements IRobot {
         respawnPos = getPos();
     }
 
+
     @Override
     public void addFlag(Flag flag) {
         if (!visitedFlags.contains(flag)) {
             visitedFlags.add(flag);
         }
     }
+
 
     @Override
     public ArrayList<Flag> getFlags() {

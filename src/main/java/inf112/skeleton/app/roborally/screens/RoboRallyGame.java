@@ -37,6 +37,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.SortedMap;
 
 import static inf112.skeleton.app.base.utils.Direction.EAST;
 
@@ -208,10 +210,11 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
 
     private void win(Player player) {
-        //TODO:
+
         ArrayList<Flag> flags = player.getRobot().getFlags();
         if(flags.size() == 3){
-            System.out.println(player+" won");
+           roboRally.setScreen(new winScreen(roboRally,player.getName()));
+
         }
 
     }

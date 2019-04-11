@@ -83,6 +83,14 @@ public interface IBoard {
     boolean containsRobot(Pos pos);
 
     /**
+     * check if a position contains a Flag
+     *
+     * @param pos position
+     * @return true if contains Flag
+     */
+    boolean containsFlag(Pos pos);
+
+    /**
      * returns the robot in a position
      *
      * @param pos position
