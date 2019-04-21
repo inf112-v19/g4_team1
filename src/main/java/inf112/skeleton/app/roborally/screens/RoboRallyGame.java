@@ -4,19 +4,24 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 //import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RemoveActorAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
@@ -63,6 +68,13 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private float delay = 0f;
     private RobotGraphics robotGraphics = new RobotGraphics(this);
     private CardPhaseButtons cardPhaseButtons;
+    private Texture cardArea;
+    private BitmapFont font;
+    private Label.LabelStyle labelStyle;
+    private SequenceAction sequenceAction = new SequenceAction();
+    private Group background;
+    private Group foreground;
+    private ArrayList<Image> cardAreaSlots = new ArrayList<>();
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -77,6 +89,21 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         this.names = names;
         this.numPlayers = names.size();
         stage = new Stage();
+
+        // labelstyle
+        font = new BitmapFont();
+        labelStyle = new Label.LabelStyle();
+        labelStyle.font = font;
+        labelStyle.fontColor = Color.RED;
+
+        //Rendering-groups(used if an image needs to be rendered over another image)
+        this.background = new Group();
+        background.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        this.foreground = new Group();
+        foreground.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        stage.addActor(background);
+        stage.addActor(foreground);
+
         sb= new SpriteBatch();
         // get the game itself from the previous screen
         this.roboRally = roboRally;
@@ -220,7 +247,36 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     }
     @Override
     public void show() {
+        int playerCount = 8;
+        int count = 0;
+        int rowPixel = Gdx.graphics.getHeight() - 50;
+        int columnPixel = 0;
+        //todo: change loop to use number of players when 8-player is implemented
+        for (int i = 0; i < playerCount; i++) {
+            cardArea = new Texture("assets/roborally/card_area.png");
+            Image cardBox = new Image(cardArea);
+            cardBox.setSize(cardBox.getWidth() / 1.5f, cardBox.getHeight() / 1.5f);
 
+            //new column
+            if (count == 1) {
+                columnPixel = (int) (cardBox.getWidth() + 50);
+            }
+            //new row
+            if (count == 2) {
+                rowPixel -= cardBox.getHeight() + 50;
+                count = 0;
+            }
+
+            //todo: nameLabel should get playernames when it's possible to start a game with all 8 players.
+            Label nameLabel = new Label("TestNAME", labelStyle);
+            nameLabel.setPosition(98 * 13 / 1.5f + columnPixel, rowPixel + 10);
+            cardBox.setPosition(98 * 13 / 1.5f + columnPixel, rowPixel - cardBox.getHeight());
+            background.addActor(cardBox);
+            background.addActor(nameLabel);
+            cardAreaSlots.add(cardBox);
+            columnPixel = 0;
+            count++;
+        }
     }
 
     @Override
