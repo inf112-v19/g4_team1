@@ -190,7 +190,7 @@ public class CardPhaseButtons {
     }
 
     public void fadeCard(Card card) {
-        stage.getActors().get(stage.getActors().indexOf(
+        game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(
                 buttonsAndCards.get(card),false)).addAction(new SequenceAction(
                 Actions.delay(delay), Actions.fadeOut(3f), new RemoveActorAction()));
         delay += 3f;
