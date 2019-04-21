@@ -118,6 +118,7 @@ public class CardPhaseButtons {
                     for (Button btn: buttonsAndCards.values()) {
 //                        stage.getActors().removeValue(buttonsAndCards.get(
 //                                selectedCards.remove(0)), false);
+                        //TODO: Resetting is broken. Player-cards for every player gets reset, and some kind of duplication is happening
                         game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(btn,false)).setPosition((int)(98*13/1.5) + 87 * j, 10);
                         j++;
 
