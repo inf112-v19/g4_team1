@@ -4,7 +4,11 @@ import com.badlogic.gdx.Gdx;
 
 import com.badlogic.gdx.Input.TextInputListener;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -23,38 +27,50 @@ public class PreferencesScreen implements Screen {
     private Skin skin;
 
 
+
     public PreferencesScreen(RoboRally roboRally) {
         this.roboRally = roboRally;
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
     }
+
     @Override
     public void show() {
+        Texture background = new Texture("assets/roborally/Robot-Wall.jpg");
+        Image img = new Image(background);
+        // img.setPosition(150,0);
+        //  img.setHeight(img.getHeight()-50);
+        img.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        stage.addActor(img);
+
         Table table = new Table();
         playerTable = new Table();
-        playerTable.setFillParent(true);
+        playerTable.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight() - 100);
         playerTable.setDebug(false);
-        playerTable.right().top();
+        playerTable.top();
         table.setFillParent(true);
         table.setDebug(false);
         stage.addActor(table);
         stage.addActor(playerTable);
         skin = new Skin(Gdx.files.internal("assets/roborally/skin/comic-ui.json"));
 
+
+
         //todo: button for removing player from playerlist?
         TextButton add = new TextButton("Add Player", skin);
         TextButton start = new TextButton("Start Game", skin);
         TextButton back = new TextButton("Back", skin);
-        TextButton players = new TextButton("Players: ", skin);
+        Label players = new Label("PLAYERS: ", skin);
+        players.setFontScale(2);
+        players.getStyle().fontColor = Color.RED;
 
-        playerTable.add(players).fillX().uniformX();
+        playerTable.add(players).uniform();
         table.add(add).fillX().uniformX();
         table.row();
         table.add(start).fillX().uniformX();
         table.row();
         table.add(back).fillX().uniformX();
-
 
 
         back.addListener(new ChangeListener() {
@@ -68,7 +84,7 @@ public class PreferencesScreen implements Screen {
         add.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if(names.size() == 2) {
+                if (names.size() == 2) {
                     //todo: should display msg on screen
                     System.out.println("Cant add more players");
                     return;
@@ -76,17 +92,19 @@ public class PreferencesScreen implements Screen {
                 TextInputListener inputName = new TextInputListener() {
                     @Override
                     public void input(String s) {
-                        if(names.contains(s)) {
+                        if (names.contains(s)) {
                             //todo: should display msg on screen
                             //name already exist
                             System.out.println("Name already taken");
                             return;
                         }
-                       names.add(s);
-                       //Create button with playername
-                       TextButton pl = new TextButton(s, skin);
-                       playerTable.row();
-                       playerTable.add(pl).uniformX().fillX();
+                        names.add(s);
+                        Label namelabel = new Label(s, skin);
+                        players.getStyle().fontColor = Color.GREEN;
+                        namelabel.setFontScale(1.5f);
+                        playerTable.row();
+                        playerTable.add(namelabel).uniform();
+
 
                     }
 
@@ -103,7 +121,7 @@ public class PreferencesScreen implements Screen {
         start.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if(names.size() < 1 || names.size() > 2) {
+                if (names.size() < 1 || names.size() > 2) {
                     //todo: Should be explained with a message on the screen
                     System.out.println("Number of players not valid");
                     return;
