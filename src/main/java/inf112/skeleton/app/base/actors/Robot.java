@@ -58,6 +58,7 @@ public class Robot implements IRobot {
 
         Pos newPos = pos.getAdjacent(moveDirection);
         //System.out.println("newPos " + newPos); // for testing purposes
+        //TODO: Uncomment and fix crash fore code below. 
 /*
         if(board.get(newPos).getContent().get(0) instanceof Flag){
             visitedFlags.add((Flag)board.get(newPos).getContent().get(0));
