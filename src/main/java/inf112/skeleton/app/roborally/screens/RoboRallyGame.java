@@ -251,7 +251,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         int count = 0;
         int rowPixel = Gdx.graphics.getHeight() - 50;
         int columnPixel = 0;
-        //todo: change loop to use number of players when 8-player is implemented
+        //todo: change loop to use actual number of players when 8-player is implemented
         for (int i = 0; i < playerCount; i++) {
             cardArea = new Texture("assets/roborally/card_area.png");
             Image cardBox = new Image(cardArea);

@@ -71,23 +71,14 @@ public class CardPhaseButtons {
                     if (!usedslots.get(number)) {
                         if (selectedCards.size() < 5) {
                             if (!selectedCards.contains(card)) {
+                                //TODO: Currently placement will only work for two players. 
                                 if (allCards.size() < 5) {
-                                    /*
-                                    stage.getActors().get(stage.getActors().indexOf(
-                                            button, false)).setPosition(
-                                            96 * 16, 96 * (9 - selectedCards.size() * 2));
-                                            */
                                     Actor currentCard = game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(button, false));
                                     int x = (int) game.getCardAreaSlots().get(0).getX()+3;
                                     int y = (int) game.getCardAreaSlots().get(0).getY()+4;
                                     currentCard.setPosition(x + selectedCards.size()*(currentCard.getWidth()+7), y);
 
                                 } else {
-                                    /*
-                                    stage.getActors().get(stage.getActors().indexOf(
-                                            button, false)).setPosition(
-                                            96 * 18, 96 * (9 - selectedCards.size() * 2));
-                                            */
                                     Actor currentCard = game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(button, false));
                                     int x = (int) game.getCardAreaSlots().get(1).getX()+3;
                                     int y = (int) game.getCardAreaSlots().get(1).getY()+4;
