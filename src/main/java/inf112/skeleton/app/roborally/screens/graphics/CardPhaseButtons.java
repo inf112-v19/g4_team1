@@ -1,5 +1,6 @@
 package inf112.skeleton.app.roborally.screens.graphics;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -7,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RemoveActorAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -27,11 +30,13 @@ public class CardPhaseButtons {
     private ArrayList<Card> allCards = new ArrayList<>();
     private ArrayList<Card> currentPlayerCards = new ArrayList<>();
     private float delay = 0f;
+    private Skin skin;
 
 
     public CardPhaseButtons(RoboRallyGame game, CardDecks carddecks){
         this.game = game;
         this.cardDecks = carddecks;
+        this.skin = new Skin(Gdx.files.internal("assets/roborally/skin/comic-ui.json"));
         stage = game.getStage();
     }
 
@@ -54,7 +59,9 @@ public class CardPhaseButtons {
             Texture testTexture = new Texture("assets/roborally/cards/movement/" + card.imageFileName());
             Drawable drawable = new TextureRegionDrawable(testTexture);
             Button button = new Button(drawable);
-            button.setPosition(96 + 125 * i, 96 * 9);
+
+            button.setSize((int)(button.getWidth()/1.3), (int)(button.getHeight()/1.3));
+            button.setPosition((int)(98*13/1.5) + 87 * i, 10);
             buttonsAndCards.put(card, button);
             stage.addActor(button);
             button.addListener(new ChangeListener() {
@@ -81,15 +88,12 @@ public class CardPhaseButtons {
                 }
             });
         }
-
-        //make reset button
-        Texture resetTexture = new Texture("assets/roborally/cards/option - 3.jpg");
-        Drawable resetDrawable = new TextureRegionDrawable(resetTexture);
-        Button reset_button = new Button(resetDrawable);
-        reset_button.setPosition((96*15)-30,96*5);
-        reset_button.setSize(96,96);
-        stage.addActor(reset_button);
-        reset_button.addListener(new ChangeListener() {
+        //Make reset button
+        TextButton reset = new TextButton("Reset Cards", skin);
+        reset.setPosition(stage.getWidth()-200, 75);
+        reset.setSize(200, 75);
+        stage.addActor(reset);
+        reset.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
 
@@ -101,8 +105,7 @@ public class CardPhaseButtons {
                     for (Button btn: buttonsAndCards.values()) {
 //                        stage.getActors().removeValue(buttonsAndCards.get(
 //                                selectedCards.remove(0)), false);
-                        stage.getActors().get(stage.getActors().indexOf(btn,false)).setPosition(
-                                96+125*j,96*9);
+                        stage.getActors().get(stage.getActors().indexOf(btn,false)).setPosition((int)(98*13/1.5) + 87 * j, 10);
                         j++;
 
                     }
@@ -111,16 +114,15 @@ public class CardPhaseButtons {
                 }
             }
         });
+        //Make finish button
+        TextButton finish = new TextButton("Lock Cards", skin);
+        finish.setPosition(stage.getWidth()-200, 10);
+        finish.setSize(200, 75);
+        stage.addActor(finish);
 
-        //make finish button
-        Texture testTexture = new Texture("assets/roborally/robot.png");
-        Drawable drawable = new TextureRegionDrawable(testTexture);
-        Button finish_button = new Button(drawable);
-        finish_button.setPosition((96*15)-30,96*3);
-        finish_button.setSize(96,96);
-        stage.addActor(finish_button);
 
-        finish_button.addListener(new ChangeListener() {
+
+        finish.addListener(new ChangeListener() {
 
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -140,8 +142,8 @@ public class CardPhaseButtons {
                     }
 
                     // remove the finish button from the screen
-                    stage.getActors().removeValue(finish_button, false);
-                    stage.getActors().removeValue(reset_button,false);
+                    stage.getActors().removeValue(finish, false);
+                    stage.getActors().removeValue(reset,false);
 
 //                    if (allCards.size() == 10) {
 //                        float n = 0;
