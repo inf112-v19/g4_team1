@@ -115,8 +115,8 @@ public class CardPhaseButtons {
             }
         });
         //Make finish button
-        TextButton finish = new TextButton("Lock Cards", skin);
-        finish.setPosition(stage.getWidth()-200, 10);
+        TextButton finish = new TextButton("Set Cards", skin);
+        finish.setPosition(stage.getWidth()-200, 0);
         finish.setSize(200, 75);
         stage.addActor(finish);
 
