@@ -71,7 +71,7 @@ public class CardPhaseButtons {
                     if (!usedslots.get(number)) {
                         if (selectedCards.size() < 5) {
                             if (!selectedCards.contains(card)) {
-                                //TODO: Currently placement will only work for two players. 
+                                //TODO: Currently placement will only work for two players.
                                 if (allCards.size() < 5) {
                                     Actor currentCard = game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(button, false));
                                     int x = (int) game.getCardAreaSlots().get(0).getX()+3;
