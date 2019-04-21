@@ -386,4 +386,16 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     public Stage getStage(){
         return stage;
     }
+
+    public ArrayList<Image> getCardAreaSlots() {
+        return cardAreaSlots;
+    }
+
+    public Group getForeground() {
+        return foreground;
+    }
+
+    public Group getBackground() {
+        return background;
+    }
 }

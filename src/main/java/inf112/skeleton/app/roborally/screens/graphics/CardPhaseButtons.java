@@ -60,10 +60,10 @@ public class CardPhaseButtons {
             Drawable drawable = new TextureRegionDrawable(testTexture);
             Button button = new Button(drawable);
 
-            button.setSize((int)(button.getWidth()/1.3), (int)(button.getHeight()/1.3));
+            button.setSize((int)(button.getWidth()/1.5), (int)(button.getHeight()/1.5));
             button.setPosition((int)(98*13/1.5) + 87 * i, 10);
             buttonsAndCards.put(card, button);
-            stage.addActor(button);
+            game.getForeground().addActor(button);
             button.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -72,13 +72,26 @@ public class CardPhaseButtons {
                         if (selectedCards.size() < 5) {
                             if (!selectedCards.contains(card)) {
                                 if (allCards.size() < 5) {
+                                    /*
                                     stage.getActors().get(stage.getActors().indexOf(
                                             button, false)).setPosition(
                                             96 * 16, 96 * (9 - selectedCards.size() * 2));
+                                            */
+                                    Actor currentCard = game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(button, false));
+                                    int x = (int) game.getCardAreaSlots().get(0).getX()+3;
+                                    int y = (int) game.getCardAreaSlots().get(0).getY()+4;
+                                    currentCard.setPosition(x + selectedCards.size()*(currentCard.getWidth()+7), y);
+
                                 } else {
+                                    /*
                                     stage.getActors().get(stage.getActors().indexOf(
                                             button, false)).setPosition(
                                             96 * 18, 96 * (9 - selectedCards.size() * 2));
+                                            */
+                                    Actor currentCard = game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(button, false));
+                                    int x = (int) game.getCardAreaSlots().get(1).getX()+3;
+                                    int y = (int) game.getCardAreaSlots().get(1).getY()+4;
+                                    currentCard.setPosition(x + selectedCards.size()*(currentCard.getWidth()+7), y);
                                 }
                                 selectedCards.add(card);
                                 availableCards.remove(card);
