@@ -176,7 +176,6 @@ public class CardPhaseButtons {
             }
         });
     }
-    //TODO: fading needs to be updated. Rotation-action is no longer always added each turn.
     public void fadeCard(Card card) {
 
         game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(
