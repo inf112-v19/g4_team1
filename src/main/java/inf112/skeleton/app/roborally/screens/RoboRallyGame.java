@@ -247,12 +247,12 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     }
     @Override
     public void show() {
-        int playerCount = 8;
+       // int playerCount = 8; used for testing
         int count = 0;
         int rowPixel = Gdx.graphics.getHeight() - 50;
         int columnPixel = 0;
-        //todo: change loop to use actual number of players when 8-player is implemented
-        for (int i = 0; i < playerCount; i++) {
+        int player = 0;
+        for (int i = 0; i < numPlayers; i++) {
             cardArea = new Texture("assets/roborally/card_area.png");
             Image cardBox = new Image(cardArea);
             cardBox.setSize(cardBox.getWidth() / 1.5f, cardBox.getHeight() / 1.5f);
@@ -266,9 +266,9 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 rowPixel -= cardBox.getHeight() + 50;
                 count = 0;
             }
-
-            //todo: nameLabel should get playernames when it's possible to start a game with all 8 players.
-            Label nameLabel = new Label("TestNAME", labelStyle);
+            
+            String name = players.get(player).getName();
+            Label nameLabel = new Label(name, labelStyle);
             nameLabel.setPosition(98 * 13 / 1.5f + columnPixel, rowPixel + 10);
             cardBox.setPosition(98 * 13 / 1.5f + columnPixel, rowPixel - cardBox.getHeight());
             background.addActor(cardBox);
@@ -276,6 +276,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             cardAreaSlots.add(cardBox);
             columnPixel = 0;
             count++;
+            player++;
         }
     }
 
