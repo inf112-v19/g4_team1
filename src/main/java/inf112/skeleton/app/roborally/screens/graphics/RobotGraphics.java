@@ -56,15 +56,15 @@ public class RobotGraphics {
             if(oldRot != newRot) {
 
                     if (newRot - oldRot > 180) { //perform negative rotation
-
                         int rotation = 360 - (newRot-oldRot);
                         sequenceAction.addAction(Actions.rotateBy(-rotation, 2f));
                     }
+
                     else if (newRot - oldRot < -180) { //positive rotation
                         int rotation = 360 + (newRot-oldRot);
                         sequenceAction.addAction(Actions.rotateBy(rotation, 2f));
-
                     }
+                    
                     else {
                         sequenceAction.addAction(Actions.rotateBy(newRot-oldRot, 2f));
                     }
