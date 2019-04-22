@@ -71,27 +71,13 @@ public class CardPhaseButtons {
                     if (!usedslots.get(number)) {
                         if (selectedCards.size() < 5) {
                             if (!selectedCards.contains(card)) {
-                                //TODO: Currently placement will only work for two players.
+                               
                                 int placement = allCards.size()/5;
                                 Actor currentCard = game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(button, false));
                                 int x = (int) game.getCardAreaSlots().get(placement).getX()+3;
                                 int y = (int) game.getCardAreaSlots().get(placement).getY()+4;
                                 currentCard.setPosition(x + selectedCards.size()*(currentCard.getWidth()+7), y);
 
-                                /*
-                                if (allCards.size() < 5) {
-                                    Actor currentCard = game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(button, false));
-                                    int x = (int) game.getCardAreaSlots().get(0).getX()+3;
-                                    int y = (int) game.getCardAreaSlots().get(0).getY()+4;
-                                    currentCard.setPosition(x + selectedCards.size()*(currentCard.getWidth()+7), y);
-
-                                } else {
-                                    Actor currentCard = game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(button, false));
-                                    int x = (int) game.getCardAreaSlots().get(1).getX()+3;
-                                    int y = (int) game.getCardAreaSlots().get(1).getY()+4;
-                                    currentCard.setPosition(x + selectedCards.size()*(currentCard.getWidth()+7), y);
-                                }
-                                */
                                 selectedCards.add(card);
                                 availableCards.remove(card);
                             }
