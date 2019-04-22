@@ -74,8 +74,10 @@ public class CardPhaseButtons {
 
                                 int placement = allCards.size()/5;
                                 Actor currentCard = game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(button, false));
+                                //finds the correct cardArea and sets the initial position(position of the leftmost slot in the cardArea)
                                 int x = (int) game.getCardAreaSlots().get(placement).getX()+3;
                                 int y = (int) game.getCardAreaSlots().get(placement).getY()+4;
+                                //sets the position in the cardArea based on the amount of selected cards
                                 currentCard.setPosition(x + selectedCards.size()*(currentCard.getWidth()+7), y);
 
                                 selectedCards.add(card);
