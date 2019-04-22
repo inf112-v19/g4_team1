@@ -47,8 +47,8 @@ public class RobotGraphics {
     public void addActionToRobot(IRobot robot){
         if(robot != null){
             System.out.println("adding action to "+robot.getOwner());
-            sequenceAction.setActor(robotSprites.get(robot));
             Image img = robotSprites.get(robot);
+            sequenceAction.setActor(img);
             int oldRot = robot.getOldRotation();
             int newRot = getRotationDegrees(robot.getDir());
 
@@ -64,7 +64,7 @@ public class RobotGraphics {
                         int rotation = 360 + (newRot-oldRot);
                         sequenceAction.addAction(Actions.rotateBy(rotation, 2f));
                     }
-                    
+
                     else {
                         sequenceAction.addAction(Actions.rotateBy(newRot-oldRot, 2f));
                     }
