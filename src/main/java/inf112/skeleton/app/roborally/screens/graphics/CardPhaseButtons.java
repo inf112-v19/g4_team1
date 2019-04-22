@@ -138,7 +138,7 @@ public class CardPhaseButtons {
                     int count = availableCards.size();
                     for (int i = 0; i <count; i++) {
                         cardDecks.addUsed(availableCards.get(0));
-                        stage.getActors().removeValue(buttonsAndCards.get(
+                        game.getForeground().getChildren().removeValue(buttonsAndCards.get(
                                 availableCards.remove(0)), false);
                     }
 
