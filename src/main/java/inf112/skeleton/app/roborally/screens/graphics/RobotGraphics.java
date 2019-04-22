@@ -58,22 +58,22 @@ public class RobotGraphics {
                     if (robRot - oldRot > 180) { //perform negative rotation
 
                         int rotation = 360 - (robRot-oldRot);
-                        sequenceAction.addAction(Actions.rotateBy(-rotation, 1f));
+                        sequenceAction.addAction(Actions.rotateBy(-rotation, 2f));
                     }
                     else if (robRot - oldRot < -180) { //positive rotation
                         int rotation = 360 + (robRot-oldRot);
-                        sequenceAction.addAction(Actions.rotateBy(rotation, 1f));
+                        sequenceAction.addAction(Actions.rotateBy(rotation, 2f));
 
                     }
                     else {
-                        sequenceAction.addAction(Actions.rotateBy(robRot-oldRot, 1f));
+                        sequenceAction.addAction(Actions.rotateBy(robRot-oldRot, 2f));
                     }
                 robot.setOldRotation(robRot);
             }
 
             //needs to move
             else{
-                sequenceAction.addAction(Actions.moveTo(coordToPixel(robot.getPos().x()), coordToPixel(robot.getPos().y()), 1f));
+                sequenceAction.addAction(Actions.moveTo(coordToPixel(robot.getPos().x()), coordToPixel(robot.getPos().y()), 2f));
             }
         }
     }

@@ -181,8 +181,8 @@ public class CardPhaseButtons {
 
         game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(
                 buttonsAndCards.get(card),false)).addAction(new SequenceAction(
-                Actions.delay(delay), Actions.fadeOut(1f), new RemoveActorAction()));
-        delay += 1f;
+                Actions.delay(delay), Actions.fadeOut(2f), new RemoveActorAction()));
+        delay += 2f;
 
     }
 
