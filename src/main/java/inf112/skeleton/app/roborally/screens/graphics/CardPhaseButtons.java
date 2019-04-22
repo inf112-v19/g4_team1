@@ -178,10 +178,11 @@ public class CardPhaseButtons {
     }
     //TODO: fading needs to be updated. Rotation-action is no longer always added each turn.
     public void fadeCard(Card card) {
+
         game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(
                 buttonsAndCards.get(card),false)).addAction(new SequenceAction(
-                Actions.delay(delay), Actions.fadeOut(3f), new RemoveActorAction()));
-        delay += 3f;
+                Actions.delay(delay), Actions.fadeOut(1f), new RemoveActorAction()));
+        delay += 1f;
 
     }
 
@@ -190,5 +191,7 @@ public class CardPhaseButtons {
         delay = 0f;
     }
 
-
+    public void resetDelay() {
+        delay = 0f;
+    }
 }

@@ -51,28 +51,30 @@ public class RobotGraphics {
             Image img = robotSprites.get(robot);
             int oldRot = robot.getOldRotation();
             int robRot = getRotationDegrees(robot.getDir());
-            System.out.println(oldRot + " | " + robRot);
+
             //needs to rotate
             if(oldRot != robRot) {
-
 
                     if (robRot - oldRot > 180) { //perform negative rotation
 
                         int rotation = 360 - (robRot-oldRot);
-                        sequenceAction.addAction(Actions.rotateBy(-rotation, 2f));
+                        sequenceAction.addAction(Actions.rotateBy(-rotation, 1f));
                     }
-                    else if (robRot - oldRot < -180) {
+                    else if (robRot - oldRot < -180) { //positive rotation
                         int rotation = 360 + (robRot-oldRot);
-                        sequenceAction.addAction(Actions.rotateBy(rotation, 2f));
+                        sequenceAction.addAction(Actions.rotateBy(rotation, 1f));
 
                     }
                     else {
-                        sequenceAction.addAction(Actions.rotateBy(robRot-oldRot, 2f));
+                        sequenceAction.addAction(Actions.rotateBy(robRot-oldRot, 1f));
                     }
+                robot.setOldRotation(robRot);
             }
-            robot.setOldRotation(robRot);
-            sequenceAction.addAction(Actions.moveTo(coordToPixel(robot.getPos().x()), coordToPixel(robot.getPos().y()),1f));
 
+            //needs to move
+            else{
+                sequenceAction.addAction(Actions.moveTo(coordToPixel(robot.getPos().x()), coordToPixel(robot.getPos().y()), 1f));
+            }
         }
     }
 
