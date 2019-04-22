@@ -106,4 +106,8 @@ public interface IRobot extends IBoardElement {
      */
     ArrayList<Flag> getFlags();
 
+    int getOldRotation();
+
+    void setOldRotation(int rot);
+
 }

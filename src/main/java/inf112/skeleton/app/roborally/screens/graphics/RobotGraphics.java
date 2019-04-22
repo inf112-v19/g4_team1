@@ -48,12 +48,31 @@ public class RobotGraphics {
         if(robot != null){
             System.out.println("adding action to "+robot.getOwner());
             sequenceAction.setActor(robotSprites.get(robot));
-
-            //if(getRotationDegrees(robot.getDir()) != robotSprites.get(currentPlayer.getRobot()).getRotation()){
+            Image img = robotSprites.get(robot);
+            int oldRot = robot.getOldRotation();
+            int robRot = getRotationDegrees(robot.getDir());
+            System.out.println(oldRot + " | " + robRot);
             //needs to rotate
-            sequenceAction.addAction(Actions.rotateTo(getRotationDegrees(robot.getDir()), 2f));
-            //}
+            if(oldRot != robRot) {
+
+
+                    if (robRot - oldRot > 180) { //perform negative rotation
+
+                        int rotation = 360 - (robRot-oldRot);
+                        sequenceAction.addAction(Actions.rotateBy(-rotation, 2f));
+                    }
+                    else if (robRot - oldRot < -180) {
+                        int rotation = 360 + (robRot-oldRot);
+                        sequenceAction.addAction(Actions.rotateBy(rotation, 2f));
+
+                    }
+                    else {
+                        sequenceAction.addAction(Actions.rotateBy(robRot-oldRot, 2f));
+                    }
+            }
+            robot.setOldRotation(robRot);
             sequenceAction.addAction(Actions.moveTo(coordToPixel(robot.getPos().x()), coordToPixel(robot.getPos().y()),1f));
+
         }
     }
 
@@ -67,6 +86,7 @@ public class RobotGraphics {
         robotImage.setPosition(coordToPixel(robot.getPos().x()), coordToPixel(robot.getPos().y()));
         //get center of image so rotation is correct
         robotImage.setOrigin(robotImage.getWidth()/2, robotImage.getHeight()/2);
+        robotImage.setRotation(getRotationDegrees(robot.getDir()));
         robotSprites.put(robot, robotImage);
         game.getStage().addActor(robotImage);
     }

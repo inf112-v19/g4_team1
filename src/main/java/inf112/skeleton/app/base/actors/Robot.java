@@ -23,6 +23,7 @@ public class Robot implements IRobot {
     private Pos respawnPos;
     private ArrayList<Flag> visitedFlags = new ArrayList<Flag>();
     private boolean movedthisround=false;
+    private int oldRotation;
 
     public Robot(Pos pos, Direction dir, Player owner, IBoard board) {
         this.dir = dir;
@@ -227,6 +228,16 @@ public class Robot implements IRobot {
         Laser laser = new Laser(dir, pos.getAdjacent(dir), board);
         laser.activate();
 
+    }
+
+    @Override
+    public int getOldRotation() {
+        return oldRotation;
+    }
+
+    @Override
+    public void setOldRotation(int rot) {
+        this.oldRotation = rot;
     }
 
 }
