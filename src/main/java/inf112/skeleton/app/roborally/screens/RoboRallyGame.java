@@ -247,7 +247,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     }
     @Override
     public void show() {
-       // int playerCount = 8; used for testing
         int count = 0;
         int rowPixel = Gdx.graphics.getHeight() - 50;
         int columnPixel = 0;
@@ -266,7 +265,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 rowPixel -= cardBox.getHeight() + 50;
                 count = 0;
             }
-            
+
             String name = players.get(player).getName();
             Label nameLabel = new Label(name, labelStyle);
             nameLabel.setPosition(98 * 13 / 1.5f + columnPixel, rowPixel + 10);
