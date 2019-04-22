@@ -58,7 +58,7 @@ public class Robot implements IRobot {
 
         Pos newPos = pos.getAdjacent(moveDirection);
         //System.out.println("newPos " + newPos); // for testing purposes
-        //TODO: Uncomment and fix crash fore code below.
+        //TODO: Uncomment and fix crash for code below.
 /*
         if(board.get(newPos).getContent().get(0) instanceof Flag){
             visitedFlags.add((Flag)board.get(newPos).getContent().get(0));
@@ -72,6 +72,7 @@ public class Robot implements IRobot {
         }
 
         else {
+
             if (board.containsRobot(newPos)) {
                 //System.out.println("fant robot"); // for testing purposes
                 // robot has to push the other robot
