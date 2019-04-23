@@ -48,7 +48,6 @@ public class RobotGraphics {
             robot.setOldRotation(robot.getDir().getRotationDegrees());
             //fix for syncing the fading of cards
             game.getCardButtons().addDelay(movementAction.getActionTime());
-
         }
     }
 

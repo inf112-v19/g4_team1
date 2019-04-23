@@ -11,7 +11,6 @@ public enum MovementAction {
 
     private final float STANDARD_MOVE_DURATION = 2f;
 
-
     public Action getAction(IRobot robot, RoboRallyGame game) {
         switch (this){
             case NORMAL:
@@ -41,8 +40,9 @@ public enum MovementAction {
                     return (Actions.moveTo(coordToPixel(robot.getPos().x(), game.getGraphics().getTileWidth()), coordToPixel(robot.getPos().y(), game.getGraphics().getTileWidth()), 2f));
                 }
             case TELEPORT:
+
         }
-        throw new IllegalArgumentException("no mvetype");
+        throw new IllegalArgumentException("no movetype");
         }
 
     /**
@@ -62,5 +62,6 @@ public enum MovementAction {
             case NORMAL: return STANDARD_MOVE_DURATION;
             case TELEPORT: return STANDARD_MOVE_DURATION;
         }
+        throw new IllegalStateException("no movetype");
     }
 }

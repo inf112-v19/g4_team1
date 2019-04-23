@@ -185,6 +185,7 @@ public class CardPhaseButtons {
         });
     }
     public void fadeCard(Card card) {
+        System.out.println("fading with delay "+delay);
 
         game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(
                 allButtonsAndCards.get(card),false)).addAction(new SequenceAction(
@@ -205,7 +206,7 @@ public class CardPhaseButtons {
         delay = 0f;
     }
 
-    public void addDelay(int i) {
+    public void addDelay(float i) {
         delay+=i;
     }
 }
