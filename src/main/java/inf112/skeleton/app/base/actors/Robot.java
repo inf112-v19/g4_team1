@@ -164,16 +164,22 @@ public class Robot implements IRobot {
     @Override
     public void turnLeft() {
         dir = dir.left();
+        board.move(this, MovementAction.NORMAL);
+
     }
 
     @Override
     public void turnRight() {
         dir = dir.right();
+        board.move(this, MovementAction.NORMAL);
+
     }
 
     @Override
     public void turnHalf() {
         dir = dir.opposite();
+        board.move(this, MovementAction.NORMAL);
+
     }
 
     @Override
@@ -192,6 +198,7 @@ public class Robot implements IRobot {
     @Override
     public void moveBackwards() {
         move(dir.opposite());
+
     }
 
     private void moveForward() {

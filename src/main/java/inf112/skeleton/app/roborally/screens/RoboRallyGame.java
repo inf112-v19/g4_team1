@@ -195,12 +195,8 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             finishedExecute = true;
             for (Player currentPlayer : players) {
                 if (currentPlayer.getCards().size() != 0) {
-
-                    System.out.println("inside execution"+currentPlayer);
                     finishedExecute = false;
-
                     moveRobot(currentPlayer);
-                    //robotGraphics.addActionToRobot(currentPlayer.getRobot());
                 }
             }
             //activate board elements, then lasers

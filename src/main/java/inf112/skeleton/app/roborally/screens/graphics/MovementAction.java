@@ -3,7 +3,6 @@ package inf112.skeleton.app.roborally.screens.graphics;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import inf112.skeleton.app.base.actors.IRobot;
-import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.roborally.screens.RoboRallyGame;
 
 public enum MovementAction {

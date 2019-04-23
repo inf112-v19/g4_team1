@@ -20,12 +20,6 @@ public class RobotGraphics {
     private SequenceAction sequenceAction;
     private Map<Robot, Image> robotSprites = new HashMap<>();
     private RoboRallyGame game;
-
-
-    public int getTileWidth() {
-        return tileWidth;
-    }
-
     private final int tileWidth;
     private ArrayList<Texture> textures = new ArrayList<>();
     private int textureCounter = 0;
@@ -44,7 +38,6 @@ public class RobotGraphics {
         textures.add(texture);
         textures.add(texture2);
         textures.add(texture3);
-
     }
 
     public void addActionToRobot(IRobot robot, MovementAction movementAction) {
@@ -53,11 +46,8 @@ public class RobotGraphics {
             sequenceAction.setActor(robotSprites.get(robot));
             sequenceAction.addAction(movementAction.getAction(robot, game));
             robot.setOldRotation(robot.getDir().getRotationDegrees());
-
         }
     }
-
-
 
     public void addImage(Robot robot) {
         Drawable drawable= new TextureRegionDrawable(textures.get(textureCounter));
@@ -72,18 +62,18 @@ public class RobotGraphics {
         game.getStage().addActor(robotImage);
     }
 
-
-
     public SequenceAction getSeqAction() {
-            return sequenceAction;
-        }
-
-
+        return sequenceAction;
+    }
 
     private int coordToPixel(int x) {
         if(x > 12) {
             throw new IllegalArgumentException("coordinate is outside of grid");
         }
         return (int) (x*tileWidth / 1.5f);
+    }
+
+    public int getTileWidth() {
+        return tileWidth;
     }
 }
