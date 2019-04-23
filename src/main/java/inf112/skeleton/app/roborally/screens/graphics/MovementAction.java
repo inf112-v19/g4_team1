@@ -42,7 +42,7 @@ public enum MovementAction {
         }
         throw new IllegalArgumentException("no mvetype");
         }
-    }
+
     /**
      * Translates a grid-coordinate to a pixel-coordinate.
      * @param x The grid-coordinate(row or column number)

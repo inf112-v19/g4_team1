@@ -71,7 +71,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private Texture cardArea;
     private BitmapFont font;
     private Label.LabelStyle labelStyle;
-    private SequenceAction sequenceAction = new SequenceAction();
     private Group background;
     private Group foreground;
     private ArrayList<Image> cardAreaSlots = new ArrayList<>();
@@ -85,9 +84,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         return robotGraphics;
     }
 
-    public int getTileWidth() {
-        return
-    }
 
     private enum State {
         PAUSE,
@@ -204,7 +200,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     finishedExecute = false;
 
                     moveRobot(currentPlayer);
-                    robotGraphics.addActionToRobot(currentPlayer.getRobot());
+                    //robotGraphics.addActionToRobot(currentPlayer.getRobot());
                 }
             }
             //activate board elements, then lasers
@@ -212,7 +208,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 if(!(elem instanceof Laser)){
                     IRobot robot = elem.activate();
                     if(robot != null) System.out.println("activates "+elem.getClass().getSimpleName()+" on "+robot.getOwner());
-                    robotGraphics.addActionToRobot(robot);
+                    //robotGraphics.addActionToRobot(robot);
                 }
             }
             for(IActiveElement elem : ActiveElements){

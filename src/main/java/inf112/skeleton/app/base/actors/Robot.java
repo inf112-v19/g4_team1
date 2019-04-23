@@ -6,7 +6,6 @@ import inf112.skeleton.app.base.board.boardelement.Laser;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
 import inf112.skeleton.app.roborally.screens.graphics.MovementAction;
-import org.graalvm.compiler.lir.sparc.SPARCMove;
 
 import java.util.ArrayList;
 
@@ -114,7 +113,7 @@ public class Robot implements IRobot {
         board.get(newPos).addObject(this);
         pos = newPos;
         System.out.println(owner +" moved to new pos "+pos+" facing "+dir);
-        board.move(this, MovementAction.NORMAL);
+        board.move(this, movetype);
     }
 
     private boolean wallIsBlocking(Pos wallPos, Direction moveDirection) {

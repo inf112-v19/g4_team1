@@ -22,6 +22,10 @@ public class RobotGraphics {
     private RoboRallyGame game;
 
 
+    public int getTileWidth() {
+        return tileWidth;
+    }
+
     private final int tileWidth;
     private ArrayList<Texture> textures = new ArrayList<>();
     private int textureCounter = 0;
@@ -43,13 +47,12 @@ public class RobotGraphics {
 
     }
 
-    public SequenceAction addActionToRobot(IRobot robot, MovementAction movementAction) {
+    public void addActionToRobot(IRobot robot, MovementAction movementAction) {
         if (robot != null) {
             System.out.println("adding action to " + robot.getOwner());
             sequenceAction.setActor(robotSprites.get(robot));
-            sequenceAction.addAction(movementAction.getAction(robot));
-            robot.setOldRotation(getRotationDegrees(robot.getDir()););
-
+            sequenceAction.addAction(movementAction.getAction(robot, game));
+            robot.setOldRotation(robot.getDir().getRotationDegrees());
 
         }
     }
@@ -76,4 +79,11 @@ public class RobotGraphics {
         }
 
 
+
+    private int coordToPixel(int x) {
+        if(x > 12) {
+            throw new IllegalArgumentException("coordinate is outside of grid");
+        }
+        return (int) (x*tileWidth / 1.5f);
+    }
 }
