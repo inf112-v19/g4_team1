@@ -375,9 +375,9 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
     private void moveRobot(Player player) {
         Card card = player.useFirstCard();
+        cardPhaseButtons.fadeCard(card);
         card.execute(player.getRobot());
         cardDecks.addUsed(card);
-        cardPhaseButtons.fadeCard(card);
     }
 public CardPhaseButtons getCardButtons(){
         return cardPhaseButtons;

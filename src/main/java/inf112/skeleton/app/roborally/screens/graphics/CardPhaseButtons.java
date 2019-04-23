@@ -34,9 +34,6 @@ public class CardPhaseButtons {
     private float delay = 0f;
     private Skin skin;
     private final float CARD_FADE_TIME = 1f;
-    private final float CARD_FADE_DELAY = 2f;
-
-
 
     public CardPhaseButtons(RoboRallyGame game, CardDecks carddecks){
         this.game = game;
