@@ -36,6 +36,7 @@ import inf112.skeleton.app.base.actors.Robot;
 import inf112.skeleton.app.base.board.Board;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.roborally.screens.graphics.CardPhaseButtons;
+import inf112.skeleton.app.roborally.screens.graphics.MovementAction;
 import inf112.skeleton.app.roborally.screens.graphics.RobotGraphics;
 
 import java.awt.event.ActionEvent;
@@ -83,6 +84,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     public RobotGraphics getGraphics() {
         return robotGraphics;
     }
+
 
 
     private enum State {
@@ -377,6 +379,10 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         cardDecks.addUsed(card);
         cardPhaseButtons.fadeCard(card);
     }
+public CardPhaseButtons getCardButtons(){
+        return cardPhaseButtons;
+}
+
 
     public TiledMap getTiledMap(){
         return board;

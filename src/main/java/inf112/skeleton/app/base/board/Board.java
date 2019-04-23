@@ -324,8 +324,8 @@ public class Board implements IBoard {
     }
 
     @Override
-    public void move(Robot robot, MovementAction normal) {
-        game.getGraphics().addActionToRobot(robot, normal);
+    public void move(Robot robot, MovementAction moveAction) {
+        game.getGraphics().addActionToRobot(robot, moveAction);
     }
 
 }

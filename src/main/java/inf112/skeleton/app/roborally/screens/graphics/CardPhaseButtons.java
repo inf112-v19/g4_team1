@@ -33,6 +33,9 @@ public class CardPhaseButtons {
     private ArrayList<Card> currentPlayerCards = new ArrayList<>();
     private float delay = 0f;
     private Skin skin;
+    private final float CARD_FADE_TIME = 1f;
+    private final float CARD_FADE_DELAY = 2f;
+
 
 
     public CardPhaseButtons(RoboRallyGame game, CardDecks carddecks){
@@ -185,15 +188,16 @@ public class CardPhaseButtons {
 
         game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(
                 allButtonsAndCards.get(card),false)).addAction(new SequenceAction(
-                Actions.delay(delay), Actions.fadeOut(1f), new RemoveActorAction()));
-        delay += 2f;
+                Actions.delay(delay), Actions.fadeOut(CARD_FADE_TIME), new RemoveActorAction()));
+        /*
+        delay += CARD_FADE_DELAY;
         if(card.getType() == CardType.MOVE_2_TILE){
-            delay += 2f;
+            delay += CARD_FADE_DELAY;
         }
         if(card.getType() == CardType.MOVE_3_TILE){
-            delay += 4f;
+            delay += 2 * CARD_FADE_DELAY;
         }
-
+        */
     }
 
     public void clear() {
@@ -201,7 +205,7 @@ public class CardPhaseButtons {
         delay = 0f;
     }
 
-    public void resetDelay() {
-        delay = 0f;
+    public void addDelay(int i) {
+        delay+=i;
     }
 }
