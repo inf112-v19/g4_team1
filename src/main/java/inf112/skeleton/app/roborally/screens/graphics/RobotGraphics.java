@@ -20,6 +20,8 @@ public class RobotGraphics {
     private SequenceAction sequenceAction;
     private Map<Robot, Image> robotSprites = new HashMap<>();
     private RoboRallyGame game;
+
+
     private final int tileWidth;
     private ArrayList<Texture> textures = new ArrayList<>();
     private int textureCounter = 0;
@@ -62,19 +64,11 @@ public class RobotGraphics {
         robotImage.setPosition(coordToPixel(robot.getPos().x()), coordToPixel(robot.getPos().y()));
         //get center of image so rotation is correct
         robotImage.setOrigin(robotImage.getWidth()/2, robotImage.getHeight()/2);
-        robotImage.setRotation(getRotationDegrees(robot.getDir()));
+        robotImage.setRotation((robot.getDir().getRotationDegrees()));
         robotSprites.put(robot, robotImage);
         game.getStage().addActor(robotImage);
     }
-    private int getRotationDegrees(Direction dir){
-        switch(dir){
-            case NORTH: return 0;
-            case EAST: return 270;
-            case SOUTH: return 180;
-            case WEST: return 90;
-        }
-        throw new IllegalArgumentException();
-    }
+
 
 
     public SequenceAction getSeqAction() {

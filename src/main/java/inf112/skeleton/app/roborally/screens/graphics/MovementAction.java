@@ -4,16 +4,17 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import inf112.skeleton.app.base.actors.IRobot;
 import inf112.skeleton.app.base.utils.Direction;
+import inf112.skeleton.app.roborally.screens.RoboRallyGame;
 
 public enum MovementAction {
     NORMAL,
     TELEPORT;
 
-    public Action getAction(IRobot robot) {
+    public Action getAction(IRobot robot, RoboRallyGame game) {
         switch (this){
             case NORMAL:
                 int oldRot = robot.getOldRotation();
-                int newRot = getRotationDegrees(robot.getDir());
+                int newRot = (robot.getDir().getRotationDegrees());
 
                 //needs to rotate
                 if(oldRot != newRot) {
@@ -35,7 +36,7 @@ public enum MovementAction {
 
                 //needs to move
                 else{
-                    return (Actions.moveTo(coordToPixel(robot.getPos().x()), coordToPixel(robot.getPos().y()), 2f));
+                    return (Actions.moveTo(coordToPixel(robot.getPos().x(), game.getGraphics().getTileWidth()), coordToPixel(robot.getPos().y(), game.getGraphics().getTileWidth()), 2f));
                 }
             case TELEPORT:
         }
@@ -47,7 +48,7 @@ public enum MovementAction {
      * @param x The grid-coordinate(row or column number)
      * @return Pixel-coordinate
      */
-    private int coordToPixel(int x) {
+    private int coordToPixel(int x, int tileWidth) {
         if(x > 12) {
             throw new IllegalArgumentException("coordinate is outside of grid");
         }

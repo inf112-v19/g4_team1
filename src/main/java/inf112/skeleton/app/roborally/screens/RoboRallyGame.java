@@ -85,6 +85,10 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         return robotGraphics;
     }
 
+    public int getTileWidth() {
+        return
+    }
+
     private enum State {
         PAUSE,
         RUN

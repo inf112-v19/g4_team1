@@ -22,7 +22,7 @@ public class Board implements IBoard {
     private final RoboRallyGame game;
     private int height, width;
 
-    public Board(int height, int width) {
+    public void createBoard(int height, int width) {
         board = new ArrayList<>(height * width);
         this.height = height;
         //this.height = Gdx.graphics.getHeight();
@@ -33,7 +33,7 @@ public class Board implements IBoard {
                 board.add(new Tile());
     }
 
-    public Board(String textFile) throws IOException {
+    public void createBoard(String textFile) throws IOException {
         FileReader fileReader = new FileReader(textFile);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
 
