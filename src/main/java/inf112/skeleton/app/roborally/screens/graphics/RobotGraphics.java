@@ -1,8 +1,6 @@
 package inf112.skeleton.app.roborally.screens.graphics;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -10,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import inf112.skeleton.app.base.actors.IRobot;
 import inf112.skeleton.app.base.actors.Robot;
 import inf112.skeleton.app.base.utils.Direction;
-import inf112.skeleton.app.roborally.RoboRally;
 import inf112.skeleton.app.roborally.screens.RoboRallyGame;
 
 import java.util.ArrayList;
@@ -44,36 +41,14 @@ public class RobotGraphics {
 
     }
 
-    public void addActionToRobot(IRobot robot){
-        if(robot != null){
-            System.out.println("adding action to "+robot.getOwner());
+    public SequenceAction addActionToRobot(IRobot robot, MovementAction movementAction) {
+        if (robot != null) {
+            System.out.println("adding action to " + robot.getOwner());
             sequenceAction.setActor(robotSprites.get(robot));
-            int oldRot = robot.getOldRotation();
-            int newRot = getRotationDegrees(robot.getDir());
+            sequenceAction.addAction(movementAction.getAction(robot));
+            robot.setOldRotation(getRotationDegrees(robot.getDir()););
 
-            //needs to rotate
-            if(oldRot != newRot) {
 
-                    if (newRot - oldRot > 180) { //perform negative rotation
-                        int rotation = 360 - (newRot-oldRot);
-                        sequenceAction.addAction(Actions.rotateBy(-rotation, 2f));
-                    }
-
-                    else if (newRot - oldRot < -180) { //positive rotation
-                        int rotation = 360 + (newRot-oldRot);
-                        sequenceAction.addAction(Actions.rotateBy(rotation, 2f));
-                    }
-
-                    else {
-                        sequenceAction.addAction(Actions.rotateBy(newRot-oldRot, 2f));
-                    }
-                robot.setOldRotation(newRot);
-            }
-
-            //needs to move
-            else{
-                sequenceAction.addAction(Actions.moveTo(coordToPixel(robot.getPos().x()), coordToPixel(robot.getPos().y()), 2f));
-            }
         }
     }
 
@@ -91,7 +66,6 @@ public class RobotGraphics {
         robotSprites.put(robot, robotImage);
         game.getStage().addActor(robotImage);
     }
-
     private int getRotationDegrees(Direction dir){
         switch(dir){
             case NORTH: return 0;
@@ -102,22 +76,10 @@ public class RobotGraphics {
         throw new IllegalArgumentException();
     }
 
+
     public SequenceAction getSeqAction() {
-    return sequenceAction;
-    }
-    /**
-     * Translates a grid-coordinate to a pixel-coordinate.
-     * @param x The grid-coordinate(row or column number)
-     * @return Pixel-coordinate
-     */
-    private int coordToPixel(int x) {
-        if(x == 0) {
-            return x;
+            return sequenceAction;
         }
-        if(x > 12) {
-            throw new IllegalArgumentException("coordinate is outside of grid");
-        }
-        int pixel = (int) (x*tileWidth / 1.5f);
-        return pixel;
-    }
+
+
 }

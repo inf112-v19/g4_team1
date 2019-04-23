@@ -1,14 +1,12 @@
 package inf112.skeleton.app.base.actors;
 
-import inf112.skeleton.app.base.board.Board;
 import inf112.skeleton.app.base.board.IBoard;
-import inf112.skeleton.app.base.board.ITile;
-import inf112.skeleton.app.base.board.Tile;
-import inf112.skeleton.app.base.board.boardelement.BoardElement;
 import inf112.skeleton.app.base.board.boardelement.Flag;
 import inf112.skeleton.app.base.board.boardelement.Laser;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
+import inf112.skeleton.app.roborally.screens.graphics.MovementAction;
+import org.graalvm.compiler.lir.sparc.SPARCMove;
 
 import java.util.ArrayList;
 
@@ -106,12 +104,17 @@ public class Robot implements IRobot {
             }
 
             // robot is free to move to new position
-            board.get(pos).removeContent(this);
-            board.get(newPos).addObject(this);
-            pos = newPos;
-            System.out.println(owner +" moved to new pos "+pos+" facing "+dir);
+            move(newPos, MovementAction.NORMAL);
             return true;
         }
+    }
+
+    private void move(Pos newPos, MovementAction movetype){
+        board.get(pos).removeContent(this);
+        board.get(newPos).addObject(this);
+        pos = newPos;
+        System.out.println(owner +" moved to new pos "+pos+" facing "+dir);
+        board.move(this, MovementAction.NORMAL);
     }
 
     private boolean wallIsBlocking(Pos wallPos, Direction moveDirection) {
@@ -151,6 +154,8 @@ public class Robot implements IRobot {
         pos = respawnPos;
         health = MAX_HEALTH;
     }
+
+
 
     @Override
     public Player getOwner() {

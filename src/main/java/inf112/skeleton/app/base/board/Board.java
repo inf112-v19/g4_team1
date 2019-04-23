@@ -1,6 +1,5 @@
 package inf112.skeleton.app.base.board;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import inf112.skeleton.app.base.actors.IRobot;
@@ -9,6 +8,8 @@ import inf112.skeleton.app.base.actors.Robot;
 import inf112.skeleton.app.base.board.boardelement.*;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
+import inf112.skeleton.app.roborally.screens.RoboRallyGame;
+import inf112.skeleton.app.roborally.screens.graphics.MovementAction;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -18,6 +19,7 @@ import java.util.List;
 
 public class Board implements IBoard {
     private List<ITile> board;
+    private final RoboRallyGame game;
     private int height, width;
 
     public Board(int height, int width) {
@@ -89,7 +91,8 @@ public class Board implements IBoard {
         bufferedReader.close();
     }
 
-    public Board(TiledMap board) {
+    public Board(TiledMap board, RoboRallyGame game) {
+        this.game = game;
         /*
           constructor that adds all elements according to the tiles in the tmx object
          */
@@ -318,6 +321,11 @@ public class Board implements IBoard {
             }
         }
         throw  new IllegalStateException("No available spawns");
+    }
+
+    @Override
+    public void move(Robot robot, MovementAction normal) {
+        game.getGraphics().addActionToRobot(robot, normal);
     }
 
 }

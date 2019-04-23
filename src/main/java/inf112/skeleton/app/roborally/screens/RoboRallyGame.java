@@ -81,6 +81,10 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
     }
 
+    public RobotGraphics getGraphics() {
+        return robotGraphics;
+    }
+
     private enum State {
         PAUSE,
         RUN
@@ -116,7 +120,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         cardPhaseButtons = new CardPhaseButtons(this, cardDecks);
 
         //create gameboard from tmx file
-        gameBoard = new Board(board);
+        gameBoard = new Board(board, this);
 
         ActiveElements = gameBoard.getActiveElements();
         flags = gameBoard.getFlags();
