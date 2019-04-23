@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import inf112.skeleton.app.base.actors.Player;
 import inf112.skeleton.app.base.cards.Card;
 import inf112.skeleton.app.base.cards.CardDecks;
+import inf112.skeleton.app.base.cards.CardType;
 import inf112.skeleton.app.roborally.screens.RoboRallyGame;
 
 import java.util.ArrayList;
@@ -184,8 +185,14 @@ public class CardPhaseButtons {
 
         game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(
                 allButtonsAndCards.get(card),false)).addAction(new SequenceAction(
-                Actions.delay(delay), Actions.fadeOut(2f), new RemoveActorAction()));
+                Actions.delay(delay), Actions.fadeOut(1f), new RemoveActorAction()));
         delay += 2f;
+        if(card.getType() == CardType.MOVE_2_TILE){
+            delay += 2f;
+        }
+        if(card.getType() == CardType.MOVE_3_TILE){
+            delay += 4f;
+        }
 
     }
 
