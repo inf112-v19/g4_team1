@@ -11,51 +11,27 @@ public class TurnConveyor extends BoardElement implements IActiveElement{
 
     public TurnConveyor(Direction dir,Direction turndir,  Pos pos, IBoard board) {
         super(pos, board);
+        if (turndir == Direction.NORTH || turndir == Direction.SOUTH){
+            throw new IllegalArgumentException();
+        }
 
         this.dir = dir;
         this.turndir = turndir;
     }
 
     @Override
-    public void activate() {
-        if (board.containsRobot(pos)) {
+    public IRobot activate() {
+        if (board.containsRobot(pos)&& board.getRobot(pos).hasNotMoved()) {
             IRobot robot = board.getRobot(pos);
-                /*int startPosX= getPos().x();
-                int startPosY= getPos().y();
-
-            if (dir == Direction.EAST &&) {
-                robot.move(Direction.EAST);
-                if(startPosY<getPos().y());
-                robot.turnLeft();
-            }else{robot.turnRight();}
-
-            if (dir == Direction.NORTH) {
-                robot.move(Direction.NORTH);
-                if (startPosX<getPos().x())
-                robot.turnRight();
-                else{robot.turnLeft();}
-            }
-
-            if (dir == Direction.WEST) {
-                robot.move(Direction.WEST);
-                if(startPosY<getPos().y());
-                robot.turnRight();
-            }else{robot.turnLeft();}
-
-            if(dir == Direction.SOUTH){
-                robot.move(Direction.SOUTH);
-                if (startPosX<getPos().x())
-                    robot.turnLeft();
-                else{robot.turnRight(); }
-            }*/
-
             robot.move(dir);
+            robot.setMoved(true);
             if(turndir == Direction.EAST) {
                 robot.turnRight();
-            }else if(turndir== Direction.WEST){
+            }else{
                 robot.turnLeft();
             }
+            return robot;
         }
-
+        return null;
     }
 }

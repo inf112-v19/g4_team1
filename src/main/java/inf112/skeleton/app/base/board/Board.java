@@ -1,5 +1,6 @@
 package inf112.skeleton.app.base.board;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import inf112.skeleton.app.base.actors.IRobot;
@@ -22,6 +23,7 @@ public class Board implements IBoard {
     public Board(int height, int width) {
         board = new ArrayList<>(height * width);
         this.height = height;
+        //this.height = Gdx.graphics.getHeight();
         this.width = width;
 
         for (int i = 0; i < this.getHeight(); i++)
@@ -91,7 +93,14 @@ public class Board implements IBoard {
         /*
           constructor that adds all elements according to the tiles in the tmx object
          */
+
+        //Denne bredden er egendefinert, og ikke flytende. dvs. den vil ikke tilpasse seg grafikk-skjermen
         int mapWidth = board.getProperties().get("width", Integer.class);
+
+        //denne bredden er flytende, og tilpasser seg alltid cfg.width
+        //float mapWidth = Gdx.graphics.getWidth();
+        //float mapHeight = Gdx.graphics.getHeight();
+
         int mapHeight = board.getProperties().get("height", Integer.class);
         this.board = new ArrayList<>(height * width);
         this.height = mapHeight;
@@ -121,6 +130,7 @@ public class Board implements IBoard {
             case 4: return new Pusher(Direction.EAST, pos , this);
             case 5: return null; //this is the empty tile
             case 6: return new Pit(pos, this);
+            case 7: return null; //har ikke en klasse for denne
             case 12: return new DoubleSpeedConveyor(Direction.NORTH, pos, this);
             case 13: return new DoubleSpeedConveyor(Direction.EAST, pos, this);
             case 14: return new WrenchTile(pos, this);
@@ -136,6 +146,22 @@ public class Board implements IBoard {
             case 26: return new Wall(Direction.SOUTH, pos, this);
             case 27: return new Wall(Direction.WEST, pos, this);
             case 28: return new Wall(Direction.NORTH, pos ,this);
+            case 29: return new TurnConveyor(Direction.SOUTH,Direction.WEST,pos,this);
+            case 30: return new TurnConveyor(Direction.WEST,Direction.WEST,pos,this);
+            case 31: return new TurnConveyor(Direction.EAST,Direction.EAST,pos,this);
+            case 32: return new TurnConveyor(Direction.SOUTH,Direction.EAST,pos,this);
+            case 33: return new Laser(Direction.NORTH,pos,this);
+            case 34: return new Laser(Direction.EAST,pos,this);
+            case 36: return new TurnConveyor(Direction.EAST,Direction.WEST,pos,this);
+            case 37: return new TurnConveyor(Direction.NORTH,Direction.WEST, pos, this);
+            case 38: return new TurnConveyor(Direction.NORTH,Direction.EAST,pos,this);
+            case 39: return new TurnConveyor(Direction.WEST, Direction.EAST,pos,this);
+            case 40: return new Laser(Direction.SOUTH,pos,this);
+            case 41: return new Laser(Direction.WEST,pos,this);
+            case 43: return new Conveyor(Direction.NORTH,pos,this);
+            case 44: return new Conveyor(Direction.SOUTH,pos,this);
+            case 45: return new Conveyor(Direction.EAST,pos,this);
+            case 46: return new Conveyor(Direction.WEST,pos,this);
             case 47: return new Gear(Direction.WEST, pos ,this);
             case 48: return new Gear(Direction.EAST, pos ,this);
             case 49: return new Flag(pos, this);
@@ -225,6 +251,17 @@ public class Board implements IBoard {
 
         return false;
     }
+
+    @Override
+    public boolean containsFlag(Pos pos) {
+        List<IBoardElement> tileObjects =  board.get(indexFromCor(pos)).getContent();
+        for (IBoardElement tileObject : tileObjects)
+            if (tileObject instanceof Flag) return true;
+
+        return false;
+    }
+
+
 
     private int indexFromCor(Pos pos) {
         return pos.x() + (getWidth() * pos.y());

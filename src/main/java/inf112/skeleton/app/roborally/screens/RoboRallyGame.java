@@ -4,55 +4,46 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 //import com.badlogic.gdx.maps.Map;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.RemoveActorAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
-import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
+import inf112.skeleton.app.base.actors.IRobot;
 import inf112.skeleton.app.base.actors.Player;
-import inf112.skeleton.app.base.board.boardelement.Flag;
-import inf112.skeleton.app.base.board.boardelement.IActiveElement;
-import inf112.skeleton.app.base.board.boardelement.Laser;
-import inf112.skeleton.app.base.board.boardelement.WrenchTile;
+import inf112.skeleton.app.base.board.boardelement.*;
 import inf112.skeleton.app.base.cards.Card;
 import inf112.skeleton.app.base.cards.CardDecks;
-import inf112.skeleton.app.base.cards.CardType;
 
-import inf112.skeleton.app.base.utils.Pos;
 import inf112.skeleton.app.roborally.RoboRally;
 import inf112.skeleton.app.base.actors.Robot;
 import inf112.skeleton.app.base.board.Board;
 import inf112.skeleton.app.base.utils.Direction;
+import inf112.skeleton.app.roborally.screens.graphics.CardPhaseButtons;
+import inf112.skeleton.app.roborally.screens.graphics.RobotGraphics;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
+import java.util.SortedMap;
 
 import static inf112.skeleton.app.base.utils.Direction.EAST;
 
@@ -60,46 +51,69 @@ import static inf112.skeleton.app.base.utils.Direction.EAST;
  * main game screen
  */
 public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
-    private TiledMap board;
+    private int numPlayers;
+    private SpriteBatch sb;
+    private RoboRally roboRally;
+    private TiledMap board = new TmxMapLoader().load("assets/roborally/game_boardNew.tmx");
     private OrthographicCamera camera;
     private TiledMapRenderer boardRenderer;
-    private SpriteBatch sb;
-    private int tileWidth;
-    private int tileHeight;
     private Board gameBoard;
     private Stage stage;
-    private Map<Robot, Sprite> robotSprites = new HashMap<>();
     private ArrayList<Player> players = new ArrayList<>();
     private CardDecks cardDecks = new CardDecks();
     private ArrayList<IActiveElement> ActiveElements;
     private ArrayList<Flag> flags  ;
     private ArrayList<WrenchTile> wrenches;
-
-    private ArrayList<Card > currentPlayerCards = new ArrayList<>();
+    private ArrayList<String> names;
+    private float delay = 0f;
+    private RobotGraphics robotGraphics = new RobotGraphics(this);
+    private CardPhaseButtons cardPhaseButtons;
+    private Texture cardArea;
+    private BitmapFont font;
+    private Label.LabelStyle labelStyle;
+    private SequenceAction sequenceAction = new SequenceAction();
+    private Group background;
+    private Group foreground;
+    private ArrayList<Image> cardAreaSlots = new ArrayList<>();
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
     }
 
-
-
-    public RoboRallyGame(RoboRally roboRally) {
+    private enum State {
+        PAUSE,
+        RUN
+    }
+    public RoboRallyGame(RoboRally roboRally, ArrayList<String> names) {
+        this.names = names;
+        this.numPlayers = names.size();
         stage = new Stage();
 
+        // labelstyle
+        font = new BitmapFont();
+        labelStyle = new Label.LabelStyle();
+        labelStyle.font = font;
+        labelStyle.fontColor = Color.RED;
+
+        //Rendering-groups(used if an image needs to be rendered over another image)
+        this.background = new Group();
+        background.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        this.foreground = new Group();
+        foreground.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        stage.addActor(background);
+        stage.addActor(foreground);
+
+        sb= new SpriteBatch();
+        // get the game itself from the previous screen
+        this.roboRally = roboRally;
         // set the camera
         camera = new OrthographicCamera();
-        FitViewport viewPort = new FitViewport(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, camera);
-        camera.position.set(viewPort.getWorldWidth() / 2, viewPort.getWorldHeight() / 2,0);
+        //FitViewport viewPort = new FitViewport(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, camera);
+        ScalingViewport viewPort = new ScalingViewport(Scaling.stretch, Constants.WORLD_PIXEL_WIDTH, Constants.WORLD_PIXEL_HEIGHT);
+        viewPort.update(Constants.WORLD_PIXEL_WIDTH, Constants.WORLD_PIXEL_HEIGHT);
 
-        sb = new SpriteBatch();
-
-        board = new TmxMapLoader().load("assets/roborally/game_boardNew.tmx");
-
-        // get the properties of the tilemap
-        MapProperties mProps = board.getProperties();
-        tileWidth = mProps.get("tilewidth", Integer.class);
-        tileHeight = mProps.get("tileheight", Integer.class);
+        cardPhaseButtons = new CardPhaseButtons(this, cardDecks);
 
         //create gameboard from tmx file
         gameBoard = new Board(board);
@@ -111,57 +125,60 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         // initialize the board renderer that will render the tiled map
         boardRenderer = new OrthogonalTiledMapRenderer(board,1);
         //This line decides how much the gamescreen will show in addition to the gameboard
-        camera.setToOrtho(false, Constants.WORLD_PIXEL_WIDTH, Constants.WORLD_PIXEL_HEIGHT);
+        camera.setToOrtho(false, Gdx.graphics.getWidth()*1.5f, Gdx.graphics.getHeight()*1.5f);
+        camera.update();
         boardRenderer.setView(camera);
 
-        // can be changed to "this"
         // initialize the input processor for testing purposes
         Gdx.input.setInputProcessor(stage);
 
-        try {
-            System.out.println("Start game");
-            startGame();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        System.out.println("Start game");
+        startGame();
     }
 
     // set up the players before starting game
-    private void startGame() throws InterruptedException {
-        int NPLAYERS = 1;
-        for (int i = 0; i < NPLAYERS; i++) {
-            Player player = new Player("test");
-            System.out.println((gameBoard.getSpawn()));
-            Robot robot = new Robot(gameBoard.getSpawn(), Direction.SOUTH, player, gameBoard);
+    private void startGame() {
+        for (int i = 0; i < numPlayers; i++) {
+            Player player = new Player(names.get(i));
+            Robot robot = new Robot(gameBoard.getSpawn(), Direction.NORTH, player, gameBoard);
             gameBoard.addTileObject(robot);
             player.addRobot(robot);
             players.add(player);
-            Sprite sprite  = new Sprite(new Texture("assets/roborally/robot.png"));
-            sprite.setSize(tileWidth, tileHeight);
-
-            robotSprites.put(robot, sprite);
-            System.out.println("r " +robot.getPos());
+            robotGraphics.addImage(robot);
             System.out.println("finished adding robots");
         }
-        updateAllSprites(players);
         doTurn();
-
-
     }
 
-    private void doTurn() throws InterruptedException {
-        for (Player player : players) {
-            //players program their robots
-            //choosecards() updates currentPlayerCards
-            System.out.println("choose cards");
-            chooseCards(player.getRobot().getHealth());
-            player.setCards(currentPlayerCards);
+    /**
+     * start a turn after all cards have been selected
+     */
+    public void doTurn() {
+        //check if finished
+        boolean finished=true;
+        for (Player player : players){
+            if(player.getCards().isEmpty()) finished=false;
+        }
+        if(finished) {
+            continueTurn();
+        }else{
+            for (Player player : players) {
+                if(player.getCards().isEmpty()) {
+                    System.out.println("choose cards");
+                    cardPhaseButtons.chooseCards(player.getRobot().getHealth(), player);
+                    break;
+                }
+            }
         }
     }
 
     private void continueTurn() {
+        for (Player p : players){
+            System.out.println(p +" has cards "+p.getCards());
+        }
         //player have finished choosing cards
         boolean finishedExecute = false;
+        //sequenceAction = new SequenceAction();
         while (!finishedExecute) {
             //players should be sorted by their first cards priority number
 //            players.sort(new Comparator<Player>() {
@@ -172,33 +189,34 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 //                }
 //            });
             finishedExecute = true;
-            for (Player current : players) {
-                if (current.getCards().size() != 0) {
+            for (Player currentPlayer : players) {
+                if (currentPlayer.getCards().size() != 0) {
+
+                    System.out.println("inside execution"+currentPlayer);
                     finishedExecute = false;
-                    moveRobot(current);
-                    System.out.println(current.getRobot().getPos());
 
-                    updateAllSprites(players);
-
+                    moveRobot(currentPlayer);
+                    robotGraphics.addActionToRobot(currentPlayer.getRobot());
                 }
             }
             //activate board elements, then lasers
             for(IActiveElement elem : ActiveElements){
                 if(!(elem instanceof Laser)){
-                    elem.activate();
-                    updateAllSprites(players);
+                    IRobot robot = elem.activate();
+                    if(robot != null) System.out.println("activates "+elem.getClass().getSimpleName()+" on "+robot.getOwner());
+                    robotGraphics.addActionToRobot(robot);
                 }
             }
             for(IActiveElement elem : ActiveElements){
                 if(elem instanceof Laser){
                     elem.activate();
-                    updateAllSprites(players);
                 }
             }
-            //end of phase
         }
+        cardPhaseButtons.clear();
+
         //check for flags and wrenches at end of turn
-        for (Player player : players){
+        for (Player ignored : players){
             for (Flag flag : flags) {
                 flag.setRespawn();
             }
@@ -212,167 +230,73 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 win(player);
             }
         }
-        try {
-            //starts next round
-            doTurn();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        //starts next round
+        doTurn();
     }
 
-    /**
-     * this method updates currentPlayerCards with the cards that is selected
-     */
-    private void chooseCards(int nCards) throws InterruptedException {
-        currentPlayerCards.clear();
-        ArrayList<Card> availableCards = cardDecks.getCards(nCards);
-        ArrayList<Card> selectedCards = new ArrayList<>();
-        ArrayList<Boolean> usedslots = new ArrayList<>();
-        for (int i = 0; i < nCards; i++) {
-            usedslots.add(false);
-        }
 
-        HashMap<Card, Button> buttonsAndCards = new HashMap<>();
 
-        //Creating a button for each card
-        for (int i = 0; i < availableCards.size(); i++) {
-            Card card = availableCards.get(i);
-            int number = i;
-            Texture testTexture = new Texture("assets/roborally/cards/movement/" + card.imageFileName());
-            Drawable drawable = new TextureRegionDrawable(testTexture);
-            Button button = new Button(drawable);
-            button.setPosition(96 + 125 * i, 96 * 9);
-            buttonsAndCards.put(card, button);
-            stage.addActor(button);
-            button.addListener(new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent changeEvent, Actor actor) {
-                    System.out.println("klicked " + card);
-
-                    //stage.getActors().removeIndex(stage.getActors().indexOf(button, false));
-
-                    if (usedslots.get(number)) {
-
-                    } else {
-                        if (selectedCards.size() < 5) {
-                            if (!selectedCards.contains(card)) {
-                                stage.getActors().get(stage.getActors().indexOf(
-                                        button, false)).setPosition(
-                                        96 * 16, 96 * (9 - selectedCards.size() * 2));
-                                selectedCards.add(card);
-                                availableCards.remove(card);
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        //make reset button
-        Texture resetTexture = new Texture("assets/roborally/cards/option - 3.jpg");
-        Drawable resetDrawable = new TextureRegionDrawable(resetTexture);
-        Button reset_button = new Button(resetDrawable);
-        reset_button.setPosition((96*15)-30,96*5);
-        reset_button.setSize(96,96);
-        stage.addActor(reset_button);
-        reset_button.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
-
-                if (selectedCards.size() > 0) {
-                    currentPlayerCards.removeAll(selectedCards);
-
-                    // remove the available cards from the screen
-                    int j = 0;
-                    for (Button btn: buttonsAndCards.values()) {
-//                        stage.getActors().removeValue(buttonsAndCards.get(
-//                                selectedCards.remove(0)), false);
-                        stage.getActors().get(stage.getActors().indexOf(btn,false)).setPosition(
-                                96+125*j,96*9);
-                        j++;
-
-                    }
-                    availableCards.addAll(selectedCards);
-                    selectedCards.clear();
-                }
-            }
-        });
-
-        //make finish button
-        Texture testTexture = new Texture("assets/roborally/robot.png");
-        Drawable drawable = new TextureRegionDrawable(testTexture);
-        Button finish_button = new Button(drawable);
-        finish_button.setPosition((96*15)-30,96*3);
-        finish_button.setSize(96,96);
-        stage.addActor(finish_button);
-        finish_button.addListener(new ChangeListener() {
-
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
-                System.out.println("klicked finish");
-                if(selectedCards.size() == 5) {
-                    currentPlayerCards.addAll(selectedCards);
-                    System.out.println("selected: " + currentPlayerCards);
-
-                    // remove the available and selected cards from the screen
-                    int count = availableCards.size();
-                    for (int i = 0; i <count; i++) {
-                        cardDecks.addUsed(availableCards.get(0));
-                        stage.getActors().removeValue(buttonsAndCards.get(
-                                availableCards.remove(0)), false);
-                    }
-
-                    // remove the finish button from the screen
-                    stage.getActors().removeValue(finish_button, false);
-                    stage.getActors().removeValue(reset_button,false);
-                    for(Card card : selectedCards){
-                        stage.getActors().get(stage.getActors().indexOf(
-                                buttonsAndCards.get(card),false)).remove();
-
-                    }
-                    //continue game when finished selecting cards
-                    continueTurn();
-
-                }else{
-                    System.out.println("not enough cards");
-                }
-            }
-        });
-    }
-
-    // WIP
     private void win(Player player) {
-        //TODO:
-        // player wins
-        System.out.println(player+" won");
-    }
 
+        ArrayList<Flag> flags = player.getRobot().getFlags();
+        if(flags.size() == 3){
+           roboRally.setScreen(new winScreen(roboRally,player.getName()));
+
+        }
+
+    }
     @Override
     public void show() {
+        int count = 0;
+        int rowPixel = Gdx.graphics.getHeight() - 50;
+        int columnPixel = 0;
+        for (int i = 0; i < numPlayers; i++) {
+            cardArea = new Texture("assets/roborally/card_area.png");
+            Image cardBox = new Image(cardArea);
+            cardBox.setSize(cardBox.getWidth() / 1.5f, cardBox.getHeight() / 1.5f);
 
+            //new column
+            if (count == 1) {
+                columnPixel = (int) (cardBox.getWidth() + 50);
+            }
+            //new row
+            if (count == 2) {
+                rowPixel -= cardBox.getHeight() + 50;
+                count = 0;
+            }
+
+            String name = players.get(i).getName();
+            Label nameLabel = new Label(name, labelStyle);
+            nameLabel.setPosition(98 * 13 / 1.5f + columnPixel, rowPixel + 10);
+            cardBox.setPosition(98 * 13 / 1.5f + columnPixel, rowPixel - cardBox.getHeight());
+            background.addActor(cardBox);
+            background.addActor(nameLabel);
+            cardAreaSlots.add(cardBox);
+            columnPixel = 0;
+            count++;
+
+        }
     }
 
     @Override
     public void render(float v) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        camera.update();
         boardRenderer.setView(camera);
         boardRenderer.render();
-
+        camera.update();
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
-
-        for (Player player : players) {
-            robotSprites.get(player.getRobot()).draw(sb);
-        }
         sb.end();
-
         stage.act(v);
         stage.draw();
+
+        robotGraphics.getSeqAction().act(v);
     }
 
     @Override
     public void resize(int i, int i1) {
+
+        stage.getViewport().update(i, i1);
 
     }
 
@@ -394,7 +318,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     @Override
     public void dispose() {
         board.dispose();
-        sb.dispose();
+        //sb.dispose();
     }
 
     @Override
@@ -408,7 +332,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             players.get(0).getRobot().move(Direction.NORTH);
         if (key == Input.Keys.DOWN)
             players.get(0).getRobot().move(Direction.SOUTH);
-        updateAllSprites(players);
         return false;
     }
 
@@ -448,29 +371,32 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     }
 
 
-    private void updateAllSprites(ArrayList<Player> players) {
-        for(Player player : players){
-            Robot robot = player.getRobot();
-            Sprite sprite = robotSprites.get(robot);
-            sprite.setPosition(robot.getPos().x() * tileWidth, robot.getPos().y() * tileWidth);
-            //sprite.setRotation(getRotationDegrees(robot.getDir()));
-        }
-    }
-    private int getRotationDegrees(Direction dir){
-        switch(dir){
-            case NORTH: return 0;
-            case EAST: return 270;
-            case SOUTH: return 180;
-            case WEST: return 90;
-        }
-        throw new IllegalArgumentException();
-    }
-
     private void moveRobot(Player player) {
         Card card = player.useFirstCard();
-        System.out.println(card);
-        System.out.println(player.getRobot().getDir());
         card.execute(player.getRobot());
         cardDecks.addUsed(card);
+        cardPhaseButtons.fadeCard(card);
     }
+
+    public TiledMap getTiledMap(){
+        return board;
+    }
+
+    public Stage getStage(){
+        return stage;
+    }
+
+    public ArrayList<Image> getCardAreaSlots() {
+        return cardAreaSlots;
+    }
+
+    public Group getForeground() {
+        return foreground;
+    }
+
+    public Group getBackground() {
+        return background;
+    }
+
+
 }

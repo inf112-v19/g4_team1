@@ -5,7 +5,6 @@ import inf112.skeleton.app.base.actors.IRobot;
 public class Card implements ICard {
     private CardType type;
     private int priorityNumber;
-    private String pathToImage;
 
     public Card(CardType type, int priorityNumber) {
         this.type = type;

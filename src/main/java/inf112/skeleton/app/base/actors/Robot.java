@@ -2,7 +2,9 @@ package inf112.skeleton.app.base.actors;
 
 import inf112.skeleton.app.base.board.Board;
 import inf112.skeleton.app.base.board.IBoard;
+import inf112.skeleton.app.base.board.ITile;
 import inf112.skeleton.app.base.board.Tile;
+import inf112.skeleton.app.base.board.boardelement.BoardElement;
 import inf112.skeleton.app.base.board.boardelement.Flag;
 import inf112.skeleton.app.base.board.boardelement.Laser;
 import inf112.skeleton.app.base.utils.Direction;
@@ -20,6 +22,8 @@ public class Robot implements IRobot {
     private int lives;
     private Pos respawnPos;
     private ArrayList<Flag> visitedFlags = new ArrayList<Flag>();
+    private boolean movedthisround=false;
+    private int oldRotation;
 
     public Robot(Pos pos, Direction dir, Player owner, IBoard board) {
         this.dir = dir;
@@ -31,6 +35,13 @@ public class Robot implements IRobot {
         this.lives = 3;
     }
 
+    public boolean hasNotMoved(){
+        return !movedthisround;
+    }
+
+    public void setMoved(boolean moved){
+         movedthisround = moved;
+    }
 
     public Pos getPos() {
         return pos;
@@ -47,7 +58,13 @@ public class Robot implements IRobot {
             throw new IllegalArgumentException("No direction to move in.");
 
         Pos newPos = pos.getAdjacent(moveDirection);
-        System.out.println("newPos " + newPos); // for testing purposes
+        //System.out.println("newPos " + newPos); // for testing purposes
+        //TODO: Uncomment and fix crash for code below.
+/*
+        if(board.get(newPos).getContent().get(0) instanceof Flag){
+            visitedFlags.add((Flag)board.get(newPos).getContent().get(0));
+        }*/
+
 
         // robot is moving outside board/to pit
         if (board.outOfBounds(newPos) || (board.containsPit(newPos))) {
@@ -56,6 +73,7 @@ public class Robot implements IRobot {
         }
 
         else {
+
             if (board.containsRobot(newPos)) {
                 //System.out.println("fant robot"); // for testing purposes
                 // robot has to push the other robot
@@ -80,6 +98,7 @@ public class Robot implements IRobot {
                 }
             }
 
+
             if(board.getWallDir(pos) != null) {
                 if (wallIsBlocking(pos, moveDirection)) {
                     return false;
@@ -90,6 +109,7 @@ public class Robot implements IRobot {
             board.get(pos).removeContent(this);
             board.get(newPos).addObject(this);
             pos = newPos;
+            System.out.println(owner +" moved to new pos "+pos+" facing "+dir);
             return true;
         }
     }
@@ -167,7 +187,6 @@ public class Robot implements IRobot {
 
     @Override
     public void moveBackwards() {
-        System.out.println(dir.opposite());
         move(dir.opposite());
     }
 
@@ -185,12 +204,14 @@ public class Robot implements IRobot {
         respawnPos = getPos();
     }
 
+
     @Override
     public void addFlag(Flag flag) {
         if (!visitedFlags.contains(flag)) {
             visitedFlags.add(flag);
         }
     }
+
 
     @Override
     public ArrayList<Flag> getFlags() {
@@ -207,6 +228,16 @@ public class Robot implements IRobot {
         Laser laser = new Laser(dir, pos.getAdjacent(dir), board);
         laser.activate();
 
+    }
+
+    @Override
+    public int getOldRotation() {
+        return oldRotation;
+    }
+
+    @Override
+    public void setOldRotation(int rot) {
+        this.oldRotation = rot;
     }
 
 }
