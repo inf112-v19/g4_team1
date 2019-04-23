@@ -26,7 +26,8 @@ public class CardPhaseButtons {
     private final RoboRallyGame game;
     private final Stage stage;
     private CardDecks cardDecks;
-    private HashMap<Card, Button> buttonsAndCards = new HashMap<>();
+    private HashMap<Card, Button> currentButtonsAndCards = new HashMap<>();
+    private HashMap<Card, Button> allButtonsAndCards = new HashMap<>();
     private ArrayList<Card> allCards = new ArrayList<>();
     private ArrayList<Card> currentPlayerCards = new ArrayList<>();
     private float delay = 0f;
@@ -62,7 +63,8 @@ public class CardPhaseButtons {
 
             button.setSize((int)(button.getWidth()/1.5), (int)(button.getHeight()/1.5));
             button.setPosition((int)(98*13/1.5) + 87 * i, 10);
-            buttonsAndCards.put(card, button);
+            currentButtonsAndCards.put(card, button);
+            allButtonsAndCards.put(card,button);
             game.getForeground().addActor(button);
             button.addListener(new ChangeListener() {
                 @Override
@@ -102,8 +104,8 @@ public class CardPhaseButtons {
 
                     // remove the available cards from the screen
                     int j = 0;
-                    for (Button btn: buttonsAndCards.values()) {
-//                        stage.getActors().removeValue(buttonsAndCards.get(
+                    for (Button btn: currentButtonsAndCards.values()) {
+//                        stage.getActors().removeValue(currentButtonsAndCards.get(
 //                                selectedCards.remove(0)), false);
                         //TODO: Resetting is broken. Player-cards for every player gets reset, and some kind of duplication is happening
                         game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(btn,false)).setPosition((int)(98*13/1.5) + 87 * j, 10);
@@ -130,6 +132,7 @@ public class CardPhaseButtons {
                 System.out.println("klicked finish");
                 if(selectedCards.size() == 5) {
                     currentPlayerCards.addAll(selectedCards);
+
                     player.setCards(new ArrayList<>(currentPlayerCards));
                     allCards.addAll(player.getCards());
                     System.out.println("selected for "+player+" : " + currentPlayerCards);
@@ -138,35 +141,36 @@ public class CardPhaseButtons {
                     int count = availableCards.size();
                     for (int i = 0; i <count; i++) {
                         cardDecks.addUsed(availableCards.get(0));
-                        game.getForeground().getChildren().removeValue(buttonsAndCards.get(
+                        game.getForeground().getChildren().removeValue(currentButtonsAndCards.get(
                                 availableCards.remove(0)), false);
                     }
 
                     // remove the finish button from the screen
-                    stage.getActors().removeValue(finish, false);
-                    stage.getActors().removeValue(reset,false);
+                    //stage.getActors().removeValue(finish, false);
+                    //stage.getActors().removeValue(reset,false);
 
 //                    if (allCards.size() == 10) {
 //                        float n = 0;
 //                        for(Card card : allCards) {
 //                            System.out.println(card);
-//                            System.out.println(buttonsAndCards.keySet());
+//                            System.out.println(currentButtonsAndCards.keySet());
 //                            stage.getActors().get(stage.getActors().indexOf(
-//                                    buttonsAndCards.get(card),false)).addAction(new SequenceAction(
+//                                    currentButtonsAndCards.get(card),false)).addAction(new SequenceAction(
 //                                    Actions.delay(n), Actions.fadeOut(3f), new RemoveActorAction()));
 //
 //                            n += 3f;
 //                            // backup code to remove listeners from buttons
 ////                        stage.getActors().get(stage.getActors().indexOf(
-////                                buttonsAndCards.get(card),false)).removeListener(buttonsAndCards.get(
+////                                currentButtonsAndCards.get(card),false)).removeListener(currentButtonsAndCards.get(
 ////                                card).getListeners().get(0));
 //                        }
 //                        allCards.clear();
-//                        buttonsAndCards = new HashMap<>();
+//                        currentButtonsAndCards = new HashMap<>();
 //                    }
 
                     //continue game when finished selecting cards if there are no more players
 
+                    currentButtonsAndCards.clear();
                     game.doTurn();
 
 
@@ -179,7 +183,7 @@ public class CardPhaseButtons {
     public void fadeCard(Card card) {
 
         game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(
-                buttonsAndCards.get(card),false)).addAction(new SequenceAction(
+                allButtonsAndCards.get(card),false)).addAction(new SequenceAction(
                 Actions.delay(delay), Actions.fadeOut(2f), new RemoveActorAction()));
         delay += 2f;
 
