@@ -33,11 +33,21 @@ public class RobotGraphics {
 
         //Create list of Robot textures
         Texture texture = new Texture("assets/roborally/robot.png");
-        Texture texture2 = new Texture("assets/roborally/robot1.png");
-        Texture texture3 = new Texture("assets/roborally/robot2.png");
+        Texture texture2 = new Texture("assets/roborally/robot2.png");
+        Texture texture3 = new Texture("assets/roborally/robot3.png");
+        Texture texture4 = new Texture("assets/roborally/robot4.png");
+        Texture texture5 = new Texture("assets/roborally/robot5.png");
+        Texture texture6 = new Texture("assets/roborally/robot6.png");
+        Texture texture7 = new Texture("assets/roborally/robot7.png");
+        Texture texture8 = new Texture("assets/roborally/robot8.png");
         textures.add(texture);
         textures.add(texture2);
         textures.add(texture3);
+        textures.add(texture4);
+        textures.add(texture5);
+        textures.add(texture6);
+        textures.add(texture7);
+        textures.add(texture8);
     }
 
     public void addActionToRobot(IRobot robot, MovementAction movementAction) {
