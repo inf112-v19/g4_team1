@@ -115,7 +115,7 @@ public class Board implements IBoard {
 
         for (int x = 0; x < mapWidth;   x++) {
             for (int y = 0; y < mapHeight; y++) {
-                int id = ((TiledMapTileLayer) board.getLayers().get(1)).getCell(x, y).getTile().getId();
+                int id = ((TiledMapTileLayer) board.getLayers().get(1)).getCell(x, y).getTile().getId()-1; //-1 because Tiled and libgdx start indexing different
                 if(getBoardElemFromTmx(id, new Pos(x, y))!= null)
                     addTileObject(getBoardElemFromTmx(id, new Pos(x, y)));
             }
@@ -126,53 +126,60 @@ public class Board implements IBoard {
         /*
           id is the number of the tile used in the tmx file
          */
+        System.out.println("getid "+id);
         switch(id){
-            case 1: return new Pusher(Direction.SOUTH, pos , this);
-            case 2: return new Pusher(Direction.WEST, pos , this);
-            case 3: return new Pusher(Direction.NORTH, pos , this);
-            case 4: return new Pusher(Direction.EAST, pos , this);
-            case 5: return null; //this is the empty tile
-            case 6: return new Pit(pos, this);
-            case 7: return null; //har ikke en klasse for denne
-            case 12: return new DoubleSpeedConveyor(Direction.NORTH, pos, this);
-            case 13: return new DoubleSpeedConveyor(Direction.EAST, pos, this);
-            case 14: return new WrenchTile(pos, this);
-            /*
-            case 15: return new Conveyor();
-            case 16: return new Conveyor();
-            case 17: return new Conveyor();
-            case 18: return new Conveyor();
-            */
-            case 19: return new DoubleSpeedConveyor(Direction.SOUTH, pos, this);
-            case 20: return new DoubleSpeedConveyor(Direction.WEST, pos, this);
-            case 21: return new Wall(Direction.EAST, pos, this);
-            case 26: return new Wall(Direction.SOUTH, pos, this);
-            case 27: return new Wall(Direction.WEST, pos, this);
-            case 28: return new Wall(Direction.NORTH, pos ,this);
-            case 29: return new TurnConveyor(Direction.SOUTH,Direction.WEST,pos,this);
-            case 30: return new TurnConveyor(Direction.WEST,Direction.WEST,pos,this);
-            case 31: return new TurnConveyor(Direction.EAST,Direction.EAST,pos,this);
-            case 32: return new TurnConveyor(Direction.SOUTH,Direction.EAST,pos,this);
-            case 33: return new Laser(Direction.NORTH,pos,this);
-            case 34: return new Laser(Direction.EAST,pos,this);
-            case 36: return new TurnConveyor(Direction.EAST,Direction.WEST,pos,this);
-            case 37: return new TurnConveyor(Direction.NORTH,Direction.WEST, pos, this);
-            case 38: return new TurnConveyor(Direction.NORTH,Direction.EAST,pos,this);
-            case 39: return new TurnConveyor(Direction.WEST, Direction.EAST,pos,this);
-            case 40: return new Laser(Direction.SOUTH,pos,this);
-            case 41: return new Laser(Direction.WEST,pos,this);
-            case 43: return new Conveyor(Direction.NORTH,pos,this);
-            case 44: return new Conveyor(Direction.SOUTH,pos,this);
-            case 45: return new Conveyor(Direction.EAST,pos,this);
-            case 46: return new Conveyor(Direction.WEST,pos,this);
-            case 47: return new Gear(Direction.WEST, pos ,this);
-            case 48: return new Gear(Direction.EAST, pos ,this);
-            case 49: return new Flag(pos, this);
-            case 50: return new Spawn(pos, this);
+            case 0: return new Conveyor(Direction.EAST,pos,this);
+            case 1: return new TurnConveyor(Direction.NORTH,Direction.WEST, pos, this);
+            case 2: return new TurnConveyor(Direction.WEST,Direction.WEST,pos,this);
+            case 3: return new TurnConveyor(Direction.EAST,Direction.WEST,pos,this);
+            case 4: return new TurnConveyor(Direction.SOUTH,Direction.WEST,pos,this);
+            case 5: return new Conveyor(Direction.NORTH,pos,this);
+            case 6: return new TurnConveyor(Direction.SOUTH,Direction.EAST,pos,this);
+            case 7: return new TurnConveyor(Direction.EAST,Direction.EAST,pos,this);
+            case 8: return new TurnConveyor(Direction.NORTH,Direction.EAST,pos,this);
+            case 9: return new Conveyor(Direction.SOUTH,pos,this);
+            case 10: return new TurnConveyor(Direction.WEST, Direction.EAST,pos,this);
+            case 11: return new Conveyor(Direction.WEST,pos,this);
+            case 12: return new DoubleSpeedConveyor(Direction.EAST, pos, this);
+            case 13: return new DoubleSpeedTurnConveyor(Direction.NORTH,Direction.WEST, pos, this);
+            case 14: return new DoubleSpeedTurnConveyor(Direction.WEST,Direction.WEST, pos, this);
+            case 15: return new DoubleSpeedTurnConveyor(Direction.EAST,Direction.WEST, pos, this);
+            case 16: return new DoubleSpeedTurnConveyor(Direction.SOUTH,Direction.WEST, pos, this);
+            case 17: return new DoubleSpeedConveyor(Direction.NORTH, pos, this);
+            case 18: return new DoubleSpeedTurnConveyor(Direction.SOUTH,Direction.EAST, pos, this);
+            case 19: return new DoubleSpeedTurnConveyor(Direction.EAST,Direction.EAST, pos, this);
+            case 20: return new DoubleSpeedTurnConveyor(Direction.WEST,Direction.EAST, pos, this);
+            case 21: return new DoubleSpeedTurnConveyor(Direction.NORTH,Direction.EAST, pos, this);
+            case 22: return new DoubleSpeedConveyor(Direction.SOUTH, pos, this);
+            case 23: return new DoubleSpeedConveyor(Direction.WEST, pos, this);
+            case 24: return null; //this is the empty tile
+            //TODO: can add the number to the flag if we want
+            case 25: return new Flag(pos, this);
+            case 26: return new Flag(pos, this);
+            case 27: return new Flag(pos, this);
+            case 28: return new Flag(pos, this);
+            case 29: return new Gear(Direction.WEST, pos ,this);
+            case 30: return new Gear(Direction.EAST, pos ,this);
+            case 31: return new Laser(Direction.NORTH,pos,this);
+            case 32: return new Laser(Direction.EAST,pos,this);
+            case 35: return new Laser(Direction.SOUTH,pos,this);
+            case 36: return new Laser(Direction.WEST,pos,this);
+            case 37: return new Pit(pos, this);
+            case 38: return new Pusher(Direction.EAST, pos , this);
+            case 39: return new Pusher(Direction.NORTH, pos , this);
+            case 40: return new Pusher(Direction.SOUTH, pos , this);
+            case 41: return new Pusher(Direction.WEST, pos , this);
+            case 42: return new Spawn(pos, this);
+            case 43: return new Wall(Direction.EAST, pos, this);
+            case 44: return new Wall(Direction.NORTH, pos ,this);
+            case 45: return new Wall(Direction.SOUTH, pos, this);
+            case 46: return new Wall(Direction.WEST, pos, this);
+            case 47: return null; //TODO: hammer and wrench
+            case 48: return new WrenchTile(pos, this);
 
         }
-        return null;
-        //throw new IllegalArgumentException("not a valid id");
+        //return null;
+        throw new IllegalArgumentException("not a valid id");
     }
 
     @Override
