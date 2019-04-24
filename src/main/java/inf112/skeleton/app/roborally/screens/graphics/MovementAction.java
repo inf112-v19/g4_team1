@@ -26,7 +26,7 @@ public enum MovementAction {
         RotateByAction rotateToAction = getRotateAction(robot);
         switch (this){
             case NORMAL:
-                seq.addAction(sequence( rotateToAction, moveToAction));
+                seq.addAction(parallel( rotateToAction, moveToAction));
                 return;
             case TELEPORT:
                 seq.addAction(parallel(
@@ -41,7 +41,7 @@ public enum MovementAction {
                 moveToAction.setInterpolation(Interpolation.bounce);
                 moveToAction.setDuration(SHORT_MOVE_DURATION);
                 rotateToAction.setDuration(SHORT_MOVE_DURATION);
-                seq.addAction(sequence(moveToAction, rotateToAction));
+                seq.addAction(parallel(moveToAction, rotateToAction));
                 return;
         }
         throw new IllegalArgumentException("no movetype");

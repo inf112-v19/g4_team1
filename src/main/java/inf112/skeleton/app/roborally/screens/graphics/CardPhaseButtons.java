@@ -187,15 +187,7 @@ public class CardPhaseButtons {
         game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(
                 allButtonsAndCards.get(card),false)).addAction(new SequenceAction(
                 Actions.delay(delay), Actions.fadeOut(CARD_FADE_TIME), new RemoveActorAction()));
-        /*
-        delay += CARD_FADE_DELAY;
-        if(card.getType() == CardType.MOVE_2_TILE){
-            delay += CARD_FADE_DELAY;
-        }
-        if(card.getType() == CardType.MOVE_3_TILE){
-            delay += 2 * CARD_FADE_DELAY;
-        }
-        */
+
     }
 
     public void clear() {
@@ -204,6 +196,7 @@ public class CardPhaseButtons {
     }
 
     public void addDelay(float i) {
+        System.out.println("adds delay "+i);
         delay+=i;
     }
 }
