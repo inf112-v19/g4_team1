@@ -435,14 +435,14 @@ public CardPhaseButtons getCardButtons(){
         return background;
     }
 
-    public void removeLife(Player player) {
-        if(player.getRobot().getLives() < 0) {
-            throw new IllegalStateException("No life image to remove");
-        }
-           Image life = lives.get(player).get(player.getRobot().getLives());
-           background.getChildren().removeValue(life, false);
-           lives.get(player).remove(player.getRobot().getLives());
 
+    public Actor getLifeSprite(Player player) {
+        if(player.getRobot().getLives() < 0) {
+            return null;
+        }
+        Image life = lives.get(player).get(player.getRobot().getLives());
+        Actor mm = background.getChildren().get(background.getChildren().indexOf(life, false));
+        return mm;
     }
 
 

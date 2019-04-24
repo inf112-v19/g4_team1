@@ -1,5 +1,6 @@
 package inf112.skeleton.app.base.actors;
 
+import inf112.skeleton.app.base.board.Board;
 import inf112.skeleton.app.base.board.IBoard;
 import inf112.skeleton.app.base.board.boardelement.Flag;
 import inf112.skeleton.app.base.board.boardelement.Laser;
@@ -147,12 +148,13 @@ public class Robot implements IRobot {
     private void respawn() {
         System.out.println("respawn");
         lives--;
-        if (lives == 0) {
+        if (lives < 0) {
             //lose
 
         }else{
             move(respawnPos, MovementAction.TELEPORT);
             health = MAX_HEALTH;
+          //  board.getGame().removeLife(owner);
         }
 
     }
@@ -263,5 +265,11 @@ public class Robot implements IRobot {
     public void setDir(Direction dir) {
         this.dir=dir;
     }
+
+    @Override
+    public IBoard getBoard() {
+        return board;
+    }
+
 
 }

@@ -2,10 +2,12 @@ package inf112.skeleton.app.roborally.screens.graphics;
 
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.RotateByAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import inf112.skeleton.app.base.actors.IRobot;
 import inf112.skeleton.app.roborally.screens.RoboRallyGame;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
@@ -29,13 +31,22 @@ public enum MovementAction {
                 seq.addAction(parallel( rotateToAction, moveToAction));
                 return;
             case TELEPORT:
+                //remove life from screen
+                Actor life = game.getLifeSprite(robot.getOwner());
+                Action act1 = Actions.fadeOut(0f);
+                act1.setActor(life);
+                seq.addAction(act1);
+
                 seq.addAction(parallel(
                         rotateBy(360f, SHORT_MOVE_DURATION, Interpolation.exp5),
                         fadeOut( SHORT_MOVE_DURATION)
+
                 ));
                 moveToAction.setDuration(0f);
-                seq.addAction (moveToAction);
+                seq.addAction(moveToAction);
                 seq.addAction(fadeIn(SHORT_MOVE_DURATION));
+
+
             return;
             case FAST:
                 //rotate and move is paralell so turn conveyors look smooth

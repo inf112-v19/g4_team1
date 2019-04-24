@@ -1,5 +1,7 @@
 package inf112.skeleton.app.base.actors;
 
+import inf112.skeleton.app.base.board.Board;
+import inf112.skeleton.app.base.board.IBoard;
 import inf112.skeleton.app.base.board.IBoardElement;
 import inf112.skeleton.app.base.board.boardelement.Flag;
 import inf112.skeleton.app.base.utils.Direction;
@@ -105,7 +107,6 @@ public interface IRobot extends IBoardElement {
 
     int getLives();
 
-    void loseLife();
 
     /**
      * robot gains 1 health
@@ -127,4 +128,6 @@ public interface IRobot extends IBoardElement {
     void setOldRotation(int rot);
 
     void setDir(Direction left);
+
+    IBoard getBoard();
 }

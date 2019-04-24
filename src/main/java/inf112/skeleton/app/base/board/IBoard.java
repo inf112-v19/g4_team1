@@ -7,6 +7,7 @@ import inf112.skeleton.app.base.board.boardelement.IActiveElement;
 import inf112.skeleton.app.base.board.boardelement.WrenchTile;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
+import inf112.skeleton.app.roborally.screens.RoboRallyGame;
 import inf112.skeleton.app.roborally.screens.graphics.MovementAction;
 
 import java.util.ArrayList;
@@ -157,4 +158,6 @@ public interface IBoard {
 
      */
     void move(Robot robot);
+
+    RoboRallyGame getGame();
 }
