@@ -24,13 +24,14 @@ public class DoubleSpeedTurnConveyor extends DoubleSpeedConveyor implements IAct
     public IRobot activate() {
         if (board.containsRobot(pos)&& board.getRobot(pos).hasNotMoved()) {
             IRobot robot = board.getRobot(pos);
-            robot.move(dir, MovementAction.FAST);
             robot.setMoved(true);
+            //fix so the direction and position or robot is updated at the same time, in same animation. do not use turnright()
             if(turndir == Direction.EAST) {
-                robot.turnRight();
+                robot.setDir(robot.getDir().right());
             }else{
-                robot.turnLeft();
+                robot.setDir(robot.getDir().left());
             }
+            robot.move(dir, MovementAction.FAST);
             return robot;
         }
         return null;

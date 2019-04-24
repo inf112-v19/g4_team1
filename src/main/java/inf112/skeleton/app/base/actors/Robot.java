@@ -259,4 +259,9 @@ public class Robot implements IRobot {
         this.oldRotation = rot;
     }
 
+    @Override
+    public void setDir(Direction dir) {
+        this.dir=dir;
+    }
+
 }

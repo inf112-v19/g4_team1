@@ -38,7 +38,8 @@ public enum MovementAction {
                 seq.addAction(fadeIn(SHORT_MOVE_DURATION));
             return;
             case FAST:
-                moveToAction.setInterpolation(Interpolation.bounce);
+                //rotate and move is paralell so turn conveyors look smooth
+                moveToAction.setInterpolation(Interpolation.fastSlow);
                 moveToAction.setDuration(SHORT_MOVE_DURATION);
                 rotateToAction.setDuration(SHORT_MOVE_DURATION);
                 seq.addAction(parallel(moveToAction, rotateToAction));

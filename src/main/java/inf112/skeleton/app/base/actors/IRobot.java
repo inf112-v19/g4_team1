@@ -124,4 +124,5 @@ public interface IRobot extends IBoardElement {
 
     void setOldRotation(int rot);
 
+    void setDir(Direction left);
 }
