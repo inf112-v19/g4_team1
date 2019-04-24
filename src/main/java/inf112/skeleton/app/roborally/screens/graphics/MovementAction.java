@@ -33,9 +33,9 @@ public enum MovementAction {
             case TELEPORT:
                 //remove life from screen
                 Actor life = game.getLifeSprite(robot.getOwner());
-                Action act1 = Actions.fadeOut(0f);
-                act1.setActor(life);
-                seq.addAction(act1);
+                Action removeLife = Actions.fadeOut(0f);
+                removeLife.setActor(life);
+                seq.addAction(removeLife);
 
                 seq.addAction(parallel(
                         rotateBy(360f, SHORT_MOVE_DURATION, Interpolation.exp5),
