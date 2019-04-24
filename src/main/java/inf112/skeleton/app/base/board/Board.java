@@ -1,5 +1,6 @@
 package inf112.skeleton.app.base.board;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import inf112.skeleton.app.base.actors.IRobot;
@@ -341,4 +342,9 @@ public class Board implements IBoard {
        move(robot, MovementAction.NORMAL);
     }
 
+    @Override
+    public RoboRallyGame getGame() {
+        return game;
+    }
 }
+

@@ -115,6 +115,8 @@ public class CardPhaseButtons {
                     }
                     availableCards.addAll(selectedCards);
                     selectedCards.clear();
+
+
                 }
             }
         });
