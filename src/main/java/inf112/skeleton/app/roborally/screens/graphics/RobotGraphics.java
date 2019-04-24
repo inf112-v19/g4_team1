@@ -1,6 +1,7 @@
 package inf112.skeleton.app.roborally.screens.graphics;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -23,13 +24,16 @@ public class RobotGraphics {
     private final int tileWidth;
     private ArrayList<Texture> textures = new ArrayList<>();
     private int textureCounter = 0;
-
+    private float robotSizex;
+    private float robotSizey;
 
     public RobotGraphics(RoboRallyGame game){
         sequenceAction = new SequenceAction();
         this.game = game;
         this.tileWidth=game.getTiledMap().getProperties().get("tilewidth", Integer.class);
         this.tileHeight=game.getTiledMap().getProperties().get("tileheight", Integer.class);
+        robotSizex = tileWidth/1.5f;
+        robotSizey = tileHeight/1.5f;
 
         //Create list of Robot textures
         Texture texture = new Texture("assets/roborally/robot.png");
@@ -66,7 +70,7 @@ public class RobotGraphics {
         Drawable drawable= new TextureRegionDrawable(textures.get(textureCounter));
         textureCounter++;
         Image robotImage= new Image(drawable);
-        robotImage.setSize(tileWidth / 1.5f, tileHeight / 1.5f);
+        robotImage.setSize(robotSizex, robotSizey);
         robotImage.setPosition(coordToPixel(robot.getPos().x()), coordToPixel(robot.getPos().y()));
         //get center of image so rotation is correct
         robotImage.setOrigin(robotImage.getWidth()/2, robotImage.getHeight()/2);

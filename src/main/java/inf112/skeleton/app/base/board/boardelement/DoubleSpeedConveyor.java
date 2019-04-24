@@ -5,6 +5,7 @@ import inf112.skeleton.app.base.board.Board;
 import inf112.skeleton.app.base.board.IBoard;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
+import inf112.skeleton.app.roborally.screens.graphics.MovementAction;
 
 public class DoubleSpeedConveyor extends BoardElement implements IActiveElement{
     private Direction dir;
@@ -20,7 +21,7 @@ public class DoubleSpeedConveyor extends BoardElement implements IActiveElement{
         if (board.containsRobot(pos)&& board.getRobot(pos).hasNotMoved()) {
             IRobot robot = board.getRobot(pos);
             robot.setMoved(true);
-            robot.move(this.dir);
+            robot.move(this.dir, MovementAction.FAST);
             return robot;
         }
         return null;
