@@ -13,6 +13,7 @@ public enum MovementAction {
     private final float STANDARD_MOVE_DURATION = 2f;
 
     public void addActionToSequence(SequenceAction seq, IRobot robot, RoboRallyGame game) {
+        System.out.println("this er "+this);
         switch (this){
             case NORMAL:
                 int oldRot = robot.getOldRotation();
@@ -40,11 +41,12 @@ public enum MovementAction {
                 else{
                     seq.addAction (Actions.moveTo(coordToPixel(robot.getPos().x(), game.getGraphics().getTileWidth()), coordToPixel(robot.getPos().y(), game.getGraphics().getTileWidth()), 2f));
                 }
+                return;
             case TELEPORT:
                 seq.addAction(Actions.fadeOut(1f));
                 seq.addAction (Actions.moveTo(coordToPixel(robot.getPos().x(), game.getGraphics().getTileWidth()), coordToPixel(robot.getPos().y(), game.getGraphics().getTileWidth()), 2f));
                 seq.addAction(Actions.fadeIn(1f));
-
+            return;
         }
         throw new IllegalArgumentException("no movetype");
         }

@@ -113,7 +113,7 @@ public class Robot implements IRobot {
         board.get(pos).removeContent(this);
         board.get(newPos).addObject(this);
         pos = newPos;
-        System.out.println(owner +" moved to new pos "+pos+" facing "+dir);
+        System.out.println(owner +" moved to new pos "+pos+" facing "+dir+ " with movetype"+ movetype);
         board.move(this, movetype);
     }
 
