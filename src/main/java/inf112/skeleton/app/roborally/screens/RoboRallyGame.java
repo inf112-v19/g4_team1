@@ -199,6 +199,8 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 if (currentPlayer.getCards().size() != 0) {
                     finishedExecute = false;
                     moveRobot(currentPlayer);
+                    //after robot has moved, reset the moved boolean.
+                    currentPlayer.getRobot().setMoved(false);
                 }
             }
             //activate board elements, then lasers

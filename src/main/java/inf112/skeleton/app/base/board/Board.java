@@ -115,7 +115,7 @@ public class Board implements IBoard {
 
         for (int x = 0; x < mapWidth;   x++) {
             for (int y = 0; y < mapHeight; y++) {
-                int id = ((TiledMapTileLayer) board.getLayers().get(0)).getCell(x, y).getTile().getId();
+                int id = ((TiledMapTileLayer) board.getLayers().get(1)).getCell(x, y).getTile().getId();
                 if(getBoardElemFromTmx(id, new Pos(x, y))!= null)
                     addTileObject(getBoardElemFromTmx(id, new Pos(x, y)));
             }
@@ -325,7 +325,9 @@ public class Board implements IBoard {
 
     @Override
     public void move(Robot robot, MovementAction moveAction) {
-        game.getGraphics().addActionToRobot(robot, moveAction);
+        //if for testing
+        if(game != null)
+            game.getGraphics().addActionToRobot(robot, moveAction);
     }
 
 }

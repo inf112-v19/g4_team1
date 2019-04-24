@@ -38,6 +38,7 @@ public class Robot implements IRobot {
 
     public void setMoved(boolean moved){
          movedthisround = moved;
+        System.out.println("set movedthis round to "+moved);
     }
 
     public Pos getPos() {
