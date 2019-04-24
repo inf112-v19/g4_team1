@@ -23,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import inf112.skeleton.app.base.actors.IRobot;
@@ -75,6 +76,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private Group background;
     private Group foreground;
     private ArrayList<Image> cardAreaSlots = new ArrayList<>();
+    private HashMap<Player, ArrayList<Image>> lives = new HashMap<>();
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -268,14 +270,19 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             }
 
             Player player = players.get(i);
+            player.getRobot().getLives();
+            ArrayList<Image> listLife = new ArrayList<>();
+
             for (int j = 0; j < player.getRobot().getLives(); j++) {
-                System.out.println();
                 Texture lifeTexture = new Texture("assets/roborally/one_life.png");
                 Image life = new Image(lifeTexture);
+                listLife.add(life);
+
                 life.setSize(life.getWidth()/1.5f, life.getHeight()/1.5f);
                 life.setPosition(98 * 17 / 1.5f + columnPixel + j*life.getWidth(), rowPixel + 10);
                 background.addActor(life);
             }
+            lives.put(player, listLife);
 
             String name = player.getName();
             Label nameLabel = new Label(name, labelStyle);
@@ -304,6 +311,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         stage.draw();
 
         robotGraphics.getSeqAction().act(v);
+
     }
 
     @Override
@@ -413,6 +421,16 @@ public CardPhaseButtons getCardButtons(){
 
     public Group getBackground() {
         return background;
+    }
+
+    public void removeLife(Player player) {
+        if(player.getRobot().getLives() < 0) {
+            throw new IllegalStateException("No life image to remove");
+        }
+           Image life = lives.get(player).get(player.getRobot().getLives());
+           background.getChildren().removeValue(life, false);
+           lives.get(player).remove(player.getRobot().getLives());
+
     }
 
 

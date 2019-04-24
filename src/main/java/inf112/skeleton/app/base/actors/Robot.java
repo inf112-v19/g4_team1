@@ -152,6 +152,7 @@ public class Robot implements IRobot {
         board.get(respawnPos).addObject(this);
         pos = respawnPos;
         health = MAX_HEALTH;
+        board.getGame().removeLife(owner);
     }
 
 
@@ -193,6 +194,12 @@ public class Robot implements IRobot {
     @Override
     public int getLives() {
         return lives;
+    }
+
+    @Override
+    public void loseLife() {
+        this.lives--;
+
     }
 
     @Override

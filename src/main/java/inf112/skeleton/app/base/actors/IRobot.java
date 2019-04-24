@@ -93,6 +93,8 @@ public interface IRobot extends IBoardElement {
 
     int getLives();
 
+    void loseLife();
+
     /**
      * robot gains 1 health
      */
