@@ -203,6 +203,16 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     currentPlayer.getRobot().setMoved(false);
                 }
             }
+            //activates double speed first
+            for(IActiveElement elem : ActiveElements){
+                if(elem instanceof DoubleSpeedConveyor){
+                    IRobot robot = elem.activate();
+                }
+            }
+            //resets all robots move boolean
+            for(Player player : players){
+                player.getRobot().setMoved(false);
+            }
             //activate board elements, then lasers
             for(IActiveElement elem : ActiveElements){
                 if(!(elem instanceof Laser)){
