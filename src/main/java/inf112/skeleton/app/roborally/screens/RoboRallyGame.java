@@ -55,7 +55,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private int numPlayers;
     private SpriteBatch sb;
     private RoboRally roboRally;
-    private TiledMap board = new TmxMapLoader().load("assets/roborally/game_boardNew.tmx");
+    private TiledMap board = new TmxMapLoader().load("assets/roborally/game_board.tmx");
     private OrthographicCamera camera;
     private TiledMapRenderer boardRenderer;
     private Board gameBoard;
