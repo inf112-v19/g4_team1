@@ -3,6 +3,7 @@ package inf112.skeleton.app.base.actors;
 import inf112.skeleton.app.base.board.IBoardElement;
 import inf112.skeleton.app.base.board.boardelement.Flag;
 import inf112.skeleton.app.base.utils.Direction;
+import inf112.skeleton.app.roborally.screens.graphics.MovementAction;
 
 import java.util.ArrayList;
 
@@ -36,11 +37,22 @@ public interface IRobot extends IBoardElement {
      * @param direction direction to move robot
      *
      *
+     * @param movementAction specify the animation to use. default is NORMAL
+     * @return whether the robot completed the movement,
+     *         false if it hit a wall (or a robot that would not be pushed)
+     */
+    boolean move(Direction direction, MovementAction movementAction);
+
+    /**
+     * moves the robot one tile in a given direction,
+     * regardless of where it is facing. e.g. when a robot is pushed
+     * all move functions calls this function
+     * @param direction direction to move robot
+     *
      * @return whether the robot completed the movement,
      *         false if it hit a wall (or a robot that would not be pushed)
      */
     boolean move(Direction direction);
-
     /**
      * make the robot turn 90 degrees left
      */

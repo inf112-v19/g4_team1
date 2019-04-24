@@ -4,6 +4,7 @@ import inf112.skeleton.app.base.actors.IRobot;
 import inf112.skeleton.app.base.board.IBoard;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
+import inf112.skeleton.app.roborally.screens.graphics.MovementAction;
 
 public class DoubleSpeedTurnConveyor extends DoubleSpeedConveyor implements IActiveElement{
     private Direction dir;
@@ -23,7 +24,7 @@ public class DoubleSpeedTurnConveyor extends DoubleSpeedConveyor implements IAct
     public IRobot activate() {
         if (board.containsRobot(pos)&& board.getRobot(pos).hasNotMoved()) {
             IRobot robot = board.getRobot(pos);
-            robot.move(dir);
+            robot.move(dir, MovementAction.FAST);
             robot.setMoved(true);
             if(turndir == Direction.EAST) {
                 robot.turnRight();

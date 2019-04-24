@@ -3,12 +3,10 @@ package inf112.skeleton.app.boardelementtests;
 import inf112.skeleton.app.base.actors.Player;
 import inf112.skeleton.app.base.actors.Robot;
 import inf112.skeleton.app.base.board.Board;
-import inf112.skeleton.app.base.board.IBoardElement;
-import inf112.skeleton.app.base.board.boardelement.BoardElement;
-import inf112.skeleton.app.base.board.boardelement.DoubleSpeedConveyor;
 import inf112.skeleton.app.base.board.boardelement.Flag;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
+import inf112.skeleton.app.roborally.screens.graphics.MovementAction;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -40,9 +38,9 @@ public class WinTest {
 
         assertEquals(board.getFlags().size(), 3);
 
-        robot.move(Direction.EAST);
-        robot.move(Direction.EAST);
-        robot.move(Direction.EAST);
+        robot.move(Direction.EAST, MovementAction.FAST);
+        robot.move(Direction.EAST, MovementAction.FAST);
+        robot.move(Direction.EAST, MovementAction.FAST);
 
 
         assertEquals(3, robot.getFlags().size());

@@ -17,11 +17,12 @@ public enum MovementAction {
     FAST;
 
 
-    private final float STANDARD_MOVE_DURATION = 1f;
+    private final float STANDARD_MOVE_DURATION = 1.5f;
+    private final float SHORT_MOVE_DURATION = 1f;
 
     public void addActionToSequence(SequenceAction seq, IRobot robot, RoboRallyGame game) {
         //creates to basic movements as a base for all animations
-        MoveToAction moveToAction = moveTo(coordToPixel(robot.getPos().x(), game.getGraphics().getTileWidth()), coordToPixel(robot.getPos().y(), game.getGraphics().getTileWidth()), 2f),
+        MoveToAction moveToAction = moveTo(coordToPixel(robot.getPos().x(), game.getGraphics().getTileWidth()), coordToPixel(robot.getPos().y(), game.getGraphics().getTileWidth()), STANDARD_MOVE_DURATION);
         RotateByAction rotateToAction = getRotateAction(robot);
         switch (this){
             case NORMAL:
@@ -29,19 +30,18 @@ public enum MovementAction {
                 return;
             case TELEPORT:
                 seq.addAction(parallel(
-                        rotateBy(360f, 2f, Interpolation.exp5),
-                        fadeOut( 2f)
+                        rotateBy(360f, SHORT_MOVE_DURATION, Interpolation.exp5),
+                        fadeOut( SHORT_MOVE_DURATION)
                 ));
                 moveToAction.setDuration(0f);
                 seq.addAction (moveToAction);
-                seq.addAction(fadeIn(1f));
+                seq.addAction(fadeIn(SHORT_MOVE_DURATION));
             return;
             case FAST:
-                MoveToAction movement = moveTo(coordToPixel(robot.getPos().x(), game.getGraphics().getTileWidth()), coordToPixel(robot.getPos().y(), game.getGraphics().getTileWidth()), 1f);
-                movement.setInterpolation(Interpolation.bounce);
-                RotateByAction rotation = getRotateAction(robot);
-                rotation.setDuration(1f);
-                seq.addAction(sequence(movement,rotation));
+                moveToAction.setInterpolation(Interpolation.bounce);
+                moveToAction.setDuration(SHORT_MOVE_DURATION);
+                rotateToAction.setDuration(SHORT_MOVE_DURATION);
+                seq.addAction(sequence(moveToAction, rotateToAction));
                 return;
         }
         throw new IllegalArgumentException("no movetype");
@@ -50,8 +50,8 @@ public enum MovementAction {
     public float getActionTime() {
         switch (this){
             case NORMAL: return STANDARD_MOVE_DURATION;
-            case TELEPORT: return 3f;
-            case FAST: return 1f;
+            case TELEPORT: return SHORT_MOVE_DURATION*2;
+            case FAST: return SHORT_MOVE_DURATION;
         }
         throw new IllegalStateException("no movetype");
     }

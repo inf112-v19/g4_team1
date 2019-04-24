@@ -13,16 +13,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 //import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.RemoveActorAction;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import inf112.skeleton.app.base.actors.IRobot;
@@ -42,9 +36,6 @@ import inf112.skeleton.app.roborally.screens.graphics.RobotGraphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.SortedMap;
 
 import static inf112.skeleton.app.base.utils.Direction.EAST;
 
@@ -350,13 +341,13 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     public boolean keyDown(int key) {
         // reads input from user and moves the first robot on the screen for testing
         if (key == Input.Keys.LEFT)
-            players.get(0).getRobot().move(Direction.WEST);
+            players.get(0).getRobot().move(Direction.WEST, MovementAction.FAST);
         if (key == Input.Keys.RIGHT)
-            players.get(0).getRobot().move(EAST);
+            players.get(0).getRobot().move(EAST, MovementAction.FAST);
         if (key == Input.Keys.UP)
-            players.get(0).getRobot().move(Direction.NORTH);
+            players.get(0).getRobot().move(Direction.NORTH, MovementAction.FAST);
         if (key == Input.Keys.DOWN)
-            players.get(0).getRobot().move(Direction.SOUTH);
+            players.get(0).getRobot().move(Direction.SOUTH, MovementAction.FAST);
         return false;
     }
 

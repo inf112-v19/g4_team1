@@ -50,8 +50,11 @@ public class Robot implements IRobot {
         return dir;
     }
 
+    public boolean move(Direction moveDirection){
+        return move(moveDirection, MovementAction.NORMAL);
+    }
     @Override
-    public boolean move(Direction moveDirection) {
+    public boolean move(Direction moveDirection, MovementAction movementAction) {
         if (moveDirection == null)
             throw new IllegalArgumentException("No direction to move in.");
 
@@ -76,12 +79,12 @@ public class Robot implements IRobot {
                 //System.out.println("fant robot"); // for testing purposes
                 // robot has to push the other robot
                 IRobot otherRobot = board.getRobot(newPos);
-                boolean completedMove = otherRobot.move(moveDirection);
+                boolean completedMove = otherRobot.move(moveDirection, MovementAction.FAST);
                 //temp
                 if (completedMove) {
                     // path is clear now we try again
                     //for testing
-                    return move(moveDirection);
+                    return move(moveDirection, MovementAction.FAST);
                     //return false;
                 } else {
                     // the robot on the tile couldn't move, so this robot cant move either
@@ -202,12 +205,12 @@ public class Robot implements IRobot {
 
     @Override
     public void moveBackwards() {
-        move(dir.opposite());
+        move(dir.opposite(), MovementAction.FAST);
 
     }
 
     private void moveForward() {
-        move(dir);
+        move(dir, MovementAction.FAST);
     }
 
     @Override
