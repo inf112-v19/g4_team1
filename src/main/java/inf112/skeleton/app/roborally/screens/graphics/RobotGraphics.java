@@ -54,7 +54,8 @@ public class RobotGraphics {
         if (robot != null) {
             System.out.println("adding action to " + robot.getOwner());
             sequenceAction.setActor(robotSprites.get(robot));
-            sequenceAction.addAction(movementAction.getAction(robot, game));
+            //sequenceAction.addAction(movementAction.getAction(robot, game));
+            movementAction.addActionToSequence(sequenceAction, robot, game);
             robot.setOldRotation(robot.getDir().getRotationDegrees());
             //fix for syncing the fading of cards
             game.getCardButtons().addDelay(movementAction.getActionTime());

@@ -2,6 +2,7 @@ package inf112.skeleton.app.roborally.screens.graphics;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import inf112.skeleton.app.base.actors.IRobot;
 import inf112.skeleton.app.roborally.screens.RoboRallyGame;
 
@@ -11,7 +12,7 @@ public enum MovementAction {
 
     private final float STANDARD_MOVE_DURATION = 2f;
 
-    public Action getAction(IRobot robot, RoboRallyGame game) {
+    public void addActionToSequence(SequenceAction seq, IRobot robot, RoboRallyGame game) {
         switch (this){
             case NORMAL:
                 int oldRot = robot.getOldRotation();
@@ -22,24 +23,27 @@ public enum MovementAction {
 
                     if (newRot - oldRot > 180) { //perform negative rotation
                         int rotation = 360 - (newRot-oldRot);
-                        return (Actions.rotateBy(-rotation, STANDARD_MOVE_DURATION));
+                        seq.addAction (Actions.rotateBy(-rotation, STANDARD_MOVE_DURATION));
                     }
 
                     else if (newRot - oldRot < -180) { //positive rotation
                         int rotation = 360 + (newRot-oldRot);
-                        return (Actions.rotateBy(rotation, STANDARD_MOVE_DURATION));
+                        seq.addAction (Actions.rotateBy(rotation, STANDARD_MOVE_DURATION));
                     }
 
                     else {
-                        return (Actions.rotateBy(newRot-oldRot, STANDARD_MOVE_DURATION));
+                        seq.addAction (Actions.rotateBy(newRot-oldRot, STANDARD_MOVE_DURATION));
                     }
                 }
 
                 //needs to move
                 else{
-                    return (Actions.moveTo(coordToPixel(robot.getPos().x(), game.getGraphics().getTileWidth()), coordToPixel(robot.getPos().y(), game.getGraphics().getTileWidth()), 2f));
+                    seq.addAction (Actions.moveTo(coordToPixel(robot.getPos().x(), game.getGraphics().getTileWidth()), coordToPixel(robot.getPos().y(), game.getGraphics().getTileWidth()), 2f));
                 }
             case TELEPORT:
+                seq.addAction(Actions.fadeOut(1f));
+                seq.addAction (Actions.moveTo(coordToPixel(robot.getPos().x(), game.getGraphics().getTileWidth()), coordToPixel(robot.getPos().y(), game.getGraphics().getTileWidth()), 2f));
+                seq.addAction(Actions.fadeIn(1f));
 
         }
         throw new IllegalArgumentException("no movetype");
@@ -60,7 +64,7 @@ public enum MovementAction {
     public float getActionTime() {
         switch (this){
             case NORMAL: return STANDARD_MOVE_DURATION;
-            case TELEPORT: return STANDARD_MOVE_DURATION;
+            case TELEPORT: return 2f;
         }
         throw new IllegalStateException("no movetype");
     }

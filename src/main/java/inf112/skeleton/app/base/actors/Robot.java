@@ -144,15 +144,14 @@ public class Robot implements IRobot {
     private void respawn() {
         System.out.println("respawn");
         lives--;
-        if (lives >= 0) {
+        if (lives == 0) {
+            //lose
 
-            board.get(pos).removeContent(this);
-
+        }else{
+            move(respawnPos, MovementAction.TELEPORT);
+            health = MAX_HEALTH;
         }
-        board.get(pos).removeContent(this);
-        board.get(respawnPos).addObject(this);
-        pos = respawnPos;
-        health = MAX_HEALTH;
+
     }
 
 
