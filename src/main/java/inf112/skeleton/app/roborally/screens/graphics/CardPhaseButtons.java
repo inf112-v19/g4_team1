@@ -63,7 +63,7 @@ public class CardPhaseButtons {
             Button button = new Button(drawable);
 
             button.setSize((int)(button.getWidth()/1.5), (int)(button.getHeight()/1.5));
-            button.setPosition((int)(98*13/1.5) + 87 * i, 10);
+            button.setPosition((int)(98*15/1.5) + 87 * i, 10);
             currentButtonsAndCards.put(card, button);
             allButtonsAndCards.put(card,button);
             game.getForeground().addActor(button);
@@ -93,7 +93,7 @@ public class CardPhaseButtons {
         }
         //Make reset button
         TextButton reset = new TextButton("Reset Cards", skin);
-        reset.setPosition(stage.getWidth()-200, 75);
+        reset.setPosition(98 * 15 / 1.5f + 210, 130);
         reset.setSize(200, 75);
         stage.addActor(reset);
         reset.addListener(new ChangeListener() {
@@ -109,7 +109,7 @@ public class CardPhaseButtons {
 //                        stage.getActors().removeValue(currentButtonsAndCards.get(
 //                                selectedCards.remove(0)), false);
                         //TODO: Resetting is bugged. First time you reset will shuffle the cards at the bottom.
-                        game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(btn,false)).setPosition((int)(98*13/1.5) + 87 * j, 10);
+                        game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(btn,false)).setPosition((int)(98*15/1.5) + 87 * j, 10);
                         j++;
 
                     }
@@ -120,7 +120,7 @@ public class CardPhaseButtons {
         });
         //Make finish button
         TextButton finish = new TextButton("Set Cards", skin);
-        finish.setPosition(stage.getWidth()-200, 0);
+        finish.setPosition(98 * 15 / 1.5f, 130);
         finish.setSize(200, 75);
         stage.addActor(finish);
 
