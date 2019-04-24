@@ -191,6 +191,11 @@ public class Robot implements IRobot {
     }
 
     @Override
+    public int getLives() {
+        return lives;
+    }
+
+    @Override
     public void gainHealth() {
         this.health++;
     }

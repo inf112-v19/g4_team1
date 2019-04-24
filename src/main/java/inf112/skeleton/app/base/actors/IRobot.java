@@ -91,6 +91,8 @@ public interface IRobot extends IBoardElement {
      */
     void setRespawn();
 
+    int getLives();
+
     /**
      * robot gains 1 health
      */

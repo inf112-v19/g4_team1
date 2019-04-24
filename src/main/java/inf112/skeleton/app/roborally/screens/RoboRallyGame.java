@@ -267,10 +267,21 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 count = 0;
             }
 
-            String name = players.get(i).getName();
+            Player player = players.get(i);
+            for (int j = 0; j < player.getRobot().getLives(); j++) {
+                System.out.println();
+                Texture lifeTexture = new Texture("assets/roborally/one_life.png");
+                Image life = new Image(lifeTexture);
+                life.setSize(life.getWidth()/1.5f, life.getHeight()/1.5f);
+                life.setPosition(98 * 17 / 1.5f + columnPixel + j*life.getWidth(), rowPixel + 10);
+                background.addActor(life);
+            }
+
+            String name = player.getName();
             Label nameLabel = new Label(name, labelStyle);
             nameLabel.setPosition(98 * 15 / 1.5f + columnPixel, rowPixel + 10);
             cardBox.setPosition(98 * 15 / 1.5f + columnPixel, rowPixel - cardBox.getHeight());
+
             background.addActor(cardBox);
             background.addActor(nameLabel);
             cardAreaSlots.add(cardBox);
