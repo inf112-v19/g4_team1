@@ -249,11 +249,10 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     }
     @Override
     public void show() {
-        int test = 8;
         int count = 0;
         int rowPixel = Gdx.graphics.getHeight() - 50;
         int columnPixel = 0;
-        for (int i = 0; i < test; i++) {
+        for (int i = 0; i < numPlayers; i++) {
             cardArea = new Texture("assets/roborally/card_area.png");
             Image cardBox = new Image(cardArea);
             cardBox.setSize(cardBox.getWidth() / 1.5f, cardBox.getHeight() / 1.5f);
@@ -268,8 +267,8 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 count = 0;
             }
 
-           // String name = players.get(i).getName();
-            Label nameLabel = new Label("test", labelStyle);
+            String name = players.get(i).getName();
+            Label nameLabel = new Label(name, labelStyle);
             nameLabel.setPosition(98 * 15 / 1.5f + columnPixel, rowPixel + 10);
             cardBox.setPosition(98 * 15 / 1.5f + columnPixel, rowPixel - cardBox.getHeight());
             background.addActor(cardBox);
