@@ -51,7 +51,7 @@ public enum MovementAction {
      * @return Pixel-coordinate
      */
     private int coordToPixel(int x, int tileWidth) {
-        if(x > 12) {
+        if(x > 15) {
             throw new IllegalArgumentException("coordinate is outside of grid");
         }
         return (int) (x*tileWidth / 1.5f);
