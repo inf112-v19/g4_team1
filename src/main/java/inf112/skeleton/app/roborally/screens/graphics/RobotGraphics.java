@@ -33,7 +33,7 @@ public class RobotGraphics {
 
         //Create list of Robot textures
         Texture texture = new Texture("assets/roborally/robot.png");
-        Texture texture2 = new Texture("assets/roborally/robot2.png");
+        Texture texture2 = new Texture("assets/roborally/robot1.png");
         Texture texture3 = new Texture("assets/roborally/robot2.png");
         textures.add(texture);
         textures.add(texture2);
