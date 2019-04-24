@@ -148,7 +148,13 @@ public interface IBoard {
     /**
      * moves a robot
      * @param robot
-     * @param normal animation to use
+     * @param movementAction animation to use
      */
-    void move(Robot robot, MovementAction normal);
+    void move(Robot robot, MovementAction movementAction);
+    /**
+     * moves a robot with default animation
+     * @param robot
+
+     */
+    void move(Robot robot);
 }

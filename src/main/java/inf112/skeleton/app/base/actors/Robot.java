@@ -79,12 +79,12 @@ public class Robot implements IRobot {
                 //System.out.println("fant robot"); // for testing purposes
                 // robot has to push the other robot
                 IRobot otherRobot = board.getRobot(newPos);
-                boolean completedMove = otherRobot.move(moveDirection, MovementAction.FAST);
+                boolean completedMove = otherRobot.move(moveDirection);
                 //temp
                 if (completedMove) {
                     // path is clear now we try again
                     //for testing
-                    return move(moveDirection, MovementAction.FAST);
+                    return move(moveDirection);
                     //return false;
                 } else {
                     // the robot on the tile couldn't move, so this robot cant move either
@@ -107,7 +107,7 @@ public class Robot implements IRobot {
             }
 
             // robot is free to move to new position
-            move(newPos, MovementAction.NORMAL);
+            move(newPos, movementAction);
             return true;
         }
     }
@@ -167,21 +167,21 @@ public class Robot implements IRobot {
     @Override
     public void turnLeft() {
         dir = dir.left();
-        board.move(this, MovementAction.NORMAL);
+        board.move(this);
 
     }
 
     @Override
     public void turnRight() {
         dir = dir.right();
-        board.move(this, MovementAction.NORMAL);
+        board.move(this);
 
     }
 
     @Override
     public void turnHalf() {
         dir = dir.opposite();
-        board.move(this, MovementAction.NORMAL);
+        board.move(this);
 
     }
 
@@ -205,12 +205,12 @@ public class Robot implements IRobot {
 
     @Override
     public void moveBackwards() {
-        move(dir.opposite(), MovementAction.FAST);
+        move(dir.opposite() );
 
     }
 
     private void moveForward() {
-        move(dir, MovementAction.FAST);
+        move(dir);
     }
 
     @Override
