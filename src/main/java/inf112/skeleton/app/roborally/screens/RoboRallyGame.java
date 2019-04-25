@@ -68,39 +68,21 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private ArrayList<Flag> flags  ;
     private ArrayList<WrenchTile> wrenches;
     private ArrayList<String> names;
-    private float delay = 0f;
     private RobotGraphics robotGraphics = new RobotGraphics(this);
     private CardPhaseButtons cardPhaseButtons;
-    private Texture cardArea;
-    private BitmapFont font;
     private Label.LabelStyle labelStyle;
     private Group background;
     private Group foreground;
     private ArrayList<Image> cardAreaSlots = new ArrayList<>();
     private HashMap<Player, ArrayList<Image>> lives = new HashMap<>();
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-    }
-
-    public RobotGraphics getGraphics() {
-        return robotGraphics;
-    }
-
-
-
-    private enum State {
-        PAUSE,
-        RUN
-    }
     public RoboRallyGame(RoboRally roboRally, ArrayList<String> names) {
         this.names = names;
         this.numPlayers = names.size();
         stage = new Stage();
 
         // labelstyle
-        font = new BitmapFont();
+        BitmapFont font = new BitmapFont();
         labelStyle = new Label.LabelStyle();
         labelStyle.font = font;
         labelStyle.fontColor = Color.RED;
@@ -116,7 +98,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         sb= new SpriteBatch();
         // get the game itself from the previous screen
         this.roboRally = roboRally;
-        // set the camera
         camera = new OrthographicCamera();
         //FitViewport viewPort = new FitViewport(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, camera);
         ScalingViewport viewPort = new ScalingViewport(Scaling.stretch, Constants.WORLD_PIXEL_WIDTH, Constants.WORLD_PIXEL_HEIGHT);
@@ -140,12 +121,11 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
         // initialize the input processor for testing purposes
         Gdx.input.setInputProcessor(stage);
-
-        System.out.println("Start game");
         startGame();
     }
 
     // set up the players before starting game
+
     private void startGame() {
         for (int i = 0; i < numPlayers; i++) {
             Player player = new Player(names.get(i));
@@ -158,7 +138,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         }
         doTurn();
     }
-
     /**
      * start a turn after all cards have been selected
      */
@@ -184,11 +163,9 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private void continueTurn() {
         for (Player p : players){
             System.out.println(p +" has cards "+p.getCards());
-
         }
         //player have finished choosing cards
         boolean finishedExecute = false;
-        //sequenceAction = new SequenceAction();
         while (!finishedExecute) {
             //players should be sorted by their first cards priority number
 //            players.sort(new Comparator<Player>() {
@@ -210,7 +187,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             //activates double speed first
             for(IActiveElement elem : ActiveElements){
                 if(elem instanceof DoubleSpeedConveyor){
-                    IRobot robot = elem.activate();
+                    elem.activate();
                 }
             }
             //resets all robots move boolean
@@ -248,14 +225,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 win(player);
             }
         }
-/*
-           try {
-               // thread to sleep for 1000 milliseconds
-               Thread.sleep(robotGraphics.getTotalDelay()*1000);
-           } catch (Exception e) {
-               System.out.println(e);
-           }
-*/
 
         //starts next round
         Timer timer = new Timer();
@@ -278,15 +247,15 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
            roboRally.setScreen(new winScreen(roboRally,player.getName()));
 
         }
-
     }
+
     @Override
     public void show() {
         int count = 0;
         int rowPixel = Gdx.graphics.getHeight() - 50;
         int columnPixel = 0;
         for (int i = 0; i < numPlayers; i++) {
-            cardArea = new Texture("assets/roborally/card_area.png");
+            Texture cardArea = new Texture("assets/roborally/card_area.png");
             Image cardBox = new Image(cardArea);
             cardBox.setSize(cardBox.getWidth() / 1.5f, cardBox.getHeight() / 1.5f);
 
@@ -328,7 +297,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
         }
     }
-
     @Override
     public void render(float v) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -369,20 +337,10 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     @Override
     public void dispose() {
         board.dispose();
-        //sb.dispose();
     }
 
     @Override
-    public boolean keyDown(int key) {
-        // reads input from user and moves the first robot on the screen for testing
-        if (key == Input.Keys.LEFT)
-            players.get(0).getRobot().move(Direction.WEST, MovementAction.FAST);
-        if (key == Input.Keys.RIGHT)
-            players.get(0).getRobot().move(EAST, MovementAction.FAST);
-        if (key == Input.Keys.UP)
-            players.get(0).getRobot().move(Direction.NORTH, MovementAction.FAST);
-        if (key == Input.Keys.DOWN)
-            players.get(0).getRobot().move(Direction.SOUTH, MovementAction.FAST);
+    public boolean keyDown(int i) {
         return false;
     }
 
@@ -428,10 +386,19 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         card.execute(player.getRobot());
         cardDecks.addUsed(card);
     }
-public CardPhaseButtons getCardButtons(){
+
+    public CardPhaseButtons getCardButtons(){
         return cardPhaseButtons;
 }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+    }
+
+    public RobotGraphics getGraphics() {
+        return robotGraphics;
+    }
 
     public TiledMap getTiledMap(){
         return board;
@@ -448,11 +415,6 @@ public CardPhaseButtons getCardButtons(){
     public Group getForeground() {
         return foreground;
     }
-
-    public Group getBackground() {
-        return background;
-    }
-
 
     public Actor getLifeSprite(Player player) {
         if(player.getRobot().getLives() < 0) {

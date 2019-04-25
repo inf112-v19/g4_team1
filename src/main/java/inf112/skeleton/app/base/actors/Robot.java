@@ -41,7 +41,7 @@ public class Robot implements IRobot {
     public void setMoved(boolean moved){
          movedthisround = moved;
          diedThisRound=false;
-        System.out.println("set movedthis round to "+moved);
+        System.out.println("set movedthis round to "+moved + " and diedthirround to true");
     }
 
     public Pos getPos() {
@@ -148,6 +148,7 @@ public class Robot implements IRobot {
             //lose
 
         }else{
+            System.out.println("calls move");
             move(respawnPos, MovementAction.DEATH_ANIMATION);
             health = MAX_HEALTH;
           //  board.getGame().removeLife(owner);
