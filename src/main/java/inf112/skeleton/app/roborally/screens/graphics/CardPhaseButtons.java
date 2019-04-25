@@ -51,7 +51,7 @@ public class CardPhaseButtons {
         currentPlayerCards.clear();
         ArrayList<Card> availableCards = cardDecks.getCards(nCards);
         ArrayList<Card> selectedCards = new ArrayList<>();
-
+        ArrayList<Button> buttonList = new ArrayList<>(); 
 
         //Creating a button for each card
         for (int i = 0; i < availableCards.size(); i++) {
@@ -64,6 +64,7 @@ public class CardPhaseButtons {
             button.setPosition((int)(98*15/1.5) + 87 * i, 10);
             currentButtonsAndCards.put(card, button);
             allButtonsAndCards.put(card,button);
+            buttonList.add(button);
             game.getForeground().addActor(button);
             button.addListener(new ChangeListener() {
                 @Override
@@ -99,12 +100,10 @@ public class CardPhaseButtons {
 
                 if (selectedCards.size() > 0) {
                     currentPlayerCards.removeAll(selectedCards);
-
+                    System.out.println(selectedCards.size());
                     // remove the available cards from the screen
                     int j = 0;
-                    for (Button btn: currentButtonsAndCards.values()) {
-//                        stage.getActors().removeValue(currentButtonsAndCards.get(
-//                                selectedCards.remove(0)), false);
+                    for (Button btn: buttonList) {
                         //TODO: Resetting is bugged. First time you reset will shuffle the cards at the bottom.
                         game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(btn,false)).setPosition((int)(98*15/1.5) + 87 * j, 10);
                         j++;
