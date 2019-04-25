@@ -51,15 +51,11 @@ public class CardPhaseButtons {
         currentPlayerCards.clear();
         ArrayList<Card> availableCards = cardDecks.getCards(nCards);
         ArrayList<Card> selectedCards = new ArrayList<>();
-        ArrayList<Boolean> usedslots = new ArrayList<>();
-        for (int i = 0; i < nCards; i++) {
-            usedslots.add(false);
-        }
+
 
         //Creating a button for each card
         for (int i = 0; i < availableCards.size(); i++) {
             Card card = availableCards.get(i);
-            int number = i;
             Texture testTexture = new Texture("assets/roborally/cards/movement/" + card.imageFileName());
             Drawable drawable = new TextureRegionDrawable(testTexture);
             Button button = new Button(drawable);
@@ -72,8 +68,6 @@ public class CardPhaseButtons {
             button.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent changeEvent, Actor actor) {
-                    //System.out.println("klicked " + card);
-                    if (!usedslots.get(number)) {
                         if (selectedCards.size() < 5) {
                             if (!selectedCards.contains(card)) {
 
@@ -90,7 +84,7 @@ public class CardPhaseButtons {
                             }
                         }
                     }
-                }
+
             });
         }
 
