@@ -22,6 +22,7 @@ public class Robot implements IRobot {
     private ArrayList<Flag> visitedFlags = new ArrayList<>();
     private boolean movedthisround=false;
     private int oldRotation;
+    private boolean diedThisRound;
 
     public Robot(Pos pos, Direction dir, Player owner, IBoard board) {
         this.dir = dir;
@@ -39,6 +40,7 @@ public class Robot implements IRobot {
 
     public void setMoved(boolean moved){
          movedthisround = moved;
+         diedThisRound=false;
         System.out.println("set movedthis round to "+moved);
     }
 
@@ -140,6 +142,7 @@ public class Robot implements IRobot {
 
     private void respawn() {
         System.out.println("respawn");
+        diedThisRound = true;
         lives--;
         if (lives < 0) {
             //lose
@@ -184,7 +187,8 @@ public class Robot implements IRobot {
     public void moveForward(int distance) {
         // calls moveForward n times so it doesn't jump walls or robots
         for (int i = 0; i < distance; i++) {
-            moveForward();
+            if(!diedThisRound)
+                moveForward();
         }
     }
 
