@@ -1,5 +1,6 @@
 package inf112.skeleton.app.roborally.screens.graphics;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -33,6 +34,7 @@ public enum MovementAction {
                 //remove life from screen
                 Actor life = game.getLifeSprite(robot.getOwner());
                 Action removeLife = Actions.fadeOut(0f);
+                removeLife = Actions.color(Color.BROWN);
                 removeLife.setActor(life);
                 seq.addAction(removeLife);
                 seq.addAction(parallel(
