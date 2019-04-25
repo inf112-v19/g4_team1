@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.RotateByAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import inf112.skeleton.app.base.actors.IRobot;
 import inf112.skeleton.app.roborally.screens.RoboRallyGame;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
@@ -15,7 +14,7 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
 public enum MovementAction {
     NORMAL,
-    TELEPORT,
+    DEATH_ANIMATION,
     FAST;
 
 
@@ -30,15 +29,12 @@ public enum MovementAction {
             case NORMAL:
                 seq.addAction(parallel( rotateToAction, moveToAction));
                 return;
-            case TELEPORT:
+            case DEATH_ANIMATION:
                 //remove life from screen
-                //TODO: code for removing life should probably be moved somewhere else
-
                 Actor life = game.getLifeSprite(robot.getOwner());
                 Action removeLife = Actions.fadeOut(0f);
                 removeLife.setActor(life);
                 seq.addAction(removeLife);
-
                 seq.addAction(parallel(
                         rotateBy(360f, SHORT_MOVE_DURATION, Interpolation.exp5),
                         fadeOut( SHORT_MOVE_DURATION)
@@ -47,7 +43,6 @@ public enum MovementAction {
                 moveToAction.setDuration(0f);
                 seq.addAction(moveToAction);
                 seq.addAction(fadeIn(SHORT_MOVE_DURATION));
-
 
             return;
             case FAST:
@@ -64,7 +59,7 @@ public enum MovementAction {
     public float getActionTime() {
         switch (this){
             case NORMAL: return STANDARD_MOVE_DURATION;
-            case TELEPORT: return SHORT_MOVE_DURATION*2;
+            case DEATH_ANIMATION: return SHORT_MOVE_DURATION*2;
             case FAST: return SHORT_MOVE_DURATION;
         }
         throw new IllegalStateException("no movetype");

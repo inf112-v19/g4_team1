@@ -1,7 +1,7 @@
 package inf112.skeleton.app.base.actors;
 
-import inf112.skeleton.app.base.board.Board;
 import inf112.skeleton.app.base.board.IBoard;
+import inf112.skeleton.app.base.board.IBoardElement;
 import inf112.skeleton.app.base.board.boardelement.Flag;
 import inf112.skeleton.app.base.board.boardelement.Laser;
 import inf112.skeleton.app.base.utils.Direction;
@@ -19,7 +19,7 @@ public class Robot implements IRobot {
     private int health;
     private int lives;
     private Pos respawnPos;
-    private ArrayList<Flag> visitedFlags = new ArrayList<Flag>();
+    private ArrayList<Flag> visitedFlags = new ArrayList<>();
     private boolean movedthisround=false;
     private int oldRotation;
 
@@ -60,13 +60,6 @@ public class Robot implements IRobot {
             throw new IllegalArgumentException("No direction to move in.");
 
         Pos newPos = pos.getAdjacent(moveDirection);
-        //System.out.println("newPos " + newPos); // for testing purposes
-        //TODO: Uncomment and fix crash for code below.
-/*
-        if(board.get(newPos).getContent().get(0) instanceof Flag){
-            visitedFlags.add((Flag)board.get(newPos).getContent().get(0));
-        }*/
-
 
         // robot is moving outside board/to pit
         if (board.outOfBounds(newPos) || (board.containsPit(newPos))) {
@@ -152,7 +145,7 @@ public class Robot implements IRobot {
             //lose
 
         }else{
-            move(respawnPos, MovementAction.TELEPORT);
+            move(respawnPos, MovementAction.DEATH_ANIMATION);
             health = MAX_HEALTH;
           //  board.getGame().removeLife(owner);
         }
