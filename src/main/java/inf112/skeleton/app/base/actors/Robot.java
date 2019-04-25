@@ -149,6 +149,7 @@ public class Robot implements IRobot {
 
         }else{
             System.out.println("calls move");
+            respawnPos = board.getSpawn();
             move(respawnPos, MovementAction.DEATH_ANIMATION);
             health = MAX_HEALTH;
           //  board.getGame().removeLife(owner);

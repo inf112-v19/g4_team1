@@ -85,7 +85,7 @@ public class PreferencesScreen implements Screen {
         AI.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if (names.size() == 3) {
+                if (names.size() == 8) {
                     //todo: should display msg on screen
                     System.out.println("Cant add more players");
                     return;
@@ -103,7 +103,7 @@ public class PreferencesScreen implements Screen {
         add.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if (names.size() == 3) {
+                if (names.size() == 8) {
                     //todo: should display msg on screen
                     System.out.println("Cant add more players");
                     return;
@@ -140,7 +140,7 @@ public class PreferencesScreen implements Screen {
         start.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if (names.size() < 1 || names.size() > 3) {
+                if (names.size() < 1 || names.size() > 8) {
                     //todo: Should be explained with a message on the screen
                     System.out.println("Number of players not valid");
                     return;
