@@ -148,7 +148,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 robotGraphics.addImage(robot);
             }
         }
-        show();
         doTurn();
     }
     /**
@@ -238,7 +237,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         }
 
         //starts next round
-        
+
         Timer timer = new Timer();
         Timer.Task task = new Timer.Task() {
             @Override
