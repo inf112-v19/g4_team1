@@ -51,7 +51,7 @@ public class CardPhaseButtons {
         currentPlayerCards.clear();
         ArrayList<Card> availableCards = cardDecks.getCards(nCards);
         ArrayList<Card> selectedCards = new ArrayList<>();
-        ArrayList<Button> buttonList = new ArrayList<>(); 
+        ArrayList<Button> buttonList = new ArrayList<>();
 
         //Creating a button for each card
         for (int i = 0; i < availableCards.size(); i++) {
@@ -59,7 +59,6 @@ public class CardPhaseButtons {
             Texture testTexture = new Texture("assets/roborally/cards/movement/" + card.imageFileName());
             Drawable drawable = new TextureRegionDrawable(testTexture);
             Button button = new Button(drawable);
-
             button.setSize((int)(button.getWidth()/1.5), (int)(button.getHeight()/1.5));
             button.setPosition((int)(98*15/1.5) + 87 * i, 10);
             currentButtonsAndCards.put(card, button);
@@ -100,18 +99,15 @@ public class CardPhaseButtons {
 
                 if (selectedCards.size() > 0) {
                     currentPlayerCards.removeAll(selectedCards);
-                    System.out.println(selectedCards.size());
                     // remove the available cards from the screen
                     int j = 0;
                     for (Button btn: buttonList) {
-                        //TODO: Resetting is bugged. First time you reset will shuffle the cards at the bottom.
                         game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(btn,false)).setPosition((int)(98*15/1.5) + 87 * j, 10);
                         j++;
 
                     }
                     availableCards.addAll(selectedCards);
                     selectedCards.clear();
-
 
                 }
             }
@@ -121,9 +117,6 @@ public class CardPhaseButtons {
         finish.setPosition(98 * 15 / 1.5f, 130);
         finish.setSize(200, 75);
         stage.addActor(finish);
-
-
-
         finish.addListener(new ChangeListener() {
 
             @Override
@@ -152,7 +145,6 @@ public class CardPhaseButtons {
                     stage.getActors().removeValue(reset,false);
 
                     currentButtonsAndCards.clear();
-
                     game.doTurn();
 
 
