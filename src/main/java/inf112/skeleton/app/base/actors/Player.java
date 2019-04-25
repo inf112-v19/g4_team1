@@ -5,8 +5,8 @@ import inf112.skeleton.app.base.cards.Card;
 import java.util.ArrayList;
 
 public class Player implements IPlayer {
-    private Robot robot;
-    private String name;
+    protected Robot robot;
+    protected String name;
     private ArrayList<Card> cards = new ArrayList<>();
 
     public Player(String name) {

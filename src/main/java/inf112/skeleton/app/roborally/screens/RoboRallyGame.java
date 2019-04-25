@@ -27,6 +27,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
+import inf112.skeleton.app.base.actors.AI;
 import inf112.skeleton.app.base.actors.IRobot;
 import inf112.skeleton.app.base.actors.Player;
 import inf112.skeleton.app.base.board.boardelement.*;
@@ -148,14 +149,25 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     // set up the players before starting game
     private void startGame() {
         for (int i = 0; i < numPlayers; i++) {
-            Player player = new Player(names.get(i));
-            Robot robot = new Robot(gameBoard.getSpawn(), Direction.NORTH, player, gameBoard);
-            gameBoard.addTileObject(robot);
-            player.addRobot(robot);
-            players.add(player);
-            robotGraphics.addImage(robot);
-            System.out.println("finished adding robots");
+            if(names.get(i).equals("AI")) {
+                AI ai = new AI("AI " +i);
+                Robot robot = new Robot(gameBoard.getSpawn(), Direction.NORTH, ai, gameBoard);
+                gameBoard.addTileObject(robot);
+                ai.addRobot(robot);
+                players.add(ai);
+
+                robotGraphics.addImage(robot);
+            }
+            else {
+                Player player = new Player(names.get(i));
+                Robot robot = new Robot(gameBoard.getSpawn(), Direction.NORTH, player, gameBoard);
+                gameBoard.addTileObject(robot);
+                player.addRobot(robot);
+                players.add(player);
+                robotGraphics.addImage(robot);
+            }
         }
+        show();
         doTurn();
     }
 
@@ -285,6 +297,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         int count = 0;
         int rowPixel = Gdx.graphics.getHeight() - 50;
         int columnPixel = 0;
+        System.out.println(numPlayers + "0000");
         for (int i = 0; i < numPlayers; i++) {
             cardArea = new Texture("assets/roborally/card_area.png");
             Image cardBox = new Image(cardArea);

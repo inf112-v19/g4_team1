@@ -3,6 +3,7 @@ package inf112.skeleton.app.roborally.screens.graphics;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RemoveActorAction;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import inf112.skeleton.app.base.actors.AI;
 import inf112.skeleton.app.base.actors.Player;
 import inf112.skeleton.app.base.cards.Card;
 import inf112.skeleton.app.base.cards.CardDecks;
@@ -91,6 +93,7 @@ public class CardPhaseButtons {
                 }
             });
         }
+
         //Make reset button
         TextButton reset = new TextButton("Reset Cards", skin);
         reset.setPosition(98 * 15 / 1.5f + 210, 130);
@@ -155,27 +158,6 @@ public class CardPhaseButtons {
                     stage.getActors().removeValue(finish, false);
                     stage.getActors().removeValue(reset,false);
 
-//                    if (allCards.size() == 10) {
-//                        float n = 0;
-//                        for(Card card : allCards) {
-//                            System.out.println(card);
-//                            System.out.println(currentButtonsAndCards.keySet());
-//                            stage.getActors().get(stage.getActors().indexOf(
-//                                    currentButtonsAndCards.get(card),false)).addAction(new SequenceAction(
-//                                    Actions.delay(n), Actions.fadeOut(3f), new RemoveActorAction()));
-//
-//                            n += 3f;
-//                            // backup code to remove listeners from buttons
-////                        stage.getActors().get(stage.getActors().indexOf(
-////                                currentButtonsAndCards.get(card),false)).removeListener(currentButtonsAndCards.get(
-////                                card).getListeners().get(0));
-//                        }
-//                        allCards.clear();
-//                        currentButtonsAndCards = new HashMap<>();
-//                    }
-
-                    //continue game when finished selecting cards if there are no more players
-
                     currentButtonsAndCards.clear();
 
                     game.doTurn();
@@ -186,6 +168,20 @@ public class CardPhaseButtons {
                 }
             }
         });
+        if(player instanceof  AI) {
+            InputEvent event1 = new InputEvent();
+            event1.setType(InputEvent.Type.touchDown);
+            InputEvent event2 = new InputEvent();
+            event2.setType(InputEvent.Type.touchUp);
+
+            for(int i = 0; i < 5; i++) {
+                currentButtonsAndCards.get(availableCards.get(i)).fire(event1);
+                currentButtonsAndCards.get(availableCards.get(i)).fire(event2);
+
+            }
+            finish.fire(event1);
+            finish.fire(event2);
+        }
     }
     public void fadeCard(Card card) {
         System.out.println("fading with delay "+delay);
