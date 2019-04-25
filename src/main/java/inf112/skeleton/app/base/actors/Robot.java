@@ -1,7 +1,7 @@
 package inf112.skeleton.app.base.actors;
 
-import inf112.skeleton.app.base.board.Board;
 import inf112.skeleton.app.base.board.IBoard;
+import inf112.skeleton.app.base.board.IBoardElement;
 import inf112.skeleton.app.base.board.boardelement.Flag;
 import inf112.skeleton.app.base.board.boardelement.Laser;
 import inf112.skeleton.app.base.utils.Direction;
@@ -19,9 +19,10 @@ public class Robot implements IRobot {
     private int health;
     private int lives;
     private Pos respawnPos;
-    private ArrayList<Flag> visitedFlags = new ArrayList<Flag>();
+    private ArrayList<Flag> visitedFlags = new ArrayList<>();
     private boolean movedthisround=false;
     private int oldRotation;
+    private boolean diedThisRound;
 
     public Robot(Pos pos, Direction dir, Player owner, IBoard board) {
         this.dir = dir;
@@ -39,7 +40,8 @@ public class Robot implements IRobot {
 
     public void setMoved(boolean moved){
          movedthisround = moved;
-        System.out.println("set movedthis round to "+moved);
+         diedThisRound=false;
+        System.out.println("set movedthis round to "+moved + " and diedthirround to true");
     }
 
     public Pos getPos() {
@@ -60,13 +62,6 @@ public class Robot implements IRobot {
             throw new IllegalArgumentException("No direction to move in.");
 
         Pos newPos = pos.getAdjacent(moveDirection);
-        //System.out.println("newPos " + newPos); // for testing purposes
-        //TODO: Uncomment and fix crash for code below.
-/*
-        if(board.get(newPos).getContent().get(0) instanceof Flag){
-            visitedFlags.add((Flag)board.get(newPos).getContent().get(0));
-        }*/
-
 
         // robot is moving outside board/to pit
         if (board.outOfBounds(newPos) || (board.containsPit(newPos))) {
@@ -147,12 +142,14 @@ public class Robot implements IRobot {
 
     private void respawn() {
         System.out.println("respawn");
+        diedThisRound = true;
         lives--;
         if (lives < 0) {
             //lose
 
         }else{
-            move(respawnPos, MovementAction.TELEPORT);
+            System.out.println("calls move");
+            move(respawnPos, MovementAction.DEATH_ANIMATION);
             health = MAX_HEALTH;
           //  board.getGame().removeLife(owner);
         }
@@ -191,7 +188,8 @@ public class Robot implements IRobot {
     public void moveForward(int distance) {
         // calls moveForward n times so it doesn't jump walls or robots
         for (int i = 0; i < distance; i++) {
-            moveForward();
+            if(!diedThisRound)
+                moveForward();
         }
     }
 
