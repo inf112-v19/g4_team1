@@ -148,6 +148,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 robotGraphics.addImage(robot);
             }
         }
+        show();
         doTurn();
     }
     /**
