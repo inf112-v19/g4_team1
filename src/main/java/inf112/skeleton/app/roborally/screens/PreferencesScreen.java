@@ -55,8 +55,6 @@ public class PreferencesScreen implements Screen {
         stage.addActor(playerTable);
         skin = new Skin(Gdx.files.internal("assets/roborally/skin/comic-ui.json"));
 
-
-
         //todo: button for removing player from playerlist?
         TextButton add = new TextButton("Add Human", skin);
         TextButton start = new TextButton("Start Game", skin);
