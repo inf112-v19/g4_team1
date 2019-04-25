@@ -258,7 +258,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 */
 
         //starts next round
-        //TODO: pressing  "Set cards" or "Reset cards" during the timerwait will cause a crash when a card is clicked after
         Timer timer = new Timer();
         Timer.Task task = new Timer.Task() {
             @Override
