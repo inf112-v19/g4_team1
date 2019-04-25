@@ -33,6 +33,7 @@ public enum MovementAction {
             case TELEPORT:
                 //remove life from screen
                 //TODO: code for removing life should probably be moved somewhere else
+
                 Actor life = game.getLifeSprite(robot.getOwner());
                 Action removeLife = Actions.fadeOut(0f);
                 removeLife.setActor(life);

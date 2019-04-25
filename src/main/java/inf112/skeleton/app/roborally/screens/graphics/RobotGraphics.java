@@ -26,6 +26,7 @@ public class RobotGraphics {
     private int textureCounter = 0;
     private float robotSizex;
     private float robotSizey;
+    private long totalDelay;
 
     public RobotGraphics(RoboRallyGame game){
         sequenceAction = new SequenceAction();
@@ -61,6 +62,7 @@ public class RobotGraphics {
             movementAction.addActionToSequence(sequenceAction, robot, game);
             robot.setOldRotation(robot.getDir().getRotationDegrees());
             //fix for syncing the fading of cards
+            totalDelay += (long) movementAction.getActionTime();
             game.getCardButtons().addDelay(movementAction.getActionTime());
         }
     }
@@ -91,5 +93,12 @@ public class RobotGraphics {
 
     public int getTileWidth() {
         return tileWidth;
+    }
+
+    public void removeSprite(Robot robot) {
+        game.getStage().getActors().removeValue(robotSprites.get(robot), false);
+    }
+    public long getTotalDelay() {
+        return totalDelay;
     }
 }

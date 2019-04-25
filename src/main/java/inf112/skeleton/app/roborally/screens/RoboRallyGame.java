@@ -25,6 +25,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import inf112.skeleton.app.base.actors.IRobot;
 import inf112.skeleton.app.base.actors.Player;
@@ -183,6 +184,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private void continueTurn() {
         for (Player p : players){
             System.out.println(p +" has cards "+p.getCards());
+
         }
         //player have finished choosing cards
         boolean finishedExecute = false;
@@ -246,8 +248,25 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 win(player);
             }
         }
+/*
+           try {
+               // thread to sleep for 1000 milliseconds
+               Thread.sleep(robotGraphics.getTotalDelay()*1000);
+           } catch (Exception e) {
+               System.out.println(e);
+           }
+*/
+
         //starts next round
-        doTurn();
+        Timer timer = new Timer();
+        Timer.Task task = new Timer.Task() {
+            @Override
+            public void run() {
+                doTurn();
+            }
+        };
+        timer.scheduleTask(task, robotGraphics.getTotalDelay());
+
     }
 
 
@@ -321,7 +340,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         sb.end();
         stage.act(v);
         stage.draw();
-
         robotGraphics.getSeqAction().act(v);
 
     }
@@ -441,9 +459,13 @@ public CardPhaseButtons getCardButtons(){
             return null;
         }
         Image life = lives.get(player).get(player.getRobot().getLives());
-        Actor mm = background.getChildren().get(background.getChildren().indexOf(life, false));
-        return mm;
+        Actor actor = background.getChildren().get(background.getChildren().indexOf(life, false));
+        return actor;
     }
 
 
+    public void removePlayer(Player player) {
+        players.remove(player);
+        robotGraphics.removeSprite(player.getRobot());
+    }
 }

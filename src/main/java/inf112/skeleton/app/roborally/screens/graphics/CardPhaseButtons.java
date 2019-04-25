@@ -174,6 +174,7 @@ public class CardPhaseButtons {
                     //continue game when finished selecting cards if there are no more players
 
                     currentButtonsAndCards.clear();
+
                     game.doTurn();
 
 
@@ -201,4 +202,5 @@ public class CardPhaseButtons {
         System.out.println("adds delay "+i);
         delay+=i;
     }
+
 }
