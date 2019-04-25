@@ -74,8 +74,8 @@ public class Robot implements IRobot {
             if (board.containsRobot(newPos)) {
                 //System.out.println("fant robot"); // for testing purposes
                 // robot has to push the other robot
-                return false;
-                /*
+                
+
                 IRobot otherRobot = board.getRobot(newPos);
                 boolean completedMove = otherRobot.move(moveDirection);
                 //temp
@@ -87,7 +87,7 @@ public class Robot implements IRobot {
                 } else {
                     // the robot on the tile couldn't move, so this robot cant move either
                     return false;
-                }*/
+                }
             }
 
             // robot has to check for wall in this and next tile
