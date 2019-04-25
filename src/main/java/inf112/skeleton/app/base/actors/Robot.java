@@ -113,7 +113,7 @@ public class Robot implements IRobot {
         }
     }
 
-    private void move(Pos newPos, MovementAction movetype){
+    private void move(Pos newPos, MovementAction movetype) {
         board.get(pos).removeContent(this);
         board.get(newPos).addObject(this);
         pos = newPos;

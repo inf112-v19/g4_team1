@@ -78,6 +78,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private Group foreground;
     private ArrayList<Image> cardAreaSlots = new ArrayList<>();
     private HashMap<Player, ArrayList<Image>> lives = new HashMap<>();
+    private Label healthLabel;
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -164,13 +165,14 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
      */
     public void doTurn() {
         //check if finished
-        boolean finished=true;
-        for (Player player : players){
+        boolean finished = true;
+        for (Player player : players) {
             if(player.getCards().isEmpty()) finished=false;
         }
-        if(finished) {
+
+        if (finished) {
             continueTurn();
-        }else{
+        } else {
             for (Player player : players) {
                 if(player.getCards().isEmpty()) {
                     System.out.println("choose cards");
@@ -184,7 +186,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private void continueTurn() {
         for (Player p : players){
             System.out.println(p +" has cards "+p.getCards());
-
         }
         //player have finished choosing cards
         boolean finishedExecute = false;
@@ -258,29 +259,30 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 */
 
         //starts next round
-        //TODO: pressing  "Set cards" or "Reset cards" during the timerwait will cause a crash when a card is clicked after
+        //TODO: pressing  "Set cards" or "Reset cards" during the timer wait will cause a crash when a card is clicked after
         Timer timer = new Timer();
         Timer.Task task = new Timer.Task() {
             @Override
             public void run() {
+                for (Player player : players) {
+                    Label label = (Label) background.getChildren().get(background.getChildren().indexOf(healthLabel, false));
+                    label.setText("HP: " + player.getRobot().getHealth());
+                }
                 doTurn();
             }
         };
-        timer.scheduleTask(task, robotGraphics.getTotalDelay());
 
+        timer.scheduleTask(task, robotGraphics.getTotalDelay());
     }
 
-
-
     private void win(Player player) {
-
         ArrayList<Flag> flags = player.getRobot().getFlags();
         if(flags.size() == 3){
            roboRally.setScreen(new winScreen(roboRally,player.getName()));
 
         }
-
     }
+
     @Override
     public void show() {
         int count = 0;
@@ -318,15 +320,18 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
             String name = player.getName();
             Label nameLabel = new Label(name, labelStyle);
-            nameLabel.setPosition(98 * 15 / 1.5f + columnPixel, rowPixel + 10);
+            nameLabel.setPosition(98 * 15 / 1.5f + columnPixel, rowPixel + 15);
             cardBox.setPosition(98 * 15 / 1.5f + columnPixel, rowPixel - cardBox.getHeight());
 
+            healthLabel = new Label("HP: " + player.getRobot().getHealth(), labelStyle);
+            healthLabel.setPosition(98 * 15 / 1.5f + columnPixel, rowPixel);
+
+            background.addActor(healthLabel);
             background.addActor(cardBox);
             background.addActor(nameLabel);
             cardAreaSlots.add(cardBox);
             columnPixel = 0;
             count++;
-
         }
     }
 
