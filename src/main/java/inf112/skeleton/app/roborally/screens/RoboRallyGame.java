@@ -175,9 +175,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     }
 
     private void continueTurn() {
-        for (Player p : players){
-            System.out.println(p +" has cards "+p.getCards());
-        }
         //player have finished choosing cards
         boolean finishedExecute = false;
         while (!finishedExecute) {
@@ -270,7 +267,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         int count = 0;
         int rowPixel = Gdx.graphics.getHeight() - 50;
         int columnPixel = 0;
-        System.out.println(numPlayers + "0000");
         for (int i = 0; i < numPlayers; i++) {
             Texture cardArea = new Texture("assets/roborally/card_area.png");
             Image cardBox = new Image(cardArea);

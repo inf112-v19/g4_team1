@@ -168,6 +168,7 @@ public class CardPhaseButtons {
                 }
             }
         });
+        //choose cards aromatically if AI-Player
         if(player instanceof  AI) {
             InputEvent event1 = new InputEvent();
             event1.setType(InputEvent.Type.touchDown);
