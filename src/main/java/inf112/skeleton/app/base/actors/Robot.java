@@ -149,6 +149,7 @@ public class Robot implements IRobot {
 
         }else{
             System.out.println("calls move");
+            //TODO: should be changed to first always checking its orignial spawn first, if not avaialbe, find closest
             respawnPos = board.getSpawn();
             move(respawnPos, MovementAction.DEATH_ANIMATION);
             health = MAX_HEALTH;
