@@ -132,7 +132,10 @@ public class CardPhaseButtons {
 
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                System.out.println("klicked finish");
+                System.out.println("klicked finish " + selectedCards.size());
+                if(selectedCards.size() == 0) {
+                    return;
+                }
                 if(selectedCards.size() == 5) {
                     currentPlayerCards.addAll(selectedCards);
 
@@ -149,8 +152,8 @@ public class CardPhaseButtons {
                     }
 
                     // remove the finish button from the screen
-                    //stage.getActors().removeValue(finish, false);
-                    //stage.getActors().removeValue(reset,false);
+                    stage.getActors().removeValue(finish, false);
+                    stage.getActors().removeValue(reset,false);
 
 //                    if (allCards.size() == 10) {
 //                        float n = 0;
