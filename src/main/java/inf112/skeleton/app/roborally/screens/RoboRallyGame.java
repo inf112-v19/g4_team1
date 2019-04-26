@@ -247,6 +247,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     Label label = (Label) background.getChildren().get(background.getChildren().indexOf(healthLabel, false));
                     label.setText("HP: " + player.getRobot().getHealth());
                 }
+                robotGraphics.resetDelay();
                 doTurn();
             }
         };
