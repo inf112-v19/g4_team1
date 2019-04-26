@@ -74,7 +74,7 @@ public class Robot implements IRobot {
             if (board.containsRobot(newPos)) {
                 //System.out.println("fant robot"); // for testing purposes
                 // robot has to push the other robot
-                
+
 
                 IRobot otherRobot = board.getRobot(newPos);
                 boolean completedMove = otherRobot.move(moveDirection);
@@ -151,7 +151,7 @@ public class Robot implements IRobot {
 
         }else{
             System.out.println("calls move");
-            //TODO: should be changed to first always checking its orignial spawn first, if not avaialbe, find closest
+            //TODO: causing crash
             respawnPos = board.getSpawn();
             move(respawnPos, MovementAction.DEATH_ANIMATION);
             health = MAX_HEALTH;
