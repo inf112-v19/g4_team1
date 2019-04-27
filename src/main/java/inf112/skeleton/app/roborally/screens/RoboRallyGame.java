@@ -443,8 +443,16 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     }
 
 
-    public void removePlayer(Player player) {
-        players.remove(player);
-        robotGraphics.removeSprite(player.getRobot());
+    public void removePlayer(Player player, float delay) {
+        player.getCards().clear();
+        Timer timer = new Timer();
+        Timer.Task task = new Timer.Task() {
+            @Override
+            public void run() {
+                players.remove(player);
+                robotGraphics.removeSprite(player.getRobot());
+            }
+        };
+        timer.scheduleTask(task, delay);
     }
 }

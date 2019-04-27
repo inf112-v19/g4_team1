@@ -63,6 +63,9 @@ public class RobotGraphics {
             robot.setOldRotation(robot.getDir().getRotationDegrees());
             //fix for syncing the fading of cards
             totalDelay += movementAction.getActionTime();
+            if(robot.getLives() == 0) {
+                game.removePlayer(robot.getOwner(), totalDelay);
+            }
             System.out.println(totalDelay);
             game.getCardButtons().addDelay(movementAction.getActionTime());
         }
