@@ -38,9 +38,9 @@ public class WinTest {
 
         assertEquals(board.getFlags().size(), 3);
 
-        robot.move(Direction.EAST, MovementAction.FAST);
-        robot.move(Direction.EAST, MovementAction.FAST);
-        robot.move(Direction.EAST, MovementAction.FAST);
+        robot.tryToMove(Direction.EAST, MovementAction.FAST);
+        robot.tryToMove(Direction.EAST, MovementAction.FAST);
+        robot.tryToMove(Direction.EAST, MovementAction.FAST);
 
 
         assertEquals(3, robot.getFlags().size());

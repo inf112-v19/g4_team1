@@ -45,7 +45,7 @@ public class RobotTest {
         Robot robot = new Robot(pos, Direction.EAST, new Player("tobias"), board);
         board.addTileObject(robot);
         //robot.moveBackwards();
-        robot.move(Direction.WEST, MovementAction.FAST);
+        robot.tryToMove(Direction.WEST, MovementAction.FAST);
         System.out.println(robot.getPos());
         assertEquals(robot.getPos(), new Pos(4, 5));
     }

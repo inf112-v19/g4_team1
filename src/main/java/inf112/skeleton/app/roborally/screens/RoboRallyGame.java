@@ -206,7 +206,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     elem.activate();
                 }
             }
-            //resets all robots move boolean
+            //resets all robots tryToMove boolean
             for(Player player : players){
                 player.getRobot().setMoved(false);
             }

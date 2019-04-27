@@ -31,7 +31,7 @@ public class DoubleSpeedTurnConveyor extends DoubleSpeedConveyor implements IAct
             }else{
                 robot.setDir(robot.getDir().left());
             }
-            robot.move(dir, MovementAction.FAST);
+            robot.tryToMove(dir, MovementAction.FAST);
             return robot;
         }
         return null;

@@ -31,7 +31,7 @@ public class TurnConveyor extends BoardElement implements IActiveElement{
             }else{
                 robot.setDir(robot.getDir().left());
             }
-            robot.move(dir, MovementAction.NORMAL);
+            robot.tryToMove(dir, MovementAction.NORMAL);
             return robot;
         }
         return null;

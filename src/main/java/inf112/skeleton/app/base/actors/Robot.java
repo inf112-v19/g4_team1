@@ -1,7 +1,6 @@
 package inf112.skeleton.app.base.actors;
 
 import inf112.skeleton.app.base.board.IBoard;
-import inf112.skeleton.app.base.board.IBoardElement;
 import inf112.skeleton.app.base.board.boardelement.Flag;
 import inf112.skeleton.app.base.board.boardelement.Laser;
 import inf112.skeleton.app.base.utils.Direction;
@@ -39,13 +38,9 @@ public class Robot implements IRobot {
     }
 
     public void setMoved(boolean moved){
-         movedthisround = moved;
-         diedThisRound=false;
+        movedthisround = moved;
+        diedThisRound=false;
         System.out.println("set movedthis round to "+moved + " and diedthirround to true");
-    }
-
-    public Pos getPos() {
-        return pos;
     }
 
     @Override
@@ -53,61 +48,62 @@ public class Robot implements IRobot {
         return dir;
     }
 
-    public boolean move(Direction moveDirection){
-        return move(moveDirection, MovementAction.NORMAL);
+    public void tryToMove(Direction moveDirection){
+        tryToMove(moveDirection, MovementAction.NORMAL);
     }
+
     @Override
-    public boolean move(Direction moveDirection, MovementAction movementAction) {
-        if (moveDirection == null)
-            throw new IllegalArgumentException("No direction to move in.");
-
-        Pos newPos = pos.getAdjacent(moveDirection);
-
-        // robot is moving outside board/to pit
-        if (board.outOfBounds(newPos) || (board.containsPit(newPos))) {
-            respawn();
-            return true;
-        }
-
-        else {
-
+    public void tryToMove(Direction moveDirection, MovementAction movementAction) {
+        if(canGo(moveDirection)){
+            Pos newPos = pos.getAdjacent(moveDirection);
+            // robot is moving outside board/to pit
+            if (board.outOfBounds(newPos) || (board.containsPit(newPos))) {
+                respawn();
+                return;
+            }
             if (board.containsRobot(newPos)) {
-                //System.out.println("fant robot"); // for testing purposes
-                // robot has to push the other robot
-
-
+                // can go here if other robot can be pushed
                 IRobot otherRobot = board.getRobot(newPos);
-                boolean completedMove = otherRobot.move(moveDirection);
-                //temp
-                if (completedMove) {
-                    // path is clear now we try again
-                    //for testing
-                    return move(moveDirection);
-                    //return false;
-                } else {
-                    // the robot on the tile couldn't move, so this robot cant move either
-                    return false;
+                if(otherRobot.canGo(moveDirection)){
+                    moveAdditionalRobot( otherRobot, moveDirection);
+                    return;
                 }
             }
-
-            // robot has to check for wall in this and next tile
-            if (board.getWallDir(newPos) != null) {
-                if (wallIsBlocking(newPos, moveDirection)) {
-                    return false;
-                }
-            }
-
-
-            if(board.getWallDir(pos) != null) {
-                if (wallIsBlocking(pos, moveDirection)) {
-                    return false;
-                }
-            }
-
-            // robot is free to move to new position
             move(newPos, movementAction);
-            return true;
         }
+    }
+
+    public boolean canGo(Direction moveDir){
+        if (moveDir == null)
+            throw new IllegalArgumentException("No direction to tryToMove in.");
+        Pos newPos = pos.getAdjacent(moveDir);
+        if (board.containsRobot(newPos)) {
+            return board.getRobot(newPos).canGo(moveDir);
+        }
+        if (board.getWallDir(newPos) != null) {
+            return !wallIsBlocking(newPos, moveDir) ;
+        }
+        if(board.getWallDir(pos) != null) {
+            if (wallIsBlocking(pos, moveDir)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void moveAdditionalRobot(IRobot otherRobot, Direction moveDirection) {
+        //this robot
+        board.get(pos).removeContent(this);
+        board.get(pos.getAdjacent(moveDirection)).addObject(this);
+        pos = pos.getAdjacent(moveDirection);
+        System.out.println(owner +" moved to new pos "+pos+" facing "+dir+ ");
+        //other robot
+        board.get(otherRobot.getPos()).removeContent(otherRobot);
+        board.get(otherRobot.getPos().getAdjacent(moveDirection)).addObject(otherRobot);
+        otherRobot.setPos(otherRobot.getPos().getAdjacent(moveDirection));
+        System.out.println(owner +" was pushed to new pos "+otherRobot.getPos()+" facing "+otherRobot.getDir());
+
+        board.moveSeveral(this, otherRobot);
     }
 
     private void move(Pos newPos, MovementAction movetype) {
@@ -150,12 +146,12 @@ public class Robot implements IRobot {
             //lose
 
         }else{
-            System.out.println("calls move");
+            System.out.println("calls tryToMove");
             //TODO: causing crash
             respawnPos = board.getSpawn();
-            move(respawnPos, MovementAction.DEATH_ANIMATION);
+            tryToMove(respawnPos, MovementAction.DEATH_ANIMATION);
             health = MAX_HEALTH;
-          //  board.getGame().removeLife(owner);
+            //  board.getGame().removeLife(owner);
         }
 
     }
@@ -209,12 +205,16 @@ public class Robot implements IRobot {
 
     @Override
     public void moveBackwards() {
-        move(dir.opposite() );
+        tryToMove(dir.opposite() );
 
     }
 
+    public Pos getPos() {
+        return pos;
+    }
+
     private void moveForward() {
-        move(dir);
+        tryToMove(dir);
     }
 
     @Override

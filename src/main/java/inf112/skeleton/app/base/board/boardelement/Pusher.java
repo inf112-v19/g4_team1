@@ -22,7 +22,7 @@ public class Pusher extends Wall implements  IActiveElement {
         if (board.containsRobot(pos) && board.getRobot(pos).hasNotMoved()) {
             Robot robot = (Robot) board.getRobot(pos);
             robot.setMoved(true);
-            robot.move(pushDir, MovementAction.FAST);
+            robot.tryToMove(pushDir, MovementAction.FAST);
             return robot;
         }
         return null;

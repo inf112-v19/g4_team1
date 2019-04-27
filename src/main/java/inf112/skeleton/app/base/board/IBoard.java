@@ -160,4 +160,6 @@ public interface IBoard {
     void move(Robot robot);
 
     RoboRallyGame getGame();
+
+    void moveSeveral(Robot robot, IRobot otherRobot);
 }

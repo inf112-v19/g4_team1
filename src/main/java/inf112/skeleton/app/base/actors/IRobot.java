@@ -1,10 +1,10 @@
 package inf112.skeleton.app.base.actors;
 
-import inf112.skeleton.app.base.board.Board;
 import inf112.skeleton.app.base.board.IBoard;
 import inf112.skeleton.app.base.board.IBoardElement;
 import inf112.skeleton.app.base.board.boardelement.Flag;
 import inf112.skeleton.app.base.utils.Direction;
+import inf112.skeleton.app.base.utils.Pos;
 import inf112.skeleton.app.roborally.screens.graphics.MovementAction;
 
 import java.util.ArrayList;
@@ -33,28 +33,29 @@ public interface IRobot extends IBoardElement {
     Player getOwner();
 
     /**
-     * moves the robot one tile in a given direction,
+     * tries to move the robot one tile in a given direction,
      * regardless of where it is facing. e.g. when a robot is pushed
-     * all move functions calls this function
-     * @param direction direction to move robot
+     * all tryToMove functions calls this function
+     * @param direction direction to tryToMove robot
      *
      *
      * @param movementAction specify the animation to use. default is NORMAL
      * @return whether the robot completed the movement,
      *         false if it hit a wall (or a robot that would not be pushed)
      */
-    boolean move(Direction direction, MovementAction movementAction);
+    void tryToMove(Direction direction, MovementAction movementAction);
 
     /**
      * moves the robot one tile in a given direction,
      * regardless of where it is facing. e.g. when a robot is pushed
-     * all move functions calls this function
-     * @param direction direction to move robot
+     * all tryToMove functions calls this function
+     * (uses standard movementAction type)
+     * @param direction direction to tryToMove robot
      *
      * @return whether the robot completed the movement,
      *         false if it hit a wall (or a robot that would not be pushed)
      */
-    boolean move(Direction direction);
+    void tryToMove(Direction direction);
     /**
      * make the robot turn 90 degrees left
      */
@@ -71,9 +72,9 @@ public interface IRobot extends IBoardElement {
     void turnHalf();
 
     /**
-     * make the robot move an amount of tiles in the direction its facing
+     * make the robot tryToMove an amount of tiles in the direction its facing
      *
-     * @param distance amount of tiles to move
+     * @param distance amount of tiles to tryToMove
      */
     void moveForward(int distance);
 
@@ -130,4 +131,8 @@ public interface IRobot extends IBoardElement {
     void setDir(Direction left);
 
     IBoard getBoard();
+
+    boolean canGo(Direction moveDir);
+
+    void setPos(Pos pos);
 }

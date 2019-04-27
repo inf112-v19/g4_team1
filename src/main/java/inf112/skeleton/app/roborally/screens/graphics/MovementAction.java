@@ -50,7 +50,7 @@ public enum MovementAction {
                     return;
                 }
             case FAST:
-                //rotate and move is paralell so turn conveyors look smooth
+                //rotate and tryToMove is paralell so turn conveyors look smooth
                 moveToAction.setInterpolation(Interpolation.fastSlow);
                 moveToAction.setDuration(SHORT_MOVE_DURATION);
                 rotateToAction.setDuration(SHORT_MOVE_DURATION);
