@@ -202,8 +202,9 @@ public class Board implements IBoard {
 
     @Override
     public boolean containsRobot(Pos pos) {
-        if(outOfBounds(pos))
-            throw new IllegalArgumentException(pos+" out of bounds");
+        if(outOfBounds(pos)) {
+            return false;
+        }
         List<IBoardElement> tileObjects =  get(pos).getContent();
         for (IBoardElement tileObject : tileObjects)
             if (tileObject instanceof IRobot) return true;

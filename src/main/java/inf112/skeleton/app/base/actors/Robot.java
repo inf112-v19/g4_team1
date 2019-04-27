@@ -58,6 +58,7 @@ public class Robot implements IRobot {
             Pos newPos = pos.getAdjacent(moveDirection);
             // robot is moving outside board/to pit
             if (board.outOfBounds(newPos) || (board.containsPit(newPos))) {
+                System.out.println("haaaaaaaaaaaaaaaaaaaahahahahahaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                 respawn();
                 return;
             }
@@ -80,14 +81,21 @@ public class Robot implements IRobot {
         if (board.containsRobot(newPos)) {
             return board.getRobot(newPos).canGo(moveDir);
         }
+
+        //TODO: uncomment and fix code below(causing crash)
+        /*
         if (board.getWallDir(newPos) != null) {
             return !wallIsBlocking(newPos, moveDir) ;
         }
+
+
         if(board.getWallDir(pos) != null) {
             if (wallIsBlocking(pos, moveDir)) {
                 return false;
             }
         }
+        */
+
         return true;
     }
 
