@@ -58,7 +58,6 @@ public class Robot implements IRobot {
             Pos newPos = pos.getAdjacent(moveDirection);
             // robot is moving outside board/to pit
             if (board.outOfBounds(newPos) || (board.containsPit(newPos))) {
-                System.out.println("haaaaaaaaaaaaaaaaaaaahahahahahaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                 respawn();
                 return;
             }
