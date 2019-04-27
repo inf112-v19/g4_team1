@@ -447,6 +447,10 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         return actor;
     }
 
+    public int getPlayerPos(Player player) {
+        return playerPosition.indexOf(player);
+    }
+
 
     public void removePlayer(Player player, float delay) {
         ArrayList<Card> cardsToRemove = player.getCards();

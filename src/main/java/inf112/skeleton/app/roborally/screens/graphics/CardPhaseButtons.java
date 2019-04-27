@@ -71,7 +71,7 @@ public class CardPhaseButtons {
                         if (selectedCards.size() < 5) {
                             if (!selectedCards.contains(card)) {
 
-                                int placement = allCards.size()/5;
+                                int placement = game.getPlayerPos(player);
                                 Actor currentCard = game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(button, false));
                                 //finds the correct cardArea and sets the initial position(position of the leftmost slot in the cardArea)
                                 int x = (int) game.getCardAreaSlots().get(placement).getX()+3;
@@ -178,12 +178,6 @@ public class CardPhaseButtons {
 
     }
 
-    public void removeCards(ArrayList<Card> cards) {
-        for(Card card : cards) {
-            game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(
-                    allButtonsAndCards.get(card),false)).remove();
-        }
-    }
     public void clear() {
         allCards.clear();
         delay = 0f;
