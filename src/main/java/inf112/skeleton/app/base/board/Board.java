@@ -300,19 +300,47 @@ public class Board implements IBoard {
     }
 
     @Override
+    public void move(Robot robot) {
+       move(robot, MovementAction.NORMAL);
+    }
+    @Override
+    public RoboRallyGame getGame() {
+        return game;
+    }
+
+
+    @Override
     public void move(Robot robot, MovementAction moveAction) {
         //if for testing
         if(game != null)
             game.getGraphics().addActionToRobot(robot, moveAction);
     }
-    @Override
-    public void move(Robot robot) {
-       move(robot, MovementAction.NORMAL);
-    }
+
 
     @Override
-    public RoboRallyGame getGame() {
-        return game;
+    public void moveSeveral(Robot robot, IRobot otherRobot) {
+        game.getGraphics().addSyncMove(robot, otherRobot);
+
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

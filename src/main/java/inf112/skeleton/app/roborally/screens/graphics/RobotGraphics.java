@@ -1,6 +1,9 @@
 package inf112.skeleton.app.roborally.screens.graphics;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -14,6 +17,8 @@ import inf112.skeleton.app.roborally.screens.RoboRallyGame;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
 
 public class RobotGraphics {
 
@@ -73,6 +78,21 @@ public class RobotGraphics {
         }
     }
 
+
+    public void addSyncMove(Robot robot, IRobot otherRobot) {
+        /**
+         * adds animations to two robots to move at the same time
+         */
+        if(robot == null || otherRobot == null)
+            throw new IllegalArgumentException("no robot");
+        System.out.println("adding sync movement to robots");
+        Action robotAction = Actions.moveTo(coordToPixel(robot.getPos().x()), coordToPixel(robot.getPos().y()), 2);
+        Action otherRobotAction = Actions.moveTo(coordToPixel(otherRobot.getPos().x()), coordToPixel(otherRobot.getPos().y()), 2);
+        sequenceAction.addAction(Actions.parallel(robotAction, otherRobotAction));
+    }
+
+
+
     public void addImage(Robot robot) {
         Drawable drawable= new TextureRegionDrawable(textures.get(textureCounter));
         textureCounter++;
@@ -100,13 +120,13 @@ public class RobotGraphics {
     public int getTileWidth() {
         return tileWidth;
     }
-
     public void removeSprite(Robot robot) {
         game.getStage().getActors().removeValue(robotSprites.get(robot), false);
     }
     public float getTotalDelay() {
         return totalDelay;
     }
+
     public void resetDelay() {
         totalDelay = 0;
     }
