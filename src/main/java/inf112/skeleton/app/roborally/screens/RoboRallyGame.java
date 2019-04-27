@@ -189,6 +189,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 //                }
 //            });
             finishedExecute = true;
+            // TODO: Order of execution should be decided by the movepoints of cards
             for (Player currentPlayer : players) {
                 if (currentPlayer.getCards().size() != 0) {
                     finishedExecute = false;
