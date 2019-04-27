@@ -453,8 +453,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
 
     public void removePlayer(Player player, float delay) {
-        ArrayList<Card> cardsToRemove = player.getCards();
-        System.out.println("støørrererer" + player.getCards().size());
         player.getCards().clear();
         Timer timer = new Timer();
         Timer.Task task = new Timer.Task() {
