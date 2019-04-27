@@ -91,12 +91,17 @@ public class Robot implements IRobot {
         return true;
     }
 
+    @Override
+    public void setPos(Pos pos) {
+        this.pos = pos;
+    }
+
     private void moveAdditionalRobot(IRobot otherRobot, Direction moveDirection) {
         //this robot
         board.get(pos).removeContent(this);
         board.get(pos.getAdjacent(moveDirection)).addObject(this);
         pos = pos.getAdjacent(moveDirection);
-        System.out.println(owner +" moved to new pos "+pos+" facing "+dir+ ");
+        System.out.println(owner +" moved to new pos "+pos+" facing "+dir);
         //other robot
         board.get(otherRobot.getPos()).removeContent(otherRobot);
         board.get(otherRobot.getPos().getAdjacent(moveDirection)).addObject(otherRobot);
@@ -149,7 +154,7 @@ public class Robot implements IRobot {
             System.out.println("calls tryToMove");
             //TODO: causing crash
             respawnPos = board.getSpawn();
-            tryToMove(respawnPos, MovementAction.DEATH_ANIMATION);
+            move(respawnPos, MovementAction.DEATH_ANIMATION);
             health = MAX_HEALTH;
             //  board.getGame().removeLife(owner);
         }
