@@ -78,12 +78,15 @@ public class Robot implements IRobot {
         if (moveDir == null)
             throw new IllegalArgumentException("No direction to tryToMove in.");
         Pos newPos = pos.getAdjacent(moveDir);
+        if (board.outOfBounds(newPos)) {
+            return true;
+        }
         if (board.containsRobot(newPos)) {
             return board.getRobot(newPos).canGo(moveDir);
         }
 
         //TODO: uncomment and fix code below(causing crash)
-        /*
+
         if (board.getWallDir(newPos) != null) {
             return !wallIsBlocking(newPos, moveDir) ;
         }
@@ -94,7 +97,7 @@ public class Robot implements IRobot {
                 return false;
             }
         }
-        */
+        
 
         return true;
     }
