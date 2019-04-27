@@ -42,10 +42,11 @@ public enum MovementAction {
                         fadeOut( SHORT_MOVE_DURATION)
 
                 ));
-                moveToAction.setDuration(0f);
-                seq.addAction(moveToAction);
-                seq.addAction(fadeIn(SHORT_MOVE_DURATION));
-
+                if(robot.getLives() > 0) {
+                    moveToAction.setDuration(0f);
+                    seq.addAction(moveToAction);
+                    seq.addAction(fadeIn(SHORT_MOVE_DURATION));
+                }
             return;
             case FAST:
                 //rotate and move is paralell so turn conveyors look smooth
