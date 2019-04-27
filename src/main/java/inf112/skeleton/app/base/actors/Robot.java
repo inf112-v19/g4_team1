@@ -85,8 +85,6 @@ public class Robot implements IRobot {
             return board.getRobot(newPos).canGo(moveDir);
         }
 
-        //TODO: uncomment and fix code below(causing crash)
-
         if (board.getWallDir(newPos) != null) {
             return !wallIsBlocking(newPos, moveDir) ;
         }
@@ -97,7 +95,7 @@ public class Robot implements IRobot {
                 return false;
             }
         }
-        
+
 
         return true;
     }
