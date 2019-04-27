@@ -106,6 +106,10 @@ public interface IRobot extends IBoardElement {
      */
     void setRespawn();
 
+    /**
+     *
+     * @return remaining lives
+     */
     int getLives();
 
 
@@ -124,15 +128,43 @@ public interface IRobot extends IBoardElement {
      */
     ArrayList<Flag> getFlags();
 
+    /**
+     *
+     * @return previous direction of robot before movement
+     */
     int getOldRotation();
 
-    void setOldRotation(int rot);
+    /**
+     *
+     * @param rotation set the old direction of robot
+     */
 
-    void setDir(Direction left);
+    void setOldRotation(int rotation);
+
+    /**
+     *
+     * @param dir update direction of robot is facing
+     */
+
+    void setDir(Direction dir);
+
+    /**
+     *
+     * @return the board robot is placed at
+     */
 
     IBoard getBoard();
 
+    /**
+     * check is movedir as a valid move. can be blocked by an unmovable robot or a wall
+     * @param moveDir dir to move
+     * @return true is valid move
+     */
     boolean canGo(Direction moveDir);
 
+    /**
+     * update pos or robot
+     * @param pos new position
+     */
     void setPos(Pos pos);
 }
