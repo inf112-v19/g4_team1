@@ -178,6 +178,12 @@ public class CardPhaseButtons {
 
     }
 
+    public void removeCards(ArrayList<Card> cards) {
+        for(Card card : cards) {
+            game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(
+                    allButtonsAndCards.get(card),false)).remove();
+        }
+    }
     public void clear() {
         allCards.clear();
         delay = 0f;

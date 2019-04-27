@@ -77,6 +77,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private ArrayList<Image> cardAreaSlots = new ArrayList<>();
     private HashMap<Player, ArrayList<Image>> lives = new HashMap<>();
     private Label healthLabel;
+    private ArrayList<Player> playerPosition = new ArrayList<>();
 
     public RoboRallyGame(RoboRally roboRally, ArrayList<String> names) {
         this.names = names;
@@ -136,7 +137,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 gameBoard.addTileObject(robot);
                 ai.addRobot(robot);
                 players.add(ai);
-
+                playerPosition.add(ai);
                 robotGraphics.addImage(robot);
             }
             else {
@@ -145,6 +146,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 gameBoard.addTileObject(robot);
                 player.addRobot(robot);
                 players.add(player);
+                playerPosition.add(player);
                 robotGraphics.addImage(robot);
             }
         }
@@ -193,6 +195,9 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     moveRobot(currentPlayer);
                     //after robot has moved, reset the moved boolean.
                     currentPlayer.getRobot().setMoved(false);
+                }
+                else {
+
                 }
             }
             //activates double speed first
@@ -444,11 +449,19 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
 
     public void removePlayer(Player player, float delay) {
+        ArrayList<Card> cardsToRemove = player.getCards();
+        System.out.println("støørrererer" + player.getCards().size());
         player.getCards().clear();
         Timer timer = new Timer();
         Timer.Task task = new Timer.Task() {
             @Override
             public void run() {
+                Texture lifeTexture = new Texture("assets/roborally/Dead.png");
+                Image dead = new Image(lifeTexture);
+                float x = cardAreaSlots.get(playerPosition.indexOf(player)).getX();
+                float y = cardAreaSlots.get(playerPosition.indexOf(player)).getY();
+                dead.setPosition(x+ 10,y);
+                foreground.addActor(dead);
                 players.remove(player);
                 robotGraphics.removeSprite(player.getRobot());
             }
