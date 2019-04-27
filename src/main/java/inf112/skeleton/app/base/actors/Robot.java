@@ -40,7 +40,7 @@ public class Robot implements IRobot {
     public void setMoved(boolean moved){
         movedthisround = moved;
         diedThisRound=false;
-        System.out.println("set movedthis round to "+moved + " and diedthirround to true");
+        //System.out.println("set movedthis round to "+moved + " and diedthirround to true");
     }
 
     @Override
@@ -101,7 +101,7 @@ public class Robot implements IRobot {
         board.get(pos).removeContent(this);
         board.get(pos.getAdjacent(moveDirection)).addObject(this);
         pos = pos.getAdjacent(moveDirection);
-        System.out.println(owner +" moved to new pos "+pos+" facing "+dir);
+        System.out.println(owner +" moved to new pos "+pos+" facing "+dir + " pushing other robot");
         //other robot
         board.get(otherRobot.getPos()).removeContent(otherRobot);
         board.get(otherRobot.getPos().getAdjacent(moveDirection)).addObject(otherRobot);

@@ -87,8 +87,14 @@ public class RobotGraphics {
             throw new IllegalArgumentException("no robot");
         System.out.println("adding sync movement to robots");
         Action robotAction = Actions.moveTo(coordToPixel(robot.getPos().x()), coordToPixel(robot.getPos().y()), 2);
+        robotAction.setActor(robotSprites.get(robot));
+
         Action otherRobotAction = Actions.moveTo(coordToPixel(otherRobot.getPos().x()), coordToPixel(otherRobot.getPos().y()), 2);
+        robotAction.setActor(robotSprites.get(otherRobot));
+
         sequenceAction.addAction(Actions.parallel(robotAction, otherRobotAction));
+        totalDelay += 2;
+        game.getCardButtons().addDelay(2);
     }
 
 
