@@ -77,7 +77,7 @@ public class Robot implements IRobot {
         if (moveDir == null)
             throw new IllegalArgumentException("No direction to tryToMove in.");
         Pos newPos = pos.getAdjacent(moveDir);
-        if (board.outOfBounds(newPos)) {
+        if (board.outOfBounds(newPos) && !wallIsBlocking(pos,moveDir)) {
             return true;
         }
         if (board.containsRobot(newPos)) {
