@@ -112,7 +112,7 @@ public class Robot implements IRobot {
         System.out.println(owner +" moved to new pos "+pos+" facing "+dir + " pushing other robot");
         //other robot
         board.get(otherRobot.getPos()).removeContent(otherRobot);
-        board.get(otherRobot.getPos().getAdjacent(moveDirection)).addObject(otherRobot);
+        board.get(otherRobot.getPos().getAdjacent(moveDirection)).addObject(otherRobot); // TODO: Causing crash, this pos can be out of bounds
         otherRobot.setPos(otherRobot.getPos().getAdjacent(moveDirection));
         System.out.println(owner +" was pushed to new pos "+otherRobot.getPos()+" facing "+otherRobot.getDir());
 
