@@ -50,6 +50,9 @@ public class CardPhaseButtons {
      */
     public void chooseCards(int nCards, Player player) {
         currentPlayerCards.clear();
+        if(nCards < 5) {
+            nCards = 5;
+        }
         ArrayList<Card> availableCards = cardDecks.getCards(nCards);
         System.out.println("available cards ::::" + availableCards.size());
         ArrayList<Card> selectedCards = new ArrayList<>();
@@ -166,11 +169,6 @@ public class CardPhaseButtons {
                     InputEvent event2 = new InputEvent();
                     event2.setType(InputEvent.Type.touchUp);
                     for (int i = 4; i >=0; i--) {
-                        //TODO: really weird bug when loop goes from 0-4. getting indexOutOFBounds when the robot has taken some damage
-                        // but both the size of availablecards and currentButtonsAndsCards can be much larger. Never happens when loop goes from 4->0
-                        // (Update: This is because each time a card is pressed, its removed from available cards and the rest of the cards is moved
-                        // to the left in the list, needs to be changed to somehow iterate correctly over availablecards, or else it will crash when
-                        // availablecards.size() < 5)
                         currentButtonsAndCards.get(availableCards.get(i)).fire(event1);
                         currentButtonsAndCards.get(availableCards.get(i)).fire(event2);
 
