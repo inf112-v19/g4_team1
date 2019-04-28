@@ -167,7 +167,7 @@ public class Robot implements IRobot {
             //lose
         } else {
             health = MAX_HEALTH;
-            respawnPos = board.getSpawn();
+            //respawnPos = board.getSpawn();
             if (isValidRespawn(respawnPos)) {
                 move(respawnPos, MovementAction.DEATH_ANIMATION);
             } else {
