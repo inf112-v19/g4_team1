@@ -290,7 +290,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             }
 
             Player player = players.get(i);
-            player.getRobot().getLives();
             ArrayList<Image> listLife = new ArrayList<>();
 
             for (int j = 0; j < player.getRobot().getLives(); j++) {
