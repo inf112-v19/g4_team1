@@ -76,7 +76,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private Group foreground;
     private ArrayList<Image> cardAreaSlots = new ArrayList<>();
     private HashMap<Player, ArrayList<Image>> lives = new HashMap<>();
-    private Label healthLabel;
     private ArrayList<Player> playerPosition = new ArrayList<>();
     private ArrayList<Label> healthLabelPos = new ArrayList<>();
 
@@ -310,7 +309,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             nameLabel.setPosition(98 * 15 / 1.5f + columnPixel, rowPixel + 15);
             cardBox.setPosition(98 * 15 / 1.5f + columnPixel, rowPixel - cardBox.getHeight());
 
-            healthLabel = new Label("HP: " + player.getRobot().getHealth(), labelStyle);
+            Label healthLabel = new Label("HP: " + player.getRobot().getHealth(), labelStyle);
             healthLabel.setPosition(98 * 15 / 1.5f + columnPixel, rowPixel);
             healthLabelPos.add(healthLabel);
             background.addActor(healthLabel);
