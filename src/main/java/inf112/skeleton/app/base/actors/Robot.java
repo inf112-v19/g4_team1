@@ -54,30 +54,32 @@ public class Robot implements IRobot {
 
     @Override
     public void tryToMove(Direction moveDirection, MovementAction movementAction) {
-        if(canGo(moveDirection)){
-            Pos newPos = pos.getAdjacent(moveDirection);
-            // robot is moving outside board/to pit
-            if (board.outOfBounds(newPos) || (board.containsPit(newPos))) {
-                respawn();
+        if (!canGo(moveDirection)) {
+            //TODO: add animation for unable to move
+            return;
+        }
+        Pos newPos = pos.getAdjacent(moveDirection);
+        // robot is moving outside board/to pit
+        if (board.outOfBounds(newPos) || (board.containsPit(newPos))) {
+            respawn();
+            return;
+        }
+        if (board.containsRobot(newPos)) {
+            // can go here if other robot can be pushed
+            IRobot otherRobot = board.getRobot(newPos);
+            if(board.outOfBounds(otherRobot.getPos().getAdjacent(moveDirection))){
+                //special case if other robot is pushed out of board
+                otherRobot.tryToMove(moveDirection);
+                this.move(newPos, movementAction);
                 return;
             }
-            if (board.containsRobot(newPos)) {
-                // can go here if other robot can be pushed
-                IRobot otherRobot = board.getRobot(newPos);
-                if(board.outOfBounds(otherRobot.getPos())){
-                    //special case if other robot is pushed out of board
-                    otherRobot.tryToMove(moveDirection);
-                    move(newPos, movementAction);
-                    return;
-                }
-                if(otherRobot.canGo(moveDirection)){
-                    //both robots move at the same time
-                    moveAdditionalRobot( otherRobot, moveDirection);
-                    return;
-                }
+            if(otherRobot.canGo(moveDirection)){
+                //both robots move at the same time
+                moveAdditionalRobot( otherRobot, moveDirection);
+                return;
             }
-            move(newPos, movementAction);
         }
+        move(newPos, movementAction);
     }
 
     public boolean canGo(Direction moveDir){
@@ -118,7 +120,7 @@ public class Robot implements IRobot {
         System.out.println(owner +" moved to new pos "+pos+" facing "+dir + " pushing other robot");
         //other robot
         board.get(otherRobot.getPos()).removeContent(otherRobot);
-        board.get(otherRobot.getPos().getAdjacent(moveDirection)).addObject(otherRobot); // TODO: Causing crash, this pos can be out of bounds
+        board.get(otherRobot.getPos().getAdjacent(moveDirection)).addObject(otherRobot);
         otherRobot.setPos(otherRobot.getPos().getAdjacent(moveDirection));
         System.out.println(owner +" was pushed to new pos "+otherRobot.getPos()+" facing "+otherRobot.getDir());
 
@@ -166,16 +168,19 @@ public class Robot implements IRobot {
         } else {
             health = MAX_HEALTH;
             respawnPos = board.getSpawn();
-            if (!isValidRespawn(respawnPos)) {
+            if (isValidRespawn(respawnPos)) {
+                move(respawnPos, MovementAction.DEATH_ANIMATION);
+            } else {
                 //has to find new respawn
                 for (Pos newpos : pos.getAllAdjacent()) {
                     if (isValidRespawn(newpos)) {
-                        move(respawnPos, MovementAction.DEATH_ANIMATION);
+                        move(newpos, MovementAction.DEATH_ANIMATION);
                         return;
                     }
                 }
-            }else{
-                move(respawnPos, MovementAction.DEATH_ANIMATION);
+                System.out.println("error, found no respawn pos");
+                move(pos, MovementAction.DEATH_ANIMATION);
+
             }
         }
     }
