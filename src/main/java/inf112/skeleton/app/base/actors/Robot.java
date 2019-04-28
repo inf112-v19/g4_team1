@@ -64,7 +64,14 @@ public class Robot implements IRobot {
             if (board.containsRobot(newPos)) {
                 // can go here if other robot can be pushed
                 IRobot otherRobot = board.getRobot(newPos);
+                if(board.outOfBounds(otherRobot.getPos())){
+                    //special case if other robot is pushed out of board
+                    otherRobot.tryToMove(moveDirection);
+                    move(newPos, movementAction);
+                    return;
+                }
                 if(otherRobot.canGo(moveDirection)){
+                    //both robots move at the same time
                     moveAdditionalRobot( otherRobot, moveDirection);
                     return;
                 }
@@ -98,7 +105,6 @@ public class Robot implements IRobot {
 
         return true;
     }
-
     @Override
     public void setPos(Pos pos) {
         this.pos = pos;
@@ -157,16 +163,25 @@ public class Robot implements IRobot {
         lives--;
         if (lives < 0) {
             //lose
-
-        }else{
-            System.out.println("calls tryToMove");
-            //TODO: causing crash
-            respawnPos = board.getSpawn();
-            move(respawnPos, MovementAction.DEATH_ANIMATION);
+        } else {
             health = MAX_HEALTH;
-            //  board.getGame().removeLife(owner);
+            respawnPos = board.getSpawn();
+            if (!isValidRespawn(respawnPos)) {
+                //has to find new respawn
+                for (Pos newpos : pos.getAllAdjacent()) {
+                    if (isValidRespawn(newpos)) {
+                        move(respawnPos, MovementAction.DEATH_ANIMATION);
+                        return;
+                    }
+                }
+            }else{
+                move(respawnPos, MovementAction.DEATH_ANIMATION);
+            }
         }
+    }
 
+    private boolean isValidRespawn(Pos newPos){
+        return !board.outOfBounds(newPos) && !board.containsPit(newPos) && !board.containsRobot(newPos);
     }
 
 

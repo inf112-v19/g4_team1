@@ -1,5 +1,7 @@
 package inf112.skeleton.app.base.utils;
 
+import java.util.ArrayList;
+
 /**
  * Class that represents (x, y) coordinates
  */
@@ -61,4 +63,11 @@ public class Pos {
         return "(" + x + ", " + y + ")";
     }
 
+    public ArrayList<Pos> getAllAdjacent() {
+        ArrayList<Pos> pos = new ArrayList<>();
+        for(Direction dir : Direction.values()){
+            pos.add(this.getAdjacent(dir));
+        }
+        return pos;
+    }
 }
