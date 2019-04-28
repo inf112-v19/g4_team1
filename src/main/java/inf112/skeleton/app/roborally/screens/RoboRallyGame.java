@@ -78,6 +78,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private HashMap<Player, ArrayList<Image>> lives = new HashMap<>();
     private Label healthLabel;
     private ArrayList<Player> playerPosition = new ArrayList<>();
+    private ArrayList<Label> healthLabelPos = new ArrayList<>();
 
     public RoboRallyGame(RoboRally roboRally, ArrayList<String> names) {
         this.names = names;
@@ -150,7 +151,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 robotGraphics.addImage(robot);
             }
         }
-        show();
+        //show();
         doTurn();
     }
     /**
@@ -249,9 +250,9 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         Timer.Task task = new Timer.Task() {
             @Override
             public void run() {
-                for (Player player : players) {
-                    Label label = (Label) background.getChildren().get(background.getChildren().indexOf(healthLabel, false));
-                    label.setText("HP: " + player.getRobot().getHealth());
+                for (int i = 0; i < players.size(); i++) {
+                    Label label = healthLabelPos.get(i);
+                    label.setText("HP: " + players.get(i).getRobot().getHealth());
                 }
                 robotGraphics.resetDelay();
                 doTurn();
@@ -311,7 +312,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
             healthLabel = new Label("HP: " + player.getRobot().getHealth(), labelStyle);
             healthLabel.setPosition(98 * 15 / 1.5f + columnPixel, rowPixel);
-
+            healthLabelPos.add(healthLabel);
             background.addActor(healthLabel);
             background.addActor(cardBox);
             background.addActor(nameLabel);

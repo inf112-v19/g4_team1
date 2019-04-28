@@ -185,6 +185,7 @@ public class Robot implements IRobot {
 
     @Override
     public void turnRight() {
+        damage();
         dir = dir.right();
         board.move(this, MovementAction.NORMAL);
 

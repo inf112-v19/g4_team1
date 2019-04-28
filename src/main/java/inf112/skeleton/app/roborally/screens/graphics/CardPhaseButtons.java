@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Timer;
 import inf112.skeleton.app.base.actors.AI;
 import inf112.skeleton.app.base.actors.Player;
 import inf112.skeleton.app.base.cards.Card;
@@ -50,6 +51,7 @@ public class CardPhaseButtons {
     public void chooseCards(int nCards, Player player) {
         currentPlayerCards.clear();
         ArrayList<Card> availableCards = cardDecks.getCards(nCards);
+        System.out.println("available cards ::::" + availableCards.size());
         ArrayList<Card> selectedCards = new ArrayList<>();
         ArrayList<Button> buttonList = new ArrayList<>();
 
@@ -153,20 +155,29 @@ public class CardPhaseButtons {
                 }
             }
         });
-        //choose cards aromatically if AI-Player
+        //choose cards automatically if AI-Player
         if(player instanceof  AI) {
-            InputEvent event1 = new InputEvent();
-            event1.setType(InputEvent.Type.touchDown);
-            InputEvent event2 = new InputEvent();
-            event2.setType(InputEvent.Type.touchUp);
+            Timer timer = new Timer();
+            Timer.Task task = new Timer.Task() {
+                @Override
+                public void run() {
+                    InputEvent event1 = new InputEvent();
+                    event1.setType(InputEvent.Type.touchDown);
+                    InputEvent event2 = new InputEvent();
+                    event2.setType(InputEvent.Type.touchUp);
+                    for (int i = 5; i > 0; i--) {
 
-            for(int i = 0; i < 5; i++) {
-                currentButtonsAndCards.get(availableCards.get(i)).fire(event1);
-                currentButtonsAndCards.get(availableCards.get(i)).fire(event2);
+                        currentButtonsAndCards.get(availableCards.get(i)).fire(event1);
+                        currentButtonsAndCards.get(availableCards.get(i)).fire(event2);
 
-            }
-            finish.fire(event1);
-            finish.fire(event2);
+                    }
+                    finish.fire(event1);
+                    finish.fire(event2);
+                }
+
+            };
+
+            timer.scheduleTask(task, 0.5f);
         }
     }
     public void fadeCard(Card card) {
