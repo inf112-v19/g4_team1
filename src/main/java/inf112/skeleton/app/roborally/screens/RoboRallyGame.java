@@ -261,11 +261,17 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     }
 
     private void win(Player player) {
-        ArrayList<Flag> flags = player.getRobot().getFlags();
-        if(flags.size() == 3){
-           roboRally.setScreen(new winScreen(roboRally,player.getName()));
+        Timer timer = new Timer();
+        Timer.Task task = new Timer.Task() {
+            @Override
+            public void run() {
+                roboRally.setScreen(new winScreen(roboRally,player.getName()));
 
-        }
+            }
+        };
+
+        timer.scheduleTask(task, robotGraphics.getTotalDelay());
+
     }
 
     @Override
