@@ -56,7 +56,7 @@ public interface IPlayer {
      * set powerdown to be active next round
      * @param b
      */
-    void setpowerDown(boolean b);
+    void setPowerDown(int b);
 
-    boolean isPoweredDown();
+    int getPowerDown();
 }

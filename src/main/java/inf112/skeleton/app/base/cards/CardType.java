@@ -10,7 +10,8 @@ public enum CardType {
     MOVE_1_TILE,
     MOVE_2_TILE,
     MOVE_3_TILE,
-    MOVE_BACK;
+    MOVE_BACK,
+    POWERDOWN;
 
     @Override
     public String toString() {
@@ -22,6 +23,7 @@ public enum CardType {
             case MOVE_2_TILE: return "Move 2 Tile forward";
             case MOVE_3_TILE: return "Move 3 Tile forward";
             case MOVE_BACK: return "Move 1 Tile backwards";
+            case POWERDOWN: return "powerdown";
         }
 
         throw new IllegalStateException("no card type");

@@ -8,7 +8,7 @@ public class Player implements IPlayer {
     protected Robot robot;
     protected String name;
     private ArrayList<Card> cards = new ArrayList<>();
-    private boolean powerDown;
+    private int roundsToPowerDown = -1;
 
     public Player(String name) {
         this.name = name;
@@ -55,12 +55,13 @@ public class Player implements IPlayer {
     }
 
     @Override
-    public void setpowerDown(boolean b) {
-        this.powerDown = b;
+    public void setPowerDown(int b) {
+        this.roundsToPowerDown = b;
     }
 
-    public boolean isPoweredDown(){
-        return powerDown;
+    @Override
+    public int getPowerDown() {
+        return roundsToPowerDown;
     }
 
 

@@ -64,6 +64,8 @@ public class Card implements ICard {
                 break;
             case MOVE_BACK: file+="BCK";
                 break;
+            case POWERDOWN: file+="POWERDOWN.png";
+                return file;
         }
         file+=Integer.toString(priorityNumber);
         file+=".png";

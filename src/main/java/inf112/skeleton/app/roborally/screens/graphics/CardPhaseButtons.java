@@ -120,11 +120,10 @@ public class CardPhaseButtons {
                 }
             }
         });
+
         //powerdown buton
         TextButton powerDownButton = new TextButton("announce powerdown", skin);
-        if(isPoweredDown){
-            powerDownButton.setText("continue powerdown");
-        }
+        if(isPoweredDown) powerDownButton.setText("continue powerdown");
         powerDownButton.setPosition(98 * 15 + 200/ 1.5f, 130);
         powerDownButton.setSize(300, 75);
         stage.addActor(powerDownButton);
@@ -133,7 +132,7 @@ public class CardPhaseButtons {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 System.out.println("klicked powerdown");
-                player.setpowerDown(true);
+                player.setPowerDown(2);
             }
         });
 
@@ -149,13 +148,32 @@ public class CardPhaseButtons {
 
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
+                player.setPowerDown(player.getPowerDown()-1);
                 System.out.println("klicked finish " + selectedCards.size());
                 if(isPoweredDown){
+                    //adder powerdown card
+                    Card card = new Card(CardType.POWERDOWN, -1);
+                    Texture testTexture = new Texture("assets/roborally/cards/movement/" + card.imageFileName());
+                    Drawable drawable = new TextureRegionDrawable(testTexture);
+                    Button button = new Button(drawable);
+                    button.setSize((int)(button.getWidth()/1.5), (int)(button.getHeight()/1.5));
+                    //button.setPosition((int)(98*15/1.5) + 87 * i, 10);
+                    currentButtonsAndCards.put(card, button);
+                    allButtonsAndCards.put(card,button);
+                    buttonList.add(button);
+                    game.getForeground().addActor(button);
+                    int placement = game.getPlayerPos(player);
+                    Actor currentCard = game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(button, false));
+                    int x = (int) game.getCardAreaSlots().get(placement).getX()+3;
+                    int y = (int) game.getCardAreaSlots().get(placement).getY()+4;
+                    currentCard.setPosition(x + selectedCards.size()*(currentCard.getWidth()+7), y);
+                    selectedCards.add(card);
                     currentPlayerCards.addAll(selectedCards);
-
                     player.setCards(new ArrayList<>(currentPlayerCards));
                     allCards.addAll(player.getCards());
                     System.out.println("selected for "+player+" : " + currentPlayerCards);
+
+
 
                     // remove the available and selected cards from the screen
                     int count = availableCards.size();

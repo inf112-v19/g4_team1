@@ -148,18 +148,21 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         //check if finished
         boolean finished = true;
         for (Player player : players) {
-            if(player.getCards().isEmpty() && !player.isPoweredDown()) finished=false;
+            if (!player.getCards().isEmpty()) {
+                continue;
+            }
+            finished=false;
         }
 
         if (finished) {
             continueTurn();
         } else {
             for (Player player : players) {
-                if(player.getCards().isEmpty() && !player.isPoweredDown()) {
+                if(player.getCards().isEmpty()) {
                     System.out.println("choose cards");
-                    if(player.isPoweredDown()){
-                        player.setpowerDown(false);
-                        cardPhaseButtons.chooseCards(0, player, true);
+                    if(player.getPowerDown() == 1){
+                        //player.setpowerDown(false);
+                        cardPhaseButtons.chooseCards(-1, player, true);
                     }else{
                         cardPhaseButtons.chooseCards(player.getRobot().getHealth(), player, false);
                     }
