@@ -79,7 +79,7 @@ public class RobotGraphics {
     }
 
 
-    public void addSyncMove(Robot robot, IRobot otherRobot) {
+    public void addSyncMove(IRobot robot, IRobot otherRobot) {
         /**
          * adds animations to two robots to move at the same time
          */

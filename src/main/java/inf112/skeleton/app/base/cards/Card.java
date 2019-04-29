@@ -1,6 +1,8 @@
 package inf112.skeleton.app.base.cards;
 
 import inf112.skeleton.app.base.actors.IRobot;
+import inf112.skeleton.app.base.actors.Robot;
+import inf112.skeleton.app.roborally.screens.graphics.MovementAction;
 
 public class Card implements ICard {
     private CardType type;
@@ -38,6 +40,7 @@ public class Card implements ICard {
                 break;
             case MOVE_BACK: robot.moveBackwards();
                 break;
+            case POWERDOWN: robot.getBoard().move((Robot) robot, MovementAction.POWERDOWN);
         }
     }
 

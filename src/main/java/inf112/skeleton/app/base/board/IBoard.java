@@ -151,15 +151,15 @@ public interface IBoard {
      * @param robot
      * @param movementAction animation to use
      */
-    void move(Robot robot, MovementAction movementAction);
+    void move(IRobot robot, MovementAction movementAction);
     /**
      * moves a robot with default animation
      * @param robot
 
      */
-    void move(Robot robot);
+    void move(IRobot robot);
 
     RoboRallyGame getGame();
 
-    void moveSeveral(Robot robot, IRobot otherRobot);
+    void moveSeveral(IRobot robot, IRobot otherRobot);
 }

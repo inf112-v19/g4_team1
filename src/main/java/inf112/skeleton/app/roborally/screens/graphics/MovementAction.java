@@ -16,7 +16,8 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 public enum MovementAction {
     NORMAL,
     DEATH_ANIMATION,
-    FAST;
+    FAST,
+    POWERDOWN;
 
 
     private final float STANDARD_MOVE_DURATION = 0.5f;
@@ -56,6 +57,12 @@ public enum MovementAction {
                 rotateToAction.setDuration(SHORT_MOVE_DURATION);
                 seq.addAction(parallel(moveToAction, rotateToAction));
                 return;
+            case POWERDOWN:
+                /*
+                Action start = color(Color.RED, STANDARD_MOVE_DURATION, Interpolation.elastic);
+                Action end = color(Color., STANDARD_MOVE_DURATION, Interpolation.elastic);
+                */
+                return;
         }
         throw new IllegalArgumentException("no movetype");
         }
@@ -65,6 +72,7 @@ public enum MovementAction {
             case NORMAL: return STANDARD_MOVE_DURATION;
             case DEATH_ANIMATION: return SHORT_MOVE_DURATION*2;
             case FAST: return SHORT_MOVE_DURATION;
+            case POWERDOWN: return 0;
         }
         throw new IllegalStateException("no movetype");
     }

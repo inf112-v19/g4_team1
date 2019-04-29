@@ -132,7 +132,13 @@ public class CardPhaseButtons {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 System.out.println("klicked powerdown");
-                player.setPowerDown(2);
+                if(player.getPowerDown() !=2){
+                    player.setPowerDown(2);
+
+                }else{
+                    player.setPowerDown(-1);
+
+                }
             }
         });
 

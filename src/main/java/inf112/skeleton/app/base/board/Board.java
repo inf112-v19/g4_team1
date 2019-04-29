@@ -301,7 +301,7 @@ public class Board implements IBoard {
     }
 
     @Override
-    public void move(Robot robot) {
+    public void move(IRobot robot) {
        move(robot, MovementAction.NORMAL);
     }
     @Override
@@ -311,7 +311,7 @@ public class Board implements IBoard {
 
 
     @Override
-    public void move(Robot robot, MovementAction moveAction) {
+    public void move(IRobot robot, MovementAction moveAction) {
         //if for testing
         if(game != null)
             game.getGraphics().addActionToRobot(robot, moveAction);
@@ -319,7 +319,7 @@ public class Board implements IBoard {
 
 
     @Override
-    public void moveSeveral(Robot robot, IRobot otherRobot) {
+    public void moveSeveral(IRobot robot, IRobot otherRobot) {
         if(game != null)
             game.getGraphics().addSyncMove(robot, otherRobot);
 
