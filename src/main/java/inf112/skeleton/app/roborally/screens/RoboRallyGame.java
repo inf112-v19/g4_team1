@@ -254,7 +254,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     Label healthLabel = healthLabelPos.get(i);
                     healthLabel.setText("HP: " + players.get(i).getRobot().getHealth());
                     Label flagLabel = flagLabelPos.get(i);
-                    flagLabel.setText("Visited Flags " + players.get(i).getRobot().getFlags().size());
+                    flagLabel.setText("Visited Flags: " + players.get(i).getRobot().getFlags().size());
                 }
                 robotGraphics.resetDelay();
                 doTurn();
