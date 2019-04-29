@@ -1,7 +1,6 @@
 package inf112.skeleton.app.roborally.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -16,14 +15,8 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.RemoveActorAction;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.utils.*;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
@@ -39,17 +32,12 @@ import inf112.skeleton.app.base.actors.Robot;
 import inf112.skeleton.app.base.board.Board;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.roborally.screens.graphics.CardPhaseButtons;
-import inf112.skeleton.app.roborally.screens.graphics.MovementAction;
 import inf112.skeleton.app.roborally.screens.graphics.RobotGraphics;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.SortedMap;
-
-import static inf112.skeleton.app.base.utils.Direction.EAST;
 
 /**
  * main game screen
@@ -160,16 +148,21 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         //check if finished
         boolean finished = true;
         for (Player player : players) {
-            if(player.getCards().isEmpty()) finished=false;
+            if(player.getCards().isEmpty() && !player.isPoweredDown()) finished=false;
         }
 
         if (finished) {
             continueTurn();
         } else {
             for (Player player : players) {
-                if(player.getCards().isEmpty()) {
+                if(player.getCards().isEmpty() && !player.isPoweredDown()) {
                     System.out.println("choose cards");
-                    cardPhaseButtons.chooseCards(player.getRobot().getHealth(), player);
+                    if(player.isPoweredDown()){
+                        player.setpowerDown(false);
+                        cardPhaseButtons.chooseCards(0, player, true);
+                    }else{
+                        cardPhaseButtons.chooseCards(player.getRobot().getHealth(), player, false);
+                    }
                     break;
                 }
             }

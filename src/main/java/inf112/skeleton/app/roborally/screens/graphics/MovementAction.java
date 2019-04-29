@@ -19,8 +19,8 @@ public enum MovementAction {
     FAST;
 
 
-    private final float STANDARD_MOVE_DURATION = 1.5f;
-    private final float SHORT_MOVE_DURATION = 1f;
+    private final float STANDARD_MOVE_DURATION = 0.5f;
+    private final float SHORT_MOVE_DURATION = 0.5f;
 
     public void addActionToSequence(SequenceAction seq, IRobot robot, RoboRallyGame game) {
         //creates to basic movements as a base for all animations

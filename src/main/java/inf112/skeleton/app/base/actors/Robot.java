@@ -65,6 +65,7 @@ public class Robot implements IRobot {
             return;
         }
         if (board.containsRobot(newPos)) {
+            System.out.println("prøver å pushe");
             // can go here if other robot can be pushed
             IRobot otherRobot = board.getRobot(newPos);
             if(board.outOfBounds(otherRobot.getPos().getAdjacent(moveDirection))){

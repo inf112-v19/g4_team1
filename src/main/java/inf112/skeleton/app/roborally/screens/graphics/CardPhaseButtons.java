@@ -48,10 +48,13 @@ public class CardPhaseButtons {
     /**
      * allows one player to choose cards
      */
-    public void chooseCards(int nCards, Player player) {
+    public void chooseCards(int nCards, Player player, boolean isPoweredDown) {
         currentPlayerCards.clear();
         if(nCards < 5) {
             nCards = 5;
+        }
+        if(isPoweredDown){
+            nCards= 0;
         }
         ArrayList<Card> availableCards = cardDecks.getCards(nCards);
         System.out.println("available cards ::::" + availableCards.size());
@@ -117,8 +120,28 @@ public class CardPhaseButtons {
                 }
             }
         });
+        //powerdown buton
+        TextButton powerDownButton = new TextButton("announce powerdown", skin);
+        if(isPoweredDown){
+            powerDownButton.setText("continue powerdown");
+        }
+        powerDownButton.setPosition(98 * 15 + 200/ 1.5f, 130);
+        powerDownButton.setSize(300, 75);
+        stage.addActor(powerDownButton);
+        powerDownButton.addListener(new ChangeListener() {
+
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                System.out.println("klicked powerdown");
+                player.setpowerDown(true);
+            }
+        });
+
         //Make finish button
         TextButton finish = new TextButton("Set Cards", skin);
+        if(isPoweredDown){
+            finish.setText("continue turn");
+        }
         finish.setPosition(98 * 15 / 1.5f, 130);
         finish.setSize(200, 75);
         stage.addActor(finish);
@@ -127,6 +150,29 @@ public class CardPhaseButtons {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 System.out.println("klicked finish " + selectedCards.size());
+                if(isPoweredDown){
+                    currentPlayerCards.addAll(selectedCards);
+
+                    player.setCards(new ArrayList<>(currentPlayerCards));
+                    allCards.addAll(player.getCards());
+                    System.out.println("selected for "+player+" : " + currentPlayerCards);
+
+                    // remove the available and selected cards from the screen
+                    int count = availableCards.size();
+                    for (int i = 0; i <count; i++) {
+                        cardDecks.addUsed(availableCards.get(0));
+                        game.getForeground().getChildren().removeValue(currentButtonsAndCards.get(
+                                availableCards.remove(0)), false);
+                    }
+
+                    // remove the finish button from the screen
+                    stage.getActors().removeValue(finish, false);
+                    stage.getActors().removeValue(reset,false);
+                    stage.getActors().removeValue(powerDownButton, false);
+
+                    currentButtonsAndCards.clear();
+                    game.doTurn();
+                }
                 if(selectedCards.size() == 0) {
                     return;
                 }
@@ -148,6 +194,7 @@ public class CardPhaseButtons {
                     // remove the finish button from the screen
                     stage.getActors().removeValue(finish, false);
                     stage.getActors().removeValue(reset,false);
+                    stage.getActors().removeValue(powerDownButton, false);
 
                     currentButtonsAndCards.clear();
                     game.doTurn();
@@ -175,11 +222,12 @@ public class CardPhaseButtons {
                     }
                     finish.fire(event1);
                     finish.fire(event2);
-                }
+                    }
 
             };
 
             timer.scheduleTask(task, 0.5f);
+
         }
     }
     public void fadeCard(Card card) {
