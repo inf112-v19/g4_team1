@@ -141,7 +141,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 robotGraphics.addImage(robot);
             }
         }
-        show();
+       // show(); calling show here will break labels that update their text
         doTurn();
     }
     /**
@@ -169,7 +169,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     }else{
                         cardPhaseButtons.chooseCards(player.getRobot().getHealth(), player, false);
                     }
-                    player.getPowerButton().setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture("assets/roborally/power_down.png"))));
+
                     break;
                 }
             }
@@ -250,6 +250,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             @Override
             public void run() {
                 for (int i = 0; i < players.size(); i++) {
+                    players.get(i).getPowerButton().setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture("assets/roborally/power_down.png"))));
                     Label healthLabel = healthLabelPos.get(i);
                     healthLabel.setText("HP: " + players.get(i).getRobot().getHealth());
                     Label flagLabel = flagLabelPos.get(i);
@@ -318,7 +319,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     rowPixel + 10);
             player.setPowerButton(powerDown);
 
-            Label flagLabel = new Label("Visited Flags: ", labelStyle);
+            Label flagLabel = new Label("Visited Flags: 0", labelStyle);
             flagLabel.setPosition(powerDown.getX()+ 40, powerDown.getY());
             flagLabelPos.add(flagLabel);
 
