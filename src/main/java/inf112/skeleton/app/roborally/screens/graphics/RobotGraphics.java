@@ -116,7 +116,7 @@ public class RobotGraphics {
         return sequenceAction;
     }
 
-    private int coordToPixel(int x) {
+    public int coordToPixel(int x) {
         if(x > 15) {
             throw new IllegalArgumentException("coordinate is outside of grid");
         }

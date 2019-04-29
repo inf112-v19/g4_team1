@@ -22,6 +22,7 @@ public class Robot implements IRobot {
     private boolean movedthisround=false;
     private int oldRotation;
     private boolean diedThisRound;
+    private Pos laserDestination;
 
     public Robot(Pos pos, Direction dir, Player owner, IBoard board) {
         this.dir = dir;
@@ -284,6 +285,7 @@ public class Robot implements IRobot {
 
         Laser laser = new Laser(dir, pos.getAdjacent(dir), board);
         laser.activate();
+        laserDestination = laser.getDestination();
 
     }
 
@@ -307,5 +309,8 @@ public class Robot implements IRobot {
         return board;
     }
 
-
+    @Override
+    public Pos getLaserDestination() {
+        return laserDestination;
+    }
 }

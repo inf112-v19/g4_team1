@@ -16,6 +16,9 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.RemoveActorAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -29,6 +32,7 @@ import inf112.skeleton.app.base.board.boardelement.*;
 import inf112.skeleton.app.base.cards.Card;
 import inf112.skeleton.app.base.cards.CardDecks;
 
+import inf112.skeleton.app.base.utils.Pos;
 import inf112.skeleton.app.roborally.RoboRally;
 import inf112.skeleton.app.base.actors.Robot;
 import inf112.skeleton.app.base.board.Board;
@@ -250,6 +254,28 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             @Override
             public void run() {
                 for (int i = 0; i < players.size(); i++) {
+                    //laser
+                    Image laser = new Image();
+                    if (players.get(i).getRobot().getDir() == Direction.SOUTH || players.get(i).getRobot().getDir() == Direction.NORTH) {
+                        Texture vLaser = new Texture("assets/roborally/laser-vertical.png");
+                        laser = new Image(vLaser);
+                    }
+                    else {
+                        Texture hLaser = new Texture("assets/roborally/laser-horizontal.png");
+                        laser = new Image(hLaser);
+                    }
+                    players.get(i).getRobot().laser();
+                    Pos laserDest = players.get(i).getRobot().getLaserDestination();
+                    int x = players.get(i).getRobot().getPos().x();
+                    int y = players.get(i).getRobot().getPos().y();
+                    float newX = robotGraphics.coordToPixel(laserDest.x());
+                    float newY = robotGraphics.coordToPixel(laserDest.y());
+                    laser.setPosition(robotGraphics.coordToPixel(x), robotGraphics.coordToPixel(y));
+                    foreground.addActor(laser);
+                    laser.addAction(new SequenceAction(Actions.moveTo(newX, newY, 0.5f), Actions.fadeOut(0f)));
+
+
+                    //update UI
                     players.get(i).getPowerButton().setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture("assets/roborally/power_down.png"))));
                     Label healthLabel = healthLabelPos.get(i);
                     healthLabel.setText("HP: " + players.get(i).getRobot().getHealth());

@@ -167,4 +167,6 @@ public interface IRobot extends IBoardElement {
      * @param pos new position
      */
     void setPos(Pos pos);
+
+    Pos getLaserDestination();
 }
