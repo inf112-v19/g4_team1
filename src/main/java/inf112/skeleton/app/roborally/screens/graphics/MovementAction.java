@@ -58,10 +58,10 @@ public enum MovementAction {
                 seq.addAction(parallel(moveToAction, rotateToAction));
                 return;
             case POWERDOWN:
-                /*
-                Action start = color(Color.RED, STANDARD_MOVE_DURATION, Interpolation.elastic);
-                Action end = color(Color., STANDARD_MOVE_DURATION, Interpolation.elastic);
-                */
+
+                Action start = color(Color.BROWN, SHORT_MOVE_DURATION, Interpolation.linear);
+                Action end = color(Color.valueOf("ffffffff"), SHORT_MOVE_DURATION, Interpolation.linear);
+                seq.addAction(sequence(start, end));
                 return;
         }
         throw new IllegalArgumentException("no movetype");
@@ -72,7 +72,7 @@ public enum MovementAction {
             case NORMAL: return STANDARD_MOVE_DURATION;
             case DEATH_ANIMATION: return SHORT_MOVE_DURATION*2;
             case FAST: return SHORT_MOVE_DURATION;
-            case POWERDOWN: return 0;
+            case POWERDOWN: return SHORT_MOVE_DURATION*2;
         }
         throw new IllegalStateException("no movetype");
     }
