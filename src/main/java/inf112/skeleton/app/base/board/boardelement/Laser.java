@@ -23,7 +23,7 @@ public class Laser extends Wall implements IActiveElement {
             // checks for wall at the near side of the tile
             if (board.getWallDir(laserPos) != null)
                 if (dir == board.getWallDir(laserPos).opposite()) {
-                    destination = laserPos;
+                    destination = laserPos.getAdjacent(dir.opposite());
                     return null;
                 }
 
@@ -32,7 +32,7 @@ public class Laser extends Wall implements IActiveElement {
                 // shoots robot
                 IRobot robot = board.getRobot(laserPos);
                 robot.damage();
-                destination = laserPos;
+                destination = laserPos.getAdjacent(dir.opposite());
                 return robot;
             }
 

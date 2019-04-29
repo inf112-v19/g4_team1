@@ -136,4 +136,12 @@ public class RobotGraphics {
     public void resetDelay() {
         totalDelay = 0;
     }
+
+    public float getRobotSizex() {
+        return robotSizex;
+    }
+
+    public float getRobotSizey() {
+        return robotSizey;
+    }
 }
