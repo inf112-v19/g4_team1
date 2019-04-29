@@ -124,8 +124,8 @@ public class CardPhaseButtons {
         //powerdown buton
         TextButton powerDownButton = new TextButton("announce powerdown", skin);
         if(isPoweredDown) powerDownButton.setText("continue powerdown");
-        powerDownButton.setPosition(98 * 15 + 200/ 1.5f, 130);
-        powerDownButton.setSize(300, 75);
+        powerDownButton.setPosition(98 * 15 / 1.5f + 430, 130);
+        powerDownButton.setSize(330, 75);
         stage.addActor(powerDownButton);
         powerDownButton.addListener(new ChangeListener() {
 
