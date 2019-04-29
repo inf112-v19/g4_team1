@@ -90,7 +90,7 @@ public class RobotGraphics {
         robotAction.setActor(robotSprites.get(robot));
 
         Action otherRobotAction = Actions.moveTo(coordToPixel(otherRobot.getPos().x()), coordToPixel(otherRobot.getPos().y()), 2);
-        robotAction.setActor(robotSprites.get(otherRobot));
+        otherRobotAction.setActor(robotSprites.get(otherRobot));
 
         sequenceAction.addAction(Actions.parallel(robotAction, otherRobotAction));
         totalDelay += 2;
