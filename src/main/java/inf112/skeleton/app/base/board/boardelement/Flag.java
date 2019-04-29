@@ -27,8 +27,4 @@ public class Flag extends BoardElement{
         }
     }
 
-    public int getFlagNr() {
-        return flagNr;
-    }
-
 }
