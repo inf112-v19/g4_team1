@@ -32,7 +32,6 @@ public class CardPhaseButtons {
     private CardDecks cardDecks;
     private HashMap<Card, Button> currentButtonsAndCards = new HashMap<>();
     private HashMap<Card, Button> allButtonsAndCards = new HashMap<>();
-    private ArrayList<Card> allCards = new ArrayList<>();
     private ArrayList<Card> currentPlayerCards = new ArrayList<>();
     private float delay = 0f;
     private Skin skin;
@@ -112,11 +111,9 @@ public class CardPhaseButtons {
                     for (Button btn: buttonList) {
                         game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(btn,false)).setPosition((int)(98*15/1.5) + 87 * j, 10);
                         j++;
-
                     }
                     availableCards.addAll(selectedCards);
                     selectedCards.clear();
-
                 }
             }
         });
@@ -176,7 +173,6 @@ public class CardPhaseButtons {
                     selectedCards.add(card);
                     currentPlayerCards.addAll(selectedCards);
                     player.setCards(new ArrayList<>(currentPlayerCards));
-                    allCards.addAll(player.getCards());
                     System.out.println("selected for "+player+" : " + currentPlayerCards);
 
 
@@ -204,7 +200,6 @@ public class CardPhaseButtons {
                     currentPlayerCards.addAll(selectedCards);
 
                     player.setCards(new ArrayList<>(currentPlayerCards));
-                    allCards.addAll(player.getCards());
                     System.out.println("selected for "+player+" : " + currentPlayerCards);
 
                     // remove the available and selected cards from the screen
@@ -264,7 +259,6 @@ public class CardPhaseButtons {
     }
 
     public void clear() {
-        allCards.clear();
         delay = 0f;
     }
 
