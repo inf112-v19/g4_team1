@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 //import com.badlogic.gdx.maps.Map;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -17,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
@@ -138,7 +140,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 robotGraphics.addImage(robot);
             }
         }
-        //show();
+        show();
         doTurn();
     }
     /**
@@ -166,6 +168,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     }else{
                         cardPhaseButtons.chooseCards(player.getRobot().getHealth(), player, false);
                     }
+                    player.getPowerButton().setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture("assets/roborally/power_down.png"))));
                     break;
                 }
             }
@@ -299,6 +302,13 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             }
             lives.put(player, listLife);
 
+            Image powerDown = new Image(new Texture("assets/roborally/power_down.png"));
+
+            powerDown.setSize(powerDown.getWidth()/1.5f, powerDown.getHeight()/1.5f);
+            powerDown.setPosition(98 * 17 / 1.5f + columnPixel + player.getRobot().getLives() * listLife.get(0).getWidth(),
+                    rowPixel + 10);
+            player.setPowerButton(powerDown);
+
             String name = player.getName();
             Label nameLabel = new Label(name, labelStyle);
             nameLabel.setPosition(98 * 15 / 1.5f + columnPixel, rowPixel + 15);
@@ -310,11 +320,13 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             background.addActor(healthLabel);
             background.addActor(cardBox);
             background.addActor(nameLabel);
+            background.addActor(powerDown);
             cardAreaSlots.add(cardBox);
             columnPixel = 0;
             count++;
         }
     }
+
     @Override
     public void render(float v) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

@@ -2,6 +2,7 @@ package inf112.skeleton.app.roborally.screens.graphics;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -132,12 +133,18 @@ public class CardPhaseButtons {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 System.out.println("klicked powerdown");
-                if(player.getPowerDown() !=2){
+                if (player.getPowerDown() !=2) {
+                    System.out.println(player.getPowerDown());
                     player.setPowerDown(2);
-
-                }else{
+                    player.getPowerButton().setDrawable(new TextureRegionDrawable(new TextureRegion(
+                            new Texture("assets/roborally/power_down_active.png"))));
+                    System.out.println(player.getPowerDown());
+                } else{
+                    player.getPowerButton().setDrawable(new TextureRegionDrawable(new TextureRegion(
+                            new Texture("assets/roborally/power_down.png"))));
+                    System.out.println(player.getPowerDown());
                     player.setPowerDown(-1);
-
+                    System.out.println(player.getPowerDown());
                 }
             }
         });

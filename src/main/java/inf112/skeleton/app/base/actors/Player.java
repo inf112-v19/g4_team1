@@ -1,5 +1,6 @@
 package inf112.skeleton.app.base.actors;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import inf112.skeleton.app.base.cards.Card;
 
 import java.util.ArrayList;
@@ -9,6 +10,16 @@ public class Player implements IPlayer {
     protected String name;
     private ArrayList<Card> cards = new ArrayList<>();
     private int roundsToPowerDown = -1;
+
+    public Image getPowerButton() {
+        return powerButton;
+    }
+
+    public void setPowerButton(Image powerButton) {
+        this.powerButton = powerButton;
+    }
+
+    private Image powerButton;
 
     public Player(String name) {
         this.name = name;
