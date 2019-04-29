@@ -133,10 +133,10 @@ public class Board implements IBoard {
             case 23: return new DoubleSpeedConveyor(Direction.WEST, pos, this);
             case 24: return null; //this is the empty tile
             //TODO: can add the number to the flag if we want
-            case 25: return new Flag(pos, this);
-            case 26: return new Flag(pos, this);
-            case 27: return new Flag(pos, this);
-            case 28: return new Flag(pos, this);
+            case 25: return new Flag(pos, this, 1);
+            case 26: return new Flag(pos, this, 2);
+            case 27: return new Flag(pos, this, 3);
+            case 28: return new Flag(pos, this, 4);
             case 29: return new Gear(Direction.WEST, pos ,this);
             case 30: return new Gear(Direction.EAST, pos ,this);
             case 31: return new Laser(Direction.NORTH,pos,this);

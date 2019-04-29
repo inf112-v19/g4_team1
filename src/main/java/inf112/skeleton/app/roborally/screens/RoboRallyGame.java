@@ -68,6 +68,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private HashMap<Player, ArrayList<Image>> lives = new HashMap<>();
     private ArrayList<Player> playerPosition = new ArrayList<>();
     private ArrayList<Label> healthLabelPos = new ArrayList<>();
+    private ArrayList<Label> flagLabelPos = new ArrayList<>();
 
     public RoboRallyGame(RoboRally roboRally, ArrayList<String> names) {
         this.names = names;
@@ -249,8 +250,10 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             @Override
             public void run() {
                 for (int i = 0; i < players.size(); i++) {
-                    Label label = healthLabelPos.get(i);
-                    label.setText("HP: " + players.get(i).getRobot().getHealth());
+                    Label healthLabel = healthLabelPos.get(i);
+                    healthLabel.setText("HP: " + players.get(i).getRobot().getHealth());
+                    Label flagLabel = flagLabelPos.get(i);
+                    flagLabel.setText("Visited Flags " + players.get(i).getRobot().getFlags().size());
                 }
                 robotGraphics.resetDelay();
                 doTurn();
@@ -315,6 +318,10 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     rowPixel + 10);
             player.setPowerButton(powerDown);
 
+            Label flagLabel = new Label("Visited Flags: ", labelStyle);
+            flagLabel.setPosition(powerDown.getX()+ 40, powerDown.getY());
+            flagLabelPos.add(flagLabel);
+
             String name = player.getName();
             Label nameLabel = new Label(name, labelStyle);
             nameLabel.setPosition(98 * 15 / 1.5f + columnPixel, rowPixel + 15);
@@ -323,6 +330,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             Label healthLabel = new Label("HP: " + player.getRobot().getHealth(), labelStyle);
             healthLabel.setPosition(98 * 15 / 1.5f + columnPixel, rowPixel);
             healthLabelPos.add(healthLabel);
+            background.addActor(flagLabel);
             background.addActor(healthLabel);
             background.addActor(cardBox);
             background.addActor(nameLabel);

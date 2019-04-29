@@ -27,9 +27,9 @@ public class WinTest {
         Pos flag2Pos = new Pos(3,1);
         Pos flag3Pos = new Pos(4,1);
 
-        Flag flag1 = new Flag(flag1Pos, board);
-        Flag flag2 = new Flag(flag2Pos, board);
-        Flag flag3 = new Flag(flag3Pos, board);
+        Flag flag1 = new Flag(flag1Pos, board, 1);
+        Flag flag2 = new Flag(flag2Pos, board, 2);
+        Flag flag3 = new Flag(flag3Pos, board, 3);
 
         board.addTileObject(flag1);
         board.addTileObject(flag2);
