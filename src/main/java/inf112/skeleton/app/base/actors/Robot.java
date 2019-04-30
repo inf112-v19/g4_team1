@@ -92,8 +92,11 @@ public class Robot implements IRobot {
         if (moveDir == null)
             throw new IllegalArgumentException("No direction to tryToMove in.");
         Pos newPos = pos.getAdjacent(moveDir);
+
         if(board.getWallDir(pos) != null) {
-            return !wallIsBlocking(pos, moveDir);
+            if(wallIsBlocking(pos, moveDir)) {
+                return false;
+            }
         }
         if (board.outOfBounds(newPos)) {
             return true;
@@ -234,7 +237,7 @@ public class Robot implements IRobot {
 
     @Override
     public void moveBackwards() {
-        tryToMove(dir.opposite() );
+        tryToMove(dir.opposite());
 
     }
 
