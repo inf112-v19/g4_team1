@@ -208,6 +208,7 @@ public class Robot implements IRobot {
 
     @Override
     public void turnRight() {
+        damage();
         dir = dir.right();
         board.move(this, MovementAction.NORMAL);
 
@@ -313,5 +314,10 @@ public class Robot implements IRobot {
     @Override
     public Pos getLaserDestination() {
         return laserDestination;
+    }
+
+    @Override
+    public int getMAX_HEALTH() {
+        return MAX_HEALTH;
     }
 }

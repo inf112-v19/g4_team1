@@ -169,4 +169,6 @@ public interface IRobot extends IBoardElement {
     void setPos(Pos pos);
 
     Pos getLaserDestination();
+
+    int getMAX_HEALTH();
 }

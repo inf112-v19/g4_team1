@@ -28,7 +28,7 @@ public class WrenchTile extends BoardElement implements  IActiveElement {
         if (board.containsRobot(pos)) {
             Robot robot = (Robot) board.getRobot(pos);
 
-            if (robot.getHealth() < 10)
+            if (robot.getHealth() < robot.getMAX_HEALTH())
                 robot.gainHealth();
         return robot;
         }
