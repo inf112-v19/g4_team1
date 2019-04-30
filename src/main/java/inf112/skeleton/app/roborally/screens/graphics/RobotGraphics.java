@@ -2,10 +2,7 @@ package inf112.skeleton.app.roborally.screens.graphics;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
-import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.actions.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -19,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.parallel;
 
 public class RobotGraphics {
 
@@ -62,7 +60,6 @@ public class RobotGraphics {
 
     public void addActionToRobot(IRobot robot, MovementAction movementAction) {
         if (robot != null) {
-            System.out.println("adding action to " + robot.getOwner() + " with action "+movementAction);
             sequenceAction.setActor(robotSprites.get(robot));
             movementAction.addActionToSequence(sequenceAction, robot, game);
             robot.setOldRotation(robot.getDir().getRotationDegrees());
@@ -73,28 +70,25 @@ public class RobotGraphics {
             if(robot.getLives() == 0) {
                 game.removePlayer(robot.getOwner(), totalDelay);
             }
-            System.out.println(totalDelay);
             game.getCardButtons().addDelay(movementAction.getActionTime());
         }
     }
 
 
-    public void addSyncMove(IRobot robot, IRobot otherRobot) {
+    public void addSyncMove(ArrayList<IRobot> robots) {
         /**
-         * adds animations to two robots to move at the same time
+         * adds animations to robots to move at the same time
          */
-        if(robot == null || otherRobot == null)
-            throw new IllegalArgumentException("no robot");
-        System.out.println("adding sync movement to robots");
-        Action robotAction = Actions.moveTo(coordToPixel(robot.getPos().x()), coordToPixel(robot.getPos().y()), 2);
-        robotAction.setActor(robotSprites.get(robot));
-
-        Action otherRobotAction = Actions.moveTo(coordToPixel(otherRobot.getPos().x()), coordToPixel(otherRobot.getPos().y()), 2);
-        otherRobotAction.setActor(robotSprites.get(otherRobot));
-
-        sequenceAction.addAction(Actions.parallel(robotAction, otherRobotAction));
-        totalDelay += 2;
-        game.getCardButtons().addDelay(2);
+        //ArrayList<Action> paralellActions = new ArrayList<>();
+        ParallelAction parallellMoves = parallel();
+        for(IRobot robot : robots){
+            Action robotAction = Actions.moveTo(coordToPixel(robot.getPos().x()), coordToPixel(robot.getPos().y()), 1);
+            robotAction.setActor(robotSprites.get(robot));
+            parallellMoves.addAction(robotAction);
+        totalDelay += 1;
+        }
+        sequenceAction.addAction(parallellMoves);
+        game.getCardButtons().addDelay(1);
     }
 
 

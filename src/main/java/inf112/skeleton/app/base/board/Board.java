@@ -319,9 +319,9 @@ public class Board implements IBoard {
 
 
     @Override
-    public void moveSeveral(IRobot robot, IRobot otherRobot) {
+    public void moveSeveral(ArrayList<IRobot> robots) {
         if(game != null)
-            game.getGraphics().addSyncMove(robot, otherRobot);
+            game.getGraphics().addSyncMove(robots);
 
     }
 }
