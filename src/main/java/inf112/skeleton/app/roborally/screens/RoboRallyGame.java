@@ -285,7 +285,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
                             laser.setPosition(robotGraphics.coordToPixel(x), robotGraphics.coordToPixel(y));
                             foreground.addActor(laser);
-                            laser.addAction(new SequenceAction(Actions.moveTo(newX, newY, 0.5f), Actions.fadeOut(0f)));
+                            laser.addAction(new SequenceAction(Actions.moveTo(newX, newY, 0.7f), Actions.fadeOut(0f)));
                         }
                     }
                 }
@@ -302,7 +302,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             }
         };
 
-        timer.scheduleTask(task, robotGraphics.getTotalDelay());
+        timer.scheduleTask(task, robotGraphics.getTotalDelay() + 0.5f);
     }
 
     private void win(Player player) {
