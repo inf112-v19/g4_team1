@@ -78,6 +78,8 @@ public interface IRobot extends IBoardElement {
      */
     void moveForward(int distance);
 
+    void maxHealth();
+
     /**
      * moves the robot 1 tile backwards
      */

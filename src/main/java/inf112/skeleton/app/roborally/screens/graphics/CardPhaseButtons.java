@@ -55,6 +55,7 @@ public class CardPhaseButtons {
         }
         if(isPoweredDown){
             nCards= 0;
+            player.getRobot().maxHealth();
         }
         ArrayList<Card> availableCards = cardDecks.getCards(nCards);
         System.out.println("available cards ::::" + availableCards.size());
