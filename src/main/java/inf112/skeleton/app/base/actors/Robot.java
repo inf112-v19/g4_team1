@@ -69,6 +69,9 @@ public class Robot implements IRobot {
         ArrayList<IRobot> robotsToPush = new ArrayList<>();
         while (board.containsRobot(newPos)){
             IRobot otherRobot = board.getRobot(newPos);
+            if(!otherRobot.canGo(moveDirection)) {
+                return;
+            }
             if (!board.outOfBounds(otherRobot.getPos().getAdjacent(moveDirection))) {
                 robotsToPush.add(otherRobot);
                 newPos = newPos.getAdjacent(moveDirection);
