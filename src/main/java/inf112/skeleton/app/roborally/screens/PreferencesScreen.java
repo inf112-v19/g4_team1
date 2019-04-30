@@ -55,18 +55,19 @@ public class PreferencesScreen implements Screen {
         stage.addActor(playerTable);
         skin = new Skin(Gdx.files.internal("assets/roborally/skin/comic-ui.json"));
 
-
-
         //todo: button for removing player from playerlist?
-        TextButton add = new TextButton("Add Player", skin);
+        TextButton add = new TextButton("Add Human", skin);
         TextButton start = new TextButton("Start Game", skin);
         TextButton back = new TextButton("Back", skin);
+        TextButton AI = new TextButton("Add AI", skin);
         Label players = new Label("PLAYERS: ", skin);
         players.setFontScale(2);
         players.getStyle().fontColor = Color.RED;
 
         playerTable.add(players).uniform();
         table.add(add).fillX().uniformX();
+        table.row();
+        table.add(AI).fillX().uniformX();
         table.row();
         table.add(start).fillX().uniformX();
         table.row();
@@ -81,10 +82,28 @@ public class PreferencesScreen implements Screen {
             }
         });
 
+        AI.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if (names.size() == 8) {
+                    //todo: should display msg on screen
+                    System.out.println("Cant add more players");
+                    return;
+                }
+                names.add("AI");
+                Label namelabel = new Label("AI", skin);
+                players.getStyle().fontColor = Color.GREEN;
+                namelabel.setFontScale(1.5f);
+                playerTable.row();
+                playerTable.add(namelabel).uniform();
+
+            }
+        });
+
         add.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if (names.size() == 3) {
+                if (names.size() == 8) {
                     //todo: should display msg on screen
                     System.out.println("Cant add more players");
                     return;
@@ -121,7 +140,7 @@ public class PreferencesScreen implements Screen {
         start.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if (names.size() < 1 || names.size() > 3) {
+                if (names.size() < 1 || names.size() > 8) {
                     //todo: Should be explained with a message on the screen
                     System.out.println("Number of players not valid");
                     return;

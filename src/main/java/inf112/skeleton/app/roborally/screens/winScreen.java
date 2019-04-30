@@ -16,8 +16,11 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import inf112.skeleton.app.base.actors.Player;
 import inf112.skeleton.app.roborally.RoboRally;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -30,25 +33,32 @@ import java.util.ArrayList;
 public class winScreen implements Screen, InputProcessor, ActionListener {
     private RoboRally roboRally;
     private OrthographicCamera camera;
-    private TiledMap map;
-    private OrthogonalTiledMapRenderer mapRenderer;
     private Stage stage;
     private Skin uiskin;
     private SpriteBatch batch;
     private BitmapFont font;
     private String winner;
+    private Label.LabelStyle labelStyle;
 
-    public winScreen(RoboRally roboRally, String name) {
+
+    public winScreen(RoboRally roboRally, String winName) {
         this.roboRally = roboRally;
         camera = new OrthographicCamera();
-        winner = name + " is the winner!!!";
         font = new BitmapFont();
         font.setColor(Color.RED);
         font.getData().scale(13);
         batch = new SpriteBatch();
-
-        FitViewport viewport = new FitViewport(1279, 639, camera);
-        stage = new Stage(viewport, roboRally.batch);
+        BitmapFont font = new BitmapFont();
+        labelStyle = new Label.LabelStyle();
+        labelStyle.font = font;
+        labelStyle.fontColor = Color.RED;
+        Label winMessage = new Label(winName + " is the winner!!!", labelStyle);
+        //FitViewport viewport = new FitViewport(1279, 639, camera);
+        ScalingViewport viewPort = new ScalingViewport(Scaling.stretch, Constants.WORLD_PIXEL_WIDTH, Constants.WORLD_PIXEL_HEIGHT);
+        viewPort.update(Constants.WORLD_PIXEL_WIDTH, Constants.WORLD_PIXEL_HEIGHT);
+        stage = new Stage(viewPort, roboRally.batch);
+        winMessage.setPosition(500, 1000);
+        stage.addActor(winMessage);
         Gdx.input.setInputProcessor(stage);
 
         //buttons
@@ -61,11 +71,11 @@ public class winScreen implements Screen, InputProcessor, ActionListener {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 // go to main game screen
-                //roboRally.setScreen(new PreferencesScreen(roboRally));
-                ArrayList<String> names = new ArrayList<>();
-                names.add("player1");
-                names.add("Player2");
-                roboRally.setScreen(new RoboRallyGame(roboRally, names));
+                roboRally.setScreen(new PreferencesScreen(roboRally));
+                //ArrayList<String> names = new ArrayList<>();
+                //names.add("player1");
+                //names.add("Player2");
+                //roboRally.setScreen(new RoboRallyGame(roboRally, names));
                 dispose();
                 return true;
 
@@ -138,14 +148,15 @@ public class winScreen implements Screen, InputProcessor, ActionListener {
         //  Gdx.gl.glClearColor(119/255f,136/255f,153/255f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        roboRally.batch.setProjectionMatrix(camera.combined);
+        //roboRally.batch.setProjectionMatrix(camera.combined);
         //mapRenderer.setView(camera);
         // mapRenderer.render();
+        camera.update();
         stage.act();
         stage.draw();
-        batch.begin();
-        font.draw(batch, winner, 500, 1200);
-        batch.end();
+        //batch.begin();
+       // font.draw(batch, winner, 500, 1200);
+        //batch.end();
 
     }
 

@@ -1,7 +1,8 @@
 package inf112.skeleton.app.roborally.screens.graphics;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -14,6 +15,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.parallel;
+
 public class RobotGraphics {
 
     private final int tileHeight;
@@ -23,13 +27,17 @@ public class RobotGraphics {
     private final int tileWidth;
     private ArrayList<Texture> textures = new ArrayList<>();
     private int textureCounter = 0;
-
+    private float robotSizex;
+    private float robotSizey;
+    private float totalDelay;
 
     public RobotGraphics(RoboRallyGame game){
         sequenceAction = new SequenceAction();
         this.game = game;
         this.tileWidth=game.getTiledMap().getProperties().get("tilewidth", Integer.class);
         this.tileHeight=game.getTiledMap().getProperties().get("tileheight", Integer.class);
+        robotSizex = tileWidth/1.5f;
+        robotSizey = tileHeight/1.5f;
 
         //Create list of Robot textures
         Texture texture = new Texture("assets/roborally/robot.png");
@@ -52,20 +60,44 @@ public class RobotGraphics {
 
     public void addActionToRobot(IRobot robot, MovementAction movementAction) {
         if (robot != null) {
-            System.out.println("adding action to " + robot.getOwner());
             sequenceAction.setActor(robotSprites.get(robot));
-            sequenceAction.addAction(movementAction.getAction(robot, game));
+            movementAction.addActionToSequence(sequenceAction, robot, game);
             robot.setOldRotation(robot.getDir().getRotationDegrees());
             //fix for syncing the fading of cards
+            totalDelay += movementAction.getActionTime();
+
+            //player is dead and is removed from game
+            if(robot.getLives() == 0) {
+                game.removePlayer(robot.getOwner(), totalDelay);
+            }
             game.getCardButtons().addDelay(movementAction.getActionTime());
         }
     }
+
+
+    public void addSyncMove(ArrayList<IRobot> robots) {
+        /**
+         * adds animations to robots to move at the same time
+         */
+        //ArrayList<Action> paralellActions = new ArrayList<>();
+        ParallelAction parallellMoves = parallel();
+        for(IRobot robot : robots){
+            Action robotAction = Actions.moveTo(coordToPixel(robot.getPos().x()), coordToPixel(robot.getPos().y()), 1);
+            robotAction.setActor(robotSprites.get(robot));
+            parallellMoves.addAction(robotAction);
+        totalDelay += 0.5;
+        }
+        sequenceAction.addAction(parallellMoves);
+        game.getCardButtons().addDelay(1);
+    }
+
+
 
     public void addImage(Robot robot) {
         Drawable drawable= new TextureRegionDrawable(textures.get(textureCounter));
         textureCounter++;
         Image robotImage= new Image(drawable);
-        robotImage.setSize(tileWidth / 1.5f, tileHeight / 1.5f);
+        robotImage.setSize(robotSizex, robotSizey);
         robotImage.setPosition(coordToPixel(robot.getPos().x()), coordToPixel(robot.getPos().y()));
         //get center of image so rotation is correct
         robotImage.setOrigin(robotImage.getWidth()/2, robotImage.getHeight()/2);
@@ -78,8 +110,8 @@ public class RobotGraphics {
         return sequenceAction;
     }
 
-    private int coordToPixel(int x) {
-        if(x > 12) {
+    public int coordToPixel(int x) {
+        if(x > 15) {
             throw new IllegalArgumentException("coordinate is outside of grid");
         }
         return (int) (x*tileWidth / 1.5f);
@@ -87,5 +119,23 @@ public class RobotGraphics {
 
     public int getTileWidth() {
         return tileWidth;
+    }
+    public void removeSprite(Robot robot) {
+        game.getStage().getActors().removeValue(robotSprites.get(robot), false);
+    }
+    public float getTotalDelay() {
+        return totalDelay;
+    }
+
+    public void resetDelay() {
+        totalDelay = 0;
+    }
+
+    public float getRobotSizex() {
+        return robotSizex;
+    }
+
+    public float getRobotSizey() {
+        return robotSizey;
     }
 }

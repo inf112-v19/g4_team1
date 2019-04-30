@@ -2,11 +2,11 @@ package inf112.skeleton.app.boardelementtests;
 
 import inf112.skeleton.app.base.actors.*;
 import inf112.skeleton.app.base.board.Board;
-import inf112.skeleton.app.base.board.boardelement.Laser;
 import inf112.skeleton.app.base.board.boardelement.Wall;
 import inf112.skeleton.app.base.utils.*;
 
 
+import inf112.skeleton.app.roborally.screens.graphics.MovementAction;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -45,7 +45,7 @@ public class RobotTest {
         Robot robot = new Robot(pos, Direction.EAST, new Player("tobias"), board);
         board.addTileObject(robot);
         //robot.moveBackwards();
-        robot.move(Direction.WEST);
+        robot.tryToMove(Direction.WEST, MovementAction.FAST);
         System.out.println(robot.getPos());
         assertEquals(robot.getPos(), new Pos(4, 5));
     }

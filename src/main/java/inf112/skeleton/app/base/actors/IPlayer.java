@@ -52,4 +52,11 @@ public interface IPlayer {
      */
     String getName();
 
+    /**
+     * set powerdown to be active next round
+     * @param b
+     */
+    void setPowerDown(int b);
+
+    int getPowerDown();
 }

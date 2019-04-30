@@ -6,12 +6,12 @@ import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
 import inf112.skeleton.app.roborally.screens.graphics.MovementAction;
 
-public class TurnConveyor extends BoardElement implements IActiveElement{
+public class DoubleSpeedTurnConveyor extends DoubleSpeedConveyor implements IActiveElement{
     private Direction dir;
     private final Direction turndir;
 
-    public TurnConveyor(Direction dir,Direction turndir,  Pos pos, IBoard board) {
-        super(pos, board);
+    public DoubleSpeedTurnConveyor(Direction dir,Direction turndir,  Pos pos, IBoard board) {
+        super(dir, pos, board);
         if (turndir == Direction.NORTH || turndir == Direction.SOUTH){
             throw new IllegalArgumentException();
         }
@@ -31,7 +31,7 @@ public class TurnConveyor extends BoardElement implements IActiveElement{
             }else{
                 robot.setDir(robot.getDir().left());
             }
-            robot.tryToMove(dir, MovementAction.NORMAL);
+            robot.tryToMove(dir, MovementAction.FAST);
             return robot;
         }
         return null;

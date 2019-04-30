@@ -23,99 +23,81 @@ public class Board implements IBoard {
     private int height, width;
 
     public Board(int height, int width) {
+        //used in testing
         board = new ArrayList<>(height * width);
         this.height = height;
-        //this.height = Gdx.graphics.getHeight();
         this.width = width;
-
         for (int i = 0; i < this.getHeight(); i++)
             for (int j = 0; j < this.getWidth(); j++)
                 board.add(new Tile());
     }
 
     public Board(String textFile) throws IOException {
+        //constructor for making the board from a textfile, used in testing
         FileReader fileReader = new FileReader(textFile);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
-
         String line, firstLine = bufferedReader.readLine();
         String[] arr = firstLine.split(",");
         if (arr.length != 2)
             throw new IllegalArgumentException("First line of file is not 2 chars");
-
         this.height = Integer.parseInt(arr[1]);
         this.width = Integer.parseInt(arr[0]);
         board = new ArrayList<>(height * width);
         int y = height;
-
         while ((line = bufferedReader.readLine()) != null) {
             y--;
-
             for (int x = 0; x < line.length(); x++) {
                 if (line.length() != width)
-                    throw new IllegalArgumentException(
-                            "Wrong length in board text file at line " + (height - y));
-
-                Tile tile = new Tile();
-                char symbol = line.charAt(x);
-                Pos pos = new Pos( x,  y);
-
-                switch (symbol) {
-                    case '-': break;
-
-                    case 'r': tile.addObject(
-                            new Conveyor(Direction.EAST, pos,  this));
-                    case 'd': tile.addObject(
-                            new Conveyor(Direction.SOUTH, pos,  this));
-                    case 'p': tile.addObject(
-                            new Pit(pos,  this));
-                    case 'N': tile.addObject(
-                            new Wall(Direction.NORTH, pos,  this));
-                    case 'E': tile.addObject(
-                            new Wall(Direction.EAST, pos,  this));
-                    case 'S': tile.addObject(
-                            new Wall(Direction.SOUTH, pos,  this));
-                    case 'W': tile.addObject(
-                            new Wall(Direction.WEST, pos,  this));
-                    case 'R': tile.addObject(
-                            new Robot(pos, Direction.SOUTH, new Player("Player 1"), this));
-                    case 'w': tile.addObject(
-                            new WrenchTile(pos,  this));
-                    case 's': tile.addObject(
-                            new Pusher(Direction.EAST, pos,  this));
-                    case 'Q': tile.addObject(
-                            new Spawn(pos, this));
-                }
-                board.add(tile);
+                    throw new IllegalArgumentException("Wrong length in board text file at line " + (height - y));
+                board.add(getTileFromSymbol(line.charAt(x), new Pos( x,  y)));
             }
         }
         bufferedReader.close();
     }
 
+    private Tile getTileFromSymbol(char symbol, Pos pos){
+        Tile tile = new Tile();
+        switch (symbol) {
+            case '-': break;
+            case 'r': tile.addObject(
+                    new Conveyor(Direction.EAST, pos,  this));
+            case 'd': tile.addObject(
+                    new Conveyor(Direction.SOUTH, pos,  this));
+            case 'p': tile.addObject(
+                    new Pit(pos,  this));
+            case 'N': tile.addObject(
+                    new Wall(Direction.NORTH, pos,  this));
+            case 'E': tile.addObject(
+                    new Wall(Direction.EAST, pos,  this));
+            case 'S': tile.addObject(
+                    new Wall(Direction.SOUTH, pos,  this));
+            case 'W': tile.addObject(
+                    new Wall(Direction.WEST, pos,  this));
+            case 'R': tile.addObject(
+                    new Robot(pos, Direction.SOUTH, new Player("Player 1"), this));
+            case 'w': tile.addObject(
+                    new WrenchTile(pos,  this));
+            case 's': tile.addObject(
+                    new Pusher(Direction.EAST, pos,  this));
+            case 'Q': tile.addObject(
+                    new Spawn(pos, this));
+        }
+        return tile;
+    }
+
     public Board(TiledMap board, RoboRallyGame game) {
         this.game = game;
-        /*
-          constructor that adds all elements according to the tiles in the tmx object
-         */
-
-        //Denne bredden er egendefinert, og ikke flytende. dvs. den vil ikke tilpasse seg grafikk-skjermen
         int mapWidth = board.getProperties().get("width", Integer.class);
-
-        //denne bredden er flytende, og tilpasser seg alltid cfg.width
-        //float mapWidth = Gdx.graphics.getWidth();
-        //float mapHeight = Gdx.graphics.getHeight();
-
         int mapHeight = board.getProperties().get("height", Integer.class);
         this.board = new ArrayList<>(height * width);
         this.height = mapHeight;
         this.width = mapWidth;
-
         for (int i = 0; i < this.getHeight(); i++)
             for (int j = 0; j < this.getWidth(); j++)
                 this.board.add(new Tile());
-
         for (int x = 0; x < mapWidth;   x++) {
             for (int y = 0; y < mapHeight; y++) {
-                int id = ((TiledMapTileLayer) board.getLayers().get(0)).getCell(x, y).getTile().getId();
+                int id = ((TiledMapTileLayer) board.getLayers().get(1)).getCell(x, y).getTile().getId()-1; //-1 because Tiled and libgdx start indexing different
                 if(getBoardElemFromTmx(id, new Pos(x, y))!= null)
                     addTileObject(getBoardElemFromTmx(id, new Pos(x, y)));
             }
@@ -123,56 +105,58 @@ public class Board implements IBoard {
     }
 
     private IBoardElement getBoardElemFromTmx(int id, Pos pos) {
-        /*
-          id is the number of the tile used in the tmx file
-         */
+          //id is the number of the tile used in the tmx file
         switch(id){
-            case 1: return new Pusher(Direction.SOUTH, pos , this);
-            case 2: return new Pusher(Direction.WEST, pos , this);
-            case 3: return new Pusher(Direction.NORTH, pos , this);
-            case 4: return new Pusher(Direction.EAST, pos , this);
-            case 5: return null; //this is the empty tile
-            case 6: return new Pit(pos, this);
-            case 7: return null; //har ikke en klasse for denne
-            case 12: return new DoubleSpeedConveyor(Direction.NORTH, pos, this);
-            case 13: return new DoubleSpeedConveyor(Direction.EAST, pos, this);
-            case 14: return new WrenchTile(pos, this);
-            /*
-            case 15: return new Conveyor();
-            case 16: return new Conveyor();
-            case 17: return new Conveyor();
-            case 18: return new Conveyor();
-            */
-            case 19: return new DoubleSpeedConveyor(Direction.SOUTH, pos, this);
-            case 20: return new DoubleSpeedConveyor(Direction.WEST, pos, this);
-            case 21: return new Wall(Direction.EAST, pos, this);
-            case 26: return new Wall(Direction.SOUTH, pos, this);
-            case 27: return new Wall(Direction.WEST, pos, this);
-            case 28: return new Wall(Direction.NORTH, pos ,this);
-            case 29: return new TurnConveyor(Direction.SOUTH,Direction.WEST,pos,this);
-            case 30: return new TurnConveyor(Direction.WEST,Direction.WEST,pos,this);
-            case 31: return new TurnConveyor(Direction.EAST,Direction.EAST,pos,this);
-            case 32: return new TurnConveyor(Direction.SOUTH,Direction.EAST,pos,this);
-            case 33: return new Laser(Direction.NORTH,pos,this);
-            case 34: return new Laser(Direction.EAST,pos,this);
-            case 36: return new TurnConveyor(Direction.EAST,Direction.WEST,pos,this);
-            case 37: return new TurnConveyor(Direction.NORTH,Direction.WEST, pos, this);
-            case 38: return new TurnConveyor(Direction.NORTH,Direction.EAST,pos,this);
-            case 39: return new TurnConveyor(Direction.WEST, Direction.EAST,pos,this);
-            case 40: return new Laser(Direction.SOUTH,pos,this);
-            case 41: return new Laser(Direction.WEST,pos,this);
-            case 43: return new Conveyor(Direction.NORTH,pos,this);
-            case 44: return new Conveyor(Direction.SOUTH,pos,this);
-            case 45: return new Conveyor(Direction.EAST,pos,this);
-            case 46: return new Conveyor(Direction.WEST,pos,this);
-            case 47: return new Gear(Direction.WEST, pos ,this);
-            case 48: return new Gear(Direction.EAST, pos ,this);
-            case 49: return new Flag(pos, this);
-            case 50: return new Spawn(pos, this);
-
+            case 0: return new Conveyor(Direction.EAST,pos,this);
+            case 1: return new TurnConveyor(Direction.NORTH,Direction.WEST, pos, this);
+            case 2: return new TurnConveyor(Direction.WEST,Direction.WEST,pos,this);
+            case 3: return new TurnConveyor(Direction.EAST,Direction.WEST,pos,this);
+            case 4: return new TurnConveyor(Direction.SOUTH,Direction.WEST,pos,this);
+            case 5: return new Conveyor(Direction.NORTH,pos,this);
+            case 6: return new TurnConveyor(Direction.SOUTH,Direction.EAST,pos,this);
+            case 7: return new TurnConveyor(Direction.EAST,Direction.EAST,pos,this);
+            case 8: return new TurnConveyor(Direction.NORTH,Direction.EAST,pos,this);
+            case 9: return new Conveyor(Direction.SOUTH,pos,this);
+            case 10: return new TurnConveyor(Direction.WEST, Direction.EAST,pos,this);
+            case 11: return new Conveyor(Direction.WEST,pos,this);
+            case 12: return new DoubleSpeedConveyor(Direction.EAST, pos, this);
+            case 13: return new DoubleSpeedTurnConveyor(Direction.NORTH,Direction.WEST, pos, this);
+            case 14: return new DoubleSpeedTurnConveyor(Direction.WEST,Direction.WEST, pos, this);
+            case 15: return new DoubleSpeedTurnConveyor(Direction.EAST,Direction.WEST, pos, this);
+            case 16: return new DoubleSpeedTurnConveyor(Direction.SOUTH,Direction.WEST, pos, this);
+            case 17: return new DoubleSpeedConveyor(Direction.NORTH, pos, this);
+            case 18: return new DoubleSpeedTurnConveyor(Direction.SOUTH,Direction.EAST, pos, this);
+            case 19: return new DoubleSpeedTurnConveyor(Direction.EAST,Direction.EAST, pos, this);
+            case 20: return new DoubleSpeedTurnConveyor(Direction.WEST,Direction.EAST, pos, this);
+            case 21: return new DoubleSpeedTurnConveyor(Direction.NORTH,Direction.EAST, pos, this);
+            case 22: return new DoubleSpeedConveyor(Direction.SOUTH, pos, this);
+            case 23: return new DoubleSpeedConveyor(Direction.WEST, pos, this);
+            case 24: return null; //this is the empty tile
+            //TODO: can add the number to the flag if we want
+            case 25: return new Flag(pos, this, 1);
+            case 26: return new Flag(pos, this, 2);
+            case 27: return new Flag(pos, this, 3);
+            case 28: return new Flag(pos, this, 4);
+            case 29: return new Gear(Direction.WEST, pos ,this);
+            case 30: return new Gear(Direction.EAST, pos ,this);
+            case 31: return new Laser(Direction.NORTH,pos,this);
+            case 32: return new Laser(Direction.EAST,pos,this);
+            case 35: return new Laser(Direction.SOUTH,pos,this);
+            case 36: return new Laser(Direction.WEST,pos,this);
+            case 37: return new Pit(pos, this);
+            case 38: return new Pusher(Direction.EAST, pos , this);
+            case 39: return new Pusher(Direction.NORTH, pos , this);
+            case 40: return new Pusher(Direction.SOUTH, pos , this);
+            case 41: return new Pusher(Direction.WEST, pos , this);
+            case 42: return new Spawn(pos, this);
+            case 43: return new Wall(Direction.EAST, pos, this);
+            case 44: return new Wall(Direction.NORTH, pos ,this);
+            case 45: return new Wall(Direction.SOUTH, pos, this);
+            case 46: return new Wall(Direction.WEST, pos, this);
+            case 47: return null; //TODO: hammer and wrench
+            case 48: return new WrenchTile(pos, this);
         }
-        return null;
-        //throw new IllegalArgumentException("not a valid id");
+        throw new IllegalArgumentException("not a valid id");
     }
 
     @Override
@@ -218,12 +202,12 @@ public class Board implements IBoard {
 
     @Override
     public boolean containsRobot(Pos pos) {
-        if(outOfBounds(pos))
-            throw new IllegalArgumentException(pos+" out of bounds");
+        if(outOfBounds(pos)) {
+            return false;
+        }
         List<IBoardElement> tileObjects =  get(pos).getContent();
         for (IBoardElement tileObject : tileObjects)
             if (tileObject instanceof IRobot) return true;
-
         return false;
     }
 
@@ -232,7 +216,6 @@ public class Board implements IBoard {
         List<IBoardElement> tileObjects =  board.get(indexFromCor(pos)).getContent();
         for (IBoardElement tileObject : tileObjects)
             if (tileObject instanceof IRobot) return (IRobot) tileObject;
-
         throw new IllegalStateException(pos.x() + "," + pos.y() + " does not contain robot");
     }
 
@@ -242,7 +225,6 @@ public class Board implements IBoard {
         for (IBoardElement tileObject : tileObjects)
             if (tileObject instanceof Wall)
                 return ((Wall) tileObject).getWallDir();
-
         return null;
     }
 
@@ -251,7 +233,6 @@ public class Board implements IBoard {
         List<IBoardElement> tileObjects =  board.get(indexFromCor(pos)).getContent();
         for (IBoardElement tileObject : tileObjects)
             if (tileObject instanceof Pit) return true;
-
         return false;
     }
 
@@ -260,7 +241,6 @@ public class Board implements IBoard {
         List<IBoardElement> tileObjects =  board.get(indexFromCor(pos)).getContent();
         for (IBoardElement tileObject : tileObjects)
             if (tileObject instanceof Flag) return true;
-
         return false;
     }
 
@@ -279,7 +259,6 @@ public class Board implements IBoard {
                     elems.add((IActiveElement) obj);
             }
         }
-
         return elems;
     }
 
@@ -292,7 +271,6 @@ public class Board implements IBoard {
                     elems.add((Flag) obj);
             }
         }
-
         return elems;
     }
 
@@ -305,7 +283,6 @@ public class Board implements IBoard {
                     elems.add((WrenchTile) obj);
             }
         }
-
         return elems;
     }
 
@@ -324,8 +301,48 @@ public class Board implements IBoard {
     }
 
     @Override
-    public void move(Robot robot, MovementAction moveAction) {
-        game.getGraphics().addActionToRobot(robot, moveAction);
+    public void move(IRobot robot) {
+       move(robot, MovementAction.NORMAL);
+    }
+    @Override
+    public RoboRallyGame getGame() {
+        return game;
     }
 
+
+    @Override
+    public void move(IRobot robot, MovementAction moveAction) {
+        //if for testing
+        if(game != null)
+            game.getGraphics().addActionToRobot(robot, moveAction);
+    }
+
+
+    @Override
+    public void moveSeveral(ArrayList<IRobot> robots) {
+        if(game != null)
+            game.getGraphics().addSyncMove(robots);
+
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

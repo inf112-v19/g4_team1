@@ -5,6 +5,7 @@ import inf112.skeleton.app.base.actors.Robot;
 import inf112.skeleton.app.base.board.Board;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
+import inf112.skeleton.app.roborally.screens.graphics.MovementAction;
 
 public class Pusher extends Wall implements  IActiveElement {
     private Direction pushDir;
@@ -21,7 +22,7 @@ public class Pusher extends Wall implements  IActiveElement {
         if (board.containsRobot(pos) && board.getRobot(pos).hasNotMoved()) {
             Robot robot = (Robot) board.getRobot(pos);
             robot.setMoved(true);
-            robot.move(pushDir);
+            robot.tryToMove(pushDir, MovementAction.FAST);
             return robot;
         }
         return null;
