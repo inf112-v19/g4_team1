@@ -64,26 +64,38 @@ public class Robot implements IRobot {
             respawn();
             return;
         }
-        if (board.containsRobot(newPos)) {
-            System.out.println("prøver å pushe");
-            // can go here if other robot can be pushed
+        //creates a list of robots to push
+        ArrayList<IRobot> robotsToPush = new ArrayList<>();
+        while (board.containsRobot(newPos)){
             IRobot otherRobot = board.getRobot(newPos);
-            if(board.outOfBounds(otherRobot.getPos().getAdjacent(moveDirection))){
-                //special case if other robot is pushed out of board
+            if (!board.outOfBounds(otherRobot.getPos().getAdjacent(moveDirection))) {
+                robotsToPush.add(otherRobot);
+                newPos = newPos.getAdjacent(moveDirection);
+            } else {
+                //moves the robot out of board to respawn
                 otherRobot.tryToMove(moveDirection);
-                this.move(newPos, movementAction);
-                return;
-            }
-            if(otherRobot.canGo(moveDirection)){
-                //both robots move at the same time
-                moveAdditionalRobot( otherRobot, moveDirection);
-                return;
+                break;
             }
         }
-        move(newPos, movementAction);
+        if(!robotsToPush.isEmpty()) {
+            robotsToPush.add(this);
+            moveAdditionalRobots(robotsToPush, moveDirection);
+        }else {
+            this.move(newPos, movementAction);
+        }
+
+        /*
+        if(otherRobot.canGo(moveDirection)){
+            //both robots move at the same time
+            moveAdditionalRobots( otherRobot, moveDirection);
+            return;
+        }
+        */
     }
 
+
     public boolean canGo(Direction moveDir){
+        System.out.println("er i canGo med robot på "+pos);
         if (moveDir == null)
             throw new IllegalArgumentException("No direction to tryToMove in.");
         Pos newPos = pos.getAdjacent(moveDir);
@@ -97,15 +109,9 @@ public class Robot implements IRobot {
         if (board.getWallDir(newPos) != null) {
             return !wallIsBlocking(newPos, moveDir) ;
         }
-
-
         if(board.getWallDir(pos) != null) {
-            if (wallIsBlocking(pos, moveDir)) {
-                return false;
-            }
+            return !wallIsBlocking(pos, moveDir);
         }
-
-
         return true;
     }
     @Override
@@ -113,19 +119,16 @@ public class Robot implements IRobot {
         this.pos = pos;
     }
 
-    private void moveAdditionalRobot(IRobot otherRobot, Direction moveDirection) {
+    private void moveAdditionalRobots(ArrayList<IRobot> robots, Direction moveDirection) {
         //this robot
-        board.get(pos).removeContent(this);
-        board.get(pos.getAdjacent(moveDirection)).addObject(this);
-        pos = pos.getAdjacent(moveDirection);
-        System.out.println(owner +" moved to new pos "+pos+" facing "+dir + " pushing other robot");
-        //other robot
-        board.get(otherRobot.getPos()).removeContent(otherRobot);
-        board.get(otherRobot.getPos().getAdjacent(moveDirection)).addObject(otherRobot);
-        otherRobot.setPos(otherRobot.getPos().getAdjacent(moveDirection));
-        System.out.println(owner +" was pushed to new pos "+otherRobot.getPos()+" facing "+otherRobot.getDir());
-
-        board.moveSeveral(this, otherRobot);
+        for(IRobot robot : robots){
+            Pos robotPos = robot.getPos();
+            board.get(robotPos).removeContent(robot);
+            board.get(robotPos.getAdjacent(moveDirection)).addObject(robot);
+            robot.setPos(robotPos.getAdjacent(moveDirection));
+            System.out.println(robot.getOwner() +" moved to new pos "+robot.getPos()+" facing "+robot.getDir() + " with sync movement");
+        }
+        board.moveSeveral(robots);
     }
 
     private void move(Pos newPos, MovementAction movetype) {
@@ -161,7 +164,7 @@ public class Robot implements IRobot {
     }
 
     private void respawn() {
-        System.out.println("respawn");
+        System.out.println(getOwner()+" respawn");
         diedThisRound = true;
         lives--;
         if (lives < 0) {

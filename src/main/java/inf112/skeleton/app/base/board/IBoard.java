@@ -161,5 +161,5 @@ public interface IBoard {
 
     RoboRallyGame getGame();
 
-    void moveSeveral(IRobot robot, IRobot otherRobot);
+    void moveSeveral(ArrayList<IRobot> robots);
 }

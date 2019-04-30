@@ -131,17 +131,13 @@ public class CardPhaseButtons {
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 System.out.println("klicked powerdown");
                 if (player.getPowerDown() !=2) {
-                    System.out.println(player.getPowerDown());
                     player.setPowerDown(2);
                     player.getPowerButton().setDrawable(new TextureRegionDrawable(new TextureRegion(
                             new Texture("assets/roborally/power_down_active.png"))));
-                    System.out.println(player.getPowerDown());
                 } else{
                     player.getPowerButton().setDrawable(new TextureRegionDrawable(new TextureRegion(
                             new Texture("assets/roborally/power_down.png"))));
-                    System.out.println(player.getPowerDown());
                     player.setPowerDown(-1);
-                    System.out.println(player.getPowerDown());
                 }
             }
         });
@@ -159,7 +155,6 @@ public class CardPhaseButtons {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 player.setPowerDown(player.getPowerDown()-1);
-                System.out.println("klicked finish " + selectedCards.size());
                 if(isPoweredDown){
                     //adder powerdown card
                     Card card = new Card(CardType.POWERDOWN, -1);
@@ -257,7 +252,7 @@ public class CardPhaseButtons {
         }
     }
     public void fadeCard(Card card) {
-        System.out.println("fading with delay "+delay);
+        //System.out.println("fading with delay "+delay);
 
         game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(
                 allButtonsAndCards.get(card),false)).addAction(new SequenceAction(
@@ -270,7 +265,7 @@ public class CardPhaseButtons {
     }
 
     public void addDelay(float i) {
-        System.out.println("adds delay "+i);
+        //System.out.println("adds delay "+i);
         delay+=i;
     }
 

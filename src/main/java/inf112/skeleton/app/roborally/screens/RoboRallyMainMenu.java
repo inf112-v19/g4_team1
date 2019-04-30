@@ -76,7 +76,8 @@ public class RoboRallyMainMenu implements Screen {
                 ArrayList<String> names = new ArrayList<>();
                 names.add("player1");
                 names.add("AI");
-                //names.add("Player3");
+                names.add("AI");
+                names.add("AI");
                 roboRally.setScreen(new RoboRallyGame(roboRally, names));
                 dispose();
                 return true;
