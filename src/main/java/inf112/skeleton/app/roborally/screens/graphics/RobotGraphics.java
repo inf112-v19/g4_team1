@@ -85,7 +85,7 @@ public class RobotGraphics {
             Action robotAction = Actions.moveTo(coordToPixel(robot.getPos().x()), coordToPixel(robot.getPos().y()), 1);
             robotAction.setActor(robotSprites.get(robot));
             parallellMoves.addAction(robotAction);
-        totalDelay += 1;
+        totalDelay += 0.5;
         }
         sequenceAction.addAction(parallellMoves);
         game.getCardButtons().addDelay(1);
