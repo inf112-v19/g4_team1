@@ -55,7 +55,7 @@ public class Robot implements IRobot {
     @Override
     public void tryToMove(Direction moveDirection, MovementAction movementAction) {
         if (!canGo(moveDirection)) {
-            //TODO: add animation for unable to move
+            board.move(this, MovementAction.STUCK);
             return;
         }
         Pos newPos = pos.getAdjacent(moveDirection);
@@ -83,34 +83,25 @@ public class Robot implements IRobot {
         }else {
             this.move(newPos, movementAction);
         }
-
-        /*
-        if(otherRobot.canGo(moveDirection)){
-            //both robots move at the same time
-            moveAdditionalRobots( otherRobot, moveDirection);
-            return;
-        }
-        */
     }
 
 
     public boolean canGo(Direction moveDir){
-        System.out.println("er i canGo med robot på "+pos);
+        //System.out.println("er i canGo med robot på "+pos);
         if (moveDir == null)
             throw new IllegalArgumentException("No direction to tryToMove in.");
         Pos newPos = pos.getAdjacent(moveDir);
-        if (board.outOfBounds(newPos) && !wallIsBlocking(pos,moveDir)) {
+        if(board.getWallDir(pos) != null) {
+            return !wallIsBlocking(pos, moveDir);
+        }
+        if (board.outOfBounds(newPos)) {
             return true;
         }
-        if (board.containsRobot(newPos)) {
-            return board.getRobot(newPos).canGo(moveDir);
-        }
-
         if (board.getWallDir(newPos) != null) {
             return !wallIsBlocking(newPos, moveDir) ;
         }
-        if(board.getWallDir(pos) != null) {
-            return !wallIsBlocking(pos, moveDir);
+        if (board.containsRobot(newPos)) {
+            return board.getRobot(newPos).canGo(moveDir);
         }
         return true;
     }

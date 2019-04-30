@@ -17,7 +17,8 @@ public enum MovementAction {
     NORMAL,
     DEATH_ANIMATION,
     FAST,
-    POWERDOWN;
+    POWERDOWN,
+    STUCK;
 
 
     private final float STANDARD_MOVE_DURATION = 0.5f;
@@ -63,6 +64,11 @@ public enum MovementAction {
                 Action end = color(Color.valueOf("ffffffff"), SHORT_MOVE_DURATION, Interpolation.linear);
                 seq.addAction(sequence(start, end));
                 return;
+            case STUCK:
+                Action start2 = color(Color.ORANGE, SHORT_MOVE_DURATION, Interpolation.linear);
+                Action end2 = color(Color.valueOf("ffffffff"), SHORT_MOVE_DURATION, Interpolation.linear);
+                seq.addAction(sequence(start2, end2));
+                return;
         }
         throw new IllegalArgumentException("no movetype");
         }
@@ -73,6 +79,8 @@ public enum MovementAction {
             case DEATH_ANIMATION: return SHORT_MOVE_DURATION*2;
             case FAST: return SHORT_MOVE_DURATION;
             case POWERDOWN: return SHORT_MOVE_DURATION*2;
+            case STUCK: return SHORT_MOVE_DURATION*2;
+
         }
         throw new IllegalStateException("no movetype");
     }
