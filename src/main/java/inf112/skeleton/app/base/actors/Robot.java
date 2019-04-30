@@ -6,6 +6,7 @@ import inf112.skeleton.app.base.board.boardelement.Laser;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
 import inf112.skeleton.app.roborally.screens.graphics.MovementAction;
+import inf112.skeleton.app.roborally.screens.graphics.RobotGraphics;
 
 import java.util.ArrayList;
 
