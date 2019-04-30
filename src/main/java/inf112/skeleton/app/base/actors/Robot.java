@@ -15,7 +15,7 @@ public class Robot implements IRobot {
     private Direction dir;
     private Player owner;
     private IBoard board;
-    private final int MAX_HEALTH = 10;
+    private final int MAX_HEALTH = 9;
     private int health;
     private int lives;
     private Pos respawnPos;
