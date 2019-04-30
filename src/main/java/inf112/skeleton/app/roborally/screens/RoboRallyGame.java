@@ -277,7 +277,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     //only show visuals if not on edge
                     //TODO: should probably not show laser if next to player or wall either, looks cleaner
                     if (!gameBoard.outOfBounds(robot.getPos().getAdjacent(robot.getDir()))) {
-                        if(!robot.getPos().equals(laserDest)) {
+                        if (!robot.getPos().equals(laserDest)) {
                             int x = robot.getPos().getAdjacent(robot.getDir()).x();
                             int y = robot.getPos().getAdjacent(robot.getDir()).y();
                             float newX = robotGraphics.coordToPixel(laserDest.x());
@@ -288,8 +288,9 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                             laser.addAction(new SequenceAction(Actions.moveTo(newX, newY, 0.5f), Actions.fadeOut(0f)));
                         }
                     }
-
+                }
                     //update UI
+                for (int i = 0; i < players.size(); i++) {
                     players.get(i).getPowerButton().setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture("assets/roborally/power_down.png"))));
                     Label healthLabel = healthLabelPos.get(i);
                     healthLabel.setText("HP: " + players.get(i).getRobot().getHealth());
