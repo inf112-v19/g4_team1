@@ -254,15 +254,18 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             @Override
             public void run() {
                 for (int i = 0; i < players.size(); i++) {
-                    //TODO: move laser to own class
-                    //laser
+                    //TODO: move laser to own class or method
+                    //shoot laser
                     Robot robot = players.get(i).getRobot();
                     Image laser;
 
+                    //vertical laser
                     if (players.get(i).getRobot().getDir() == Direction.SOUTH || players.get(i).getRobot().getDir() == Direction.NORTH) {
                         Texture vLaser = new Texture("assets/roborally/laser-vertical.png");
                         laser = new Image(vLaser);
-                    } else {
+                    }
+                    //horizontal laser
+                    else {
                         Texture hLaser = new Texture("assets/roborally/laser-horizontal.png");
                         laser = new Image(hLaser);
                     }
@@ -271,6 +274,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     Pos laserDest = robot.getLaserDestination();
 
                     //only show visuals if not on edge
+                    //TODO: should probably not show laser if next to player or wall either, looks cleaner
                     if (!gameBoard.outOfBounds(robot.getPos().getAdjacent(robot.getDir()))) {
                         int x = robot.getPos().getAdjacent(robot.getDir()).x();
                         int y = robot.getPos().getAdjacent(robot.getDir()).y();
