@@ -274,8 +274,8 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     Pos laserDest = robot.getLaserDestination();
                     System.out.println("robot pos: " + robot.getPos());
                     System.out.printf("laser pos:" + laserDest);
-                    //only show visuals if not on edge
-                    //TODO: should probably not show laser if next to player or wall either, looks cleaner
+
+                    // only show visual laser if target is not on adjacent tile or the robots pos
                     if (!gameBoard.outOfBounds(robot.getPos().getAdjacent(robot.getDir()))) {
                         if (!robot.getPos().equals(laserDest)) {
                             int x = robot.getPos().getAdjacent(robot.getDir()).x();
