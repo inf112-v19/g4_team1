@@ -272,19 +272,21 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     laser.setSize(robotGraphics.getRobotSizex(), robotGraphics.getRobotSizey());
                     robot.laser();
                     Pos laserDest = robot.getLaserDestination();
-
+                    System.out.println("robot pos: " + robot.getPos());
+                    System.out.printf("laser pos:" + laserDest);
                     //only show visuals if not on edge
                     //TODO: should probably not show laser if next to player or wall either, looks cleaner
                     if (!gameBoard.outOfBounds(robot.getPos().getAdjacent(robot.getDir()))) {
-                        int x = robot.getPos().getAdjacent(robot.getDir()).x();
-                        int y = robot.getPos().getAdjacent(robot.getDir()).y();
-                        float newX = robotGraphics.coordToPixel(laserDest.x());
-                        float newY = robotGraphics.coordToPixel(laserDest.y());
+                        if(!robot.getPos().equals(laserDest)) {
+                            int x = robot.getPos().getAdjacent(robot.getDir()).x();
+                            int y = robot.getPos().getAdjacent(robot.getDir()).y();
+                            float newX = robotGraphics.coordToPixel(laserDest.x());
+                            float newY = robotGraphics.coordToPixel(laserDest.y());
 
-                        laser.setPosition(robotGraphics.coordToPixel(x), robotGraphics.coordToPixel(y));
-                        foreground.addActor(laser);
-                        laser.addAction(new SequenceAction(Actions.moveTo(newX, newY, 0.5f), Actions.fadeOut(0f)));
-
+                            laser.setPosition(robotGraphics.coordToPixel(x), robotGraphics.coordToPixel(y));
+                            foreground.addActor(laser);
+                            laser.addAction(new SequenceAction(Actions.moveTo(newX, newY, 0.5f), Actions.fadeOut(0f)));
+                        }
                     }
 
                     //update UI
