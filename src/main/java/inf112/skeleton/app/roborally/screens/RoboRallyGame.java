@@ -348,7 +348,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 listLife.add(life);
 
                 life.setSize(life.getWidth() / 1.5f, life.getHeight() / 1.5f);
-                life.setPosition(98 * 17 / 1.5f + columnPixel + j * life.getWidth(), rowPixel + 10);
+                life.setPosition(98 * 18 / 1.5f + columnPixel + j * life.getWidth(), rowPixel + 10);
                 background.addActor(life);
             }
             lives.put(player, listLife);
@@ -356,7 +356,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             Image powerDown = new Image(new Texture("assets/roborally/power_down.png"));
 
             powerDown.setSize(powerDown.getWidth() / 1.5f, powerDown.getHeight() / 1.5f);
-            powerDown.setPosition(98 * 17 / 1.5f + columnPixel + player.getRobot().getLives() * listLife.get(0).getWidth(),
+            powerDown.setPosition(98 * 18 / 1.5f + columnPixel + player.getRobot().getLives() * listLife.get(0).getWidth(),
                     rowPixel + 10);
             player.setPowerButton(powerDown);
 
@@ -366,11 +366,11 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
             String name = player.getName();
             Label nameLabel = new Label(name, labelStyle);
-            nameLabel.setPosition(98 * 15 / 1.5f + columnPixel, rowPixel + 15);
-            cardBox.setPosition(98 * 15 / 1.5f + columnPixel, rowPixel - cardBox.getHeight());
+            nameLabel.setPosition(98 * 16 / 1.5f + columnPixel, rowPixel + 15);
+            cardBox.setPosition(98 * 16 / 1.5f + columnPixel, rowPixel - cardBox.getHeight());
 
             Label healthLabel = new Label("HP: " + player.getRobot().getHealth(), labelStyle);
-            healthLabel.setPosition(98 * 15 / 1.5f + columnPixel, rowPixel);
+            healthLabel.setPosition(98 * 16 / 1.5f + columnPixel, rowPixel);
             healthLabelPos.add(healthLabel);
             background.addActor(flagLabel);
             background.addActor(healthLabel);
