@@ -297,10 +297,10 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     }
                 }
                 //update UI
-                for (int i = 0; i < players.size(); i++) {
-                    players.get(i).getPowerButton().setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture("assets/roborally/power_down.png"))));
+                for (int i = 0; i < playerPosition.size(); i++) {
+                    playerPosition.get(i).getPowerButton().setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture("assets/roborally/power_down.png"))));
                     Label healthLabel = healthLabelPos.get(i);
-                    healthLabel.setText("HP: " + players.get(i).getRobot().getHealth());
+                    healthLabel.setText("HP: " + playerPosition.get(i).getRobot().getHealth());
                     Label flagLabel = flagLabelPos.get(i);
                     flagLabel.setText("Visited Flags: " + players.get(i).getRobot().getFlags().size());
                 }
@@ -552,13 +552,13 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             return;
         }
         for (int i = 4; i >= player.getRobot().getHealth()-1; i--) {
-            Texture locked = new Texture("assets/roborally/regLock1.png");
+            Texture locked = new Texture("assets/roborally/locked.png");
             Drawable draw = new TextureRegionDrawable(locked);
             Image lockedImage =  new Image(draw);
-            int x = (int) cardAreaSlots.get(playerPosition.indexOf(player)).getX()+3;
-            int y = (int) cardAreaSlots.get(playerPosition.indexOf(player)).getY()+4;
-            lockedImage.setSize(lockedImage.getWidth() /1.5f, lockedImage.getHeight() /1.5f);
-            lockedImage.setPosition(x + i*(lockedImage.getWidth()+7), y);
+            int x = (int) cardAreaSlots.get(playerPosition.indexOf(player)).getX()+4;
+            int y = (int) cardAreaSlots.get(playerPosition.indexOf(player)).getY()+45;
+            lockedImage.setSize(lockedImage.getWidth() /4.5f, lockedImage.getHeight() /4.5f);
+            lockedImage.setPosition(x + i*(lockedImage.getWidth()+12), y);
             blockedImages.add(lockedImage);
             foreground.addActor(lockedImage);
         }
