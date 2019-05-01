@@ -37,6 +37,7 @@ public class PreferencesScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
         this.maps.add("assets/roborally/game_board1.tmx");
         this.maps.add("assets/roborally/game_board2.tmx");
+        this.maps.add("assets/roborally/game_boardtest.tmx");
 
     }
 
