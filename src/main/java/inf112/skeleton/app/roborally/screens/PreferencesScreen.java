@@ -104,8 +104,18 @@ public class PreferencesScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if (names.size() == 8) {
-                    //todo: should display msg on screen
+                    //TODO: should display msg on screen
                     System.out.println("Cant add more players");
+                    Dialog dialog = new Dialog("warning", skin){
+                        public void result(Object obj){
+                            System.out.println(obj);
+                        }
+                    };
+                    dialog.text("cant add more than 8 players");
+
+                    dialog.button("OK", true);
+                    dialog.show(stage);
+
                     return;
                 }
                 TextInputListener inputName = new TextInputListener() {
