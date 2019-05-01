@@ -547,8 +547,8 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             Texture locked = new Texture("assets/roborally/regLock1.png");
             Drawable draw = new TextureRegionDrawable(locked);
             Image lockedImage =  new Image(draw);
-            int x = (int) cardAreaSlots.get(players.indexOf(player)).getX()+3;
-            int y = (int) cardAreaSlots.get(players.indexOf(player)).getY()+4;
+            int x = (int) cardAreaSlots.get(playerPosition.indexOf(player)).getX()+3;
+            int y = (int) cardAreaSlots.get(playerPosition.indexOf(player)).getY()+4;
             lockedImage.setSize(lockedImage.getWidth() /1.5f, lockedImage.getHeight() /1.5f);
             lockedImage.setPosition(x + i*(lockedImage.getWidth()+7), y);
             blockedImages.add(lockedImage);
