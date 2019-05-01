@@ -7,10 +7,12 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import inf112.skeleton.app.roborally.RoboRally;
 
@@ -27,6 +29,8 @@ public class PreferencesScreen implements Screen {
     private Skin skin;
     private ArrayList<String> maps= new ArrayList<>();
     private int mapindex = 0;
+    Image mapimg;
+
 
 
 
@@ -37,7 +41,7 @@ public class PreferencesScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
         this.maps.add("assets/roborally/game_board1.tmx");
         this.maps.add("assets/roborally/game_board2.tmx");
-        this.maps.add("assets/roborally/game_boardtest.tmx");
+        this.maps.add("assets/roborally/game_board3.tmx");
 
     }
 
@@ -83,6 +87,12 @@ public class PreferencesScreen implements Screen {
         table.add(start).fillX().uniformX().pad(10);
         table.row();
         table.add(back).fillX().uniformX().pad(10);
+        mapimg = new Image(new Texture("assets/roborally/mapimages/map"+(mapindex+1)+".png"));
+        mapimg.setSize(300, 300);
+        mapimg.setPosition(Gdx.graphics.getWidth()/2+ 300, Gdx.graphics.getHeight()/2);
+        stage.addActor(mapimg);
+
+        //changeImage();
 
 
         changemap.addListener(new ChangeListener() {
@@ -91,6 +101,8 @@ public class PreferencesScreen implements Screen {
                 mapindex = (mapindex +1) % maps.size();
                 System.out.println(mapindex);
                 changemap.setText("map number "+(mapindex +1));
+                changeImage();
+
             }
         });
         back.addListener(new ChangeListener() {
@@ -185,6 +197,20 @@ public class PreferencesScreen implements Screen {
         });
     }
 
+
+    private void changeImage(){
+        mapimg.setDrawable(new SpriteDrawable(new Sprite(new Texture("assets/roborally/mapimages/map"+(mapindex+1)+".png"))));
+
+
+        /*
+        mapimg = new Image(new Texture("assets/roborally/mapimages/map"+(mapindex+1)+".png"));
+        mapimg.setSize(400, 400);
+        mapimg.setPosition(500, 500);
+        stage.addActor(mapimg);
+        */
+
+
+    }
     private void errorMsg(String err){
         Dialog dialog = new Dialog("warning", skin){
             public void result(Object obj){
