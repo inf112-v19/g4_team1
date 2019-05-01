@@ -521,6 +521,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
 
     public void removePlayer(Player player, float delay) {
+        players.remove(player);
         player.getCards().clear();
         Timer timer = new Timer();
         Timer.Task task = new Timer.Task() {
@@ -532,7 +533,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 float y = cardAreaSlots.get(playerPosition.indexOf(player)).getY();
                 dead.setPosition(x + 10, y);
                 foreground.addActor(dead);
-                players.remove(player);
                 robotGraphics.removeSprite(player.getRobot());
             }
         };

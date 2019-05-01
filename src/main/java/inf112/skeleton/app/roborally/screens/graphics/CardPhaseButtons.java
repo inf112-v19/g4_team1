@@ -201,9 +201,12 @@ public class CardPhaseButtons {
                     currentButtonsAndCards.clear();
                     game.doTurn();
                 }
+                /*
                 if(selectedCards.size() == 0) {
                     return;
+
                 }
+                */
                 if(selectedCards.size() == lockedCards) {
                     currentPlayerCards.addAll(selectedCards);
 
@@ -242,14 +245,26 @@ public class CardPhaseButtons {
                     event1.setType(InputEvent.Type.touchDown);
                     InputEvent event2 = new InputEvent();
                     event2.setType(InputEvent.Type.touchUp);
-                    for (int i = 4; i >=0; i--) {
-                        currentButtonsAndCards.get(availableCards.get(i)).fire(event1);
-                        currentButtonsAndCards.get(availableCards.get(i)).fire(event2);
 
+                    if (isPoweredDown) {
+                        finish.fire(event1);
+                        finish.fire(event2);
+                    } else if (player.getRobot().getHealth() == 1) {
+                        powerDownButton.fire(event1);
+                        powerDownButton.fire(event2);
+                        finish.fire(event1);
+                        finish.fire(event2);
+
+                    } else {
+                        for (int i = 4; i >= 0; i--) {
+                            currentButtonsAndCards.get(availableCards.get(i)).fire(event1);
+                            currentButtonsAndCards.get(availableCards.get(i)).fire(event2);
+
+                        }
+                        finish.fire(event1);
+                        finish.fire(event2);
                     }
-                    finish.fire(event1);
-                    finish.fire(event2);
-                    }
+                }
 
             };
 
