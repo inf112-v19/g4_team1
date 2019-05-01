@@ -1,18 +1,14 @@
-package inf112.skeleton.app.roborally.screens.MP;
-
+package inf112.skeleton.app.base.MP;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
-import java.util.Random;
-
 public class SimpleServer implements Runnable {
     public boolean running = true;
-    private volatile boolean Play = true;
     private String string;
-    private long mFrameDelay = 564;
+    public boolean gotMessage;
 
     private int port = 54634;
     private Server server;
@@ -22,13 +18,27 @@ public class SimpleServer implements Runnable {
         Thread gameThread = new Thread(this);
 
         Kryo kryo = server.getKryo();
+        kryo.register(String.class);
+
         server.addListener(new Listener(){
+            @Override
             public void received(Connection c, Object object) {
 
+                // get the message
+                if (object instanceof String) {
+
+                    string = (String) object;
+                    gotMessage = true;
+
+                    // send the response if received the message
+                    c.sendTCP("received " + string + ". Responding.");
+                }
             }
 
-            public void disconnected(Connection c) {
-
+            // handle the disconnects
+            @Override
+            public void disconnected (Connection c) {
+                System.out.println("Disconnected.");
             }
         });
 
@@ -37,27 +47,20 @@ public class SimpleServer implements Runnable {
         gameThread.start();
 
         while (running) {
-            Thread.sleep(100);
+            Thread.sleep(5000);
+            System.out.println("waiting for messages...");
+            if (gotMessage) {
+                System.out.println("got message " + string);
+                gotMessage = false;
+            }
         }
 
         System.out.println("Server started.");
-
     }
 
     @Override
     public void run() {
-        while (Play) {
-            System.out.println("Start sending state.");
-            string = "message" + Math.random();
-            System.out.println("Sending message " + string);
-            server.sendToAllTCP(string);
-        }
 
-        try {
-            Thread.sleep(mFrameDelay);
-        } catch (InterruptedException ie) {
-            ie.printStackTrace();
-        }
     }
 
     public static void main(String[] args) {
