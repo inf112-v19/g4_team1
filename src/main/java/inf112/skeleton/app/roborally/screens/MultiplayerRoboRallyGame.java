@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import inf112.skeleton.app.roborally.RoboRally;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MultiplayerRoboRallyGame implements Screen {
@@ -25,7 +26,6 @@ public class MultiplayerRoboRallyGame implements Screen {
     private Table playerTable, table;
     private ArrayList<String> names = new ArrayList<>();
     private Skin skin;
-    private TextButton back;
 
 
     public MultiplayerRoboRallyGame(RoboRally roboRally) {
@@ -57,9 +57,9 @@ public class MultiplayerRoboRallyGame implements Screen {
 
         TextButton createSer = new TextButton("Create a server", skin);
         TextButton connToSer = new TextButton("Connect to a server", skin);
-        back = new TextButton("Back", skin);
+        TextButton back = new TextButton("Back", skin);
 
-        table.add(createSer).fillX().uniformX().pad(10);
+        table.add(createSer).fillX().uniformX().padRight(10);
         table.row();
         table.add(connToSer).fillX().uniformX().pad(10);
         table.row();
@@ -67,19 +67,21 @@ public class MultiplayerRoboRallyGame implements Screen {
 
         back.addListener(new ClickListener() {
             @Override
-            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 roboRally.setScreen(new PreferencesScreen(roboRally));
                 dispose();
+                return true;
             }
         });
 
         createSer.addListener(new ClickListener() {
             @Override
-            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 roboRally.setScreen(new CreateServerScreen());
                 table.removeActor(createSer);
                 table.removeActor(connToSer);
                 table.removeActor(back);
+                return true;
             }
         });
     }
@@ -121,20 +123,23 @@ public class MultiplayerRoboRallyGame implements Screen {
     class CreateServerScreen implements Screen {
 
         public CreateServerScreen() {
-            back = new TextButton("Back", skin);
+            TextButton back = new TextButton("Back", skin);
+
+            back.addListener(new ClickListener() {
+                @Override
+                public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                    roboRally.setScreen(new MultiplayerRoboRallyGame(roboRally));
+                    dispose();
+                }
+            });
+
             table.row();
             table.add(back).fillX().uniformX().pad(10);
         }
 
         @Override
         public void show() {
-            back.addListener(new ClickListener() {
-                @Override
-                public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                    MultiplayerRoboRallyGame.this.show();
-                    table.removeActor(back);
-                }
-            });
+
         }
 
         @Override
@@ -167,6 +172,11 @@ public class MultiplayerRoboRallyGame implements Screen {
 
         @Override
         public void dispose() {
+            stage.dispose();
+            skin.dispose();
+        }
+
+        public void startServer() throws IOException {
 
         }
     }
@@ -174,13 +184,7 @@ public class MultiplayerRoboRallyGame implements Screen {
     class ConnectToServerScreen implements Screen {
 
         public ConnectToServerScreen() {
-            back = new TextButton("Back", skin);
-            table.row();
-            table.add(back).fillX().uniformX().pad(10);
-        }
-
-        @Override
-        public void show() {
+            TextButton back = new TextButton("Back", skin);
 
             back.addListener(new ChangeListener() {
                 @Override
@@ -189,6 +193,14 @@ public class MultiplayerRoboRallyGame implements Screen {
                     table.removeActor(back);
                 }
             });
+
+            table.row();
+            table.add(back).fillX().uniformX().pad(10);
+        }
+
+        @Override
+        public void show() {
+
         }
 
         @Override
