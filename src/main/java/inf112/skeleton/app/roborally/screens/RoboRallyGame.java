@@ -549,7 +549,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
     public void shootRobotLasers() {
         for (int i = 0; i < players.size(); i++) {
-            //shoot laser
             Robot robot = players.get(i).getRobot();
             Image laser;
 

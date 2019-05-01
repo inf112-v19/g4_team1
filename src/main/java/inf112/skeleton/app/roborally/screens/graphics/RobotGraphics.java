@@ -85,7 +85,6 @@ public class RobotGraphics {
             Action robotAction = Actions.moveTo(coordToPixel(robot.getPos().x()), coordToPixel(robot.getPos().y()), 1);
             robotAction.setActor(robotSprites.get(robot));
             parallellMoves.addAction(robotAction);
-        //totalDelay += 0.5;
         }
         sequenceAction.addAction(parallellMoves);
         game.getCardButtons().addDelay(1);
@@ -111,7 +110,7 @@ public class RobotGraphics {
     }
 
     public int coordToPixel(int x) {
-        if(x > 15) {
+        if(x > 16) {
             throw new IllegalArgumentException("coordinate is outside of grid");
         }
         return (int) (x*tileWidth / 1.5f);
