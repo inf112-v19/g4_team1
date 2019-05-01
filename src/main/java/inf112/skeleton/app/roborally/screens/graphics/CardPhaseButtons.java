@@ -202,6 +202,8 @@ public class CardPhaseButtons {
                 if(selectedCards.size() == 5) {
                     currentPlayerCards.addAll(selectedCards);
 
+                    // SEND THE LIST OF CARDS HERE TO THE SERVER THEN IT SHOULD SEND IT TO OTHER PLAYERS
+
                     player.setCards(new ArrayList<>(currentPlayerCards));
                     System.out.println("selected for "+player+" : " + currentPlayerCards);
 
