@@ -20,6 +20,10 @@ public class Laser extends Wall implements IActiveElement {
         Pos laserPos = pos;
 
         while (true) {
+            if(board.outOfBounds(laserPos)){
+                destination = laserPos;
+                return null;
+            }
             // checks for wall at the near side of the tile
             if (board.getWallDir(laserPos) != null && !laserPos.equals(pos))
                 if (dir.opposite() == board.getWallDir(laserPos)) {

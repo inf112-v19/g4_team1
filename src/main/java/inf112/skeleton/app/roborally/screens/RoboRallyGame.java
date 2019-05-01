@@ -43,6 +43,7 @@ import inf112.skeleton.app.roborally.screens.graphics.RobotGraphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 
 /**
@@ -57,7 +58,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private TiledMapRenderer boardRenderer;
     private Board gameBoard;
     private Stage stage;
-    private ArrayList<Player> players = new ArrayList<>();
+    private ArrayList<Player> players = new ArrayList<Player>();
     private CardDecks cardDecks = new CardDecks();
     private ArrayList<IActiveElement> ActiveElements;
     private ArrayList<Flag> flags;
@@ -184,24 +185,19 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         //player have finished choosing cards
         boolean finishedExecute = false;
         while (!finishedExecute) {
-            //players should be sorted by their first cards priority number
-//            players.sort(new Comparator<Player>() {
-//                public int compare(Player player2, Player player1) {
-//                    if (!player1.getCards().isEmpty() && !player2.getCards().isEmpty())
-//                        return player2.getCards().get(0).getPriorityNumber()-player1.getCards().get(0).getPriorityNumber();
-//                    else return 0;
-//                }
-//            });
+            ArrayList<Player> currentPlayers = (ArrayList<Player>) players.clone();
+            currentPlayers.sort((player2, player1) -> {
+               if (!player1.getCards().isEmpty() && !player2.getCards().isEmpty())
+                    return player1.getCards().get(0).getPriorityNumber()-player2.getCards().get(0).getPriorityNumber();
+                else return 0;
+            });
             finishedExecute = true;
-            // TODO: Order of execution should be decided by the movepoints of cards(above code will not work, shuffling player-list will cause all sorts of problems)
-            for (Player currentPlayer : players) {
+            for (Player currentPlayer : currentPlayers) {
                 if (currentPlayer.getCards().size() != 0) {
                     finishedExecute = false;
                     moveRobot(currentPlayer);
                     //after robot has moved, reset the moved boolean.
                     currentPlayer.getRobot().setMoved(false);
-                } else {
-
                 }
             }
             //activates double speed first
