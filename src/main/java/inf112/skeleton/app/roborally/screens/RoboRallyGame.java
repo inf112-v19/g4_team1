@@ -171,7 +171,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                         //player.setpowerDown(false);
                         cardPhaseButtons.chooseCards(-1, player, true);
                     } else {
-                        cardPhaseButtons.chooseCards(player.getRobot().getHealth(), player, false);
+                        cardPhaseButtons.chooseCards(player.getRobot().getHealth()-1, player, false);
                     }
 
                     break;
