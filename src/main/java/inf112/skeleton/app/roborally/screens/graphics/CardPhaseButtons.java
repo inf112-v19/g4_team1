@@ -256,11 +256,11 @@ public class CardPhaseButtons {
                         finish.fire(event2);
 
                     } else {
-                        for (int i = 4; i >= 0; i--) {
-                            currentButtonsAndCards.get(availableCards.get(i)).fire(event1);
-                            currentButtonsAndCards.get(availableCards.get(i)).fire(event2);
-
+                        while (selectedCards.size() < lockedCards && !isPoweredDown) {
+                            currentButtonsAndCards.get(availableCards.get(0)).fire(event1);
+                            currentButtonsAndCards.get(availableCards.get(0)).fire(event2);
                         }
+
                         finish.fire(event1);
                         finish.fire(event2);
                     }
