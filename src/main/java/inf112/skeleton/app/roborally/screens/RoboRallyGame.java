@@ -261,42 +261,10 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         Timer.Task task = new Timer.Task() {
             @Override
             public void run() {
-                for (int i = 0; i < players.size(); i++) {
-                    //TODO: move laser to own class or method
-                    //shoot laser
-                    Robot robot = players.get(i).getRobot();
-                    Image laser;
 
-                    //vertical laser
-                    if (players.get(i).getRobot().getDir() == Direction.SOUTH || players.get(i).getRobot().getDir() == Direction.NORTH) {
-                        Texture vLaser = new Texture("assets/roborally/laser-vertical.png");
-                        laser = new Image(vLaser);
-                    }
-                    //horizontal laser
-                    else {
-                        Texture hLaser = new Texture("assets/roborally/laser-horizontal.png");
-                        laser = new Image(hLaser);
-                    }
-                    laser.setSize(robotGraphics.getRobotSizex(), robotGraphics.getRobotSizey());
-                    robot.laser();
-                    Pos laserDest = robot.getLaserDestination();
-                    System.out.println("robot pos: " + robot.getPos());
-                    System.out.printf("laser pos:" + laserDest);
+                //shoot lasers
+                shootRobotLasers();
 
-                    // only show visual laser if target is not on adjacent tile or the robots pos
-                    if (!gameBoard.outOfBounds(robot.getPos().getAdjacent(robot.getDir()))) {
-                        if (!robot.getPos().equals(laserDest)) {
-                            int x = robot.getPos().getAdjacent(robot.getDir()).x();
-                            int y = robot.getPos().getAdjacent(robot.getDir()).y();
-                            float newX = robotGraphics.coordToPixel(laserDest.x());
-                            float newY = robotGraphics.coordToPixel(laserDest.y());
-
-                            laser.setPosition(robotGraphics.coordToPixel(x), robotGraphics.coordToPixel(y));
-                            foreground.addActor(laser);
-                            laser.addAction(new SequenceAction(Actions.moveTo(newX, newY, 0.7f), Actions.fadeOut(0f)));
-                        }
-                    }
-                }
                 //update UI
                 for (int i = 0; i < playerPosition.size(); i++) {
                     playerPosition.get(i).getPowerButton().setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture("assets/roborally/power_down.png"))));
@@ -576,6 +544,44 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             backImage.setPosition(x + i*(backImage.getWidth()+7), y);
             backImages.add(backImage);
             foreground.addActor(backImage);
+        }
+    }
+
+    public void shootRobotLasers() {
+        for (int i = 0; i < players.size(); i++) {
+            //shoot laser
+            Robot robot = players.get(i).getRobot();
+            Image laser;
+
+            //vertical laser
+            if (players.get(i).getRobot().getDir() == Direction.SOUTH || players.get(i).getRobot().getDir() == Direction.NORTH) {
+                Texture vLaser = new Texture("assets/roborally/laser-vertical.png");
+                laser = new Image(vLaser);
+            }
+            //horizontal laser
+            else {
+                Texture hLaser = new Texture("assets/roborally/laser-horizontal.png");
+                laser = new Image(hLaser);
+            }
+            laser.setSize(robotGraphics.getRobotSizex(), robotGraphics.getRobotSizey());
+            robot.laser();
+            Pos laserDest = robot.getLaserDestination();
+            System.out.println("robot pos: " + robot.getPos());
+            System.out.printf("laser pos:" + laserDest);
+
+            // only show visual laser if target is not on adjacent tile or the robots pos
+            if (!gameBoard.outOfBounds(robot.getPos().getAdjacent(robot.getDir()))) {
+                if (!robot.getPos().equals(laserDest)) {
+                    int x = robot.getPos().getAdjacent(robot.getDir()).x();
+                    int y = robot.getPos().getAdjacent(robot.getDir()).y();
+                    float newX = robotGraphics.coordToPixel(laserDest.x());
+                    float newY = robotGraphics.coordToPixel(laserDest.y());
+
+                    laser.setPosition(robotGraphics.coordToPixel(x), robotGraphics.coordToPixel(y));
+                    foreground.addActor(laser);
+                    laser.addAction(new SequenceAction(Actions.moveTo(newX, newY, 0.7f), Actions.fadeOut(0f)));
+                }
+            }
         }
     }
 }
