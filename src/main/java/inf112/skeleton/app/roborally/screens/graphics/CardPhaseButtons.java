@@ -209,7 +209,6 @@ public class CardPhaseButtons {
                 */
                 if(selectedCards.size() == lockedCards) {
                     currentPlayerCards.addAll(selectedCards);
-
                     player.setCards(new ArrayList<>(currentPlayerCards));
                     System.out.println("selected for "+player+" : " + currentPlayerCards);
 
@@ -227,6 +226,7 @@ public class CardPhaseButtons {
                     stage.getActors().removeValue(powerDownButton, false);
 
                     currentButtonsAndCards.clear();
+                    game.hideCards(player);
                     game.doTurn();
 
 

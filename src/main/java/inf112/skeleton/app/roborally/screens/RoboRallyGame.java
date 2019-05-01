@@ -76,6 +76,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private ArrayList<Label> healthLabelPos = new ArrayList<>();
     private ArrayList<Label> flagLabelPos = new ArrayList<>();
     private ArrayList<Image> blockedImages = new ArrayList<>();
+    private ArrayList<Image> backImages = new ArrayList<>();
 
     public RoboRallyGame(RoboRally roboRally, ArrayList<String> names, String mapFile) {
         board = new TmxMapLoader().load(mapFile);
@@ -168,6 +169,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         }
 
         if (finished) {
+
             continueTurn();
         } else {
             for (Player player : players) {
@@ -187,6 +189,11 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     }
 
     private void continueTurn() {
+
+        for(int i = 0; i < backImages.size(); i++) {
+            foreground.removeActor(backImages.get(i));
+        }
+        backImages.clear();
         //player have finished choosing cards
         boolean finishedExecute = false;
         while (!finishedExecute) {
@@ -554,6 +561,20 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             lockedImage.setPosition(x + i*(lockedImage.getWidth()+7), y);
             blockedImages.add(lockedImage);
             foreground.addActor(lockedImage);
+        }
+    }
+
+    public void hideCards(Player player) {
+        for(int i = 0; i < player.getCards().size(); i++) {
+            Texture back = new Texture("assets/roborally/back.png");
+            Drawable draw = new TextureRegionDrawable(back);
+            Image backImage = new Image(draw);
+            int x = (int) cardAreaSlots.get(playerPosition.indexOf(player)).getX() + 3;
+            int y = (int) cardAreaSlots.get(playerPosition.indexOf(player)).getY() + 4;
+            backImage.setSize(backImage.getWidth() / 1.5f, backImage.getHeight() / 1.5f);
+            backImage.setPosition(x + i*(backImage.getWidth()+7), y);
+            backImages.add(backImage);
+            foreground.addActor(backImage);
         }
     }
 }
