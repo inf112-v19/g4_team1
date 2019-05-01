@@ -189,7 +189,10 @@ public class Robot implements IRobot {
     }
 
     private boolean isValidRespawn(Pos newPos){
-        return !board.outOfBounds(newPos) && !board.containsPit(newPos) && !board.containsRobot(newPos);
+        if (board.outOfBounds(newPos) || board.containsPit(newPos)) {
+            return false;
+        }
+        return !board.containsRobot(newPos) || board.getRobot(newPos) == this;
     }
 
 
@@ -267,6 +270,7 @@ public class Robot implements IRobot {
 
     @Override
     public void setRespawn() {
+        System.out.println("respawn is "+pos);
         respawnPos = getPos();
     }
 

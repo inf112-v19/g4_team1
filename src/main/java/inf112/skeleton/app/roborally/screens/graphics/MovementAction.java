@@ -28,6 +28,7 @@ public enum MovementAction {
         //creates to basic movements as a base for all animations
         MoveToAction moveToAction = moveTo(coordToPixel(robot.getPos().x(), game.getGraphics().getTileWidth()), coordToPixel(robot.getPos().y(), game.getGraphics().getTileWidth()), STANDARD_MOVE_DURATION);
         RotateByAction rotateToAction = getRotateAction(robot);
+
         switch (this){
             case NORMAL:
                 seq.addAction(parallel( rotateToAction, moveToAction));
