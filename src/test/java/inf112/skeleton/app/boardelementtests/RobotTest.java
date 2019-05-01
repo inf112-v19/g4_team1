@@ -126,18 +126,7 @@ public class RobotTest {
         robot.laser();
         assertEquals(robot2.getHealth(), hp-1);
     }
-    @Test
-    void pushOutOfBounds(){
-        Board board = new Board(10, 10);
-        Robot robot1 = new Robot(new Pos(0, 0), Direction.EAST, new Player("tobias"), board);
-        Robot robot2 = new Robot(new Pos(1, 0), Direction.EAST, new Player("tobias"), board);
-        Robot robot3 = new Robot(new Pos(2, 0), Direction.EAST, new Player("tobias"), board);
-        board.addTileObject(robot1);
-        board.addTileObject(robot2);
-        board.addTileObject(robot2);
-        robot.laser();
-        assertEquals(robot2.getHealth(), hp-1);
-    }
+
 
 
 }
