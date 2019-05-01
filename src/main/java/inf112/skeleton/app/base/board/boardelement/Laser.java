@@ -20,23 +20,10 @@ public class Laser extends Wall implements IActiveElement {
         Pos laserPos = pos;
 
         while (true) {
-            if(board.outOfBounds(laserPos)) {
-                destination = laserPos.getAdjacent(dir.opposite());
-                return null;
-            }
-
-            if(board.getWallDir(laserPos.getAdjacent(dir.opposite())) != null) {
-                if(dir == board.getWallDir(laserPos.getAdjacent(dir.opposite()))) {
-                    destination = laserPos.getAdjacent(dir.opposite());
-                    return null;
-                }
-            }
-
-
             // checks for wall at the near side of the tile
-            if (board.getWallDir(laserPos) != null)
-                if (dir == board.getWallDir(laserPos).opposite()) {
-                    destination = laserPos.getAdjacent(dir.opposite());
+            if (board.getWallDir(laserPos) != null && !laserPos.equals(pos))
+                if (dir.opposite() == board.getWallDir(laserPos)) {
+                    destination = laserPos;
                     return null;
                 }
 
@@ -44,17 +31,19 @@ public class Laser extends Wall implements IActiveElement {
             if (board.containsRobot(laserPos)) {
                 // shoots robot
                 IRobot robot = board.getRobot(laserPos);
+                System.out.println("kaller damage");
                 robot.damage();
                 destination = laserPos.getAdjacent(dir.opposite());
                 return robot;
             }
 
-            // check if hits wall at the far side of the tile
+            // checks for wall at the near side of the tile
             if (board.getWallDir(laserPos) != null)
                 if (dir == board.getWallDir(laserPos)) {
                     destination = laserPos;
                     return null;
                 }
+
             // checks next tile in the loop
             if (board.outOfBounds(laserPos.getAdjacent(dir))) {
                 destination = laserPos;
