@@ -54,7 +54,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private int numPlayers;
     private SpriteBatch sb;
     private RoboRally roboRally;
-    private TiledMap board = new TmxMapLoader().load("assets/roborally/game_board.tmx");
+    private TiledMap board;
     private OrthographicCamera camera;
     private TiledMapRenderer boardRenderer;
     private Board gameBoard;
@@ -65,7 +65,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private ArrayList<Flag> flags;
     private ArrayList<WrenchTile> wrenches;
     private ArrayList<String> names;
-    private RobotGraphics robotGraphics = new RobotGraphics(this);
+    private RobotGraphics robotGraphics;
     private CardPhaseButtons cardPhaseButtons;
     private Label.LabelStyle labelStyle;
     private Group background;
@@ -77,7 +77,9 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private ArrayList<Label> flagLabelPos = new ArrayList<>();
     private ArrayList<Image> blockedImages = new ArrayList<>();
 
-    public RoboRallyGame(RoboRally roboRally, ArrayList<String> names) {
+    public RoboRallyGame(RoboRally roboRally, ArrayList<String> names, String mapFile) {
+        board = new TmxMapLoader().load(mapFile);
+        robotGraphics = new RobotGraphics(this);
         this.names = names;
         this.numPlayers = names.size();
         stage = new Stage();
@@ -190,7 +192,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         while (!finishedExecute) {
             ArrayList<Player> currentPlayers = (ArrayList<Player>) players.clone();
             currentPlayers.sort((player2, player1) -> {
-               if (!player1.getCards().isEmpty() && !player2.getCards().isEmpty())
+                if (!player1.getCards().isEmpty() && !player2.getCards().isEmpty())
                     return player1.getCards().get(0).getPriorityNumber()-player2.getCards().get(0).getPriorityNumber();
                 else return 0;
             });
@@ -214,7 +216,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 player.getRobot().setMoved(false);
             }
             //activate board elements, then lasers
-            //TODO: Board-lasers doesn't damage robots
             for (IActiveElement elem : ActiveElements) {
                 if (!(elem instanceof Laser)) {
                     IRobot robot = elem.activate();
@@ -232,14 +233,13 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         cardPhaseButtons.clear();
 
         //check for flags and wrenches at end of turn
-        for (Player ignored : players) {
-            for (Flag flag : flags) {
-                flag.setRespawn();
-            }
-            for (WrenchTile wrench : wrenches) {
-                wrench.setRespawn();
-            }
+        for (Flag flag : flags) {
+            flag.setRespawn();
         }
+        for (WrenchTile wrench : wrenches) {
+            wrench.setRespawn();
+        }
+
         //check for win condition
         for (Player player : players) {
             if (player.getRobot().getFlags().size() == flags.size()) {
@@ -289,7 +289,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                         }
                     }
                 }
-                    //update UI
+                //update UI
                 for (int i = 0; i < players.size(); i++) {
                     players.get(i).getPowerButton().setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture("assets/roborally/power_down.png"))));
                     Label healthLabel = healthLabelPos.get(i);

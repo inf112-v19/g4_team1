@@ -15,6 +15,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import inf112.skeleton.app.roborally.RoboRally;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PreferencesScreen implements Screen {
 
@@ -23,6 +25,8 @@ public class PreferencesScreen implements Screen {
     private Table playerTable;
     private ArrayList<String> names = new ArrayList<>();
     private Skin skin;
+    private ArrayList<String> maps= new ArrayList<>();
+    private int mapindex = 0;
 
 
 
@@ -31,6 +35,9 @@ public class PreferencesScreen implements Screen {
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
+        this.maps.add("assets/roborally/game_board1.tmx");
+        this.maps.add("assets/roborally/game_board2.tmx");
+
     }
 
     @Override
@@ -58,6 +65,7 @@ public class PreferencesScreen implements Screen {
         TextButton start = new TextButton("Start Game", skin);
         TextButton back = new TextButton("Back", skin);
         TextButton AI = new TextButton("Add AI", skin);
+        TextButton changemap = new TextButton("map number 1", skin);
         Label players = new Label("PLAYERS: ", skin);
         players.setFontScale(2);
         players.getStyle().fontColor = Color.RED;
@@ -69,11 +77,22 @@ public class PreferencesScreen implements Screen {
         table.row();
         table.add(reset).fillX().uniformX();
         table.row();
+        table.row();
+        table.add(changemap).fillX().uniformX();
+        table.row();
         table.add(start).fillX().uniformX();
         table.row();
         table.add(back).fillX().uniformX();
 
 
+        changemap.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                mapindex = (mapindex +1) % maps.size();
+                System.out.println(mapindex);
+                changemap.setText("map number "+(mapindex +1));
+            }
+        });
         back.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -159,7 +178,7 @@ public class PreferencesScreen implements Screen {
                     errorMsg("not enoough players!");
                     return;
                 }
-                roboRally.setScreen(new RoboRallyGame(roboRally, names));
+                roboRally.setScreen(new RoboRallyGame(roboRally, names, maps.get(mapindex)));
                 dispose();
 
             }

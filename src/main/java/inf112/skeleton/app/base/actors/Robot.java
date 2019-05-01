@@ -183,7 +183,6 @@ public class Robot implements IRobot {
                 }
                 System.out.println("error, found no respawn pos");
                 move(pos, MovementAction.DEATH_ANIMATION);
-
             }
         }
     }
