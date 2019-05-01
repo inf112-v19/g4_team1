@@ -60,18 +60,22 @@ public class PreferencesScreen implements Screen {
         TextButton start = new TextButton("Start Game", skin);
         TextButton back = new TextButton("Back", skin);
         TextButton AI = new TextButton("Add AI", skin);
+        TextButton mp = new TextButton("Multiplayer", skin);
         Label players = new Label("PLAYERS: ", skin);
         players.setFontScale(2);
         players.getStyle().fontColor = Color.RED;
 
         playerTable.add(players).uniform();
-        table.add(add).fillX().uniformX();
+        table.add(add).fillX().uniformX().pad(10);
         table.row();
-        table.add(AI).fillX().uniformX();
+        table.add(AI).fillX().uniformX().pad(10);
         table.row();
-        table.add(start).fillX().uniformX();
+        table.add(start).fillX().uniformX().pad(10);
         table.row();
-        table.add(back).fillX().uniformX();
+        table.add(mp).fillX().uniformX().pad(10);
+        table.row();
+        table.add(back).fillX().uniformX().pad(10);
+
 
 
         back.addListener(new ChangeListener() {
@@ -150,14 +154,21 @@ public class PreferencesScreen implements Screen {
 
             }
         });
+
+        mp.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                roboRally.setScreen(new MultiplayerRoboRallyGame(roboRally));
+                dispose();
+            }
+        });
     }
 
     @Override
     public void render(float v) {
-        Gdx.gl.glClearColor(0f, 0f, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        stage.act(v);
         stage.draw();
 
     }
