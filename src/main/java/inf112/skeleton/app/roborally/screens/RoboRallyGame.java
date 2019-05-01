@@ -261,23 +261,9 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         Timer.Task task = new Timer.Task() {
             @Override
             public void run() {
-
-                //shoot lasers
                 shootRobotLasers();
-
-                //update UI
-                for (int i = 0; i < playerPosition.size(); i++) {
-                    playerPosition.get(i).getPowerButton().setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture("assets/roborally/power_down.png"))));
-                    Label healthLabel = healthLabelPos.get(i);
-                    healthLabel.setText("HP: " + playerPosition.get(i).getRobot().getHealth());
-                    Label flagLabel = flagLabelPos.get(i);
-                    flagLabel.setText("Visited Flags: " + playerPosition.get(i).getRobot().getFlags().size());
-                }
+                updateUI();
                 robotGraphics.resetDelay();
-                for (int i = 0; i < blockedImages.size(); i++) {
-                    foreground.removeActor(blockedImages.get(i));
-                }
-                blockedImages.clear();
                 doTurn();
             }
         };
@@ -582,5 +568,19 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 }
             }
         }
+    }
+
+    public void updateUI() {
+        for (int i = 0; i < playerPosition.size(); i++) {
+            playerPosition.get(i).getPowerButton().setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture("assets/roborally/power_down.png"))));
+            Label healthLabel = healthLabelPos.get(i);
+            healthLabel.setText("HP: " + playerPosition.get(i).getRobot().getHealth());
+            Label flagLabel = flagLabelPos.get(i);
+            flagLabel.setText("Visited Flags: " + playerPosition.get(i).getRobot().getFlags().size());
+        }
+        for (int i = 0; i < blockedImages.size(); i++) {
+            foreground.removeActor(blockedImages.get(i));
+        }
+        blockedImages.clear();
     }
 }
