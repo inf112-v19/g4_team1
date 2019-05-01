@@ -72,18 +72,17 @@ public class PreferencesScreen implements Screen {
         players.getStyle().fontColor = Color.RED;
 
         playerTable.add(players).uniform();
-        table.add(add).fillX().uniformX();
+        table.add(add).fillX().uniformX().pad(10);
         table.row();
-        table.add(AI).fillX().uniformX();
+        table.add(AI).fillX().uniformX().pad(10);
         table.row();
-        table.add(reset).fillX().uniformX();
+        table.add(reset).fillX().uniformX().pad(10);
         table.row();
+        table.add(changemap).fillX().uniformX().pad(10);
         table.row();
-        table.add(changemap).fillX().uniformX();
+        table.add(start).fillX().uniformX().pad(10);
         table.row();
-        table.add(start).fillX().uniformX();
-        table.row();
-        table.add(back).fillX().uniformX();
+        table.add(back).fillX().uniformX().pad(10);
 
 
         changemap.addListener(new ChangeListener() {
