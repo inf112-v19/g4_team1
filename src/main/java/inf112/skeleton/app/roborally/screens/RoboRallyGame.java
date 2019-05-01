@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.RemoveActorAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.Timer;
@@ -74,6 +75,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private ArrayList<Player> playerPosition = new ArrayList<>();
     private ArrayList<Label> healthLabelPos = new ArrayList<>();
     private ArrayList<Label> flagLabelPos = new ArrayList<>();
+    private ArrayList<Image> blockedImages = new ArrayList<>();
 
     public RoboRallyGame(RoboRally roboRally, ArrayList<String> names) {
         this.names = names;
@@ -156,6 +158,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         //check if finished
         boolean finished = true;
         for (Player player : players) {
+            showBlockedSlots(player);
             if (!player.getCards().isEmpty()) {
                 continue;
             }
@@ -295,6 +298,10 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     flagLabel.setText("Visited Flags: " + players.get(i).getRobot().getFlags().size());
                 }
                 robotGraphics.resetDelay();
+                for (int i = 0; i < blockedImages.size(); i++) {
+                    foreground.removeActor(blockedImages.get(i));
+                }
+                blockedImages.clear();
                 doTurn();
             }
         };
@@ -530,5 +537,22 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             }
         };
         timer.scheduleTask(task, delay);
+    }
+
+    public void showBlockedSlots(Player player) {
+        if(player.getRobot().getHealth() > 5) {
+            return;
+        }
+        for (int i = 4; i >= player.getRobot().getHealth()-1; i--) {
+            Texture locked = new Texture("assets/roborally/regLock1.png");
+            Drawable draw = new TextureRegionDrawable(locked);
+            Image lockedImage =  new Image(draw);
+            int x = (int) cardAreaSlots.get(players.indexOf(player)).getX()+3;
+            int y = (int) cardAreaSlots.get(players.indexOf(player)).getY()+4;
+            lockedImage.setSize(lockedImage.getWidth() /1.5f, lockedImage.getHeight() /1.5f);
+            lockedImage.setPosition(x + i*(lockedImage.getWidth()+7), y);
+            blockedImages.add(lockedImage);
+            foreground.addActor(lockedImage);
+        }
     }
 }

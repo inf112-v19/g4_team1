@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RemoveActorAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -37,6 +38,8 @@ public class CardPhaseButtons {
     private float delay = 0f;
     private Skin skin;
     private final float CARD_FADE_TIME = 1f;
+    private int lockedCards;
+    private int placement;
 
     public CardPhaseButtons(RoboRallyGame game, CardDecks carddecks){
         this.game = game;
@@ -50,7 +53,10 @@ public class CardPhaseButtons {
      */
     public void chooseCards(int nCards, Player player, boolean isPoweredDown) {
         currentPlayerCards.clear();
+        lockedCards = 5;
+        placement = game.getPlayerPos(player);
         if(nCards < 5) {
+            lockedCards = player.getRobot().getHealth()-1;
             nCards = 5;
         }
         if(isPoweredDown){
@@ -74,13 +80,12 @@ public class CardPhaseButtons {
             allButtonsAndCards.put(card,button);
             buttonList.add(button);
             game.getForeground().addActor(button);
+
             button.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent changeEvent, Actor actor) {
-                        if (selectedCards.size() < 5) {
+                        if (selectedCards.size() < lockedCards) {
                             if (!selectedCards.contains(card)) {
-
-                                int placement = game.getPlayerPos(player);
                                 Actor currentCard = game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(button, false));
                                 //finds the correct cardArea and sets the initial position(position of the leftmost slot in the cardArea)
                                 int x = (int) game.getCardAreaSlots().get(placement).getX()+3;
@@ -199,7 +204,7 @@ public class CardPhaseButtons {
                 if(selectedCards.size() == 0) {
                     return;
                 }
-                if(selectedCards.size() == 5) {
+                if(selectedCards.size() == lockedCards) {
                     currentPlayerCards.addAll(selectedCards);
 
                     player.setCards(new ArrayList<>(currentPlayerCards));
