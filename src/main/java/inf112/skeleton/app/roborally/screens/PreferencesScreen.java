@@ -86,8 +86,8 @@ public class PreferencesScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if (names.size() == 8) {
-                    //todo: should display msg on screen
                     System.out.println("Cant add more players");
+                    addPlayerError();
                     return;
                 }
                 names.add("AI");
@@ -106,16 +106,7 @@ public class PreferencesScreen implements Screen {
                 if (names.size() == 8) {
                     //TODO: should display msg on screen
                     System.out.println("Cant add more players");
-                    Dialog dialog = new Dialog("warning", skin){
-                        public void result(Object obj){
-                            System.out.println(obj);
-                        }
-                    };
-                    dialog.text("cant add more than 8 players");
-
-                    dialog.button("OK", true);
-                    dialog.show(stage);
-
+                    addPlayerError();
                     return;
                 }
                 TextInputListener inputName = new TextInputListener() {
@@ -160,6 +151,23 @@ public class PreferencesScreen implements Screen {
 
             }
         });
+    }
+
+    private void addPlayerError(){
+        Dialog dialog = new Dialog("warning", skin){
+            public void result(Object obj){
+                System.out.println(obj);
+            }
+        };
+        dialog.setSize(300, 300);
+
+        dialog.button("OK", true);
+        dialog.show(stage);
+
+        dialog.text("cant add more than 8 players").setSize(300, 300);
+        dialog.getTitleLabel().setFontScale(1);
+
+
     }
 
     @Override
