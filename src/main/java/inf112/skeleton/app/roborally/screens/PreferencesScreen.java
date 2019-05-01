@@ -7,8 +7,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -55,7 +53,7 @@ public class PreferencesScreen implements Screen {
         stage.addActor(playerTable);
         skin = new Skin(Gdx.files.internal("assets/roborally/skin/comic-ui.json"));
 
-        //todo: button for removing player from playerlist?
+        TextButton reset = new TextButton(("reset players"), skin);
         TextButton add = new TextButton("Add Human", skin);
         TextButton start = new TextButton("Start Game", skin);
         TextButton back = new TextButton("Back", skin);
@@ -69,6 +67,8 @@ public class PreferencesScreen implements Screen {
         table.row();
         table.add(AI).fillX().uniformX();
         table.row();
+        table.add(reset).fillX().uniformX();
+        table.row();
         table.add(start).fillX().uniformX();
         table.row();
         table.add(back).fillX().uniformX();
@@ -81,13 +81,29 @@ public class PreferencesScreen implements Screen {
                 dispose();
             }
         });
+        reset.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                names.clear();
+                playerTable.reset();
+                playerTable.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight() - 100);
+                playerTable.setDebug(false);
+                playerTable.top();
+                Label players = new Label("PLAYERS: ", skin);
+                players.setFontScale(2);
+                players.getStyle().fontColor = Color.RED;
+
+                playerTable.add(players).uniform();
+
+            }
+        });
 
         AI.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if (names.size() == 8) {
                     System.out.println("Cant add more players");
-                    addPlayerError();
+                    errorMsg("cant add more than 8 players");
                     return;
                 }
                 names.add("AI");
@@ -104,18 +120,18 @@ public class PreferencesScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if (names.size() == 8) {
-                    //TODO: should display msg on screen
-                    System.out.println("Cant add more players");
-                    addPlayerError();
+                    errorMsg("cant add more than 8 players");
                     return;
                 }
                 TextInputListener inputName = new TextInputListener() {
                     @Override
                     public void input(String s) {
                         if (names.contains(s)) {
-                            //todo: should display msg on screen
-                            //name already exist
-                            System.out.println("Name already taken");
+                            errorMsg("name already taken!");
+                            return;
+                        }
+                        if(s.equals("AI")){
+                            errorMsg("invalid name");
                             return;
                         }
                         names.add(s);
@@ -124,8 +140,6 @@ public class PreferencesScreen implements Screen {
                         namelabel.setFontScale(1.5f);
                         playerTable.row();
                         playerTable.add(namelabel).uniform();
-
-
                     }
 
                     @Override
@@ -142,8 +156,7 @@ public class PreferencesScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if (names.size() < 1 || names.size() > 8) {
-                    //todo: Should be explained with a message on the screen
-                    System.out.println("Number of players not valid");
+                    errorMsg("not enoough players!");
                     return;
                 }
                 roboRally.setScreen(new RoboRallyGame(roboRally, names));
@@ -153,10 +166,9 @@ public class PreferencesScreen implements Screen {
         });
     }
 
-    private void addPlayerError(){
+    private void errorMsg(String err){
         Dialog dialog = new Dialog("warning", skin){
             public void result(Object obj){
-                System.out.println(obj);
             }
         };
         dialog.setSize(300, 300);
@@ -164,10 +176,8 @@ public class PreferencesScreen implements Screen {
         dialog.button("OK", true);
         dialog.show(stage);
 
-        dialog.text("cant add more than 8 players").setSize(300, 300);
+        dialog.text(err).setSize(300, 300);
         dialog.getTitleLabel().setFontScale(1);
-
-
     }
 
     @Override
