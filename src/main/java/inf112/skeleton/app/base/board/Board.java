@@ -320,8 +320,10 @@ public class Board implements IBoard {
 
     @Override
     public void moveSeveral(ArrayList<IRobot> robots) {
-        if(game != null)
+        if(game != null) {
             game.getGraphics().addSyncMove(robots);
+            game.getGraphics().addDelay(1f);
+        }
 
     }
 }

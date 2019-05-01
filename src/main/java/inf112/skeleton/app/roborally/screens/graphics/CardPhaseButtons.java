@@ -55,6 +55,7 @@ public class CardPhaseButtons {
         }
         if(isPoweredDown){
             nCards= 0;
+            player.getRobot().maxHealth();
         }
         ArrayList<Card> availableCards = cardDecks.getCards(nCards);
         System.out.println("available cards ::::" + availableCards.size());
@@ -68,7 +69,7 @@ public class CardPhaseButtons {
             Drawable drawable = new TextureRegionDrawable(testTexture);
             Button button = new Button(drawable);
             button.setSize((int)(button.getWidth()/1.5), (int)(button.getHeight()/1.5));
-            button.setPosition((int)(98*15/1.5) + 87 * i, 10);
+            button.setPosition((int)(96*17/1.5) + 87 * i, 10);
             currentButtonsAndCards.put(card, button);
             allButtonsAndCards.put(card,button);
             buttonList.add(button);
@@ -98,7 +99,7 @@ public class CardPhaseButtons {
 
         //Make reset button
         TextButton reset = new TextButton("Reset Cards", skin);
-        reset.setPosition(98 * 15 / 1.5f + 210, 130);
+        reset.setPosition(96 * 17 / 1.5f + 210, 130);
         reset.setSize(200, 75);
         stage.addActor(reset);
         reset.addListener(new ChangeListener() {
@@ -110,7 +111,7 @@ public class CardPhaseButtons {
                     // remove the available cards from the screen
                     int j = 0;
                     for (Button btn: buttonList) {
-                        game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(btn,false)).setPosition((int)(98*15/1.5) + 87 * j, 10);
+                        game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(btn,false)).setPosition((int)(96*17/1.5) + 87 * j, 10);
                         j++;
                     }
                     availableCards.addAll(selectedCards);
@@ -122,7 +123,7 @@ public class CardPhaseButtons {
         //powerdown buton
         TextButton powerDownButton = new TextButton("announce powerdown", skin);
         if(isPoweredDown) powerDownButton.setText("continue powerdown");
-        powerDownButton.setPosition(98 * 15 / 1.5f + 430, 130);
+        powerDownButton.setPosition(96 * 17 / 1.5f + 430, 130);
         powerDownButton.setSize(330, 75);
         stage.addActor(powerDownButton);
         powerDownButton.addListener(new ChangeListener() {
@@ -147,7 +148,7 @@ public class CardPhaseButtons {
         if(isPoweredDown){
             finish.setText("continue turn");
         }
-        finish.setPosition(98 * 15 / 1.5f, 130);
+        finish.setPosition(96 * 17 / 1.5f, 130);
         finish.setSize(200, 75);
         stage.addActor(finish);
         finish.addListener(new ChangeListener() {

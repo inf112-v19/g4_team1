@@ -6,6 +6,7 @@ import inf112.skeleton.app.base.board.boardelement.Laser;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
 import inf112.skeleton.app.roborally.screens.graphics.MovementAction;
+import inf112.skeleton.app.roborally.screens.graphics.RobotGraphics;
 
 import java.util.ArrayList;
 
@@ -14,7 +15,7 @@ public class Robot implements IRobot {
     private Direction dir;
     private Player owner;
     private IBoard board;
-    private final int MAX_HEALTH = 10;
+    private final int MAX_HEALTH = 9;
     private int health;
     private int lives;
     private Pos respawnPos;
@@ -69,6 +70,9 @@ public class Robot implements IRobot {
         ArrayList<IRobot> robotsToPush = new ArrayList<>();
         while (board.containsRobot(newPos)){
             IRobot otherRobot = board.getRobot(newPos);
+            if(!otherRobot.canGo(moveDirection)) {
+                return;
+            }
             if (!board.outOfBounds(otherRobot.getPos().getAdjacent(moveDirection))) {
                 robotsToPush.add(otherRobot);
                 newPos = newPos.getAdjacent(moveDirection);
@@ -236,6 +240,11 @@ public class Robot implements IRobot {
     }
 
     @Override
+    public void maxHealth() {
+        health = MAX_HEALTH;
+    }
+
+    @Override
     public void moveBackwards() {
         tryToMove(dir.opposite());
 
@@ -309,5 +318,10 @@ public class Robot implements IRobot {
     @Override
     public Pos getLaserDestination() {
         return laserDestination;
+    }
+
+    @Override
+    public int getMAX_HEALTH() {
+        return MAX_HEALTH;
     }
 }
