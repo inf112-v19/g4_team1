@@ -178,6 +178,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     if (player.getPowerDown() == 1) {
                         //player.setpowerDown(false);
                         cardPhaseButtons.chooseCards(-1, player, true);
+
                     } else {
                         cardPhaseButtons.chooseCards(player.getRobot().getHealth()-1, player, false);
                     }
@@ -302,7 +303,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     Label healthLabel = healthLabelPos.get(i);
                     healthLabel.setText("HP: " + playerPosition.get(i).getRobot().getHealth());
                     Label flagLabel = flagLabelPos.get(i);
-                    flagLabel.setText("Visited Flags: " + players.get(i).getRobot().getFlags().size());
+                    flagLabel.setText("Visited Flags: " + playerPosition.get(i).getRobot().getFlags().size());
                 }
                 robotGraphics.resetDelay();
                 for (int i = 0; i < blockedImages.size(); i++) {

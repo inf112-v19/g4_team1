@@ -59,6 +59,7 @@ public class CardPhaseButtons {
             nCards = 5;
         }
         if(isPoweredDown){
+
             nCards= 0;
             allowedCards = 0;
             player.getRobot().maxHealth();
@@ -249,17 +250,18 @@ public class CardPhaseButtons {
                     if (isPoweredDown) {
                         finish.fire(event1);
                         finish.fire(event2);
-                    } if (player.getRobot().getHealth() == 1) {
+                    } else if (player.getRobot().getHealth() == 1) {
                         powerDownButton.fire(event1);
                         powerDownButton.fire(event2);
                         finish.fire(event1);
                         finish.fire(event2);
 
-                    } if(!isPoweredDown) {
+                    } else {
                         System.out.println("Locked cards: " + allowedCards);
                         System.out.println("selected cards size: " + selectedCards.size());
                         System.out.println("available cards size: " + availableCards.size());
-                        while (selectedCards.size() < allowedCards && !isPoweredDown) {
+
+                        while (selectedCards.size() < allowedCards) {
                             currentButtonsAndCards.get(availableCards.get(0)).fire(event1);
                             currentButtonsAndCards.get(availableCards.get(0)).fire(event2);
                         }
