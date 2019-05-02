@@ -148,18 +148,27 @@ public interface IBoard {
 
     /**
      * moves a robot
-     * @param robot
+     * @param robot robot
      * @param movementAction animation to use
      */
     void move(IRobot robot, MovementAction movementAction);
     /**
      * moves a robot with default animation
-     * @param robot
+     * @param robot robot
 
      */
     void move(IRobot robot);
 
+    /**
+     *  get the game from the board
+     * @return game
+     */
     RoboRallyGame getGame();
+
+    /**
+     * queue an animation with several robots that are pushing
+     * @param robots list of all robots to move together
+     */
 
     void moveSeveral(ArrayList<IRobot> robots);
 }

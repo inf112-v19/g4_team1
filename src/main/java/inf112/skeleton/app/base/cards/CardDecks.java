@@ -74,6 +74,9 @@ public class CardDecks {
      * @param card usedDeck card
      */
     public void addUsed(Card card) {
+        if(card.getType() == CardType.POWERDOWN){
+            throw new IllegalArgumentException();
+        }
         //System.out.println("adds a used card");
         usedDeck.add(card);
     }

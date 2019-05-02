@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public interface IRobot extends IBoardElement {
     /**
      * check if the robot has not been moved by pushers this phase
-     * @return
+     * @return true if not pushed
      */
     boolean hasNotMoved();
 
@@ -170,8 +170,16 @@ public interface IRobot extends IBoardElement {
      */
     void setPos(Pos pos);
 
+    /**
+     * get the end point of the laser the robot shoots
+     * @return Pos end position
+     */
     Pos getLaserDestination();
 
+    /**
+     * max health of robot
+     * @return max health
+     */
     int getMAX_HEALTH();
 
 
