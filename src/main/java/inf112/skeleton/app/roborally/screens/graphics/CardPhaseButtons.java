@@ -175,16 +175,6 @@ public class CardPhaseButtons {
                     Drawable drawable = new TextureRegionDrawable(testTexture);
                     Button button = new Button(drawable);
                     button.setSize((int) (button.getWidth() / 1.5), (int) (button.getHeight() / 1.5));
-                    //button.setPosition((int)(98*15/1.5) + 87 * i, 10);
-                    currentButtonsAndCards.put(card, button);
-                    allButtonsAndCards.put(card, button);
-                    buttonList.add(button);
-                    game.getForeground().addActor(button);
-                    int placement = game.getPlayerPos(player);
-                    Actor currentCard = game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(button, false));
-                    int x = (int) game.getCardAreaSlots().get(placement).getX() + 3;
-                    int y = (int) game.getCardAreaSlots().get(placement).getY() + 4;
-                    currentCard.setPosition(x + selectedCards.size() * (currentCard.getWidth() + 7), y);
                     selectedCards.add(card);
                     currentPlayerCards.addAll(selectedCards);
                     player.setCards(new ArrayList<>(currentPlayerCards));
@@ -206,6 +196,7 @@ public class CardPhaseButtons {
 
                     currentButtonsAndCards.clear();
                     game.doTurn();
+                    return;
                 }
                 /*
                 if(selectedCards.size() == 0) {
@@ -288,6 +279,9 @@ public class CardPhaseButtons {
 
     public void fadeCard(Card card) {
         //System.out.println("fading with delay "+delay);
+        if(card.getType() == CardType.POWERDOWN){
+            return;
+        }
 
         game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(
                 allButtonsAndCards.get(card), false)).addAction(new SequenceAction(

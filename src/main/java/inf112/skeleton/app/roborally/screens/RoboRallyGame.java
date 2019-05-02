@@ -33,6 +33,7 @@ import inf112.skeleton.app.base.board.boardelement.*;
 import inf112.skeleton.app.base.cards.Card;
 import inf112.skeleton.app.base.cards.CardDecks;
 
+import inf112.skeleton.app.base.cards.CardType;
 import inf112.skeleton.app.base.utils.Pos;
 import inf112.skeleton.app.roborally.RoboRally;
 import inf112.skeleton.app.base.actors.Robot;
@@ -436,6 +437,9 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         Card card = player.useFirstCard();
         cardPhaseButtons.fadeCard(card);
         card.execute(player.getRobot());
+        if(card.getType() == CardType.POWERDOWN){
+            return;
+        }
         cardDecks.addUsed(card);
     }
 
