@@ -8,14 +8,11 @@ public class Main {
     public static void main(String[] args) {
         LwjglApplicationConfiguration roboRallyCfg = new LwjglApplicationConfiguration();
 
-        roboRallyCfg.title = "Robo Rally v0.004";
+        roboRallyCfg.title = "Robo Rally v0.005";
+        //roboRallyCfg.fullscreen = true;
         roboRallyCfg.width = 1920;
         roboRallyCfg.height = 1080;
-        //roboRallyCfg.fullscreen = true;
-        roboRallyCfg.useHDPI =true;
-
-        LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-
+        roboRallyCfg.useHDPI = true;
 
         new LwjglApplication(new RoboRally(), roboRallyCfg);
     }

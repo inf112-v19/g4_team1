@@ -12,30 +12,26 @@ import inf112.skeleton.app.roborally.screens.*;
  * the main game class that is passed between screens
  */
 public class RoboRally extends Game {
-    public SpriteBatch batch;
-    public BitmapFont font;
+    private SpriteBatch batch;
+    private BitmapFont font;
     public SimpleServer server;
     public SimpleClient client;
 
     @Override
     public void create() {
-//        Gdx.graphics.setContinuousRendering(false);
-//        Gdx.graphics.requestRendering();
         batch = new SpriteBatch();
         font = new BitmapFont();
 
         // go to main menu screen
         this.setScreen(new MainMenuScreen(this, null));
-
-
     }
-
 
     @Override
     public void render() {
         super.render();
     }
 
+    @Override
     public void dispose() {
         batch.dispose();
         font.dispose();
