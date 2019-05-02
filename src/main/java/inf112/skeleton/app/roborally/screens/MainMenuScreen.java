@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PreferencesScreen implements Screen {
+public class MainMenuScreen implements Screen {
 
     private Stage stage;
     private RoboRally roboRally;
@@ -34,7 +34,7 @@ public class PreferencesScreen implements Screen {
 
 
 
-    public PreferencesScreen(RoboRally roboRally) {
+    public MainMenuScreen(RoboRally roboRally) {
         this.roboRally = roboRally;
 
         stage = new Stage(new ScreenViewport());
@@ -69,7 +69,7 @@ public class PreferencesScreen implements Screen {
         TextButton reset = new TextButton(("reset players"), skin);
         TextButton add = new TextButton("Add Human", skin);
         TextButton start = new TextButton("Start Game", skin);
-        TextButton back = new TextButton("Back", skin);
+        TextButton exit = new TextButton("Exit", skin);
         TextButton AI = new TextButton("Add AI", skin);
         TextButton changemap = new TextButton("map number 1", skin);
         Label players = new Label("PLAYERS: ", skin);
@@ -87,7 +87,7 @@ public class PreferencesScreen implements Screen {
         table.row();
         table.add(start).fillX().uniformX().pad(10);
         table.row();
-        table.add(back).fillX().uniformX().pad(10);
+        table.add(exit).fillX().uniformX().pad(10);
         mapimg = new Image(new Texture("assets/roborally/mapimages/map"+(mapindex+1)+".png"));
         mapimg.setSize(300, 300);
         mapimg.setPosition(Gdx.graphics.getWidth()/2+ 300, Gdx.graphics.getHeight()/2);
@@ -106,11 +106,10 @@ public class PreferencesScreen implements Screen {
 
             }
         });
-        back.addListener(new ChangeListener() {
+        exit.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                roboRally.setScreen(new RoboRallyMainMenu(roboRally));
-                dispose();
+                Gdx.app.exit();
             }
         });
         reset.addListener(new ChangeListener() {

@@ -208,6 +208,22 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     moveRobot(currentPlayer);
                     //after robot has moved, reset the moved boolean.
                     currentPlayer.getRobot().setMoved(false);
+
+                    //check for flags on new pos
+                    for (Flag flag : flags) {
+                        flag.setRespawn();
+                    }
+                    //check if wincondition is met
+                    for (Player player : players) {
+                        if (player.getRobot().getFlags().size() == flags.size()) {
+                            win(player);
+                        }
+
+                    }
+                    //check for wrenches at new pos
+                    for (WrenchTile wrench : wrenches) {
+                        wrench.setRespawn();
+                    }
                 }
             }
             if(finishedExecute) break;
@@ -237,26 +253,8 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
         }
         cardPhaseButtons.clear();
-
-        //check for flags and wrenches at end of turn
-        for (Flag flag : flags) {
-            flag.setRespawn();
-        }
-        for (WrenchTile wrench : wrenches) {
-            wrench.setRespawn();
-        }
-
-
-        //check for win condition
-        for (Player player : players) {
-            if (player.getRobot().getFlags().size() == flags.size()) {
-                win(player);
-            }
-
-        }
-
+        
         //starts next round
-
         Timer timer = new Timer();
         Timer.Task task = new Timer.Task() {
             @Override
