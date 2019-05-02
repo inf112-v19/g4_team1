@@ -177,7 +177,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 if (player.getCards().isEmpty()) {
                     System.out.println("choose cards");
                     if (player.getPowerDown() == 1) {
-                        //player.setpowerDown(false);
                         cardPhaseButtons.chooseCards(-1, player, true);
 
                     } else {
