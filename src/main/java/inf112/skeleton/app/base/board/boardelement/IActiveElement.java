@@ -1,5 +1,6 @@
 package inf112.skeleton.app.base.board.boardelement;
 
+import inf112.skeleton.app.base.actors.IRobot;
 import inf112.skeleton.app.base.board.IBoardElement;
 
 /**
@@ -11,6 +12,6 @@ public interface IActiveElement extends IBoardElement {
     /**
      * activates the element and makes it push/attack/...
      */
-    void activate();
+    IRobot activate();
 
 }

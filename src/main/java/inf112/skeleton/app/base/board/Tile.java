@@ -25,6 +25,7 @@ public class Tile implements ITile {
         return content;
     }
 
+
     @Override
     public void removeContent(IBoardElement object) {
         if (this.contains(object))

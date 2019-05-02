@@ -6,6 +6,7 @@ import inf112.skeleton.app.base.board.boardelement.Wall;
 import inf112.skeleton.app.base.utils.*;
 
 
+import inf112.skeleton.app.roborally.screens.graphics.MovementAction;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -44,7 +45,7 @@ public class RobotTest {
         Robot robot = new Robot(pos, Direction.EAST, new Player("tobias"), board);
         board.addTileObject(robot);
         //robot.moveBackwards();
-        robot.move(Direction.WEST);
+        robot.tryToMove(Direction.WEST, MovementAction.FAST);
         System.out.println(robot.getPos());
         assertEquals(robot.getPos(), new Pos(4, 5));
     }
@@ -66,11 +67,12 @@ public class RobotTest {
 
         assertEquals(robot1.getPos().x(), 1);
     }
+
     @Test
     void wallCollision1(){
         Board board = new Board(10, 10);
         Robot robot1 = new Robot(new Pos(1, 1), Direction.EAST, new Player("tobias"), board);
-        board.addTileObject(new Wall(Direction.WEST, new Pos(2, 1), 'w', board));
+        board.addTileObject(new Wall(Direction.WEST, new Pos(2, 1),  board));
         robot1.moveForward(1);
         assertEquals(robot1.getPos().x(), 1);
         assertEquals(robot1.getPos().x(), 1);
@@ -80,7 +82,7 @@ public class RobotTest {
     void wallCollision2(){
         Board board = new Board(10, 10);
         Robot robot1 = new Robot(new Pos(1, 1), Direction.EAST, new Player("tobias"), board);
-        board.addTileObject(new Wall(Direction.EAST, new Pos(2, 1), 'w', board));
+        board.addTileObject(new Wall(Direction.EAST, new Pos(2, 1),  board));
         robot1.moveForward(1);
         assertEquals(robot1.getPos().x(), 2);
         assertEquals(robot1.getPos().y(), 1);
@@ -89,7 +91,7 @@ public class RobotTest {
     void wallCollision3(){
         Board board = new Board(10, 10);
         Robot robot1 = new Robot(new Pos(1, 1), Direction.EAST, new Player("tobias"), board);
-        board.addTileObject(new Wall(Direction.EAST, new Pos(1, 1), 'w', board));
+        board.addTileObject(new Wall(Direction.EAST, new Pos(1, 1),  board));
         robot1.moveForward(1);
         assertEquals(robot1.getPos().x(), 1);
         assertEquals(robot1.getPos().y(), 1);
@@ -98,7 +100,7 @@ public class RobotTest {
     void wallCollision4(){
         Board board = new Board(10, 10);
         Robot robot1 = new Robot(new Pos(1, 1), Direction.EAST, new Player("tobias"), board);
-        board.addTileObject(new Wall(Direction.WEST, new Pos(1, 1), 'w', board));
+        board.addTileObject(new Wall(Direction.WEST, new Pos(1, 1),  board));
         robot1.moveForward(1);
         assertEquals(robot1.getPos().x(), 2);
         assertEquals(robot1.getPos().y(), 1);
@@ -107,11 +109,24 @@ public class RobotTest {
         Board board = new Board(10, 10);
         Robot robot1 = new Robot(new Pos(1, 1), Direction.EAST, new Player("tobias"), board);
         Robot robot2 = new Robot(new Pos(2, 1), Direction.EAST, new Player("tobias"), board);
-        board.addTileObject( new Wall(Direction.WEST, new Pos(3, 1), 'w', board));
+        board.addTileObject( new Wall(Direction.WEST, new Pos(3, 1), board));
         board.addTileObject( robot1);
         board.addTileObject(robot2);
         robot1.moveForward(1);
         assertEquals(robot1.getPos().x(), 1);
         assertEquals(robot2.getPos().x(), 2);
+    }@Test
+    void ShootLaser(){
+        Board board = new Board(10, 10);
+        Robot robot = new Robot(new Pos(0, 0), Direction.EAST, new Player("tobias"), board);
+        Robot robot2 = new Robot(new Pos(1, 0), Direction.EAST, new Player("tobias"), board);
+        board.addTileObject(robot);
+        board.addTileObject(robot2);
+        int hp = robot2.getHealth();
+        robot.laser();
+        assertEquals(robot2.getHealth(), hp-1);
     }
+
+
+
 }

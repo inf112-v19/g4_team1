@@ -7,19 +7,25 @@ import inf112.skeleton.app.base.utils.Pos;
 public class Flag extends BoardElement{
     private Board board;
     private Pos pos;
+    private int flagNr;
 
-    public Flag(Pos pos, char symbol, Board board) {
-        super(pos, symbol, board);
+    public Flag(Pos pos, Board board, int flagNr) {
+        super(pos, board);
         this.board = board;
         this.pos = pos;
+        this.flagNr = flagNr;
     }
 
     // updates respawn of robot
     public void setRespawn() {
         if (board.containsRobot(pos)) {
             Robot robot = (Robot) board.getRobot(pos);
-            robot.setRespawn();
-            robot.addFlag(this);
+            System.out.println(1);
+            if(robot.getFlags().size() == flagNr-1) {
+                System.out.println(2);
+                robot.setRespawn();
+                robot.addFlag(this);
+            }
         }
     }
 

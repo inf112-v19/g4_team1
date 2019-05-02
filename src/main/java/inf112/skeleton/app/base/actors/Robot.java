@@ -2,12 +2,14 @@ package inf112.skeleton.app.base.actors;
 
 import inf112.skeleton.app.base.board.IBoard;
 import inf112.skeleton.app.base.board.boardelement.Flag;
+import inf112.skeleton.app.base.board.boardelement.Laser;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
+import inf112.skeleton.app.roborally.screens.graphics.MovementAction;
 
 import java.util.ArrayList;
 
-public class Robot extends TileObject implements IRobot {
+public class Robot implements IRobot {
     private Pos pos;
     private Direction dir;
     private Player owner;
@@ -16,7 +18,13 @@ public class Robot extends TileObject implements IRobot {
     private int health;
     private int lives;
     private Pos respawnPos;
-    private ArrayList<Flag> visitedFlags = new ArrayList<Flag>();
+    private ArrayList<Flag> visitedFlags = new ArrayList<>();
+    private boolean movedthisround = false;
+    private int oldRotation;
+    private boolean diedThisRound;
+    private Pos laserDestination;
+    private int lastMoveHealth;
+    private int lastNumFlags;
 
     public Robot(Pos pos, Direction dir, Player owner, IBoard board) {
         this.dir = dir;
@@ -26,11 +34,19 @@ public class Robot extends TileObject implements IRobot {
         this.respawnPos = pos;
         this.health = MAX_HEALTH;
         this.lives = 3;
+        this.lastMoveHealth = MAX_HEALTH;
+        this.lastNumFlags = 0;
     }
 
-    @Override
-    public Pos getPos() {
-        return pos;
+    public boolean hasNotMoved() {
+        return !movedthisround;
+    }
+
+    public void setMoved(boolean moved) {
+        movedthisround = moved;
+        System.out.println("moved this round is now " + movedthisround);
+        diedThisRound = false;
+        //System.out.println("set movedthis round to "+moved + " and diedthirround to true");
     }
 
     @Override
@@ -38,55 +54,93 @@ public class Robot extends TileObject implements IRobot {
         return dir;
     }
 
+    public void tryToMove(Direction moveDirection) {
+        tryToMove(moveDirection, MovementAction.NORMAL);
+    }
+
     @Override
-    public boolean move(Direction moveDirection) {
-        if (moveDirection == null)
-            throw new IllegalArgumentException("No direction to move in.");
-
+    public void tryToMove(Direction moveDirection, MovementAction movementAction) {
+        if (!canGo(moveDirection)) {
+            board.move(this, MovementAction.STUCK);
+            return;
+        }
         Pos newPos = pos.getAdjacent(moveDirection);
-        System.out.println("newPos " + newPos); // for testing purposes
-
         // robot is moving outside board/to pit
         if (board.outOfBounds(newPos) || (board.containsPit(newPos))) {
             respawn();
+            return;
+        }
+        //creates a list of robots to push
+        ArrayList<IRobot> robotsToPush = new ArrayList<>();
+        while (board.containsRobot(newPos)) {
+            IRobot otherRobot = board.getRobot(newPos);
+            if (!otherRobot.canGo(moveDirection)) {
+                return;
+            }
+            if (!board.outOfBounds(otherRobot.getPos().getAdjacent(moveDirection)) && !board.containsPit(otherRobot.getPos().getAdjacent(moveDirection))) {
+                robotsToPush.add(otherRobot);
+                newPos = newPos.getAdjacent(moveDirection);
+            } else {
+                //moves the robot out of board to respawn
+                otherRobot.tryToMove(moveDirection);
+                break;
+            }
+        }
+        if (!robotsToPush.isEmpty()) {
+            robotsToPush.add(this);
+            moveAdditionalRobots(robotsToPush, moveDirection);
+        } else {
+            this.move(newPos, movementAction);
+        }
+    }
+
+
+    public boolean canGo(Direction moveDir) {
+        //System.out.println("er i canGo med robot på "+pos);
+        if (moveDir == null)
+            throw new IllegalArgumentException("No direction to tryToMove in.");
+        Pos newPos = pos.getAdjacent(moveDir);
+
+        if (board.getWallDir(pos) != null) {
+            if (wallIsBlocking(pos, moveDir)) {
+                return false;
+            }
+        }
+        if (board.outOfBounds(newPos)) {
             return true;
         }
-
-        else {
-            if (board.containsRobot(newPos)) {
-                System.out.println("fant robot"); // for testing purposes
-                // robot has to push the other robot
-                IRobot otherRobot = board.getRobot(newPos);
-                boolean completedMove = otherRobot.move(moveDirection);
-
-                if (completedMove) {
-                    // path is clear now we try again
-                    return move(moveDirection);
-                } else {
-                    // the robot on the tile couldn't move, so this robot cant move either
-                    return false;
-                }
-            }
-
-            // robot has to check for wall in this and next tile
-            if (board.getWallDir(newPos) != null) {
-                if (wallIsBlocking(newPos, moveDirection)) {
-                    return false;
-                }
-            }
-
-            if(board.getWallDir(pos) != null) {
-                if (wallIsBlocking(pos, moveDirection)) {
-                    return false;
-                }
-            }
-
-            // robot is free to move to new position
-            board.get(pos).removeContent(this);
-            board.get(newPos).addObject(this);
-            pos = newPos;
-            return true;
+        if (board.getWallDir(newPos) != null) {
+            return !wallIsBlocking(newPos, moveDir);
         }
+        if (board.containsRobot(newPos)) {
+            return board.getRobot(newPos).canGo(moveDir);
+        }
+        return true;
+    }
+
+    @Override
+    public void setPos(Pos pos) {
+        this.pos = pos;
+    }
+
+    private void moveAdditionalRobots(ArrayList<IRobot> robots, Direction moveDirection) {
+        //this robot
+        for (IRobot robot : robots) {
+            Pos robotPos = robot.getPos();
+            board.get(robotPos).removeContent(robot);
+            board.get(robotPos.getAdjacent(moveDirection)).addObject(robot);
+            robot.setPos(robotPos.getAdjacent(moveDirection));
+            System.out.println(robot.getOwner() + " moved to new pos " + robot.getPos() + " facing " + robot.getDir() + " with sync movement");
+        }
+        board.moveSeveral(robots);
+    }
+
+    private void move(Pos newPos, MovementAction movetype) {
+        board.get(pos).removeContent(this);
+        board.get(newPos).addObject(this);
+        pos = newPos;
+        System.out.println(owner + " moved to new pos " + pos + " facing " + dir + " with movetype" + movetype);
+        board.move(this, movetype);
     }
 
     private boolean wallIsBlocking(Pos wallPos, Direction moveDirection) {
@@ -96,9 +150,7 @@ public class Robot extends TileObject implements IRobot {
             // the wall is on the same tile
             // blocks the robot if direction of wall is same as the movement
             return moveDirection == walldir;
-        }
-
-        else {
+        } else {
             // the wall is on the next tile
             // blocks the robot if the directions are opposite
             return moveDirection.opposite() == walldir;
@@ -114,16 +166,34 @@ public class Robot extends TileObject implements IRobot {
     }
 
     private void respawn() {
+        System.out.println(getOwner() + " respawn");
+        diedThisRound = true;
         lives--;
-        if (lives == 0) {
-            //TODO:
-            //robot is totally dead
-
+        if (lives < 0) {
+            return;
+        } else {
+            health = MAX_HEALTH;
+            //respawnPos = board.getSpawn();
+            if (isValidRespawn(respawnPos)) {
+                move(respawnPos, MovementAction.DEATH_ANIMATION);
+            } else {
+                //has to find new respawn
+                for (Pos newpos : pos.getAllAdjacent()) {
+                    if (isValidRespawn(newpos)) {
+                        move(newpos, MovementAction.DEATH_ANIMATION);
+                        return;
+                    }
+                }
+                System.out.println("error, found no respawn pos");
+                move(pos, MovementAction.DEATH_ANIMATION);
+            }
         }
-
-        pos = respawnPos;
-        health = MAX_HEALTH;
     }
+
+    private boolean isValidRespawn(Pos newPos) {
+        return !board.outOfBounds(newPos) && !board.containsPit(newPos) && !board.containsRobot(newPos);
+    }
+
 
     @Override
     public Player getOwner() {
@@ -133,24 +203,36 @@ public class Robot extends TileObject implements IRobot {
     @Override
     public void turnLeft() {
         dir = dir.left();
+        board.move(this, MovementAction.NORMAL);
+
     }
 
     @Override
     public void turnRight() {
         dir = dir.right();
+        board.move(this, MovementAction.NORMAL);
+
     }
 
     @Override
     public void turnHalf() {
         dir = dir.opposite();
+        board.move(this, MovementAction.NORMAL);
+
     }
 
     @Override
     public void moveForward(int distance) {
         // calls moveForward n times so it doesn't jump walls or robots
         for (int i = 0; i < distance; i++) {
-            moveForward();
+            if (!diedThisRound)
+                moveForward();
         }
+    }
+
+    @Override
+    public int getLives() {
+        return lives;
     }
 
     @Override
@@ -159,13 +241,22 @@ public class Robot extends TileObject implements IRobot {
     }
 
     @Override
+    public void maxHealth() {
+        health = MAX_HEALTH;
+    }
+
+    @Override
     public void moveBackwards() {
-        System.out.println(dir.opposite());
-        move(dir.opposite());
+        tryToMove(dir.opposite());
+
+    }
+
+    public Pos getPos() {
+        return pos;
     }
 
     private void moveForward() {
-        move(dir);
+        tryToMove(dir);
     }
 
     @Override
@@ -175,8 +266,10 @@ public class Robot extends TileObject implements IRobot {
 
     @Override
     public void setRespawn() {
+        System.out.println("respawn is " + pos);
         respawnPos = getPos();
     }
+
 
     @Override
     public void addFlag(Flag flag) {
@@ -185,9 +278,70 @@ public class Robot extends TileObject implements IRobot {
         }
     }
 
+
     @Override
     public ArrayList<Flag> getFlags() {
         return visitedFlags;
     }
 
+
+    public void laser() {
+        Direction dir = getDir();
+        Pos pos = getPos();
+
+        Laser laser = new Laser(dir, pos.getAdjacent(dir), board);
+        laser.activate();
+        laserDestination = laser.getDestination();
+
+    }
+
+    @Override
+    public int getOldRotation() {
+        return oldRotation;
+    }
+
+    @Override
+    public void setOldRotation(int rot) {
+        this.oldRotation = rot;
+    }
+
+    @Override
+    public void setDir(Direction dir) {
+        this.dir = dir;
+    }
+
+    @Override
+    public IBoard getBoard() {
+        return board;
+    }
+
+    @Override
+    public Pos getLaserDestination() {
+        return laserDestination;
+    }
+
+    @Override
+    public int getMAX_HEALTH() {
+        return MAX_HEALTH;
+    }
+
+    @Override
+    public int getLastMoveHealth() {
+        return lastMoveHealth;
+    }
+
+    @Override
+    public void setLastMoveHealth(int i) {
+        lastMoveHealth = i;
+    }
+
+    @Override
+    public int getLastNumFlags() {
+        return lastNumFlags;
+    }
+
+    @Override
+    public void setLastNumFlags(int i) {
+        lastNumFlags = i;
+    }
 }

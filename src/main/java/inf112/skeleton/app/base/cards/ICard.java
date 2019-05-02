@@ -22,7 +22,7 @@ public interface ICard {
 
     /**
      * does what the program on the card says with the robot, e.g. moves the robot forward
-     * @param robot robot to move
+     * @param robot robot to tryToMove
      */
     void execute(IRobot robot);
 

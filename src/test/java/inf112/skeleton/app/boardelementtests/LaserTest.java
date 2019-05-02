@@ -16,10 +16,10 @@ public class LaserTest {
         Board board = new Board(10, 10);
         Robot robot = new Robot(new Pos(0, 0), Direction.EAST, new Player("tobias"), board);
         board.addTileObject(robot);
-        Laser laser = new Laser(Direction.SOUTH,  new Pos(0, 1), 'a', board);
+        Laser laser = new Laser(Direction.SOUTH,  new Pos(0, 1),  board);
         board.addTileObject(laser);
         int hp = robot.getHealth();
         laser.activate();
-        assertEquals(robot.getHealth(), hp-1);
+        assertEquals(hp-1, robot.getHealth());
     }
 }

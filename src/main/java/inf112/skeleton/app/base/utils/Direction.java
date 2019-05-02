@@ -47,4 +47,14 @@ public enum Direction {
         return this.left().left();
     }
 
+    public int getRotationDegrees(){
+        switch(this){
+            case NORTH: return 0;
+            case EAST: return 270;
+            case SOUTH: return 180;
+            case WEST: return 90;
+        }
+        throw new IllegalArgumentException();
+    }
+
 }

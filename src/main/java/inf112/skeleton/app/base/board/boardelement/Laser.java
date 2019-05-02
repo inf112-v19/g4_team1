@@ -1,44 +1,63 @@
 package inf112.skeleton.app.base.board.boardelement;
 
+import inf112.skeleton.app.base.actors.IRobot;
 import inf112.skeleton.app.base.board.Board;
+import inf112.skeleton.app.base.board.IBoard;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
 
-public class Laser extends BoardElement implements IActiveElement {
+public class Laser extends Wall implements IActiveElement {
     private Direction dir;
+    private Pos destination;
 
-    public Laser(Direction dir, Pos pos, char symbol, Board board) {
-        super(pos, symbol, board);
+    public Laser(Direction dir, Pos pos, IBoard board) {
+        super(dir.opposite(), pos, board);
         this.dir = dir;
     }
 
     @Override
-    public void activate() {
+    public IRobot activate() {
         Pos laserPos = pos;
 
         while (true) {
+            if(board.outOfBounds(laserPos)){
+                destination = laserPos;
+                return null;
+            }
             // checks for wall at the near side of the tile
-            if (board.getWallDir(laserPos) != null)
-                if (dir == board.getWallDir(laserPos).opposite())
-                    return;
+            if (board.getWallDir(laserPos) != null && !laserPos.equals(pos))
+                if (dir.opposite() == board.getWallDir(laserPos)) {
+                    destination = laserPos.getAdjacent(dir.opposite());
+                    return null;
+                }
 
             // damages robot at the tile
             if (board.containsRobot(laserPos)) {
                 // shoots robot
-                board.getRobot(laserPos).damage();
-                return;
+                IRobot robot = board.getRobot(laserPos);
+                System.out.println("kaller damage");
+                robot.damage();
+                destination = laserPos.getAdjacent(dir.opposite());
+                return robot;
             }
 
-            // check if hits wall at the far side of the tile
+            // checks for wall at the near side of the tile
             if (board.getWallDir(laserPos) != null)
-                if (dir == board.getWallDir(laserPos))
-                    return;
+                if (dir == board.getWallDir(laserPos)) {
+                    destination = laserPos;
+                    return null;
+                }
 
             // checks next tile in the loop
+            if (board.outOfBounds(laserPos.getAdjacent(dir))) {
+                destination = laserPos;
+                return null;
+            }
             laserPos = laserPos.getAdjacent(dir);
-
-            if (board.outOfBounds(laserPos)) return;
         }
+    }
+    public Pos getDestination() {
+        return destination;
     }
 
 }

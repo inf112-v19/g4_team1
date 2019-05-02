@@ -46,4 +46,21 @@ public interface IPlayer {
      */
     void addRobot(Robot robot);
 
+    /**
+     *
+     * @return player name
+     */
+    String getName();
+
+    /**
+     * set powerdown to be active in i rounds, noramlly set to 2
+     * @param i countdown to powerdown
+     */
+    void setPowerDown(int i);
+
+    /**
+     * get the powerdown counter
+     * @return rounds until powerdown
+     */
+    int getPowerDown();
 }

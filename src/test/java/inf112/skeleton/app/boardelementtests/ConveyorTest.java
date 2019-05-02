@@ -19,7 +19,7 @@ public class ConveyorTest {
         Robot robot = new Robot(pos, Direction.EAST, player1, board);
         player1.addRobot(robot);
         board.addTileObject(robot);
-        Conveyor belt = new Conveyor(Direction.EAST, pos,  'a', board);
+        Conveyor belt = new Conveyor(Direction.EAST, pos,   board);
         board.addTileObject(belt);
         belt.activate();
         assertEquals(robot.getPos().x(), 2);

@@ -1,13 +1,25 @@
 package inf112.skeleton.app.base.actors;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import inf112.skeleton.app.base.cards.Card;
 
 import java.util.ArrayList;
 
 public class Player implements IPlayer {
-    private Robot robot;
-    private String name;
-    private ArrayList<Card> cards;
+    protected Robot robot;
+    protected String name;
+    private ArrayList<Card> cards = new ArrayList<>();
+    private int roundsToPowerDown = -1;
+
+    public Image getPowerButton() {
+        return powerButton;
+    }
+
+    public void setPowerButton(Image powerButton) {
+        this.powerButton = powerButton;
+    }
+
+    private Image powerButton;
 
     public Player(String name) {
         this.name = name;
@@ -46,6 +58,26 @@ public class Player implements IPlayer {
 
         // retrieves and removes first card in list.
         return cards.remove(0);
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setPowerDown(int b) {
+        this.roundsToPowerDown = b;
+    }
+
+    @Override
+    public int getPowerDown() {
+        return roundsToPowerDown;
+    }
+
+
+    public String toString(){
+        return name;
     }
 
 }

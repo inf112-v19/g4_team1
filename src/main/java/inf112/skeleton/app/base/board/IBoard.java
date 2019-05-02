@@ -1,11 +1,14 @@
 package inf112.skeleton.app.base.board;
 
 import inf112.skeleton.app.base.actors.IRobot;
+import inf112.skeleton.app.base.actors.Robot;
 import inf112.skeleton.app.base.board.boardelement.Flag;
 import inf112.skeleton.app.base.board.boardelement.IActiveElement;
 import inf112.skeleton.app.base.board.boardelement.WrenchTile;
 import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
+import inf112.skeleton.app.roborally.screens.RoboRallyGame;
+import inf112.skeleton.app.roborally.screens.graphics.MovementAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,6 +86,14 @@ public interface IBoard {
     boolean containsRobot(Pos pos);
 
     /**
+     * check if a position contains a Flag
+     *
+     * @param pos position
+     * @return true if contains Flag
+     */
+    boolean containsFlag(Pos pos);
+
+    /**
      * returns the robot in a position
      *
      * @param pos position
@@ -127,4 +138,37 @@ public interface IBoard {
      */
     ArrayList<WrenchTile> getWrenches();
 
+    /**
+     * Finds a available spawn on the board. Returns first spawn with no robot currently at it,
+     * or a random spawn with a robot if every spawn-point is occupied.
+     * Throws exception if no spawns is found on board.
+     * @return position of an available spawn on the board
+     */
+    Pos getSpawn();
+
+    /**
+     * moves a robot
+     * @param robot robot
+     * @param movementAction animation to use
+     */
+    void move(IRobot robot, MovementAction movementAction);
+    /**
+     * moves a robot with default animation
+     * @param robot robot
+
+     */
+    void move(IRobot robot);
+
+    /**
+     *  get the game from the board
+     * @return game
+     */
+    RoboRallyGame getGame();
+
+    /**
+     * queue an animation with several robots that are pushing
+     * @param robots list of all robots to move together
+     */
+
+    void moveSeveral(ArrayList<IRobot> robots);
 }
