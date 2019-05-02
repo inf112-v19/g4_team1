@@ -25,6 +25,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
+import inf112.skeleton.app.base.MP.SimpleClient;
+import inf112.skeleton.app.base.MP.SimpleServer;
 import inf112.skeleton.app.base.actors.AI;
 import inf112.skeleton.app.base.actors.IRobot;
 import inf112.skeleton.app.base.actors.Player;
@@ -66,8 +68,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private RobotGraphics robotGraphics = new RobotGraphics(this);
     private CardPhaseButtons cardPhaseButtons;
     private Label.LabelStyle labelStyle;
-    private Group background;
-    private Group foreground;
+    private Group background, foreground;
     private ArrayList<Image> cardAreaSlots = new ArrayList<>();
     private HashMap<Player, ArrayList<Image>> lives = new HashMap<>();
     private ArrayList<Player> playerPosition = new ArrayList<>();
@@ -204,16 +205,19 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
                 }
             }
+
             //activates double speed first
             for (IActiveElement elem : ActiveElements) {
                 if (elem instanceof DoubleSpeedConveyor) {
                     elem.activate();
                 }
             }
+
             //resets all robots tryToMove boolean
             for (Player player : players) {
                 player.getRobot().setMoved(false);
             }
+
             //activate board elements, then lasers
             //TODO: Board-lasers doesn't damage robots
             for (IActiveElement elem : ActiveElements) {
@@ -224,6 +228,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     //robotGraphics.addActionToRobot(robot);
                 }
             }
+
             for (IActiveElement elem : ActiveElements) {
                 if (elem instanceof Laser) {
                     elem.activate();

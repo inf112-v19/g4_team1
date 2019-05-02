@@ -76,8 +76,6 @@ public class PreferencesScreen implements Screen {
         table.row();
         table.add(back).fillX().uniformX().pad(10);
 
-
-
         back.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -145,7 +143,7 @@ public class PreferencesScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if (names.size() < 1 || names.size() > 8) {
-                    //todo: Should be explained with a message on the screen
+                    //todo: Should be explained with a status on the screen
                     System.out.println("Number of players not valid");
                     return;
                 }

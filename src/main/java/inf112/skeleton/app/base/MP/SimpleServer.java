@@ -5,9 +5,11 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
+import java.util.ArrayList;
+
 public class SimpleServer implements Runnable {
     public boolean running;
-    public String string, message;
+    public String string, status;
     public boolean gotMessage;
 
     private int port = 54634;
@@ -15,24 +17,25 @@ public class SimpleServer implements Runnable {
 
     public SimpleServer() throws Exception {
         System.out.println("Creating a server...");
-        message = "not connected";
+        status = "Not connected";
         server = new Server();
         Thread gameThread = new Thread(this);
 
         Kryo kryo = server.getKryo();
         kryo.register(String.class);
+        kryo.register(ArrayList.class);
 
         server.addListener(new Listener(){
             @Override
             public void received(Connection c, Object object) {
 
-                // get the message
+                // get the status
                 if (object instanceof String) {
 
                     string = (String) object;
                     gotMessage = true;
 
-                    // send the response if received the message
+                    // send the response if received the status
                     c.sendTCP("received " + string + ". Responding.");
                 }
             }
@@ -48,7 +51,7 @@ public class SimpleServer implements Runnable {
         server.start();
         gameThread.start();
         running = true;
-        message = "Server started. Waiting for other connections...";
+        status = "Server started. Waiting for other connections...";
 
 //        while (running) {
 //            //Thread.sleep(5000);
@@ -56,7 +59,7 @@ public class SimpleServer implements Runnable {
 //            count++;
 //            System.out.println("waiting for messages...");
 //            if (gotMessage) {
-//                System.out.println("got message " + string);
+//                System.out.println("got status " + string);
 //                gotMessage = false;
 //            }
 //        }

@@ -4,6 +4,8 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import inf112.skeleton.app.base.MP.SimpleClient;
+import inf112.skeleton.app.base.MP.SimpleServer;
 import inf112.skeleton.app.base.actors.Player;
 import inf112.skeleton.app.roborally.screens.RoboRallyGame;
 import inf112.skeleton.app.roborally.screens.RoboRallyMainMenu;
@@ -15,6 +17,8 @@ import inf112.skeleton.app.roborally.screens.winScreen;
 public class RoboRally extends Game {
     public SpriteBatch batch;
     public BitmapFont font;
+    public SimpleServer server;
+    public SimpleClient client;
 
     @Override
     public void create() {

@@ -4,18 +4,21 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
+import inf112.skeleton.app.base.actors.Player;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.ArrayList;
 
 public class SimpleClient implements Runnable {
     private Client client;
     private String string;
     private boolean connected;
+    public String status;
 
-    public SimpleClient() throws InterruptedException {
+    public SimpleClient() {
         Thread gameThread = new Thread(this);
-        final boolean[] gotMessage = new boolean[1];
+        //final boolean[] gotMessage = new boolean[1];
 
         try {
             client = new Client();
@@ -23,15 +26,16 @@ public class SimpleClient implements Runnable {
 
             Kryo kryo = client.getKryo();
             kryo.register(String.class);
+            kryo.register(ArrayList.class);
 
             client.addListener(new Listener() {
                 @Override
                 public void received (Connection c, Object object) {
-                    if (object instanceof String) {
-                        string = (String) object;
-                        System.out.println("Received " + string);
-                        gotMessage[0] = true;
-                    }
+//                    if (object instanceof String) {
+//                        string = (String) object;
+//                        System.out.println("Received " + string);
+//                        gotMessage[0] = true;
+//                    }
                 }
 
                 @Override
@@ -63,16 +67,25 @@ public class SimpleClient implements Runnable {
             }
         }
 
-        while (connected) {
-            Thread.sleep(5000);
-            System.out.println("5 seconds passed.");
-            client.sendTCP("Sending " + string);
+//        while (connected) {
+//            Thread.sleep(5000);
+//            System.out.println("5 seconds passed.");
+//            client.sendTCP("Sending " + string);
+//
+//            if (gotMessage[0]) {
+//                System.out.println("Received " + string);
+//                gotMessage[0] = false;
+//            }
+//        }
+    }
 
-            if (gotMessage[0]) {
-                System.out.println("Received " + string);
-                gotMessage[0] = false;
-            }
+    public boolean sendMessage(Object object) {
+        if (object instanceof ArrayList) {
+            client.sendTCP(object);
+            return true;
         }
+
+        return false;
     }
 
     public static void main(String[] args) {
