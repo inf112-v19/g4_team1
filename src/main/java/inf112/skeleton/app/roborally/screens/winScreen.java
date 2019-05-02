@@ -52,6 +52,11 @@ public class winScreen implements Screen {
         Image img = new Image(background);
         img.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()-100);
         stage.addActor(img);
+
+        mapimg = new Image(new Texture("assets/roborally/winScreenText.png"));
+        mapimg.setSize(900,100);
+        mapimg.setPosition(Gdx.graphics.getWidth()/2f-450, Gdx.graphics.getHeight()/2f+750);
+        stage.addActor(mapimg);
     }
 
     @Override
