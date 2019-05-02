@@ -167,13 +167,12 @@ public class MultiplayerRoboRallyGame implements Screen, Runnable {
             createSrvr.addListener( new ChangeListener() {
                 @Override
                 public void changed (ChangeEvent event, Actor actor) {
-
-                    systemMessage.setText("Connecting...");
+                    systemMessage.setText("Creating the server...");
 
                     startServer();
 
                     try {
-                        Thread.sleep(5000);
+                        Thread.sleep(3000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -241,19 +240,60 @@ public class MultiplayerRoboRallyGame implements Screen, Runnable {
     }
 
     class ConnectToServerScreen implements Screen {
-        private String host;
+        private String host, message;
+        private Label msg;
 
         public ConnectToServerScreen() {
             Gdx.input.setInputProcessor(stage);
+            msg = new Label("", skin);
+            msg.setFontScale(1.5f);
 
             TextButton back = new TextButton("Back", skin);
             TextButton connToSrvr = new TextButton("Connect to server", skin);
+            TextButton enterMsg = new TextButton("Enter the message", skin);
+            TextButton sendMsg = new TextButton("Send the message", skin);
+            TextButton refresh = new TextButton("Refresh", skin);
+
 
             Input.TextInputListener inputHost = new Input.TextInputListener() {
                 @Override
                 public void input(String text) {
                     host = text;
-                    systemMessage.setText("Host @ " + host);
+                    systemMessage.setText("Host @ " + text);
+
+                    try {
+                        Thread.sleep(3000);
+                        systemMessage.setText("Connecting...");
+                        client = new SimpleClient(text);
+                        systemMessage.setText(client.status);
+                    } catch (InterruptedException | UnknownHostException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void canceled() {
+
+                }
+            };
+
+            Input.TextInputListener inputMessage = new Input.TextInputListener() {
+                @Override
+                public void input(String text) {
+                    message = text;
+                    msg.setText("Message: " + text);
+
+                    try {
+                        Thread.sleep(2000);
+                        msg.setText("Sending message...");
+                        client.sendMessage(text);
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (client.gotMessage[0])
+                        msg.setText("Response from the server: " + client.getMessage().toString());
                 }
 
                 @Override
@@ -284,12 +324,52 @@ public class MultiplayerRoboRallyGame implements Screen, Runnable {
                 }
             });
 
+            enterMsg.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    Gdx.input.getTextInput(inputMessage, "Enter the message to send: ", "", "");
+                    msg.setText(message);
+                }
+            });
+
+            sendMsg.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    try {
+                        msg.setText("Sending message...");
+                        client.sendMessage(message);
+
+                        if (client.gotMessage[0])
+                            msg.setText(client.getMessage().toString());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            refresh.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    if (client.gotMessage[0])
+                        msg.setText(client.getMessage().toString());
+                }
+            });
+
             table.row();
             table.add(systemMessage).fillX().uniformX().pad(10);
             table.row();
-            table.add(connToSrvr).fillX().uniformX().pad(10);
+//            table.add(connToSrvr).fillX().uniformX().pad(10);
+//            table.row();
+
+            table.add(enterMsg).fillX().uniformX().pad(10);
+            table.row();
+            table.add(sendMsg).fillX().uniformX().pad(10);
             table.row();
             table.add(back).fillX().uniformX().pad(10);
+            table.row();
+//            table.add(refresh).fillX().uniformX().pad(10);
+//            table.row();
+            table.add(msg).fillX().uniformX().padTop(40);
         }
 
         @Override

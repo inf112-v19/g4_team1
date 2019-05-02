@@ -12,15 +12,15 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 public class SimpleClient implements Runnable {
-    private Client client;
+    public Client client;
     private String string;
     private boolean connected;
     public String status;
     private String host;
+    public final boolean[] gotMessage = new boolean[1];
 
     public SimpleClient(String h) throws InterruptedException, UnknownHostException {
         Thread gameThread = new Thread(this);
-        final boolean[] gotMessage = new boolean[1];
         host = h;
 
         try {
@@ -85,13 +85,19 @@ public class SimpleClient implements Runnable {
 //        }
     }
 
-    public boolean sendMessage(Object object) {
-        if (object instanceof ArrayList) {
-            client.sendTCP(object);
-            return true;
+    public boolean sendMessage(Object object) throws InterruptedException {
+        client.sendTCP(object);
+        Thread.sleep(5000);
+        return true;
+    }
+
+    public Object getMessage() {
+        if (gotMessage[0]) {
+            gotMessage[0] = false;
+            return string;
         }
 
-        return false;
+        return null;
     }
 
 //    public static void main(String[] args) {

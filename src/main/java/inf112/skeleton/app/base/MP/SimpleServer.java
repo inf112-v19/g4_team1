@@ -16,7 +16,7 @@ public class SimpleServer implements Runnable {
 
     private int port = 54634;
     private int udp = 54635;
-    private Server server;
+    public Server server;
 
     public SimpleServer() throws Exception {
         System.out.println("Creating a server...");
