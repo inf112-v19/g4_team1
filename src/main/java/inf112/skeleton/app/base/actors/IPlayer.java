@@ -53,10 +53,14 @@ public interface IPlayer {
     String getName();
 
     /**
-     * set powerdown to be active next round
-     * @param b
+     * set powerdown to be active in i rounds, noramlly set to 2
+     * @param i countdown to powerdown
      */
-    void setPowerDown(int b);
+    void setPowerDown(int i);
 
+    /**
+     * get the powerdown counter
+     * @return rounds until powerdown
+     */
     int getPowerDown();
 }
