@@ -2,20 +2,20 @@ package inf112.skeleton.app.roborally.screens.graphics;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.*;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import inf112.skeleton.app.base.actors.IRobot;
 import inf112.skeleton.app.base.actors.Robot;
-import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.roborally.screens.RoboRallyGame;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.parallel;
 
 public class RobotGraphics {
@@ -31,13 +31,13 @@ public class RobotGraphics {
     private float robotSizey;
     private float totalDelay;
 
-    public RobotGraphics(RoboRallyGame game){
+    public RobotGraphics(RoboRallyGame game) {
         sequenceAction = new SequenceAction();
         this.game = game;
-        this.tileWidth=game.getTiledMap().getProperties().get("tilewidth", Integer.class);
-        this.tileHeight=game.getTiledMap().getProperties().get("tileheight", Integer.class);
-        robotSizex = tileWidth/1.5f;
-        robotSizey = tileHeight/1.5f;
+        this.tileWidth = game.getTiledMap().getProperties().get("tilewidth", Integer.class);
+        this.tileHeight = game.getTiledMap().getProperties().get("tileheight", Integer.class);
+        robotSizex = tileWidth / 1.5f;
+        robotSizey = tileHeight / 1.5f;
 
         //Create list of Robot textures
         Texture texture = new Texture("assets/roborally/robot.png");
@@ -66,22 +66,26 @@ public class RobotGraphics {
             //fix for syncing the fading of cards
             totalDelay += movementAction.getActionTime();
 
+            if (robot.getHealth() != robot.getLastMoveHealth() || robot.getFlags().size() != robot.getLastNumFlags()) {
+                game.updateUI(robot.getOwner(), robot.getHealth(), totalDelay - 0.3f);
+                robot.setLastMoveHealth(robot.getHealth());
+                robot.setLastNumFlags(robot.getFlags().size());
+            }
+
             //player is dead and is removed from game
-            if(robot.getLives() == 0) {
+            if (robot.getLives() == 0) {
                 game.removePlayer(robot.getOwner(), totalDelay);
             }
             game.getCardButtons().addDelay(movementAction.getActionTime());
         }
     }
 
-
+    /**
+     * adds animations to robots to move at the same time
+     */
     public void addSyncMove(ArrayList<IRobot> robots) {
-        /**
-         * adds animations to robots to move at the same time
-         */
-        //ArrayList<Action> paralellActions = new ArrayList<>();
         ParallelAction parallellMoves = parallel();
-        for(IRobot robot : robots){
+        for (IRobot robot : robots) {
             Action robotAction = Actions.moveTo(coordToPixel(robot.getPos().x()), coordToPixel(robot.getPos().y()), 1);
             robotAction.setActor(robotSprites.get(robot));
             parallellMoves.addAction(robotAction);
@@ -91,15 +95,14 @@ public class RobotGraphics {
     }
 
 
-
     public void addImage(Robot robot) {
-        Drawable drawable= new TextureRegionDrawable(textures.get(textureCounter));
+        Drawable drawable = new TextureRegionDrawable(textures.get(textureCounter));
         textureCounter++;
-        Image robotImage= new Image(drawable);
+        Image robotImage = new Image(drawable);
         robotImage.setSize(robotSizex, robotSizey);
         robotImage.setPosition(coordToPixel(robot.getPos().x()), coordToPixel(robot.getPos().y()));
         //get center of image so rotation is correct
-        robotImage.setOrigin(robotImage.getWidth()/2, robotImage.getHeight()/2);
+        robotImage.setOrigin(robotImage.getWidth() / 2, robotImage.getHeight() / 2);
         robotImage.setRotation((robot.getDir().getRotationDegrees()));
         robotSprites.put(robot, robotImage);
         game.getStage().addActor(robotImage);
@@ -110,18 +113,20 @@ public class RobotGraphics {
     }
 
     public int coordToPixel(int x) {
-        if(x > 16) {
+        if (x > 16) {
             throw new IllegalArgumentException("coordinate is outside of grid");
         }
-        return (int) (x*tileWidth / 1.5f);
+        return (int) (x * tileWidth / 1.5f);
     }
 
     public int getTileWidth() {
         return tileWidth;
     }
+
     public void removeSprite(Robot robot) {
         game.getStage().getActors().removeValue(robotSprites.get(robot), false);
     }
+
     public float getTotalDelay() {
         return totalDelay;
     }

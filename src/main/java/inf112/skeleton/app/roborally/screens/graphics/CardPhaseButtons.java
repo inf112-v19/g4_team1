@@ -36,7 +36,6 @@ public class CardPhaseButtons {
     private ArrayList<Card> currentPlayerCards = new ArrayList<>();
     private float delay = 0f;
     private Skin skin;
-    private final float CARD_FADE_TIME = 1f;
     private int allowedCards;
     private int placement;
 
@@ -66,7 +65,7 @@ public class CardPhaseButtons {
             player.getRobot().maxHealth();
         }
         ArrayList<Card> availableCards = cardDecks.getCards(nCards);
-       // System.out.println("available cards ::::" + availableCards.size());
+        // System.out.println("available cards ::::" + availableCards.size());
         ArrayList<Card> selectedCards = new ArrayList<>();
         ArrayList<Button> buttonList = new ArrayList<>();
 
@@ -259,10 +258,11 @@ public class CardPhaseButtons {
 
     public void fadeCard(Card card) {
         //System.out.println("fading with delay "+delay);
-        if(card.getType() == CardType.POWERDOWN){
+        if (card.getType() == CardType.POWERDOWN) {
             return;
         }
 
+        float CARD_FADE_TIME = 1f;
         game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(
                 allButtonsAndCards.get(card), false)).addAction(new SequenceAction(
                 Actions.delay(delay), Actions.fadeOut(CARD_FADE_TIME), new RemoveActorAction()));
@@ -278,7 +278,4 @@ public class CardPhaseButtons {
         delay += i;
     }
 
-    public float getDelay() {
-        return delay;
-    }
 }

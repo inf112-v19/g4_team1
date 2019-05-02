@@ -26,7 +26,8 @@ public class RoboRally extends Game {
 
         // go to main menu screen
         this.setScreen(new MainMenuScreen(this, null));
-        //this.setScreen(new winScreen(this,"wa"));
+
+
     }
 
 

@@ -26,8 +26,8 @@ public class MainMenuScreen implements Screen, Runnable {
     private ArrayList<String> names = new ArrayList<>();
     private Skin skin;
     private ArrayList<String> maps= new ArrayList<>();
-    private int mapindex = 0;
-    private Image mapimg;
+    private int mapIndex = 0;
+    private Image mapImg;
     private SimpleServer mpGame;
 
     public MainMenuScreen(RoboRally roboRally, SimpleServer mp) {
@@ -53,7 +53,7 @@ public class MainMenuScreen implements Screen, Runnable {
 
         Table table = new Table();
         playerTable = new Table();
-        playerTable.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight() - 100);
+        playerTable.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() - 100);
         playerTable.setDebug(false);
         playerTable.top();
         table.setFillParent(true);
@@ -97,19 +97,19 @@ public class MainMenuScreen implements Screen, Runnable {
         }
 
         table.add(exit).fillX().uniformX().pad(10);
-        mapimg = new Image(new Texture("assets/roborally/mapimages/map"+(mapindex+1)+".png"));
-        mapimg.setSize(300, 300);
-        mapimg.setPosition(Gdx.graphics.getWidth()/2+ 300, Gdx.graphics.getHeight()/2);
-        stage.addActor(mapimg);
+        mapImg = new Image(new Texture("assets/roborally/mapimages/map" + (mapIndex + 1) + ".png"));
+        mapImg.setSize(300, 300);
+        mapImg.setPosition(Gdx.graphics.getWidth() / 2 + 300, Gdx.graphics.getHeight() / 2);
+        stage.addActor(mapImg);
 
         //changeImage();
 
         changemap.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                mapindex = (mapindex + 1) % maps.size();
-                System.out.println(mapindex);
-                changemap.setText("Map number " + (mapindex + 1));
+                mapIndex = (mapIndex + 1) % maps.size();
+                System.out.println(mapIndex);
+                changemap.setText("Map number " + (mapIndex + 1));
                 changeImage();
             }
         });
@@ -126,7 +126,7 @@ public class MainMenuScreen implements Screen, Runnable {
             public void changed(ChangeEvent event, Actor actor) {
                 names.clear();
                 playerTable.reset();
-                playerTable.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight() - 100);
+                playerTable.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() - 100);
                 playerTable.setDebug(false);
                 playerTable.top();
 
@@ -205,7 +205,7 @@ public class MainMenuScreen implements Screen, Runnable {
                     errorMsg("Not enough players!");
                     return;
                 }
-                roboRally.setScreen(new RoboRallyGame(roboRally, names, maps.get(mapindex)));
+                roboRally.setScreen(new RoboRallyGame(roboRally, names, maps.get(mapIndex)));
                 dispose();
 
             }
@@ -232,13 +232,13 @@ public class MainMenuScreen implements Screen, Runnable {
     }
 
     private void changeImage() {
-        if (mapindex == 3) return;
-        mapimg.setDrawable(new SpriteDrawable(new Sprite(new Texture("assets/roborally/mapimages/map"+(mapindex+1)+".png"))));
+        if (mapIndex == 3) return;
+        mapImg.setDrawable(new SpriteDrawable(new Sprite(new Texture("assets/roborally/mapimages/map" + (mapIndex+1)+".png"))));
         /*
-        mapimg = new Image(new Texture("assets/roborally/mapimages/map"+(mapindex+1)+".png"));
-        mapimg.setSize(400, 400);
-        mapimg.setPosition(500, 500);
-        stage.addActor(mapimg);
+        mapImg = new Image(new Texture("assets/roborally/mapimages/map"+(mapIndex+1)+".png"));
+        mapImg.setSize(400, 400);
+        mapImg.setPosition(500, 500);
+        stage.addActor(mapImg);
         */
     }
 
