@@ -22,6 +22,7 @@ public class FlagTest {
         board.addTileObject(flag);
         robot.moveForward(1);
         flag.setRespawn();
+        robot.moveForward(1);
         for (int i = 0; i < 12; i++) {
             robot.damage();
         }
