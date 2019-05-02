@@ -26,6 +26,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
+import inf112.skeleton.app.base.MP.SimpleClient;
+import inf112.skeleton.app.base.MP.SimpleServer;
 import inf112.skeleton.app.base.actors.AI;
 import inf112.skeleton.app.base.actors.Player;
 import inf112.skeleton.app.base.actors.Robot;
@@ -68,8 +70,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private RobotGraphics robotGraphics;
     private CardPhaseButtons cardPhaseButtons;
     private Label.LabelStyle labelStyle;
-    private Group background;
-    private Group foreground;
+    private Group background, foreground;
     private ArrayList<Image> cardAreaSlots = new ArrayList<>();
     private HashMap<Player, ArrayList<Image>> lives = new HashMap<>();
     private ArrayList<Player> playerPosition = new ArrayList<>();
@@ -225,6 +226,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     }
                 }
             }
+
             if (finishedExecute) break;
             System.out.println("_____start of activation phase. hasnotmoved is " + players.get(0).getRobot().hasNotMoved());
             //activates double speed first
@@ -234,16 +236,19 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
                 }
             }
+
             //resets all robots tryToMove boolean
             for (Player player : players) {
                 player.getRobot().setMoved(false);
             }
+
             //activate board elements, then lasers
             for (IActiveElement elem : ActiveElements) {
                 if (!(elem instanceof Laser)) {
                     elem.activate();
                 }
             }
+
             for (IActiveElement elem : ActiveElements) {
                 if (elem instanceof Laser) {
                     elem.activate();

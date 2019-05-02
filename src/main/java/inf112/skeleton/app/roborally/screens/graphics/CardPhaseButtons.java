@@ -193,6 +193,9 @@ public class CardPhaseButtons {
                 }
                 if (selectedCards.size() == allowedCards) {
                     currentPlayerCards.addAll(selectedCards);
+
+                    // SEND THE LIST OF CARDS HERE TO THE SERVER THEN IT SHOULD SEND IT TO OTHER PLAYERS
+
                     player.setCards(new ArrayList<>(currentPlayerCards));
 
                     // remove the available and selected cards from the screen

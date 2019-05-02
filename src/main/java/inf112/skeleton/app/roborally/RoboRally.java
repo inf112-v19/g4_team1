@@ -3,6 +3,9 @@ package inf112.skeleton.app.roborally;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import inf112.skeleton.app.base.MP.SimpleClient;
+import inf112.skeleton.app.base.MP.SimpleServer;
+
 import inf112.skeleton.app.roborally.screens.*;
 
 /**
@@ -11,6 +14,8 @@ import inf112.skeleton.app.roborally.screens.*;
 public class RoboRally extends Game {
     public SpriteBatch batch;
     public BitmapFont font;
+    public SimpleServer server;
+    public SimpleClient client;
 
     @Override
     public void create() {
@@ -20,7 +25,7 @@ public class RoboRally extends Game {
         font = new BitmapFont();
 
         // go to main menu screen
-        this.setScreen(new MainMenuScreen(this));
+        this.setScreen(new MainMenuScreen(this, null));
 
 
     }
