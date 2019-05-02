@@ -36,7 +36,7 @@ public enum MovementAction {
             case DEATH_ANIMATION:
                 //remove life from screen
                 Actor life = game.getLifeSprite(robot.getOwner());
-                Action removeLife = Actions.fadeOut(0f);
+                Action removeLife;
                 removeLife = Actions.color(Color.BROWN);
                 removeLife.setActor(life);
                 seq.addAction(removeLife);
