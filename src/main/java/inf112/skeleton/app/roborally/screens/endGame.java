@@ -24,11 +24,7 @@ public class endGame implements Screen {
 
     private Stage stage;
     private RoboRally roboRally;
-    private Table playerTable;
-    private ArrayList<String> names = new ArrayList<>();
     private Skin skin;
-    private ArrayList<String> maps= new ArrayList<>();
-    private int mapindex = 0;
     Image mapimg;
 
 
@@ -39,9 +35,7 @@ public class endGame implements Screen {
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
-        this.maps.add("assets/roborally/game_board1.tmx");
-        this.maps.add("assets/roborally/game_board2.tmx");
-        this.maps.add("assets/roborally/game_board3.tmx");
+
 
     }
 
@@ -61,7 +55,7 @@ public class endGame implements Screen {
         TextButton mainMenu = new TextButton("Main menu", skin);
         TextButton exit = new TextButton("Exit", skin);
 
-      mapimg = new Image(new Texture("assets/endGameText.png"));
+      mapimg = new Image(new Texture("assets/roborally/endGameText.png"));
       mapimg.setSize(800,70);
       mapimg.setPosition(Gdx.graphics.getWidth()/2f-350, Gdx.graphics.getHeight()/2f+300);
       stage.addActor(mapimg);
