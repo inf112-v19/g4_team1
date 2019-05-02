@@ -41,6 +41,7 @@ public class Robot implements IRobot {
 
     public void setMoved(boolean moved){
         movedthisround = moved;
+        System.out.println("moved this round is now "+movedthisround);
         diedThisRound=false;
         //System.out.println("set movedthis round to "+moved + " and diedthirround to true");
     }
