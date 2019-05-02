@@ -275,4 +275,7 @@ public class CardPhaseButtons {
         delay += i;
     }
 
+    public float getDelay() {
+        return delay;
+    }
 }
