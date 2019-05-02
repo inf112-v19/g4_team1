@@ -70,12 +70,7 @@ public class winScreen implements Screen, InputProcessor, ActionListener {
         newGame.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                // go to main game screen
                 roboRally.setScreen(new PreferencesScreen(roboRally));
-                //ArrayList<String> names = new ArrayList<>();
-                //names.add("player1");
-                //names.add("Player2");
-                //roboRally.setScreen(new RoboRallyGame(roboRally, names));
                 dispose();
                 return true;
 
