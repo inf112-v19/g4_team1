@@ -68,7 +68,7 @@ public class winScreen implements Screen {
         mainMenu.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                roboRally.setScreen(new MainMenuScreen(roboRally));
+                roboRally.setScreen(new MainMenuScreen(roboRally, null));
                 dispose();
             }
         });

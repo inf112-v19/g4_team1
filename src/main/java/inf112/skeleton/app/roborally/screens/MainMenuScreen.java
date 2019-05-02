@@ -14,14 +14,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import inf112.skeleton.app.base.MP.SimpleServer;
 import inf112.skeleton.app.roborally.RoboRally;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-public class MainMenuScreen implements Screen {
-
+public class MainMenuScreen implements Screen, Runnable {
     private Stage stage;
     private RoboRally roboRally;
     private Table playerTable;
@@ -29,13 +27,12 @@ public class MainMenuScreen implements Screen {
     private Skin skin;
     private ArrayList<String> maps= new ArrayList<>();
     private int mapindex = 0;
-    Image mapimg;
+    private Image mapimg;
+    private SimpleServer mpGame;
 
-
-
-
-    public MainMenuScreen(RoboRally roboRally) {
+    public MainMenuScreen(RoboRally roboRally, SimpleServer mp) {
         this.roboRally = roboRally;
+        mpGame = mp;
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -43,7 +40,6 @@ public class MainMenuScreen implements Screen {
         this.maps.add("assets/roborally/game_board2.tmx");
         this.maps.add("assets/roborally/game_board3.tmx");
         this.maps.add("assets/roborally/game_boardtest.tmx");
-
     }
 
     @Override
@@ -78,18 +74,28 @@ public class MainMenuScreen implements Screen {
         players.getStyle().fontColor = Color.RED;
 
         playerTable.add(players).uniform();
-        table.add(add).fillX().uniformX().pad(10);
-        table.row();
-        table.add(AI).fillX().uniformX().pad(10);
-        table.row();
-        table.add(reset).fillX().uniformX().pad(10);
-        table.row();
+
+        if (mpGame == null) {
+            table.add(add).fillX().uniformX().pad(10);
+            table.row();
+            table.add(AI).fillX().uniformX().pad(10);
+            table.row();
+            table.add(reset).fillX().uniformX().pad(10);
+            table.row();
+            table.add(start).fillX().uniformX().pad(10);
+            table.row();
+            table.add(mp).fillX().uniformX().pad(10);
+            table.row();
+        }
+
         table.add(changemap).fillX().uniformX().pad(10);
         table.row();
-        table.add(start).fillX().uniformX().pad(10);
-        table.row();
-        table.add(mp).fillX().uniformX().pad(10);
-        table.row();
+
+        if (mpGame != null) {
+            table.add(start).fillX().uniformX().pad(10);
+            table.row();
+        }
+
         table.add(exit).fillX().uniformX().pad(10);
         mapimg = new Image(new Texture("assets/roborally/mapimages/map"+(mapindex+1)+".png"));
         mapimg.setSize(300, 300);
@@ -98,23 +104,23 @@ public class MainMenuScreen implements Screen {
 
         //changeImage();
 
-
         changemap.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                mapindex = (mapindex +1) % maps.size();
+                mapindex = (mapindex + 1) % maps.size();
                 System.out.println(mapindex);
-                changemap.setText("map number "+(mapindex +1));
+                changemap.setText("Map number " + (mapindex + 1));
                 changeImage();
-
             }
         });
+
         exit.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Gdx.app.exit();
             }
         });
+
         reset.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -123,12 +129,12 @@ public class MainMenuScreen implements Screen {
                 playerTable.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight() - 100);
                 playerTable.setDebug(false);
                 playerTable.top();
+
                 Label players = new Label("PLAYERS: ", skin);
                 players.setFontScale(2);
                 players.getStyle().fontColor = Color.RED;
 
                 playerTable.add(players).uniform();
-
             }
         });
 
@@ -136,14 +142,17 @@ public class MainMenuScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if (names.size() == 8) {
-                    System.out.println("Cant add more players");
-                    errorMsg("cant add more than 8 players");
+                    System.out.println("Can't add more players!");
+                    errorMsg("Can't add more than 8 players!");
                     return;
                 }
+
                 names.add("AI");
+
                 Label namelabel = new Label("AI", skin);
                 players.getStyle().fontColor = Color.GREEN;
                 namelabel.setFontScale(1.5f);
+
                 playerTable.row();
                 playerTable.add(namelabel).uniform();
 
@@ -154,9 +163,10 @@ public class MainMenuScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if (names.size() == 8) {
-                    errorMsg("cant add more than 8 players");
+                    errorMsg("Can't add more than 8 players!");
                     return;
                 }
+
                 TextInputListener inputName = new TextInputListener() {
                     @Override
                     public void input(String s) {
@@ -164,10 +174,12 @@ public class MainMenuScreen implements Screen {
                             errorMsg("name already taken!");
                             return;
                         }
-                        if(s.equals("AI")){
-                            errorMsg("invalid name");
+
+                        if (s.equals("AI")) {
+                            errorMsg("Invalid name!");
                             return;
                         }
+
                         names.add(s);
                         Label namelabel = new Label(s, skin);
                         players.getStyle().fontColor = Color.GREEN;
@@ -181,8 +193,8 @@ public class MainMenuScreen implements Screen {
 
                     }
                 };
-                Gdx.input.getTextInput(inputName, "Enter Player Name", "", "");
 
+                Gdx.input.getTextInput(inputName, "Enter player name:", "", "");
             }
         });
 
@@ -190,7 +202,7 @@ public class MainMenuScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if (names.size() < 1 || names.size() > 8) {
-                    errorMsg("not enoough players!");
+                    errorMsg("Not enough players!");
                     return;
                 }
                 roboRally.setScreen(new RoboRallyGame(roboRally, names, maps.get(mapindex)));
@@ -206,26 +218,34 @@ public class MainMenuScreen implements Screen {
                 dispose();
             }
         });
+
+        if (mpGame != null) {
+            while (mpGame.server.getConnections().length - 1 < mpGame.numOfPlayers) {
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                errorMsg("Waiting for players to connect!");
+            }
+        }
     }
 
-
-    private void changeImage(){
-        if(mapindex==3) return;
+    private void changeImage() {
+        if (mapindex == 3) return;
         mapimg.setDrawable(new SpriteDrawable(new Sprite(new Texture("assets/roborally/mapimages/map"+(mapindex+1)+".png"))));
-
-
         /*
         mapimg = new Image(new Texture("assets/roborally/mapimages/map"+(mapindex+1)+".png"));
         mapimg.setSize(400, 400);
         mapimg.setPosition(500, 500);
         stage.addActor(mapimg);
         */
-
-
     }
-    private void errorMsg(String err){
-        Dialog dialog = new Dialog("warning", skin){
-            public void result(Object obj){
+
+    private void errorMsg(String err) {
+        Dialog dialog = new Dialog("warning", skin) {
+            @Override
+            public void result(Object obj) {
             }
         };
         dialog.setSize(300, 300);
@@ -240,10 +260,8 @@ public class MainMenuScreen implements Screen {
     @Override
     public void render(float v) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         stage.act(v);
         stage.draw();
-
     }
 
     @Override
@@ -252,25 +270,25 @@ public class MainMenuScreen implements Screen {
     }
 
     @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
     public void dispose() {
         stage.dispose();
         skin.dispose();
     }
 
+    @Override
+    public void pause() {
 
+    }
+    @Override
+    public void resume() {
+
+    }
+    @Override
+    public void hide() {
+
+    }
+    @Override
+    public void run() {
+
+    }
 }

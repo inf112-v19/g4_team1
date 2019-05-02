@@ -6,17 +6,16 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import inf112.skeleton.app.base.actors.Player;
 
-import java.net.Inet4Address;
-import java.net.InetAddress;
 import java.util.ArrayList;
 
 public class SimpleServer implements Runnable {
     public boolean running;
     public String string, status;
     public boolean gotMessage;
-
+    public int numOfPlayers;
     private int port = 54634;
     private int udp = 54635;
+    private ArrayList<String> playerNames = new ArrayList<>();
     public Server server;
 
     public SimpleServer() throws Exception {
@@ -35,13 +34,17 @@ public class SimpleServer implements Runnable {
                 // get the status
                 if (object instanceof String) {
                     string = (String) object;
-                    gotMessage = true;
+                    playerNames.add(string);
+                    string = null;
 
+                    //gotMessage = true;
                     // send the response if received the status
-                    c.sendTCP("received " + string + ". Responding.");
+                    //c.sendTCP("Server received " + string + " from client. Responding back with this message.");
                 } else if (object instanceof ArrayList) {
                     ArrayList<Player> players = (ArrayList<Player>) object;
 
+                } else if (object instanceof Integer) {
+                    numOfPlayers = (Integer) object;
                 }
             }
 
@@ -71,7 +74,6 @@ public class SimpleServer implements Runnable {
 
         System.out.println("Server started.");
     }
-
     @Override
     public void run() {
 

@@ -20,7 +20,6 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 public class MultiplayerRoboRallyGame implements Screen, Runnable {
-
     private Stage stage;
     private RoboRally roboRally;
     private Table playerTable, table;
@@ -31,15 +30,12 @@ public class MultiplayerRoboRallyGame implements Screen, Runnable {
     private Thread screenThread;
     private Label systemMessage;
 
-
     public MultiplayerRoboRallyGame(RoboRally roboRally) {
         this.roboRally = roboRally;
     }
 
     @Override
     public void show() {
-
-
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
@@ -77,15 +73,6 @@ public class MultiplayerRoboRallyGame implements Screen, Runnable {
         table.row();
         table.add(back).fillX().uniformX().pad(10);
 
-        back.addListener(new ClickListener() {
-            @Override
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                roboRally.setScreen(new MainMenuScreen(roboRally));
-                dispose();
-                return true;
-            }
-        });
-
         createSer.addListener(new ClickListener() {
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -107,6 +94,15 @@ public class MultiplayerRoboRallyGame implements Screen, Runnable {
                 return true;
             }
         });
+
+        back.addListener(new ClickListener() {
+            @Override
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                roboRally.setScreen(new MainMenuScreen(roboRally, server));
+                dispose();
+                return true;
+            }
+        });
     }
 
     @Override
@@ -123,38 +119,49 @@ public class MultiplayerRoboRallyGame implements Screen, Runnable {
     }
 
     @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
     public void dispose() {
         stage.dispose();
         skin.dispose();
     }
 
     @Override
+    public void pause() {
+
+    }
+    @Override
+    public void resume() {
+
+    }
+    @Override
+    public void hide() {
+
+    }
+    @Override
     public void run() {
 
     }
 
     class CreateServerScreen implements Screen {
+        int numPlayers;
 
         public CreateServerScreen() {
             Gdx.input.setInputProcessor(stage);
 
             TextButton back = new TextButton("Back", skin);
             TextButton createSrvr = new TextButton("Create server", skin);
+
+            Input.TextInputListener inputMessage = new Input.TextInputListener() {
+                @Override
+                public void input(String text) {
+                    numPlayers = Integer.parseInt(text);
+                }
+                @Override
+                public void canceled() {
+
+                }
+            };
+
+            Gdx.input.getTextInput(inputMessage, "Number of players (int): ", "", "");
 
             back.addListener(new ClickListener() {
                 @Override
@@ -169,12 +176,13 @@ public class MultiplayerRoboRallyGame implements Screen, Runnable {
                 public void changed (ChangeEvent event, Actor actor) {
                     systemMessage.setText("Creating the server...");
 
-                    startServer();
-
                     try {
-                        Thread.sleep(3000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        server = new SimpleServer();
+                        server.numOfPlayers = numPlayers;
+                        roboRally.setScreen(new MainMenuScreen(roboRally, server));
+                        dispose();
+                    } catch (Exception e) {
+                        systemMessage.setText("Already hosting. Waiting for connections...");
                     }
 
                     if (server != null) {
@@ -190,12 +198,6 @@ public class MultiplayerRoboRallyGame implements Screen, Runnable {
             table.add(back).fillX().uniformX().pad(10);
 
         }
-
-        @Override
-        public void show() {
-
-        }
-
         @Override
         public void render(float v) {
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -205,37 +207,38 @@ public class MultiplayerRoboRallyGame implements Screen, Runnable {
         }
 
         @Override
-        public void resize(int i, int i1) {
-
-        }
-
-        @Override
-        public void pause() {
-
-        }
-
-        @Override
-        public void resume() {
-
-        }
-
-        @Override
-        public void hide() {
-
-        }
-
-        @Override
         public void dispose() {
             stage.dispose();
             skin.dispose();
         }
 
-        public void startServer() {
-            try {
-                server = new SimpleServer();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+//        public void startServer() {
+//            try {
+//                server = new SimpleServer();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+
+        @Override
+        public void show() {
+
+        }
+        @Override
+        public void resize(int i, int i1) {
+
+        }
+        @Override
+        public void pause() {
+
+        }
+        @Override
+        public void resume() {
+
+        }
+        @Override
+        public void hide() {
+
         }
     }
 
@@ -250,10 +253,10 @@ public class MultiplayerRoboRallyGame implements Screen, Runnable {
 
             TextButton back = new TextButton("Back", skin);
             TextButton connToSrvr = new TextButton("Connect to server", skin);
-            TextButton enterMsg = new TextButton("Enter the message", skin);
-            TextButton sendMsg = new TextButton("Send the message", skin);
-            TextButton refresh = new TextButton("Refresh", skin);
-
+            TextButton play = new TextButton("Play", skin);
+//            TextButton enterMsg = new TextButton("Enter the message", skin);
+//            TextButton sendMsg = new TextButton("Send the message", skin);
+//            TextButton refresh = new TextButton("Refresh", skin);
 
             Input.TextInputListener inputHost = new Input.TextInputListener() {
                 @Override
@@ -262,7 +265,6 @@ public class MultiplayerRoboRallyGame implements Screen, Runnable {
                     systemMessage.setText("Host @ " + text);
 
                     try {
-                        Thread.sleep(3000);
                         systemMessage.setText("Connecting...");
                         client = new SimpleClient(text);
                         systemMessage.setText(client.status);
@@ -270,7 +272,6 @@ public class MultiplayerRoboRallyGame implements Screen, Runnable {
                         e.printStackTrace();
                     }
                 }
-
                 @Override
                 public void canceled() {
 
@@ -281,21 +282,7 @@ public class MultiplayerRoboRallyGame implements Screen, Runnable {
                 @Override
                 public void input(String text) {
                     message = text;
-                    msg.setText("Message: " + text);
-
-                    try {
-                        Thread.sleep(2000);
-                        msg.setText("Sending message...");
-                        client.sendMessage(text);
-                        Thread.sleep(3000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-                    if (client.gotMessage[0])
-                        msg.setText("Response from the server: " + client.getMessage().toString());
                 }
-
                 @Override
                 public void canceled() {
 
@@ -303,14 +290,6 @@ public class MultiplayerRoboRallyGame implements Screen, Runnable {
             };
 
             Gdx.input.getTextInput(inputHost, "Enter the Host IP: ", "", "");
-
-            back.addListener(new ClickListener() {
-                @Override
-                public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                    roboRally.setScreen(new MultiplayerRoboRallyGame(roboRally));
-                    dispose();
-                }
-            });
 
             connToSrvr.addListener(new ChangeListener() {
                 @Override
@@ -324,57 +303,86 @@ public class MultiplayerRoboRallyGame implements Screen, Runnable {
                 }
             });
 
-            enterMsg.addListener(new ChangeListener() {
+            play.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    Gdx.input.getTextInput(inputMessage, "Enter the message to send: ", "", "");
-                    msg.setText(message);
-                }
-            });
+                    Gdx.input.getTextInput(inputMessage, "Your nickname:", "", "");
 
-            sendMsg.addListener(new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
                     try {
-                        msg.setText("Sending message...");
+                        Thread.sleep(10000);
                         client.sendMessage(message);
-
-                        if (client.gotMessage[0])
-                            msg.setText(client.getMessage().toString());
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
             });
 
-            refresh.addListener(new ChangeListener() {
+            back.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    if (client.gotMessage[0])
-                        msg.setText(client.getMessage().toString());
+                    roboRally.setScreen(new MultiplayerRoboRallyGame(roboRally));
+                    dispose();
                 }
             });
 
-            table.row();
-            table.add(systemMessage).fillX().uniformX().pad(10);
-            table.row();
-//            table.add(connToSrvr).fillX().uniformX().pad(10);
-//            table.row();
+//            enterMsg.addListener(new ChangeListener() {
+//                @Override
+//                public void changed(ChangeEvent event, Actor actor) {
+//                    Gdx.input.getTextInput(inputMessage, "Enter the message to send: ", "", "");
+//
+//                    try {
+//                        Thread.sleep(1000);
+//                        msg.setText("Sending message...");
+//                        client.sendMessage(message);
+//
+//                        Thread.sleep(3000);
+//
+//                        if (client.gotMessage[0])
+//                            msg.setText("Response from the server: \"" + client.getMessage().toString() + "\"");
+//
+//
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            });
 
-            table.add(enterMsg).fillX().uniformX().pad(10);
+//            sendMsg.addListener(new ChangeListener() {
+//                @Override
+//                public void changed(ChangeEvent event, Actor actor) {
+//                    try {
+//
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            });
+
+//            refresh.addListener(new ChangeListener() {
+//                @Override
+//                public void changed(ChangeEvent event, Actor actor) {
+//                    if (client.gotMessage[0])
+//                        msg.setText(client.getMessage().toString());
+//                }
+//            });
+
             table.row();
-            table.add(sendMsg).fillX().uniformX().pad(10);
+            table.add(systemMessage).pad(10);
             table.row();
-            table.add(back).fillX().uniformX().pad(10);
+            table.add(connToSrvr).pad(10);
+            table.row();
+
+//            table.add(enterMsg).fillX().uniformX().pad(10);
+//            table.row();
+//            table.add(sendMsg).fillX().uniformX().pad(10);
+//            table.row();
+            table.add(play).pad(10);
+            table.row();
+            table.add(back).pad(10);
             table.row();
 //            table.add(refresh).fillX().uniformX().pad(10);
 //            table.row();
-            table.add(msg).fillX().uniformX().padTop(40);
-        }
-
-        @Override
-        public void show() {
-
+//            table.add(msg).fillX().uniformX().padTop(40);
         }
 
         @Override
@@ -386,29 +394,30 @@ public class MultiplayerRoboRallyGame implements Screen, Runnable {
         }
 
         @Override
+        public void dispose() {
+            stage.dispose();
+            skin.dispose();
+        }
+
+        @Override
         public void resize(int i, int i1) {
 
         }
-
         @Override
         public void pause() {
 
         }
-
         @Override
         public void resume() {
 
         }
-
         @Override
         public void hide() {
 
         }
-
         @Override
-        public void dispose() {
-            stage.dispose();
-            skin.dispose();
+        public void show() {
+
         }
     }
 }

@@ -25,7 +25,7 @@ public class RoboRally extends Game {
         font = new BitmapFont();
 
         // go to main menu screen
-        this.setScreen(new MainMenuScreen(this));
+        this.setScreen(new MainMenuScreen(this, null));
         //this.setScreen(new winScreen(this,"wa"));
     }
 
