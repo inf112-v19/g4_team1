@@ -1,5 +1,6 @@
 package inf112.skeleton.app.base.MP;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
@@ -7,6 +8,7 @@ import com.esotericsoftware.kryonet.Listener;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 public class SimpleClient implements Runnable {
@@ -14,10 +16,12 @@ public class SimpleClient implements Runnable {
     private String string;
     private boolean connected;
     public String status;
+    private String host;
 
-    public SimpleClient() throws InterruptedException {
+    public SimpleClient(String h) throws InterruptedException, UnknownHostException {
         Thread gameThread = new Thread(this);
         final boolean[] gotMessage = new boolean[1];
+        host = h;
 
         try {
             client = new Client();
@@ -49,37 +53,36 @@ public class SimpleClient implements Runnable {
 
         gameThread.start();
 
+        InetAddress hostAddress = InetAddress.getByName(host);
+
         // try to connect three times
         for (int i = 0; i < 3; i++) {
-            InetAddress address = client.discoverHost(54635, 20000);
-            System.out.println(address);
-
             if (!connected) {
+                Thread.sleep(5000);
                 try {
-                    if (address != null) {
-                        client.connect(5000, address, 54634, 54635);
-                        System.out.println("Connected to server @ 54634.");
-                        connected = true;
-                        break;
-                    }
+                    client.connect(5000, hostAddress, 54634, 54635);
+                    status = "Connected to server @ " + hostAddress.getHostAddress() + ":54634";
+                    System.out.println(status);
+                    connected = true;
+                    break;
                 } catch (IOException ex) {
-                    System.out.println("Could not connect to the server, retrying ...");
+                    status = ex.getMessage();
                     System.out.println(ex.getMessage());
                     connected = false;
                 }
             }
         }
 
-        while (connected) {
-            Thread.sleep(5000);
-            System.out.println("5 seconds passed.");
-            client.sendTCP("Sending " + string);
-
-            if (gotMessage[0]) {
-                System.out.println("Received " + string);
-                gotMessage[0] = false;
-            }
-        }
+//        while (connected) {
+//            Thread.sleep(5000);
+//            System.out.println("5 seconds passed.");
+//            client.sendTCP("Sending " + string);
+//
+//            if (gotMessage[0]) {
+//                System.out.println("Received " + string);
+//                gotMessage[0] = false;
+//            }
+//        }
     }
 
     public boolean sendMessage(Object object) {
@@ -91,13 +94,13 @@ public class SimpleClient implements Runnable {
         return false;
     }
 
-    public static void main(String[] args) {
-        try {
-            new SimpleClient();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    public static void main(String[] args) {
+//        try {
+//            new SimpleClient("10.111.19.61");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     @Override
     public void run() {

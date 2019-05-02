@@ -1,6 +1,7 @@
 package inf112.skeleton.app.roborally.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,9 +12,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import inf112.skeleton.app.base.MP.SimpleClient;
 import inf112.skeleton.app.base.MP.SimpleServer;
 import inf112.skeleton.app.roborally.RoboRally;
 
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 public class MultiplayerRoboRallyGame implements Screen, Runnable {
@@ -24,6 +27,7 @@ public class MultiplayerRoboRallyGame implements Screen, Runnable {
     private ArrayList<String> names = new ArrayList<>();
     private Skin skin;
     private SimpleServer server;
+    private SimpleClient client;
     private Thread screenThread;
     private Label systemMessage;
 
@@ -147,6 +151,8 @@ public class MultiplayerRoboRallyGame implements Screen, Runnable {
     class CreateServerScreen implements Screen {
 
         public CreateServerScreen() {
+            Gdx.input.setInputProcessor(stage);
+
             TextButton back = new TextButton("Back", skin);
             TextButton createSrvr = new TextButton("Create server", skin);
 
@@ -235,10 +241,28 @@ public class MultiplayerRoboRallyGame implements Screen, Runnable {
     }
 
     class ConnectToServerScreen implements Screen {
+        private String host;
 
         public ConnectToServerScreen() {
+            Gdx.input.setInputProcessor(stage);
+
             TextButton back = new TextButton("Back", skin);
             TextButton connToSrvr = new TextButton("Connect to server", skin);
+
+            Input.TextInputListener inputHost = new Input.TextInputListener() {
+                @Override
+                public void input(String text) {
+                    host = text;
+                    systemMessage.setText("Host @ " + host);
+                }
+
+                @Override
+                public void canceled() {
+
+                }
+            };
+
+            Gdx.input.getTextInput(inputHost, "Enter the Host IP: ", "", "");
 
             back.addListener(new ClickListener() {
                 @Override
@@ -251,10 +275,19 @@ public class MultiplayerRoboRallyGame implements Screen, Runnable {
             connToSrvr.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-
+                    try {
+                        client = new SimpleClient(host);
+                        systemMessage.setText(client.status);
+                    } catch (InterruptedException | UnknownHostException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
 
+            table.row();
+            table.add(systemMessage).fillX().uniformX().pad(10);
+            table.row();
+            table.add(connToSrvr).fillX().uniformX().pad(10);
             table.row();
             table.add(back).fillX().uniformX().pad(10);
         }

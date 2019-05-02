@@ -57,15 +57,15 @@ public class SimpleServer implements Runnable {
         running = true;
         status = "Server started. Waiting for other connections...";
 
-        while (running) {
-            Thread.sleep(5000);
-
-            System.out.println("waiting for messages...");
-            if (gotMessage) {
-                System.out.println("got status " + string);
-                gotMessage = false;
-            }
-        }
+//        while (running) {
+//            Thread.sleep(5000);
+//
+//            System.out.println("waiting for messages...");
+//            if (gotMessage) {
+//                System.out.println("got status " + string);
+//                gotMessage = false;
+//            }
+//        }
 
         System.out.println("Server started.");
     }
@@ -75,11 +75,11 @@ public class SimpleServer implements Runnable {
 
     }
 
-    public static void main(String[] args) {
-        try {
-            new SimpleServer();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    public static void main(String[] args) {
+//        try {
+//            new SimpleServer();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 }
