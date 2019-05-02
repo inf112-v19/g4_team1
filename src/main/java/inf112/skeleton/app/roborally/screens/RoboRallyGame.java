@@ -96,6 +96,8 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         stage.addActor(background);
         stage.addActor(foreground);
 
+        
+
         sb = new SpriteBatch();
         this.roboRally = roboRally;
         camera = new OrthographicCamera();

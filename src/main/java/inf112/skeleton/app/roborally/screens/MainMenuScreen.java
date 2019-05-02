@@ -54,9 +54,10 @@ public class MainMenuScreen implements Screen, Runnable {
         Table table = new Table();
         playerTable = new Table();
         playerTable.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() - 100);
+        table.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2 - 50);
         playerTable.setDebug(false);
         playerTable.top();
-        table.setFillParent(true);
+        table.setFillParent(false);
         table.setDebug(false);
         stage.addActor(table);
         stage.addActor(playerTable);
