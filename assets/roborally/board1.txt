@@ -1,0 +1,11 @@
+10,10
+pNNNNNNNNp
+W--------E
+W--------E
+W--SS----E
+W-W------E
+W-W------E
+W--------E
+W--------E
+W----Q-Q-E
+pSSSSSSSSp
