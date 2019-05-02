@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.RotateByAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import inf112.skeleton.app.base.actors.IRobot;
 import inf112.skeleton.app.roborally.screens.RoboRallyGame;
+
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
 
@@ -29,9 +30,9 @@ public enum MovementAction {
         MoveToAction moveToAction = moveTo(coordToPixel(robot.getPos().x(), game.getGraphics().getTileWidth()), coordToPixel(robot.getPos().y(), game.getGraphics().getTileWidth()), STANDARD_MOVE_DURATION);
         RotateByAction rotateToAction = getRotateAction(robot);
 
-        switch (this){
+        switch (this) {
             case NORMAL:
-                seq.addAction(parallel( rotateToAction, moveToAction));
+                seq.addAction(parallel(rotateToAction, moveToAction));
                 return;
             case DEATH_ANIMATION:
                 //remove life from screen
@@ -42,7 +43,7 @@ public enum MovementAction {
                 seq.addAction(removeLife);
                 seq.addAction(parallel(
                         rotateBy(360f, SHORT_MOVE_DURATION, Interpolation.exp5),
-                        fadeOut( SHORT_MOVE_DURATION)
+                        fadeOut(SHORT_MOVE_DURATION)
 
                 ));
                 if (robot.getLives() > 0) {
@@ -72,15 +73,20 @@ public enum MovementAction {
                 return;
         }
         throw new IllegalArgumentException("no movetype");
-        }
+    }
 
     public float getActionTime() {
-        switch (this){
-            case NORMAL: return STANDARD_MOVE_DURATION;
-            case DEATH_ANIMATION: return SHORT_MOVE_DURATION*2;
-            case FAST: return SHORT_MOVE_DURATION;
-            case POWERDOWN: return SHORT_MOVE_DURATION*2;
-            case STUCK: return SHORT_MOVE_DURATION*2;
+        switch (this) {
+            case NORMAL:
+                return STANDARD_MOVE_DURATION;
+            case DEATH_ANIMATION:
+                return SHORT_MOVE_DURATION * 2;
+            case FAST:
+                return SHORT_MOVE_DURATION;
+            case POWERDOWN:
+                return SHORT_MOVE_DURATION * 2;
+            case STUCK:
+                return SHORT_MOVE_DURATION * 2;
 
         }
         throw new IllegalStateException("no movetype");
@@ -88,33 +94,31 @@ public enum MovementAction {
 
     /**
      * Translates a grid-coordinate to a pixel-coordinate.
+     *
      * @param x The grid-coordinate(row or column number)
      * @return Pixel-coordinate
      */
     private int coordToPixel(int x, int tileWidth) {
-        if(x > 15) {
+        if (x > 15) {
             throw new IllegalArgumentException("coordinate is outside of grid");
         }
-        return (int) (x*tileWidth / 1.5f);
+        return (int) (x * tileWidth / 1.5f);
     }
 
 
-
-    private RotateByAction getRotateAction(IRobot robot){
+    private RotateByAction getRotateAction(IRobot robot) {
         int oldRot = robot.getOldRotation();
         int newRot = (robot.getDir().getRotationDegrees());
         RotateByAction rotationAction;
         //needs to rotate
         if (newRot - oldRot > 180) { //perform negative rotation
-            int rotation = 360 - (newRot-oldRot);
+            int rotation = 360 - (newRot - oldRot);
             rotationAction = (rotateBy(-rotation, STANDARD_MOVE_DURATION));
-        }
-        else if (newRot - oldRot < -180) { //positive rotation
-            int rotation = 360 + (newRot-oldRot);
-            rotationAction =(rotateBy(rotation, STANDARD_MOVE_DURATION));
-        }
-        else {
-            rotationAction =(rotateBy(newRot-oldRot, STANDARD_MOVE_DURATION));
+        } else if (newRot - oldRot < -180) { //positive rotation
+            int rotation = 360 + (newRot - oldRot);
+            rotationAction = (rotateBy(rotation, STANDARD_MOVE_DURATION));
+        } else {
+            rotationAction = (rotateBy(newRot - oldRot, STANDARD_MOVE_DURATION));
         }
         return rotationAction;
     }
