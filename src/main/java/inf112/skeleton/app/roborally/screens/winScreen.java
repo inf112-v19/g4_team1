@@ -13,12 +13,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
@@ -53,10 +55,44 @@ public class winScreen implements Screen {
         img.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()-100);
         stage.addActor(img);
 
+        Table table = new Table();
+        table.setFillParent(true);
+        table.setDebug(false);
+        stage.addActor(table);
+        skin = new Skin(Gdx.files.internal("assets/roborally/skin/comic-ui.json"));
+
         mapimg = new Image(new Texture("assets/roborally/winScreenText.png"));
         mapimg.setSize(900,100);
         mapimg.setPosition(Gdx.graphics.getWidth()/2f-450, Gdx.graphics.getHeight()/2f+750);
         stage.addActor(mapimg);
+
+
+        TextButton mainMenu = new TextButton("Main menu", skin);
+        TextButton exit = new TextButton("Exit", skin);
+
+
+        table.add(mainMenu).fillX().uniformX().pad(10);
+        table.row();
+        table.add(exit).fillX().uniformX().pad(10);
+        table.row();
+
+        mainMenu.setPosition(Gdx.graphics.getWidth()/2f-100,Gdx.graphics.getHeight()/2f+100);
+
+        //changeImage();
+        exit.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Gdx.app.exit();
+            }
+        });
+        mainMenu.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                roboRally.setScreen(new PreferencesScreen(roboRally));
+                dispose();
+            }
+        });
+
     }
 
     @Override
@@ -76,7 +112,8 @@ public class winScreen implements Screen {
     }
 
     @Override
-    public void resize(int i, int i1) {
+    public void resize(int width, int height) {
+        stage.getViewport().update(width, height, true);
 
     }
 
@@ -97,6 +134,8 @@ public class winScreen implements Screen {
 
     @Override
     public void dispose() {
+        stage.dispose();
+        skin.dispose();
 
     }
 }

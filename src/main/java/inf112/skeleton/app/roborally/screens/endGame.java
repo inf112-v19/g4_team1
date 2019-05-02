@@ -28,8 +28,6 @@ public class endGame implements Screen {
     Image mapimg;
 
 
-
-
     public endGame(RoboRally roboRally) {
         this.roboRally = roboRally;
 
@@ -55,16 +53,15 @@ public class endGame implements Screen {
         TextButton mainMenu = new TextButton("Main menu", skin);
         TextButton exit = new TextButton("Exit", skin);
 
-      mapimg = new Image(new Texture("assets/roborally/endGameText.png"));
-      mapimg.setSize(800,70);
-      mapimg.setPosition(Gdx.graphics.getWidth()/2f-350, Gdx.graphics.getHeight()/2f+300);
-      stage.addActor(mapimg);
+        mapimg = new Image(new Texture("assets/roborally/endGameText.png"));
+        mapimg.setSize(800, 70);
+        mapimg.setPosition(Gdx.graphics.getWidth() / 2f - 350, Gdx.graphics.getHeight() / 2f + 300);
+        stage.addActor(mapimg);
 
         table.add(mainMenu).fillX().uniformX().pad(10);
         table.row();
         table.add(exit).fillX().uniformX().pad(10);
         table.row();
-
 
 
         //changeImage();
