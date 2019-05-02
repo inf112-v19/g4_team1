@@ -20,6 +20,6 @@ public class LaserTest {
         board.addTileObject(laser);
         int hp = robot.getHealth();
         laser.activate();
-        assertEquals(robot.getHealth(), hp-1);
+        assertEquals(hp-1, robot.getHealth());
     }
 }

@@ -15,7 +15,7 @@ public class Robot implements IRobot {
     private Direction dir;
     private Player owner;
     private IBoard board;
-    private final int MAX_HEALTH = 9;
+    private final int MAX_HEALTH = 10;
     private int health;
     private int lives;
     private Pos respawnPos;
@@ -41,6 +41,7 @@ public class Robot implements IRobot {
 
     public void setMoved(boolean moved){
         movedthisround = moved;
+        System.out.println("moved this round is now "+movedthisround);
         diedThisRound=false;
         //System.out.println("set movedthis round to "+moved + " and diedthirround to true");
     }
@@ -73,7 +74,7 @@ public class Robot implements IRobot {
             if(!otherRobot.canGo(moveDirection)) {
                 return;
             }
-            if (!board.outOfBounds(otherRobot.getPos().getAdjacent(moveDirection))) {
+            if (!board.outOfBounds(otherRobot.getPos().getAdjacent(moveDirection)) && !board.containsPit(otherRobot.getPos().getAdjacent(moveDirection))) {
                 robotsToPush.add(otherRobot);
                 newPos = newPos.getAdjacent(moveDirection);
             } else {
@@ -183,7 +184,6 @@ public class Robot implements IRobot {
                 }
                 System.out.println("error, found no respawn pos");
                 move(pos, MovementAction.DEATH_ANIMATION);
-
             }
         }
     }
@@ -265,6 +265,7 @@ public class Robot implements IRobot {
 
     @Override
     public void setRespawn() {
+        System.out.println("respawn is "+pos);
         respawnPos = getPos();
     }
 
@@ -324,4 +325,6 @@ public class Robot implements IRobot {
     public int getMAX_HEALTH() {
         return MAX_HEALTH;
     }
+
+
 }

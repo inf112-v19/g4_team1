@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.RemoveActorAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.Timer;
@@ -34,6 +35,7 @@ import inf112.skeleton.app.base.board.boardelement.*;
 import inf112.skeleton.app.base.cards.Card;
 import inf112.skeleton.app.base.cards.CardDecks;
 
+import inf112.skeleton.app.base.cards.CardType;
 import inf112.skeleton.app.base.utils.Pos;
 import inf112.skeleton.app.roborally.RoboRally;
 import inf112.skeleton.app.base.actors.Robot;
@@ -45,6 +47,7 @@ import inf112.skeleton.app.roborally.screens.graphics.RobotGraphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 
 /**
@@ -54,18 +57,18 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private int numPlayers;
     private SpriteBatch sb;
     private RoboRally roboRally;
-    private TiledMap board = new TmxMapLoader().load("assets/roborally/game_board.tmx");
+    private TiledMap board;
     private OrthographicCamera camera;
     private TiledMapRenderer boardRenderer;
     private Board gameBoard;
     private Stage stage;
-    private ArrayList<Player> players = new ArrayList<>();
+    private ArrayList<Player> players = new ArrayList<Player>();
     private CardDecks cardDecks = new CardDecks();
     private ArrayList<IActiveElement> ActiveElements;
     private ArrayList<Flag> flags;
     private ArrayList<WrenchTile> wrenches;
     private ArrayList<String> names;
-    private RobotGraphics robotGraphics = new RobotGraphics(this);
+    private RobotGraphics robotGraphics;
     private CardPhaseButtons cardPhaseButtons;
     private Label.LabelStyle labelStyle;
     private Group background, foreground;
@@ -74,8 +77,12 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private ArrayList<Player> playerPosition = new ArrayList<>();
     private ArrayList<Label> healthLabelPos = new ArrayList<>();
     private ArrayList<Label> flagLabelPos = new ArrayList<>();
+    private ArrayList<Image> blockedImages = new ArrayList<>();
+    private ArrayList<Image> backImages = new ArrayList<>();
 
-    public RoboRallyGame(RoboRally roboRally, ArrayList<String> names) {
+    public RoboRallyGame(RoboRally roboRally, ArrayList<String> names, String mapFile) {
+        board = new TmxMapLoader().load(mapFile);
+        robotGraphics = new RobotGraphics(this);
         this.names = names;
         this.numPlayers = names.size();
         stage = new Stage();
@@ -95,7 +102,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         stage.addActor(foreground);
 
         sb = new SpriteBatch();
-        // get the game itself from the previous screen
         this.roboRally = roboRally;
         camera = new OrthographicCamera();
         //FitViewport viewPort = new FitViewport(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, camera);
@@ -123,8 +129,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         startGame();
     }
 
-    // set up the players before starting game
-
     private void startGame() {
         for (int i = 0; i < numPlayers; i++) {
             if (names.get(i).equals("AI")) {
@@ -145,7 +149,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 robotGraphics.addImage(robot);
             }
         }
-        // show(); calling show here will break labels that update their text
         doTurn();
     }
 
@@ -156,6 +159,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         //check if finished
         boolean finished = true;
         for (Player player : players) {
+            showBlockedSlots(player);
             if (!player.getCards().isEmpty()) {
                 continue;
             }
@@ -163,53 +167,74 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         }
 
         if (finished) {
+
             continueTurn();
         } else {
             for (Player player : players) {
                 if (player.getCards().isEmpty()) {
                     System.out.println("choose cards");
                     if (player.getPowerDown() == 1) {
-                        //player.setpowerDown(false);
                         cardPhaseButtons.chooseCards(-1, player, true);
+
                     } else {
-                        cardPhaseButtons.chooseCards(player.getRobot().getHealth(), player, false);
+                        cardPhaseButtons.chooseCards(player.getRobot().getHealth()-1, player, false);
                     }
 
                     break;
                 }
             }
         }
+
     }
 
     private void continueTurn() {
+
+        for (Image backImage : backImages) {
+            foreground.removeActor(backImage);
+        }
+        backImages.clear();
         //player have finished choosing cards
-        boolean finishedExecute = false;
-        while (!finishedExecute) {
-            //players should be sorted by their first cards priority number
-//            players.sort(new Comparator<Player>() {
-//                public int compare(Player player2, Player player1) {
-//                    if (!player1.getCards().isEmpty() && !player2.getCards().isEmpty())
-//                        return player2.getCards().get(0).getPriorityNumber()-player1.getCards().get(0).getPriorityNumber();
-//                    else return 0;
-//                }
-//            });
+        boolean finishedExecute;
+        while (true) {
+            ArrayList<Player> currentPlayers = (ArrayList<Player>) players.clone();
+            currentPlayers.sort((player2, player1) -> {
+                if (!player1.getCards().isEmpty() && !player2.getCards().isEmpty())
+                    return player1.getCards().get(0).getPriorityNumber()-player2.getCards().get(0).getPriorityNumber();
+                else return 0;
+            });
             finishedExecute = true;
-            // TODO: Order of execution should be decided by the movepoints of cards(above code will not work, shuffling player-list will cause all sorts of problems)
-            for (Player currentPlayer : players) {
+            for (Player currentPlayer : currentPlayers) {
                 if (currentPlayer.getCards().size() != 0) {
                     finishedExecute = false;
                     moveRobot(currentPlayer);
                     //after robot has moved, reset the moved boolean.
                     currentPlayer.getRobot().setMoved(false);
-                } else {
 
+                    //check for flags on new pos
+                    for (Flag flag : flags) {
+                        flag.setRespawn();
+                    }
+                    //check if wincondition is met
+                    for (Player player : players) {
+                        if (player.getRobot().getFlags().size() == flags.size()) {
+                            win(player);
+                        }
+
+                    }
+                    //check for wrenches at new pos
+                    for (WrenchTile wrench : wrenches) {
+                        wrench.setRespawn();
+                    }
                 }
             }
 
+            if(finishedExecute) break;
+            System.out.println("_____start of activation phase. hasnotmoved is "+players.get(0).getRobot().hasNotMoved());
             //activates double speed first
             for (IActiveElement elem : ActiveElements) {
                 if (elem instanceof DoubleSpeedConveyor) {
                     elem.activate();
+
                 }
             }
 
@@ -219,13 +244,9 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             }
 
             //activate board elements, then lasers
-            //TODO: Board-lasers doesn't damage robots
             for (IActiveElement elem : ActiveElements) {
                 if (!(elem instanceof Laser)) {
-                    IRobot robot = elem.activate();
-                    if (robot != null)
-                        System.out.println("activates " + elem.getClass().getSimpleName() + " on " + robot.getOwner());
-                    //robotGraphics.addActionToRobot(robot);
+                    elem.activate();
                 }
             }
 
@@ -234,78 +255,21 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     elem.activate();
                 }
             }
+
         }
         cardPhaseButtons.clear();
 
-        //check for flags and wrenches at end of turn
-        for (Player ignored : players) {
-            for (Flag flag : flags) {
-                flag.setRespawn();
-            }
-            for (WrenchTile wrench : wrenches) {
-                wrench.setRespawn();
-            }
-        }
-        //check for win condition
-        for (Player player : players) {
-            if (player.getRobot().getFlags().size() == flags.size()) {
-                win(player);
-            }
-        }
-
         //starts next round
-
         Timer timer = new Timer();
         Timer.Task task = new Timer.Task() {
             @Override
             public void run() {
-                for (int i = 0; i < players.size(); i++) {
-                    //TODO: move laser to own class or method
-                    //shoot laser
-                    Robot robot = players.get(i).getRobot();
-                    Image laser;
-
-                    //vertical laser
-                    if (players.get(i).getRobot().getDir() == Direction.SOUTH || players.get(i).getRobot().getDir() == Direction.NORTH) {
-                        Texture vLaser = new Texture("assets/roborally/laser-vertical.png");
-                        laser = new Image(vLaser);
-                    }
-                    //horizontal laser
-                    else {
-                        Texture hLaser = new Texture("assets/roborally/laser-horizontal.png");
-                        laser = new Image(hLaser);
-                    }
-                    laser.setSize(robotGraphics.getRobotSizex(), robotGraphics.getRobotSizey());
-                    robot.laser();
-                    Pos laserDest = robot.getLaserDestination();
-                    System.out.println("robot pos: " + robot.getPos());
-                    System.out.printf("laser pos:" + laserDest);
-
-                    // only show visual laser if target is not on adjacent tile or the robots pos
-                    if (!gameBoard.outOfBounds(robot.getPos().getAdjacent(robot.getDir()))) {
-                        if (!robot.getPos().equals(laserDest)) {
-                            int x = robot.getPos().getAdjacent(robot.getDir()).x();
-                            int y = robot.getPos().getAdjacent(robot.getDir()).y();
-                            float newX = robotGraphics.coordToPixel(laserDest.x());
-                            float newY = robotGraphics.coordToPixel(laserDest.y());
-
-                            laser.setPosition(robotGraphics.coordToPixel(x), robotGraphics.coordToPixel(y));
-                            foreground.addActor(laser);
-                            laser.addAction(new SequenceAction(Actions.moveTo(newX, newY, 0.7f), Actions.fadeOut(0f)));
-                        }
-                    }
-                }
-                    //update UI
-                for (int i = 0; i < players.size(); i++) {
-                    players.get(i).getPowerButton().setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture("assets/roborally/power_down.png"))));
-                    Label healthLabel = healthLabelPos.get(i);
-                    healthLabel.setText("HP: " + players.get(i).getRobot().getHealth());
-                    Label flagLabel = flagLabelPos.get(i);
-                    flagLabel.setText("Visited Flags: " + players.get(i).getRobot().getFlags().size());
-                }
+                shootRobotLasers();
+                updateUI();
                 robotGraphics.resetDelay();
                 doTurn();
             }
+
         };
 
         timer.scheduleTask(task, robotGraphics.getTotalDelay() + 0.5f);
@@ -476,6 +440,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         Card card = player.useFirstCard();
         cardPhaseButtons.fadeCard(card);
         card.execute(player.getRobot());
+        if(card.getType() == CardType.POWERDOWN) return;
         cardDecks.addUsed(card);
     }
 
@@ -513,8 +478,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             return null;
         }
         Image life = lives.get(player).get(player.getRobot().getLives());
-        Actor actor = background.getChildren().get(background.getChildren().indexOf(life, false));
-        return actor;
+        return background.getChildren().get(background.getChildren().indexOf(life, false));
     }
 
     public int getPlayerPos(Player player) {
@@ -523,6 +487,8 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
 
     public void removePlayer(Player player, float delay) {
+        players.remove(player);
+        gameBoard.get(player.getRobot().getPos()).removeContent(player.getRobot());
         player.getCards().clear();
         Timer timer = new Timer();
         Timer.Task task = new Timer.Task() {
@@ -534,10 +500,92 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 float y = cardAreaSlots.get(playerPosition.indexOf(player)).getY();
                 dead.setPosition(x + 10, y);
                 foreground.addActor(dead);
-                players.remove(player);
                 robotGraphics.removeSprite(player.getRobot());
             }
         };
         timer.scheduleTask(task, delay);
+        if(players.isEmpty()){
+            roboRally.setScreen(new endGame(roboRally));
+            dispose();
+        }
+    }
+
+    public void showBlockedSlots(Player player) {
+        if(player.getRobot().getHealth() > 5) {
+            return;
+        }
+        for (int i = 4; i >= player.getRobot().getHealth()-1; i--) {
+            Texture locked = new Texture("assets/roborally/locked.png");
+            Drawable draw = new TextureRegionDrawable(locked);
+            Image lockedImage =  new Image(draw);
+            int x = (int) cardAreaSlots.get(playerPosition.indexOf(player)).getX()+4;
+            int y = (int) cardAreaSlots.get(playerPosition.indexOf(player)).getY()+45;
+            lockedImage.setSize(lockedImage.getWidth() /4.5f, lockedImage.getHeight() /4.5f);
+            lockedImage.setPosition(x + i*(lockedImage.getWidth()+12), y);
+            blockedImages.add(lockedImage);
+            foreground.addActor(lockedImage);
+        }
+    }
+
+    public void hideCards(Player player) {
+        for(int i = 0; i < player.getCards().size(); i++) {
+            Texture back = new Texture("assets/roborally/back.png");
+            Drawable draw = new TextureRegionDrawable(back);
+            Image backImage = new Image(draw);
+            int x = (int) cardAreaSlots.get(playerPosition.indexOf(player)).getX() + 3;
+            int y = (int) cardAreaSlots.get(playerPosition.indexOf(player)).getY() + 4;
+            backImage.setSize(backImage.getWidth() / 1.5f, backImage.getHeight() / 1.5f);
+            backImage.setPosition(x + i*(backImage.getWidth()+7), y);
+            backImages.add(backImage);
+            foreground.addActor(backImage);
+        }
+    }
+
+    public void shootRobotLasers() {
+        for (Player player : players) {
+            Robot robot = player.getRobot();
+            Image laser;
+
+            //vertical laser
+            if (player.getRobot().getDir() == Direction.SOUTH || player.getRobot().getDir() == Direction.NORTH) {
+                Texture vLaser = new Texture("assets/roborally/laser-vertical.png");
+                laser = new Image(vLaser);
+            }
+            //horizontal laser
+            else {
+                Texture hLaser = new Texture("assets/roborally/laser-horizontal.png");
+                laser = new Image(hLaser);
+            }
+            laser.setSize(robotGraphics.getRobotSizex(), robotGraphics.getRobotSizey());
+            robot.laser();
+            Pos laserDest = robot.getLaserDestination();
+            // only show visual laser if target is not on adjacent tile or the robots pos
+            if (!gameBoard.outOfBounds(robot.getPos().getAdjacent(robot.getDir()))) {
+                if (!robot.getPos().equals(laserDest)) {
+                    int x = robot.getPos().getAdjacent(robot.getDir()).x();
+                    int y = robot.getPos().getAdjacent(robot.getDir()).y();
+                    float newX = robotGraphics.coordToPixel(laserDest.x());
+                    float newY = robotGraphics.coordToPixel(laserDest.y());
+
+                    laser.setPosition(robotGraphics.coordToPixel(x), robotGraphics.coordToPixel(y));
+                    foreground.addActor(laser);
+                    laser.addAction(new SequenceAction(Actions.moveTo(newX, newY, 0.7f), Actions.fadeOut(0f)));
+                }
+            }
+        }
+    }
+
+    public void updateUI() {
+        for (int i = 0; i < playerPosition.size(); i++) {
+            playerPosition.get(i).getPowerButton().setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture("assets/roborally/power_down.png"))));
+            Label healthLabel = healthLabelPos.get(i);
+            healthLabel.setText("HP: " + playerPosition.get(i).getRobot().getHealth());
+            Label flagLabel = flagLabelPos.get(i);
+            flagLabel.setText("Visited Flags: " + playerPosition.get(i).getRobot().getFlags().size());
+        }
+        for (Image blockedImage : blockedImages) {
+            foreground.removeActor(blockedImage);
+        }
+        blockedImages.clear();
     }
 }
