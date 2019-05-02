@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import inf112.skeleton.app.base.actors.Player;
 import inf112.skeleton.app.roborally.screens.RoboRallyGame;
 import inf112.skeleton.app.roborally.screens.RoboRallyMainMenu;
+import inf112.skeleton.app.roborally.screens.endGame;
 import inf112.skeleton.app.roborally.screens.winScreen;
 
 /**
@@ -24,8 +25,8 @@ public class RoboRally extends Game {
         font = new BitmapFont();
 
         // go to main menu screen
-        this.setScreen(new RoboRallyMainMenu(this));
-        //this.setScreen(new winScreen(this));
+        //this.setScreen(new RoboRallyMainMenu(this));
+        this.setScreen(new winScreen(this,"wa"));
     }
 
 

@@ -183,6 +183,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 }
             }
         }
+
     }
 
     private void continueTurn() {
@@ -233,6 +234,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     elem.activate();
                 }
             }
+
         }
         cardPhaseButtons.clear();
 
@@ -244,11 +246,13 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             wrench.setRespawn();
         }
 
+
         //check for win condition
         for (Player player : players) {
             if (player.getRobot().getFlags().size() == flags.size()) {
                 win(player);
             }
+
         }
 
         //starts next round
@@ -262,6 +266,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 robotGraphics.resetDelay();
                 doTurn();
             }
+
         };
 
         timer.scheduleTask(task, robotGraphics.getTotalDelay() + 0.5f);
@@ -496,6 +501,10 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             }
         };
         timer.scheduleTask(task, delay);
+        if(players.isEmpty()){
+            roboRally.setScreen(new endGame(roboRally));
+            dispose();
+        }
     }
 
     public void showBlockedSlots(Player player) {
