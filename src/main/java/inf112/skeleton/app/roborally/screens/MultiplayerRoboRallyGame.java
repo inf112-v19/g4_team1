@@ -80,7 +80,7 @@ public class MultiplayerRoboRallyGame implements Screen, Runnable {
         back.addListener(new ClickListener() {
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                roboRally.setScreen(new PreferencesScreen(roboRally));
+                roboRally.setScreen(new MainMenuScreen(roboRally));
                 dispose();
                 return true;
             }

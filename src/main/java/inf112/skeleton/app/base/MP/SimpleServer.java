@@ -4,6 +4,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
+import inf112.skeleton.app.base.actors.Player;
 
 import java.net.Inet4Address;
 import java.net.InetAddress;
@@ -31,15 +32,16 @@ public class SimpleServer implements Runnable {
         server.addListener(new Listener() {
             @Override
             public void received(Connection c, Object object) {
-
                 // get the status
                 if (object instanceof String) {
-
                     string = (String) object;
                     gotMessage = true;
 
                     // send the response if received the status
                     c.sendTCP("received " + string + ". Responding.");
+                } else if (object instanceof ArrayList) {
+                    ArrayList<Player> players = (ArrayList<Player>) object;
+
                 }
             }
 

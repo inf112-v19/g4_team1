@@ -5,10 +5,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import inf112.skeleton.app.base.MP.SimpleClient;
 import inf112.skeleton.app.base.MP.SimpleServer;
-import inf112.skeleton.app.base.actors.Player;
-import inf112.skeleton.app.roborally.screens.RoboRallyGame;
-import inf112.skeleton.app.roborally.screens.RoboRallyMainMenu;
-import inf112.skeleton.app.roborally.screens.winScreen;
+
 import inf112.skeleton.app.roborally.screens.*;
 
 /**

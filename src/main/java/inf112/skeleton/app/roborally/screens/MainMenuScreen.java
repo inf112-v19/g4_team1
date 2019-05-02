@@ -90,7 +90,6 @@ public class MainMenuScreen implements Screen {
         table.row();
         table.add(mp).fillX().uniformX().pad(10);
         table.row();
-        table.add(back).fillX().uniformX().pad(10);
         table.add(exit).fillX().uniformX().pad(10);
         mapimg = new Image(new Texture("assets/roborally/mapimages/map"+(mapindex+1)+".png"));
         mapimg.setSize(300, 300);
