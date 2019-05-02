@@ -9,15 +9,15 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-//import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.tiled.*;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.RemoveActorAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -27,26 +27,25 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import inf112.skeleton.app.base.actors.AI;
-import inf112.skeleton.app.base.actors.IRobot;
 import inf112.skeleton.app.base.actors.Player;
+import inf112.skeleton.app.base.actors.Robot;
+import inf112.skeleton.app.base.board.Board;
 import inf112.skeleton.app.base.board.boardelement.*;
 import inf112.skeleton.app.base.cards.Card;
 import inf112.skeleton.app.base.cards.CardDecks;
-
 import inf112.skeleton.app.base.cards.CardType;
+import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.base.utils.Pos;
 import inf112.skeleton.app.roborally.RoboRally;
-import inf112.skeleton.app.base.actors.Robot;
-import inf112.skeleton.app.base.board.Board;
-import inf112.skeleton.app.base.utils.Direction;
 import inf112.skeleton.app.roborally.screens.graphics.CardPhaseButtons;
 import inf112.skeleton.app.roborally.screens.graphics.RobotGraphics;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
+
+//import com.badlogic.gdx.maps.Map;
 
 /**
  * main game screen
@@ -60,7 +59,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     private TiledMapRenderer boardRenderer;
     private Board gameBoard;
     private Stage stage;
-    private ArrayList<Player> players = new ArrayList<Player>();
+    private ArrayList<Player> players = new ArrayList<>();
     private CardDecks cardDecks = new CardDecks();
     private ArrayList<IActiveElement> ActiveElements;
     private ArrayList<Flag> flags;
@@ -262,9 +261,9 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 shootRobotLasers();
                 //updateUI();
 
-                for (int i = 0; i < playerPosition.size(); i++) {
-                    Robot robot = playerPosition.get(i).getRobot();
-                    updateUI(playerPosition.get(i), robot.getHealth(), 0f);
+                for (Player player : playerPosition) {
+                    Robot robot = player.getRobot();
+                    updateUI(player, robot.getHealth(), 0f);
                 }
                 for (Image blockedImage : blockedImages) {
                     foreground.removeActor(blockedImage);
@@ -514,7 +513,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         }
     }
 
-    public void showBlockedSlots(Player player) {
+    private void showBlockedSlots(Player player) {
         if(player.getRobot().getHealth() > 5) {
             return;
         }
@@ -545,7 +544,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         }
     }
 
-    public void shootRobotLasers() {
+    private void shootRobotLasers() {
         for (Player player : players) {
             Robot robot = player.getRobot();
             Image laser;
