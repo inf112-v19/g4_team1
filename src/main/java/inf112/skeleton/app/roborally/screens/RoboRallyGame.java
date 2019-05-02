@@ -260,7 +260,11 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             @Override
             public void run() {
                 shootRobotLasers();
-                updateUI();
+                //updateUI();
+                for (Image blockedImage : blockedImages) {
+                    foreground.removeActor(blockedImage);
+                }
+                blockedImages.clear();
                 robotGraphics.resetDelay();
                 doTurn();
             }
@@ -570,17 +574,21 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         }
     }
 
-    public void updateUI() {
-        for (int i = 0; i < playerPosition.size(); i++) {
-            playerPosition.get(i).getPowerButton().setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture("assets/roborally/power_down.png"))));
-            Label healthLabel = healthLabelPos.get(i);
-            healthLabel.setText("HP: " + playerPosition.get(i).getRobot().getHealth());
-            Label flagLabel = flagLabelPos.get(i);
-            flagLabel.setText("Visited Flags: " + playerPosition.get(i).getRobot().getFlags().size());
-        }
-        for (Image blockedImage : blockedImages) {
-            foreground.removeActor(blockedImage);
-        }
-        blockedImages.clear();
+    public void updateUI(Player player, int health, float delay) {
+        Timer timer = new Timer();
+        Timer.Task task = new Timer.Task() {
+            @Override
+            public void run() {
+                int i = playerPosition.indexOf(player);
+                player.getPowerButton().setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture("assets/roborally/power_down.png"))));
+                Label healthLabel = healthLabelPos.get(i);
+                healthLabel.setText("HP: " + health);
+                Label flagLabel = flagLabelPos.get(i);
+                flagLabel.setText("Visited Flags: " + player.getRobot().getFlags().size());
+
+            }
+        };
+        timer.scheduleTask(task, delay);
+
     }
 }

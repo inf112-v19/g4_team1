@@ -24,6 +24,7 @@ public class Robot implements IRobot {
     private int oldRotation;
     private boolean diedThisRound;
     private Pos laserDestination;
+    private int lastMoveHealth;
 
     public Robot(Pos pos, Direction dir, Player owner, IBoard board) {
         this.dir = dir;
@@ -33,6 +34,7 @@ public class Robot implements IRobot {
         this.respawnPos = pos;
         this.health = MAX_HEALTH;
         this.lives = 3;
+        this.lastMoveHealth = MAX_HEALTH;
     }
 
     public boolean hasNotMoved(){
@@ -326,5 +328,13 @@ public class Robot implements IRobot {
         return MAX_HEALTH;
     }
 
+    @Override
+    public int getLastMoveHealth() {
+        return lastMoveHealth;
+    }
 
+    @Override
+    public void setLastMoveHealth(int i) {
+        lastMoveHealth = i;
+    }
 }

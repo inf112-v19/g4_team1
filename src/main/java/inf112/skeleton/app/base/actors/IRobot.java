@@ -183,4 +183,7 @@ public interface IRobot extends IBoardElement {
     int getMAX_HEALTH();
 
 
+    int getLastMoveHealth();
+
+    void setLastMoveHealth(int i);
 }
