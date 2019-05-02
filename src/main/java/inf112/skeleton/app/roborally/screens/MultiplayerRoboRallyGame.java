@@ -7,25 +7,26 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import inf112.skeleton.app.base.MP.SimpleServer;
 import inf112.skeleton.app.roborally.RoboRally;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MultiplayerRoboRallyGame implements Screen {
+public class MultiplayerRoboRallyGame implements Screen, Runnable {
 
     private Stage stage;
     private RoboRally roboRally;
     private Table playerTable, table;
     private ArrayList<String> names = new ArrayList<>();
     private Skin skin;
+    private SimpleServer server;
+    private Thread screenThread;
+    private Label systemMessage;
 
 
     public MultiplayerRoboRallyGame(RoboRally roboRally) {
@@ -59,7 +60,7 @@ public class MultiplayerRoboRallyGame implements Screen {
         TextButton connToSer = new TextButton("Connect to a server", skin);
         TextButton back = new TextButton("Back", skin);
 
-        table.add(createSer).fillX().uniformX().padRight(10);
+        table.add(createSer).fillX().uniformX().pad(10);
         table.row();
         table.add(connToSer).fillX().uniformX().pad(10);
         table.row();
@@ -120,10 +121,21 @@ public class MultiplayerRoboRallyGame implements Screen {
         skin.dispose();
     }
 
+    @Override
+    public void run() {
+
+    }
+
     class CreateServerScreen implements Screen {
 
         public CreateServerScreen() {
             TextButton back = new TextButton("Back", skin);
+            TextButton createSrvr = new TextButton("Create server", skin);
+            systemMessage = new Label("", skin);
+            systemMessage.setFontScale(1.5f);
+
+            table.row();
+            table.add(systemMessage).fillX().uniformX().padBottom(50);
 
             back.addListener(new ClickListener() {
                 @Override
@@ -133,8 +145,28 @@ public class MultiplayerRoboRallyGame implements Screen {
                 }
             });
 
+            createSrvr.addListener( new ClickListener() {
+                @Override
+                public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                    startServer();
+                    System.out.println("entered creating server");
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (server != null) {
+                        table.getCell(systemMessage).getActor().setText(server.message);
+                    }
+                }
+            });
+
+            table.row();
+            table.add(createSrvr).fillX().uniformX().pad(10);
             table.row();
             table.add(back).fillX().uniformX().pad(10);
+
         }
 
         @Override
@@ -176,8 +208,12 @@ public class MultiplayerRoboRallyGame implements Screen {
             skin.dispose();
         }
 
-        public void startServer() throws IOException {
-
+        public void startServer() {
+            try {
+                server = new SimpleServer();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

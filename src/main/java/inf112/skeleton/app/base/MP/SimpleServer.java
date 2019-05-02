@@ -6,14 +6,16 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
 public class SimpleServer implements Runnable {
-    public boolean running = true;
-    private String string;
+    public boolean running;
+    public String string, message;
     public boolean gotMessage;
 
     private int port = 54634;
     private Server server;
 
     public SimpleServer() throws Exception {
+        System.out.println("Creating a server...");
+        message = "not connected";
         server = new Server();
         Thread gameThread = new Thread(this);
 
@@ -45,15 +47,19 @@ public class SimpleServer implements Runnable {
         server.bind(port);
         server.start();
         gameThread.start();
+        running = true;
+        message = "Server started. Waiting for other connections...";
 
-        while (running) {
-            Thread.sleep(5000);
-            System.out.println("waiting for messages...");
-            if (gotMessage) {
-                System.out.println("got message " + string);
-                gotMessage = false;
-            }
-        }
+//        while (running) {
+//            //Thread.sleep(5000);
+//
+//            count++;
+//            System.out.println("waiting for messages...");
+//            if (gotMessage) {
+//                System.out.println("got message " + string);
+//                gotMessage = false;
+//            }
+//        }
 
         System.out.println("Server started.");
     }
