@@ -102,7 +102,7 @@ public class Robot implements IRobot {
                 return false;
             }
         }
-        if (board.outOfBounds(newPos)) {
+        if (board.outOfBounds(newPos) || board.containsPit(newPos)) {
             return true;
         }
         if (board.getWallDir(newPos) != null) {
