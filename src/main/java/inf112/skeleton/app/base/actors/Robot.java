@@ -74,7 +74,7 @@ public class Robot implements IRobot {
             if(!otherRobot.canGo(moveDirection)) {
                 return;
             }
-            if (!board.outOfBounds(otherRobot.getPos().getAdjacent(moveDirection))) {
+            if (!board.outOfBounds(otherRobot.getPos().getAdjacent(moveDirection)) && !board.containsPit(otherRobot.getPos().getAdjacent(moveDirection))) {
                 robotsToPush.add(otherRobot);
                 newPos = newPos.getAdjacent(moveDirection);
             } else {
@@ -103,7 +103,7 @@ public class Robot implements IRobot {
                 return false;
             }
         }
-        if (board.outOfBounds(newPos) || board.containsPit(newPos)) {
+        if (board.outOfBounds(newPos)) {
             return true;
         }
         if (board.getWallDir(newPos) != null) {

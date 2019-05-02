@@ -2,23 +2,15 @@ package inf112.skeleton.app.roborally.screens;
 
 import com.badlogic.gdx.Gdx;
 
-import com.badlogic.gdx.Input.TextInputListener;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import inf112.skeleton.app.roborally.RoboRally;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class endGame implements Screen {
 
@@ -74,7 +66,7 @@ public class endGame implements Screen {
         mainMenu.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                roboRally.setScreen(new PreferencesScreen(roboRally));
+                roboRally.setScreen(new MainMenuScreen(roboRally));
                 dispose();
             }
         });
