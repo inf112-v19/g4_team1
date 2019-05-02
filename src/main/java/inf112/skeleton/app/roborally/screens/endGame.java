@@ -61,9 +61,9 @@ public class endGame implements Screen {
         TextButton mainMenu = new TextButton("Main menu", skin);
         TextButton exit = new TextButton("Exit", skin);
 
-      mapimg = new Image(new Texture("assets/enGameText.png"));
-      mapimg.setSize(1358,102);
-      mapimg.setPosition(Gdx.graphics.getWidth()/2f+ 300, Gdx.graphics.getHeight()/2f);
+      mapimg = new Image(new Texture("assets/endGameText.png"));
+      mapimg.setSize(800,70);
+      mapimg.setPosition(Gdx.graphics.getWidth()/2f-350, Gdx.graphics.getHeight()/2f+300);
       stage.addActor(mapimg);
 
         table.add(mainMenu).fillX().uniformX().pad(10);
@@ -87,22 +87,6 @@ public class endGame implements Screen {
                 dispose();
             }
         });
-    }
-
-
-
-    private void errorMsg(String err){
-        Dialog dialog = new Dialog("warning", skin){
-            public void result(Object obj){
-            }
-        };
-        dialog.setSize(300, 300);
-
-        dialog.button("OK", true);
-        dialog.show(stage);
-
-        dialog.text(err).setSize(300, 300);
-        dialog.getTitleLabel().setFontScale(1);
     }
 
     @Override
