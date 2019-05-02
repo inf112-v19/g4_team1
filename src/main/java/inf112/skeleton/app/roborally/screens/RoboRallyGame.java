@@ -213,14 +213,15 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                     currentPlayer.getRobot().setMoved(false);
                 }
             }
-            System.out.println("start of activation phase. hasnotmoved is "+players.get(0).getRobot().hasNotMoved());
+            if(finishedExecute) break;
+            System.out.println("_____start of activation phase. hasnotmoved is "+players.get(0).getRobot().hasNotMoved());
             //activates double speed first
             for (IActiveElement elem : ActiveElements) {
                 if (elem instanceof DoubleSpeedConveyor) {
                     IRobot robot = elem.activate();
                     if (robot != null) {
-                        System.out.println("double speed activates " + elem.getClass().getSimpleName() + " on " + robot.getOwner());
-                        System.out.println("has not moved is now "+robot.hasNotMoved());
+                        //System.out.println("double speed activates " + elem.getClass().getSimpleName() + " on " + robot.getOwner());
+                        //System.out.println("has not moved is now "+robot.hasNotMoved());
                     }
                 }
             }
@@ -233,8 +234,8 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 if (!(elem instanceof Laser)) {
                     IRobot robot = elem.activate();
                     if (robot != null) {
-                        System.out.println("activates " + elem.getClass().getSimpleName() + " on " + robot.getOwner());
-                        System.out.println("has not moved is now "+robot.hasNotMoved());
+                        //System.out.println("activates " + elem.getClass().getSimpleName() + " on " + robot.getOwner());
+                        //System.out.println("has not moved is now "+robot.hasNotMoved());
                     }
                 }
             }
