@@ -5,6 +5,8 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
+import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.util.ArrayList;
 
 public class SimpleServer implements Runnable {
@@ -13,6 +15,7 @@ public class SimpleServer implements Runnable {
     public boolean gotMessage;
 
     private int port = 54634;
+    private int udp = 54635;
     private Server server;
 
     public SimpleServer() throws Exception {
@@ -25,7 +28,7 @@ public class SimpleServer implements Runnable {
         kryo.register(String.class);
         kryo.register(ArrayList.class);
 
-        server.addListener(new Listener(){
+        server.addListener(new Listener() {
             @Override
             public void received(Connection c, Object object) {
 
@@ -44,25 +47,25 @@ public class SimpleServer implements Runnable {
             @Override
             public void disconnected (Connection c) {
                 System.out.println("Disconnected.");
+                running = false;
             }
         });
 
-        server.bind(port);
+        server.bind(port, udp);
         server.start();
         gameThread.start();
         running = true;
         status = "Server started. Waiting for other connections...";
 
-//        while (running) {
-//            //Thread.sleep(5000);
-//
-//            count++;
-//            System.out.println("waiting for messages...");
-//            if (gotMessage) {
-//                System.out.println("got status " + string);
-//                gotMessage = false;
-//            }
-//        }
+        while (running) {
+            Thread.sleep(5000);
+
+            System.out.println("waiting for messages...");
+            if (gotMessage) {
+                System.out.println("got status " + string);
+                gotMessage = false;
+            }
+        }
 
         System.out.println("Server started.");
     }
