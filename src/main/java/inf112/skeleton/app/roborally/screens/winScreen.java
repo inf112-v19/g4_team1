@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -17,34 +18,41 @@ public class winScreen implements Screen {
     private Stage stage;
     private RoboRally roboRally;
     private Skin skin;
-    Image mapimg;
+    private String winName;
 
 
     public winScreen(RoboRally roboRally, String winName) {
         this.roboRally = roboRally;
-
+        this.winName = winName;
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
+        skin = new Skin(Gdx.files.internal("assets/roborally/skin/comic-ui.json"));
+
+
     }
 
 
     @Override
     public void show() {
-        Texture background= new Texture("assets/roborally/winGameImage.jpg");
+        Texture background = new Texture("assets/roborally/Robot-Wall.jpg");
+        Texture winner = new Texture("assets/roborally/winner.png");
         Image img = new Image(background);
-        img.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()-100);
+        Image winnerImg = new Image(winner);
+        img.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        winnerImg.setPosition(Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()-400);
+        Label label = new Label(winName + " won", skin);
+        label.setPosition(Gdx.graphics.getWidth()/2 - 50, Gdx.graphics.getHeight()-430);
+        label.setFontScale(1.5f);
         stage.addActor(img);
+        stage.addActor(winnerImg);
+        stage.addActor(label);
 
         Table table = new Table();
         table.setFillParent(true);
         table.setDebug(false);
         stage.addActor(table);
-        skin = new Skin(Gdx.files.internal("assets/roborally/skin/comic-ui.json"));
 
-        mapimg = new Image(new Texture("assets/roborally/winScreenText.png"));
-        mapimg.setSize(900,100);
-        mapimg.setPosition(Gdx.graphics.getWidth()/2f-450, Gdx.graphics.getHeight()/2f+750);
-        stage.addActor(mapimg);
+
 
 
         TextButton mainMenu = new TextButton("Main menu", skin);
@@ -79,15 +87,8 @@ public class winScreen implements Screen {
     public void render(float v) {
         Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        //roboRally.batch.setProjectionMatrix(camera.combined);
-        //mapRenderer.setView(camera);
-        // mapRenderer.render();
         stage.act();
         stage.draw();
-        //batch.begin();
-       // font.draw(batch, winner, 500, 1200);
-        //batch.end();
 
     }
 
