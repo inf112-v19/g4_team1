@@ -61,6 +61,11 @@ public class endGame implements Screen {
         TextButton mainMenu = new TextButton("Main menu", skin);
         TextButton exit = new TextButton("Exit", skin);
 
+      mapimg = new Image(new Texture("assets/enGameText.png"));
+      mapimg.setSize(1358,102);
+      mapimg.setPosition(Gdx.graphics.getWidth()/2f+ 300, Gdx.graphics.getHeight()/2f);
+      stage.addActor(mapimg);
+
         table.add(mainMenu).fillX().uniformX().pad(10);
         table.row();
         table.add(exit).fillX().uniformX().pad(10);
@@ -85,19 +90,7 @@ public class endGame implements Screen {
     }
 
 
-    private void changeImage(){
-        mapimg.setDrawable(new SpriteDrawable(new Sprite(new Texture("assets/roborally/mapimages/map"+(mapindex+1)+".png"))));
 
-
-        /*
-        mapimg = new Image(new Texture("assets/roborally/mapimages/map"+(mapindex+1)+".png"));
-        mapimg.setSize(400, 400);
-        mapimg.setPosition(500, 500);
-        stage.addActor(mapimg);
-        */
-
-
-    }
     private void errorMsg(String err){
         Dialog dialog = new Dialog("warning", skin){
             public void result(Object obj){
