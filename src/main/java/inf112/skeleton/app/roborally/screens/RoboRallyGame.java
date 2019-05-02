@@ -439,6 +439,10 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     }
 
 
+    /**
+     * Executes the first card in the players selected cards and start fading the card
+     * @param player
+     */
     private void moveRobot(Player player) {
         Card card = player.useFirstCard();
         cardPhaseButtons.fadeCard(card);
@@ -476,6 +480,11 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         return foreground;
     }
 
+    /**
+     * Gets a players Image actor in the stage
+     * @param player
+     * @return
+     */
     public Actor getLifeSprite(Player player) {
         if (player.getRobot().getLives() < 0) {
             return null;
@@ -484,11 +493,21 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         return background.getChildren().get(background.getChildren().indexOf(life, false));
     }
 
+    /**
+     * Get the initial position of the player in the player-list. Used for finding correct UI elements
+     * @param player
+     * @return
+     */
     public int getPlayerPos(Player player) {
         return playerPosition.indexOf(player);
     }
 
 
+    /**
+     * Completely removes a player from the game and places "DEAD" on their card area, after a given delay.
+     * @param player player to remove
+     * @param delay time to execution
+     */
     public void removePlayer(Player player, float delay) {
         players.remove(player);
         gameBoard.get(player.getRobot().getPos()).removeContent(player.getRobot());
@@ -513,6 +532,10 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         }
     }
 
+    /**
+     * Shows a players blocked slots in a card area. Blocked slots appear when damage < 6
+     * @param player
+     */
     private void showBlockedSlots(Player player) {
         if (player.getRobot().getHealth() > 5) {
             return;
@@ -530,6 +553,10 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         }
     }
 
+    /**
+     * Hides the cards on a players card area
+     * @param player
+     */
     public void hideCards(Player player) {
         for (int i = 0; i < player.getCards().size(); i++) {
             Texture back = new Texture("assets/roborally/back.png");
@@ -544,6 +571,9 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         }
     }
 
+    /**
+     * Shoots every robots laser from their last position in a turn
+     */
     private void shootRobotLasers() {
         for (Player player : players) {
             Robot robot = player.getRobot();
@@ -578,6 +608,13 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         }
     }
 
+    /**
+     * Updating the UI elements for a player after a given delay
+     *
+     * @param player Player we want to update the UI for
+     * @param health New health
+     * @param delay Delay to execution
+     */
     public void updateUI(Player player, int health, float delay) {
         Timer timer = new Timer();
         Timer.Task task = new Timer.Task() {
