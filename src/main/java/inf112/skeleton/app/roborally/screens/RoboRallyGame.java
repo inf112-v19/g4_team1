@@ -261,6 +261,11 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             public void run() {
                 shootRobotLasers();
                 //updateUI();
+
+                for (int i = 0; i < playerPosition.size(); i++) {
+                    Robot robot = playerPosition.get(i).getRobot();
+                    updateUI(playerPosition.get(i), robot.getHealth(), 0f);
+                }
                 for (Image blockedImage : blockedImages) {
                     foreground.removeActor(blockedImage);
                 }

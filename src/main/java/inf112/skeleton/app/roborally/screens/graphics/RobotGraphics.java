@@ -66,9 +66,10 @@ public class RobotGraphics {
             //fix for syncing the fading of cards
             totalDelay += movementAction.getActionTime();
 
-            if(robot.getHealth() != robot.getLastMoveHealth()) {
-                game.updateUI(robot.getOwner(), robot.getHealth(), totalDelay);
+            if(robot.getHealth() != robot.getLastMoveHealth() || robot.getFlags().size() != robot.getLastNumFlags()) {
+                game.updateUI(robot.getOwner(), robot.getHealth(), totalDelay-0.3f);
                 robot.setLastMoveHealth(robot.getHealth());
+                robot.setLastNumFlags(robot.getFlags().size());
             }
 
             //player is dead and is removed from game
