@@ -42,6 +42,7 @@ public class PreferencesScreen implements Screen {
         this.maps.add("assets/roborally/game_board1.tmx");
         this.maps.add("assets/roborally/game_board2.tmx");
         this.maps.add("assets/roborally/game_board3.tmx");
+        this.maps.add("assets/roborally/game_boardtest.tmx");
 
     }
 
@@ -199,6 +200,7 @@ public class PreferencesScreen implements Screen {
 
 
     private void changeImage(){
+        if(mapindex==3) return;
         mapimg.setDrawable(new SpriteDrawable(new Sprite(new Texture("assets/roborally/mapimages/map"+(mapindex+1)+".png"))));
 
 
