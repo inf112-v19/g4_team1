@@ -382,6 +382,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
     @Override
     public void dispose() {
+        stage.dispose();
         board.dispose();
     }
 
@@ -508,14 +509,16 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 dead.setPosition(x + 10, y);
                 foreground.addActor(dead);
                 robotGraphics.removeSprite(player.getRobot());
+
+                if (players.isEmpty()) {
+                    roboRally.setScreen(new EndGame(roboRally));
+                    dispose();
+                }
             }
         };
         timer.scheduleTask(task, delay);
 
-        if (players.isEmpty()) {
-            roboRally.setScreen(new EndGame(roboRally));
-            dispose();
-        }
+
     }
 
     /**
