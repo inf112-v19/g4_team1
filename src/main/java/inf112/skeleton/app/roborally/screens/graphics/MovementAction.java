@@ -22,7 +22,7 @@ public enum MovementAction {
     STUCK;
 
 
-    private final float STANDARD_MOVE_DURATION = 0.5f;
+    private final float STANDARD_MOVE_DURATION = 1f;
     private final float SHORT_MOVE_DURATION = 0.5f;
 
     public void addActionToSequence(SequenceAction seq, IRobot robot, RoboRallyGame game) {
@@ -67,8 +67,8 @@ public enum MovementAction {
                 seq.addAction(sequence(start, end));
                 return;
             case STUCK:
-                Action start2 = color(Color.BROWN, SHORT_MOVE_DURATION, Interpolation.linear);
-                Action end2 = color(Color.valueOf("ffffffff"), SHORT_MOVE_DURATION, Interpolation.linear);
+                Action start2 = color(Color.BROWN, SHORT_MOVE_DURATION/2, Interpolation.linear);
+                Action end2 = color(Color.valueOf("ffffffff"), SHORT_MOVE_DURATION/2, Interpolation.linear);
                 seq.addAction(sequence(start2, end2));
                 return;
         }
@@ -86,7 +86,7 @@ public enum MovementAction {
             case POWERDOWN:
                 return SHORT_MOVE_DURATION * 2;
             case STUCK:
-                return SHORT_MOVE_DURATION * 2;
+                return SHORT_MOVE_DURATION;
 
         }
         throw new IllegalStateException("no movetype");
