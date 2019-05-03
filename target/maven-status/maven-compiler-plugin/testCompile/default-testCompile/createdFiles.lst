@@ -1,0 +1,16 @@
+inf112\skeleton\app\BoardTest.class
+inf112\skeleton\app\boardelementtests\WinTest.class
+inf112\skeleton\app\boardelementtests\GearTest.class
+inf112\skeleton\app\boardelementtests\FlagTest.class
+inf112\skeleton\app\boardelementtests\LaserTest.class
+inf112\skeleton\app\boardelementtests\ConveyorTest.class
+inf112\skeleton\app\boardelementtests\TurnConveyorTest.class
+inf112\skeleton\app\boardelementtests\DoubleSpeedConveyorTest.class
+inf112\skeleton\app\boardelementtests\RobotTest.class
+inf112\skeleton\app\boardelementtests\WrenchTileTest.class
+inf112\skeleton\app\CardTest.class
+inf112\skeleton\app\MovementActionTest.class
+inf112\skeleton\app\boardelementtests\PusherTest.class
+inf112\skeleton\app\CardDeckTest.class
+inf112\skeleton\app\PosTest.class
+inf112\skeleton\app\boardelementtests\TileTest.class

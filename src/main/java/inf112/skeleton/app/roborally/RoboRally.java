@@ -9,7 +9,7 @@ import inf112.skeleton.app.base.MP.SimpleServer;
 import inf112.skeleton.app.roborally.screens.*;
 
 /**
- * the main game class that is passed between screens
+ * The main game class that is passed between screens
  */
 public class RoboRally extends Game {
     private SpriteBatch batch;
@@ -24,8 +24,6 @@ public class RoboRally extends Game {
 
         // go to main menu screen
         this.setScreen(new MainMenuScreen(this, null));
-        //this.setScreen(new WinScreen(this, "hd"));
-
     }
 
     @Override

@@ -13,20 +13,14 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import inf112.skeleton.app.roborally.RoboRally;
 
 public class EndGame implements Screen {
-
     private Stage stage;
     private RoboRally roboRally;
     private Skin skin;
-    Image mapImg;
 
-
-    public EndGame(RoboRally roboRally) {
+    EndGame(RoboRally roboRally) {
         this.roboRally = roboRally;
-
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
-
-
     }
 
     @Override
@@ -45,7 +39,7 @@ public class EndGame implements Screen {
         TextButton mainMenu = new TextButton("Main menu", skin);
         TextButton exit = new TextButton("Exit", skin);
 
-        mapImg = new Image(new Texture("assets/roborally/endGameText.png"));
+        Image mapImg = new Image(new Texture("assets/roborally/endGameText.png"));
         mapImg.setSize(800, 70);
         mapImg.setPosition(Gdx.graphics.getWidth() / 2f - 350, Gdx.graphics.getHeight() / 2f + 300);
         stage.addActor(mapImg);
@@ -55,14 +49,13 @@ public class EndGame implements Screen {
         table.add(exit).fillX().uniformX().pad(10);
         table.row();
 
-
-        //changeImage();
         exit.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Gdx.app.exit();
             }
         });
+
         mainMenu.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -75,10 +68,8 @@ public class EndGame implements Screen {
     @Override
     public void render(float v) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
-
     }
 
     @Override
@@ -87,25 +78,15 @@ public class EndGame implements Screen {
     }
 
     @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
     public void dispose() {
         stage.dispose();
         skin.dispose();
     }
 
-
+    @Override
+    public void pause() {}
+    @Override
+    public void resume() {}
+    @Override
+    public void hide() {}
 }

@@ -21,7 +21,7 @@ public class WinScreen implements Screen {
     private Skin skin;
     private String winName;
 
-    public WinScreen(RoboRally roboRally, String winName) {
+    WinScreen(RoboRally roboRally, String winName) {
         this.roboRally = roboRally;
         this.winName = winName;
         stage = new Stage(new ScreenViewport());
@@ -90,23 +90,15 @@ public class WinScreen implements Screen {
     }
 
     @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
     public void dispose() {
         stage.dispose();
         skin.dispose();
     }
+
+    @Override
+    public void pause() {}
+    @Override
+    public void resume() {}
+    @Override
+    public void hide() {}
 }

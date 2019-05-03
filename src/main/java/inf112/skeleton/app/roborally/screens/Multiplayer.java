@@ -21,7 +21,6 @@ import java.util.ArrayList;
 
 /**
  * A screen that contains the interface for starting a game over LAN
- *
  */
 public class Multiplayer implements Screen, Runnable {
     private Stage stage;
@@ -34,7 +33,7 @@ public class Multiplayer implements Screen, Runnable {
     private Thread screenThread;
     private Label systemMessage;
 
-    public Multiplayer(RoboRally roboRally) {
+    Multiplayer(RoboRally roboRally) {
         this.roboRally = roboRally;
     }
 
@@ -129,21 +128,13 @@ public class Multiplayer implements Screen, Runnable {
     }
 
     @Override
-    public void pause() {
-
-    }
+    public void pause() {}
     @Override
-    public void resume() {
-
-    }
+    public void resume() {}
     @Override
-    public void hide() {
-
-    }
+    public void hide() {}
     @Override
-    public void run() {
-
-    }
+    public void run() {}
 
     class CreateServerScreen implements Screen {
         int numPlayers;
@@ -160,9 +151,7 @@ public class Multiplayer implements Screen, Runnable {
                     numPlayers = Integer.parseInt(text);
                 }
                 @Override
-                public void canceled() {
-
-                }
+                public void canceled() {}
             };
 
             Gdx.input.getTextInput(inputMessage, "Number of players (int): ", "", "");
@@ -217,32 +206,22 @@ public class Multiplayer implements Screen, Runnable {
         }
 
         @Override
-        public void show() {
-
-        }
+        public void show() {}
         @Override
-        public void resize(int i, int i1) {
-
-        }
+        public void resize(int i, int i1) {}
         @Override
-        public void pause() {
-
-        }
+        public void pause() {}
         @Override
-        public void resume() {
-
-        }
+        public void resume() {}
         @Override
-        public void hide() {
-
-        }
+        public void hide() {}
     }
 
     class ConnectToServerScreen implements Screen {
         private String host, message;
         private Label msg;
 
-        public ConnectToServerScreen() {
+        ConnectToServerScreen() {
             Gdx.input.setInputProcessor(stage);
             msg = new Label("", skin);
             msg.setFontScale(1.5f);
@@ -269,9 +248,7 @@ public class Multiplayer implements Screen, Runnable {
                     }
                 }
                 @Override
-                public void canceled() {
-
-                }
+                public void canceled() {}
             };
 
             Input.TextInputListener inputMessage = new Input.TextInputListener() {
@@ -280,9 +257,7 @@ public class Multiplayer implements Screen, Runnable {
                     message = text;
                 }
                 @Override
-                public void canceled() {
-
-                }
+                public void canceled() {}
             };
 
             Gdx.input.getTextInput(inputHost, "Enter the Host IP: ", "", "");
@@ -398,24 +373,14 @@ public class Multiplayer implements Screen, Runnable {
         }
 
         @Override
-        public void resize(int i, int i1) {
-
-        }
+        public void resize(int i, int i1) {}
         @Override
-        public void pause() {
-
-        }
+        public void pause() {}
         @Override
-        public void resume() {
-
-        }
+        public void resume() {}
         @Override
-        public void hide() {
-
-        }
+        public void hide() {}
         @Override
-        public void show() {
-
-        }
+        public void show() {}
     }
 }

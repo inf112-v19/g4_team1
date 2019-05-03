@@ -105,7 +105,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         sb = new SpriteBatch();
         this.roboRally = roboRally;
         camera = new OrthographicCamera();
-        //FitViewport viewPort = new FitViewport(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, camera);
         ScalingViewport viewPort = new ScalingViewport(Scaling.stretch, Constants.WORLD_PIXEL_WIDTH, Constants.WORLD_PIXEL_HEIGHT);
         viewPort.update(Constants.WORLD_PIXEL_WIDTH, Constants.WORLD_PIXEL_HEIGHT);
 
@@ -120,6 +119,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
         // initialize the board renderer that will render the tiled map
         boardRenderer = new OrthogonalTiledMapRenderer(board, 1);
+
         //This line decides how much the gamescreen will show in addition to the gameboard
         camera.setToOrtho(false, Gdx.graphics.getWidth() * 1.5f, Gdx.graphics.getHeight() * 1.5f);
         camera.update();
@@ -186,11 +186,11 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         }
     }
 
-    @SuppressWarnings("unchecked")
     /**
-     * continues after cards have been selected. activates cards and active elements.
-     * should call doTurn when finished.
+     * Game continues after cards have been selected. Activate cards and active elements.
+     * Should call doTurn() when finished.
      */
+    @SuppressWarnings("unchecked")
     private void continueTurn() {
         for (Image backImage : backImages)
             foreground.removeActor(backImage);
@@ -208,10 +208,12 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 else return 0;
             });
             finishedExecute = true;
+
             for (Player currentPlayer : currentPlayers) {
                 if (currentPlayer.getCards().size() != 0) {
                     finishedExecute = false;
                     moveRobot(currentPlayer);
+
                     //after robot has moved, reset the moved boolean.
                     currentPlayer.getRobot().setMoved(false);
 
@@ -269,8 +271,8 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     }
 
     /**
-     * ends game, and moves to win screen
-     * @param player player that won
+     * Ends game and moves to win screen
+     * @param player winner
      */
     private void win(Player player) {
         Timer timer = new Timer();
@@ -368,64 +370,9 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     }
 
     @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
     public void dispose() {
         stage.dispose();
         board.dispose();
-    }
-
-    @Override
-    public boolean keyDown(int i) {
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int i) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char c) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int i, int i1, int i2, int i3) {
-        return false;
-    }
-
-    @Override
-    public boolean touchUp(int i, int i1, int i2, int i3) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int i, int i1, int i2) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int i, int i1) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int i) {
-        return false;
     }
 
     /**
@@ -442,11 +389,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
     public CardPhaseButtons getCardButtons() {
         return cardPhaseButtons;
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
     }
 
     public RobotGraphics getGraphics() {
@@ -519,8 +461,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             }
         };
         timer.scheduleTask(task, delay);
-
-
     }
 
     /**
@@ -626,4 +566,45 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
         timer.scheduleTask(task, delay);
     }
+
+    @Override
+    public void pause() {}
+    @Override
+    public void resume() {}
+    @Override
+    public void hide() {}
+    @Override
+    public boolean keyDown(int i) {
+        return false;
+    }
+    @Override
+    public boolean keyUp(int i) {
+        return false;
+    }
+    @Override
+    public boolean keyTyped(char c) {
+        return false;
+    }
+    @Override
+    public boolean touchDown(int i, int i1, int i2, int i3) {
+        return false;
+    }
+    @Override
+    public boolean touchUp(int i, int i1, int i2, int i3) {
+        return false;
+    }
+    @Override
+    public boolean touchDragged(int i, int i1, int i2) {
+        return false;
+    }
+    @Override
+    public boolean mouseMoved(int i, int i1) {
+        return false;
+    }
+    @Override
+    public boolean scrolled(int i) {
+        return false;
+    }
+    @Override
+    public void actionPerformed(ActionEvent e) {}
 }

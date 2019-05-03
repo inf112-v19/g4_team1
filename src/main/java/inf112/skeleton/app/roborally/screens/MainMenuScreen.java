@@ -101,8 +101,6 @@ public class MainMenuScreen implements Screen, Runnable {
         mapImg.setPosition(Gdx.graphics.getWidth() / 2 + 300, Gdx.graphics.getHeight() / 2);
         stage.addActor(mapImg);
 
-        //changeImage();
-
         changemap.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -188,9 +186,7 @@ public class MainMenuScreen implements Screen, Runnable {
                     }
 
                     @Override
-                    public void canceled() {
-
-                    }
+                    public void canceled() {}
                 };
 
                 Gdx.input.getTextInput(inputName, "Enter player name:", "", "");
@@ -244,8 +240,7 @@ public class MainMenuScreen implements Screen, Runnable {
     private void errorMsg(String err) {
         Dialog dialog = new Dialog("warning", skin) {
             @Override
-            public void result(Object obj) {
-            }
+            public void result(Object obj) {}
         };
         dialog.setSize(300, 300);
 
@@ -275,19 +270,11 @@ public class MainMenuScreen implements Screen, Runnable {
     }
 
     @Override
-    public void pause() {
-
-    }
+    public void pause() {}
     @Override
-    public void resume() {
-
-    }
+    public void resume() {}
     @Override
-    public void hide() {
-
-    }
+    public void hide() {}
     @Override
-    public void run() {
-
-    }
+    public void run() {}
 }
