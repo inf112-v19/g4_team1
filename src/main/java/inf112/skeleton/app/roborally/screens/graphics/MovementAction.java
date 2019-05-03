@@ -25,6 +25,12 @@ public enum MovementAction {
     private final float STANDARD_MOVE_DURATION = 1f;
     private final float SHORT_MOVE_DURATION = 0.5f;
 
+    /**
+     * takes a sequenceaction and queues an action to it based on the type of this (movementaction)
+     * @param seq sequenceaction to add action
+     * @param robot robot that is the actor
+     * @param game game reference
+     */
     public void addActionToSequence(SequenceAction seq, IRobot robot, RoboRallyGame game) {
         //creates to basic movements as a base for all animations
         MoveToAction moveToAction = moveTo(coordToPixel(robot.getPos().x(), game.getGraphics().getTileWidth()), coordToPixel(robot.getPos().y(), game.getGraphics().getTileWidth()), STANDARD_MOVE_DURATION);
