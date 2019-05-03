@@ -138,7 +138,6 @@ public class MainMenuScreen implements Screen, Runnable {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if (names.size() == 8) {
-                    System.out.println("Can't add more players!");
                     errorMsg("Can't add more than 8 players!");
                     return;
                 }
