@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * A screen that contains the interface for starting a game over LAN
  *
  */
-public class MultiplayerRoboRallyGame implements Screen, Runnable {
+public class Multiplayer implements Screen, Runnable {
     private Stage stage;
     private RoboRally roboRally;
     private Table playerTable, table;
@@ -34,7 +34,7 @@ public class MultiplayerRoboRallyGame implements Screen, Runnable {
     private Thread screenThread;
     private Label systemMessage;
 
-    public MultiplayerRoboRallyGame(RoboRally roboRally) {
+    public Multiplayer(RoboRally roboRally) {
         this.roboRally = roboRally;
     }
 
@@ -170,7 +170,7 @@ public class MultiplayerRoboRallyGame implements Screen, Runnable {
             back.addListener(new ClickListener() {
                 @Override
                 public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                    roboRally.setScreen(new MultiplayerRoboRallyGame(roboRally));
+                    roboRally.setScreen(new Multiplayer(roboRally));
                     dispose();
                 }
             });
@@ -316,7 +316,7 @@ public class MultiplayerRoboRallyGame implements Screen, Runnable {
             back.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    roboRally.setScreen(new MultiplayerRoboRallyGame(roboRally));
+                    roboRally.setScreen(new Multiplayer(roboRally));
                     dispose();
                 }
             });

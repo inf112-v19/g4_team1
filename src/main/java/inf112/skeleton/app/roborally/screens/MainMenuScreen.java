@@ -25,7 +25,7 @@ public class MainMenuScreen implements Screen, Runnable {
     private Table playerTable;
     private ArrayList<String> names = new ArrayList<>();
     private Skin skin;
-    private ArrayList<String> maps= new ArrayList<>();
+    private ArrayList<String> maps = new ArrayList<>();
     private int mapIndex = 0;
     private Image mapImg;
     private SimpleServer mpGame;
@@ -213,7 +213,7 @@ public class MainMenuScreen implements Screen, Runnable {
         mp.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                roboRally.setScreen(new MultiplayerRoboRallyGame(roboRally));
+                roboRally.setScreen(new Multiplayer(roboRally));
                 dispose();
             }
         });
