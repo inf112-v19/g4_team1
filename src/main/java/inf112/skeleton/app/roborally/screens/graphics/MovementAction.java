@@ -62,12 +62,12 @@ public enum MovementAction {
                 return;
             case POWERDOWN:
 
-                Action start = color(Color.BROWN, SHORT_MOVE_DURATION, Interpolation.linear);
+                Action start = color(Color.valueOf("000000ff"), SHORT_MOVE_DURATION, Interpolation.linear);
                 Action end = color(Color.valueOf("ffffffff"), SHORT_MOVE_DURATION, Interpolation.linear);
                 seq.addAction(sequence(start, end));
                 return;
             case STUCK:
-                Action start2 = color(Color.ORANGE, SHORT_MOVE_DURATION, Interpolation.linear);
+                Action start2 = color(Color.BROWN, SHORT_MOVE_DURATION, Interpolation.linear);
                 Action end2 = color(Color.valueOf("ffffffff"), SHORT_MOVE_DURATION, Interpolation.linear);
                 seq.addAction(sequence(start2, end2));
                 return;
