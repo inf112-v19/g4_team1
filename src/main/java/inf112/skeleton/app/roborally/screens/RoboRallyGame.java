@@ -579,6 +579,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             laser.setSize(robotGraphics.getRobotSizex(), robotGraphics.getRobotSizey());
             robot.laser();
             Pos laserDest = robot.getLaserDestination();
+            System.out.println(laserDest);
 
             // only show visual laser if target is not on adjacent tile or the robots pos
             if (!gameBoard.outOfBounds(robot.getPos().getAdjacent(robot.getDir()))) {
