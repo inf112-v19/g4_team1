@@ -165,6 +165,7 @@ public class Board implements IBoard {
             case 45: return new Wall(Direction.SOUTH, pos, this);
             case 46: return new Wall(Direction.WEST, pos, this);
             case 48: return new WrenchTile(pos, this);
+            case 47: return new WrenchTile(pos, this);
         }
         throw new IllegalArgumentException("not a valid id");
     }
