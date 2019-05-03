@@ -183,11 +183,27 @@ public interface IRobot extends IBoardElement {
     int getMAX_HEALTH();
 
 
+    /**
+     * Get the health the robot had before last move
+     * @return
+     */
     int getLastMoveHealth();
 
+    /**
+     * Sets Last move health, should always be set equal to current health
+     * @param i current health
+     */
     void setLastMoveHealth(int i);
 
+    /**
+     * Get number of visited flags before last move
+     * @return
+     */
     int getLastNumFlags();
 
+    /**
+     * Sets last number of flags, should always be set equal to current flags
+     * @param i number of flags
+     */
     void setLastNumFlags(int i);
 }
