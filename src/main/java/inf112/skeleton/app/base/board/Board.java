@@ -55,6 +55,12 @@ public class Board implements IBoard {
         bufferedReader.close();
     }
 
+    /**
+     * convert a char to a Tile with the Tileobject. used for testing
+     * @param symbol char
+     * @param pos pos of tile
+     * @return Tile with TileObject
+     */
     private Tile getTileFromSymbol(char symbol, Pos pos){
         Tile tile = new Tile();
         switch (symbol) {
@@ -104,6 +110,12 @@ public class Board implements IBoard {
         }
     }
 
+    /**
+     * get a IBoardElem from the id of the tmx file. used to create objects from tmx file
+     * @param id id of tile
+     * @param pos pos of new BoardElem
+     * @return BoardElement created
+     */
     private IBoardElement getBoardElemFromTmx(int id, Pos pos) {
           //id is the number of the tile used in the tmx file
         switch(id){
@@ -132,7 +144,6 @@ public class Board implements IBoard {
             case 22: return new DoubleSpeedConveyor(Direction.SOUTH, pos, this);
             case 23: return new DoubleSpeedConveyor(Direction.WEST, pos, this);
             case 24: return null; //this is the empty tile
-            //TODO: can add the number to the flag if we want
             case 25: return new Flag(pos, this, 1);
             case 26: return new Flag(pos, this, 2);
             case 27: return new Flag(pos, this, 3);
@@ -153,7 +164,6 @@ public class Board implements IBoard {
             case 44: return new Wall(Direction.NORTH, pos ,this);
             case 45: return new Wall(Direction.SOUTH, pos, this);
             case 46: return new Wall(Direction.WEST, pos, this);
-            case 47: return null; //TODO: hammer and wrench
             case 48: return new WrenchTile(pos, this);
         }
         throw new IllegalArgumentException("not a valid id");
