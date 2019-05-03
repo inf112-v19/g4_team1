@@ -142,7 +142,6 @@ public class CardPhaseButtons {
         powerDownButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                System.out.println("klicked powerdown");
                 if (player.getPowerDown() != 2) {
                     player.setPowerDown(2);
                     player.getPowerButton().setDrawable(new TextureRegionDrawable(new TextureRegion(

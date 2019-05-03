@@ -174,7 +174,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         else {
             for (Player player : players) {
                 if (player.getCards().isEmpty()) {
-                    System.out.println("choose cards");
                     if (player.getPowerDown() == 1)
                         cardPhaseButtons.chooseCards(-1, player, true);
                     else
@@ -524,7 +523,6 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             laser.setSize(robotGraphics.getRobotSizex(), robotGraphics.getRobotSizey());
             robot.laser();
             Pos laserDest = robot.getLaserDestination();
-            System.out.println(laserDest);
 
             // only show visual laser if target is not on adjacent tile or the robots pos
             if (!gameBoard.outOfBounds(robot.getPos().getAdjacent(robot.getDir()))) {
