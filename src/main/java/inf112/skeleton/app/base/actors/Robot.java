@@ -141,18 +141,15 @@ public class Robot implements IRobot {
         board.move(this, movetype);
     }
 
+    /**
+     * check if a wall is blocking robots movement
+     * @param wallPos pos of wall
+     * @param moveDirection move dir of robot
+     * @return true if blocking
+     */
     private boolean wallIsBlocking(Pos wallPos, Direction moveDirection) {
         Direction walldir = board.getWallDir(wallPos);
-
-        if (wallPos.equals(pos)) {
-            // the wall is on the same tile
-            // blocks the robot if direction of wall is same as the movement
-            return moveDirection == walldir;
-        } else {
-            // the wall is on the next tile
-            // blocks the robot if the directions are opposite
-            return moveDirection.opposite() == walldir;
-        }
+        return wallPos.equals(pos) ? moveDirection == walldir : moveDirection.opposite() == walldir;
     }
 
     @Override
@@ -163,6 +160,9 @@ public class Robot implements IRobot {
         }
     }
 
+    /**
+     * moves the robot to its respawn tile, or adjacent if occupied
+     */
     private void respawn() {
         System.out.println(getOwner() + " respawn");
         diedThisRound = true;

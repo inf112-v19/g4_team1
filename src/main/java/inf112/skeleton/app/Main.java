@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[] args) {
         LwjglApplicationConfiguration roboRallyCfg = new LwjglApplicationConfiguration();
 
-        roboRallyCfg.title = "Robo Rally v0.005";
+        roboRallyCfg.title = "Robo Rally";
         //roboRallyCfg.fullscreen = true;
         roboRallyCfg.width = 1920;
         roboRallyCfg.height = 1080;
