@@ -46,8 +46,6 @@ public class MainMenuScreen implements Screen, Runnable {
     public void show() {
         Texture background = new Texture("assets/roborally/Robot-Wall.jpg");
         Image img = new Image(background);
-        // img.setPosition(150,0);
-        //  img.setHeight(img.getHeight()-50);
         img.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         stage.addActor(img);
 

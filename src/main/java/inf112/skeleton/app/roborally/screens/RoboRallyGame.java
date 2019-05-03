@@ -96,7 +96,11 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         stage.addActor(background);
         stage.addActor(foreground);
 
-        
+        Texture wallpaper = new Texture("assets/roborally/UI-back2.jpg");
+        Image img = new Image(wallpaper);
+        img.setSize(robotGraphics.coordToPixel(16), 225);
+        img.setPosition(robotGraphics.coordToPixel(16)+2, 0);
+        background.addActor(img);
 
         sb = new SpriteBatch();
         this.roboRally = roboRally;
