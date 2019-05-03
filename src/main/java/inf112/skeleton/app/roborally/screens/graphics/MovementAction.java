@@ -106,6 +106,11 @@ public enum MovementAction {
     }
 
 
+    /**
+     * Checks if robot needs to rotate and finds the shortest path of rotation so the animation is correct
+     * @param robot
+     * @return
+     */
     private RotateByAction getRotateAction(IRobot robot) {
         int oldRot = robot.getOldRotation();
         int newRot = (robot.getDir().getRotationDegrees());
