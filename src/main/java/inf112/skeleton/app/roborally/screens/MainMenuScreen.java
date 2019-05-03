@@ -39,7 +39,6 @@ public class MainMenuScreen implements Screen, Runnable {
         this.maps.add("assets/roborally/game_board1.tmx");
         this.maps.add("assets/roborally/game_board2.tmx");
         this.maps.add("assets/roborally/game_board3.tmx");
-        this.maps.add("assets/roborally/game_boardtest.tmx");
     }
 
     @Override
@@ -227,14 +226,8 @@ public class MainMenuScreen implements Screen, Runnable {
     }
 
     private void changeImage() {
-        if (mapIndex == 3) return;
-        mapImg.setDrawable(new SpriteDrawable(new Sprite(new Texture("assets/roborally/mapimages/map" + (mapIndex+1)+".png"))));
-        /*
-        mapImg = new Image(new Texture("assets/roborally/mapimages/map"+(mapIndex+1)+".png"));
-        mapImg.setSize(400, 400);
-        mapImg.setPosition(500, 500);
-        stage.addActor(mapImg);
-        */
+        mapImg.setDrawable(new SpriteDrawable(new Sprite(
+                new Texture("assets/roborally/mapimages/map" + (mapIndex+1)+".png"))));
     }
 
     private void errorMsg(String err) {
