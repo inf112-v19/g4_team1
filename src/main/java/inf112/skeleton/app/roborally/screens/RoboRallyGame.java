@@ -130,6 +130,9 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         startGame();
     }
 
+    /**
+     * starts the game, creates players and robots and starts first turn
+     */
     private void startGame() {
         for (int i = 0; i < numPlayers; i++) {
             if (names.get(i).equals("AI")) {
@@ -184,6 +187,10 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     }
 
     @SuppressWarnings("unchecked")
+    /**
+     * continues after cards have been selected. activates cards and active elements.
+     * should call doTurn when finished.
+     */
     private void continueTurn() {
         for (Image backImage : backImages)
             foreground.removeActor(backImage);
@@ -194,40 +201,34 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         while (true) {
             ArrayList<Player> currentPlayers = (ArrayList<Player>) players.clone();
 
-            // sort the cards depending on their priority
+            // sort the players depending on priority of first card
             currentPlayers.sort((player2, player1) -> {
                 if (!player1.getCards().isEmpty() && !player2.getCards().isEmpty())
                     return player1.getCards().get(0).getPriorityNumber() - player2.getCards().get(0).getPriorityNumber();
                 else return 0;
             });
-
             finishedExecute = true;
             for (Player currentPlayer : currentPlayers) {
                 if (currentPlayer.getCards().size() != 0) {
                     finishedExecute = false;
                     moveRobot(currentPlayer);
-
                     //after robot has moved, reset the moved boolean.
                     currentPlayer.getRobot().setMoved(false);
 
                     //check for flags on new pos
-                    for (Flag flag : flags) {
-                        flag.setRespawn();
-                    }
+                    for (Flag flag : flags) flag.setRespawn();
 
                     //check if win condition is met
                     for (Player player : players)
                         if (player.getRobot().getFlags().size() == flags.size()) win(player);
 
                     //check for wrenches at new pos
-                    for (WrenchTile wrench : wrenches)
-                        wrench.setRespawn();
+                    for (WrenchTile wrench : wrenches) wrench.setRespawn();
                 }
             }
-
             if (finishedExecute) break;
 
-            //activates double speed first
+            //activates double speed conveyors first
             for (IActiveElement elem : ActiveElements)
                 if (elem instanceof DoubleSpeedConveyor) elem.activate();
 
@@ -238,14 +239,12 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
             //activate board elements, then lasers
             for (IActiveElement elem : ActiveElements)
                 if (!(elem instanceof Laser)) elem.activate();
-
             for (IActiveElement elem : ActiveElements)
                 if (elem instanceof Laser) elem.activate();
         }
-
         cardPhaseButtons.clear();
 
-        // start next round
+        // start next round when all animations have finished playing
         Timer timer = new Timer();
         Timer.Task task = new Timer.Task() {
             @Override
@@ -266,10 +265,13 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 doTurn();
             }
         };
-
         timer.scheduleTask(task, robotGraphics.getTotalDelay() + 0.5f);
     }
 
+    /**
+     * ends game, and moves to win screen
+     * @param player player that won
+     */
     private void win(Player player) {
         Timer timer = new Timer();
         Timer.Task task = new Timer.Task() {
