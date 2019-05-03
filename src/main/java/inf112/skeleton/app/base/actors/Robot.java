@@ -44,9 +44,7 @@ public class Robot implements IRobot {
 
     public void setMoved(boolean moved) {
         movedthisround = moved;
-        System.out.println("moved this round is now " + movedthisround);
         diedThisRound = false;
-        //System.out.println("set movedthis round to "+moved + " and diedthirround to true");
     }
 
     @Override
@@ -286,13 +284,19 @@ public class Robot implements IRobot {
 
 
     public void laser() {
-        Direction dir = getDir();
-        Pos pos = getPos();
+        if (board.getWallDir(pos) != null && board.getWallDir(pos) == dir || board.outOfBounds(pos.getAdjacent(dir))) {
+            laserDestination = pos;
+            return;
+        }
+        Pos newPos = pos.getAdjacent(dir);
+        if(board.getWallDir(newPos) != null && board.getWallDir(newPos).opposite() == dir) {
+            laserDestination = pos;
+            return;
+        }
 
-        Laser laser = new Laser(dir, pos.getAdjacent(dir), board);
+        Laser laser = new Laser(dir, newPos, board);
         laser.activate();
         laserDestination = laser.getDestination();
-
     }
 
     @Override
