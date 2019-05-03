@@ -26,8 +26,10 @@ import inf112.skeleton.app.roborally.screens.RoboRallyGame;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Class that contains main logic of cards
+ */
 public class CardPhaseButtons {
-
     private final RoboRallyGame game;
     private final Stage stage;
     private CardDecks cardDecks;
@@ -44,32 +46,32 @@ public class CardPhaseButtons {
         this.cardDecks = carddecks;
         this.skin = new Skin(Gdx.files.internal("assets/roborally/skin/comic-ui.json"));
         stage = game.getStage();
-
     }
 
     /**
-     * allows one player to choose cards
+     * Allows one player to choose cards
      */
     public void chooseCards(int nCards, Player player, boolean isPoweredDown) {
         currentPlayerCards.clear();
         allowedCards = 5;
         placement = game.getPlayerPos(player);
+
         if (nCards < 5) {
             allowedCards = player.getRobot().getHealth() - 1;
             nCards = 5;
         }
-        if (isPoweredDown) {
 
+        if (isPoweredDown) {
             nCards = 0;
             allowedCards = 0;
             player.getRobot().maxHealth();
         }
+
         ArrayList<Card> availableCards = cardDecks.getCards(nCards);
-        // System.out.println("available cards ::::" + availableCards.size());
         ArrayList<Card> selectedCards = new ArrayList<>();
         ArrayList<Button> buttonList = new ArrayList<>();
 
-        //Creating a button for each card
+        // Creating a button for each card
         for (int i = 0; i < availableCards.size(); i++) {
             Card card = availableCards.get(i);
             Texture testTexture = new Texture("assets/roborally/cards/movement/" + card.imageFileName());
@@ -87,10 +89,13 @@ public class CardPhaseButtons {
                 public void changed(ChangeEvent changeEvent, Actor actor) {
                     if (selectedCards.size() < allowedCards) {
                         if (!selectedCards.contains(card)) {
-                            Actor currentCard = game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(button, false));
+                            Actor currentCard = game.getForeground().getChildren().get(
+                                    game.getForeground().getChildren().indexOf(button, false));
+
                             //finds the correct cardArea and sets the initial position(position of the leftmost slot in the cardArea)
                             int x = (int) game.getCardAreaSlots().get(placement).getX() + 3;
                             int y = (int) game.getCardAreaSlots().get(placement).getY() + 4;
+
                             //sets the position in the cardArea based on the amount of selected cards
                             currentCard.setPosition(x + selectedCards.size() * (currentCard.getWidth() + 7), y);
 
@@ -103,21 +108,22 @@ public class CardPhaseButtons {
             });
         }
 
-        //Make reset button
+        // Make reset button
         TextButton reset = new TextButton("Reset Cards", skin);
-        reset.setPosition(96 * 17 / 1.5f + 210, 130);
-        reset.setSize(200, 75);
+        reset.setPosition(96 * 17 / 1.5f + 190, 130);
+        reset.setSize(215, 75);
         stage.addActor(reset);
+
         reset.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-
                 if (selectedCards.size() > 0) {
                     currentPlayerCards.removeAll(selectedCards);
                     // remove the available cards from the screen
                     int j = 0;
                     for (Button btn : buttonList) {
-                        game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(btn, false)).setPosition((int) (96 * 17 / 1.5) + 87 * j, 10);
+                        game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(
+                                btn, false)).setPosition((int) (96 * 17 / 1.5) + 87 * j, 10);
                         j++;
                     }
                     availableCards.addAll(selectedCards);
@@ -130,10 +136,10 @@ public class CardPhaseButtons {
         TextButton powerDownButton = new TextButton("announce powerdown", skin);
         if (isPoweredDown) powerDownButton.setText("continue powerdown");
         powerDownButton.setPosition(96 * 17 / 1.5f + 430, 130);
-        powerDownButton.setSize(330, 75);
+        powerDownButton.setSize(350, 75);
         stage.addActor(powerDownButton);
-        powerDownButton.addListener(new ChangeListener() {
 
+        powerDownButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 System.out.println("klicked powerdown");
@@ -151,19 +157,18 @@ public class CardPhaseButtons {
 
         //Make finish button
         TextButton finish = new TextButton("Set Cards", skin);
-        if (isPoweredDown) {
-            finish.setText("continue turn");
-        }
-        finish.setPosition(96 * 17 / 1.5f, 130);
-        finish.setSize(200, 75);
-        stage.addActor(finish);
-        finish.addListener(new ChangeListener() {
+        if (isPoweredDown) finish.setText("continue turn");
 
+        finish.setPosition(96 * 16 / 1.5f, 130);
+        finish.setSize(215, 75);
+        stage.addActor(finish);
+
+        finish.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 player.setPowerDown(player.getPowerDown() - 1);
                 if (isPoweredDown) {
-                    //adder powerdown card
+                    //add power down card
                     Card card = new Card(CardType.POWERDOWN, -1);
                     Texture testTexture = new Texture("assets/roborally/cards/movement/" + card.imageFileName());
                     Drawable drawable = new TextureRegionDrawable(testTexture);
@@ -172,7 +177,6 @@ public class CardPhaseButtons {
                     selectedCards.add(card);
                     currentPlayerCards.addAll(selectedCards);
                     player.setCards(new ArrayList<>(currentPlayerCards));
-
 
                     // remove the available and selected cards from the screen
                     int count = availableCards.size();
@@ -191,8 +195,12 @@ public class CardPhaseButtons {
                     game.doTurn();
                     return;
                 }
+
                 if (selectedCards.size() == allowedCards) {
                     currentPlayerCards.addAll(selectedCards);
+
+                    // TODO SEND THE LIST OF CARDS HERE TO THE SERVER THEN IT SHOULD SEND IT TO OTHER PLAYERS
+
                     player.setCards(new ArrayList<>(currentPlayerCards));
 
                     // remove the available and selected cards from the screen
@@ -211,11 +219,10 @@ public class CardPhaseButtons {
                     currentButtonsAndCards.clear();
                     game.hideCards(player);
                     game.doTurn();
-
-
                 }
             }
         });
+
         //choose cards automatically if AI-Player
         if (player instanceof AI) {
             Timer timer = new Timer();
@@ -230,15 +237,17 @@ public class CardPhaseButtons {
                     if (isPoweredDown) {
                         finish.fire(event1);
                         finish.fire(event2);
-                    } else if (player.getRobot().getHealth() == 1) {
+                    }
+
+                    else if (player.getRobot().getHealth() == 1) {
                         powerDownButton.fire(event1);
                         powerDownButton.fire(event2);
                         finish.fire(event1);
                         finish.fire(event2);
+                    }
 
-                    } else {
+                    else {
                         while (selectedCards.size() < allowedCards) {
-                            System.out.println("selecting cards...");
                             currentButtonsAndCards.get(availableCards.get(0)).fire(event1);
                             currentButtonsAndCards.get(availableCards.get(0)).fire(event2);
                         }
@@ -246,7 +255,6 @@ public class CardPhaseButtons {
                         finish.fire(event2);
                     }
                 }
-
             };
 
             timer.scheduleTask(task, 0.5f);
@@ -254,10 +262,7 @@ public class CardPhaseButtons {
     }
 
     public void fadeCard(Card card) {
-        //System.out.println("fading with delay "+delay);
-        if (card.getType() == CardType.POWERDOWN) {
-            return;
-        }
+        if (card.getType() == CardType.POWERDOWN) return;
 
         float CARD_FADE_TIME = 1f;
         game.getForeground().getChildren().get(game.getForeground().getChildren().indexOf(
@@ -271,8 +276,6 @@ public class CardPhaseButtons {
     }
 
     public void addDelay(float i) {
-        //System.out.println("adds delay "+i);
         delay += i;
     }
-
 }

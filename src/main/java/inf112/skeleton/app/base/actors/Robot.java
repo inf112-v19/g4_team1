@@ -44,9 +44,7 @@ public class Robot implements IRobot {
 
     public void setMoved(boolean moved) {
         movedthisround = moved;
-        System.out.println("moved this round is now " + movedthisround);
         diedThisRound = false;
-        //System.out.println("set movedthis round to "+moved + " and diedthirround to true");
     }
 
     @Override
@@ -143,18 +141,15 @@ public class Robot implements IRobot {
         board.move(this, movetype);
     }
 
+    /**
+     * check if a wall is blocking robots movement
+     * @param wallPos pos of wall
+     * @param moveDirection move dir of robot
+     * @return true if blocking
+     */
     private boolean wallIsBlocking(Pos wallPos, Direction moveDirection) {
         Direction walldir = board.getWallDir(wallPos);
-
-        if (wallPos.equals(pos)) {
-            // the wall is on the same tile
-            // blocks the robot if direction of wall is same as the movement
-            return moveDirection == walldir;
-        } else {
-            // the wall is on the next tile
-            // blocks the robot if the directions are opposite
-            return moveDirection.opposite() == walldir;
-        }
+        return wallPos.equals(pos) ? moveDirection == walldir : moveDirection.opposite() == walldir;
     }
 
     @Override
@@ -165,6 +160,9 @@ public class Robot implements IRobot {
         }
     }
 
+    /**
+     * moves the robot to its respawn tile, or adjacent if occupied
+     */
     private void respawn() {
         System.out.println(getOwner() + " respawn");
         diedThisRound = true;
@@ -286,13 +284,19 @@ public class Robot implements IRobot {
 
 
     public void laser() {
-        Direction dir = getDir();
-        Pos pos = getPos();
+        if (board.getWallDir(pos) != null && board.getWallDir(pos) == dir || board.outOfBounds(pos.getAdjacent(dir))) {
+            laserDestination = pos;
+            return;
+        }
+        Pos newPos = pos.getAdjacent(dir);
+        if(board.getWallDir(newPos) != null && board.getWallDir(newPos).opposite() == dir) {
+            laserDestination = pos;
+            return;
+        }
 
-        Laser laser = new Laser(dir, pos.getAdjacent(dir), board);
+        Laser laser = new Laser(dir, newPos, board);
         laser.activate();
         laserDestination = laser.getDestination();
-
     }
 
     @Override

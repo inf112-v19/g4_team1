@@ -63,6 +63,10 @@ public class Pos {
         return "(" + x + ", " + y + ")";
     }
 
+    /**
+     * all 4 Positions connected to this. can be out of bounds
+     * @return list with 4 positions
+     */
     public ArrayList<Pos> getAllAdjacent() {
         ArrayList<Pos> pos = new ArrayList<>();
         for(Direction dir : Direction.values()){

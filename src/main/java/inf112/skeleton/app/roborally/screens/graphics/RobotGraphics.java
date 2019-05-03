@@ -19,7 +19,6 @@ import java.util.Map;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.parallel;
 
 public class RobotGraphics {
-
     private final int tileHeight;
     private SequenceAction sequenceAction;
     private Map<Robot, Image> robotSprites = new HashMap<>();
@@ -63,6 +62,7 @@ public class RobotGraphics {
             sequenceAction.setActor(robotSprites.get(robot));
             movementAction.addActionToSequence(sequenceAction, robot, game);
             robot.setOldRotation(robot.getDir().getRotationDegrees());
+
             //fix for syncing the fading of cards
             totalDelay += movementAction.getActionTime();
 
@@ -73,9 +73,9 @@ public class RobotGraphics {
             }
 
             //player is dead and is removed from game
-            if (robot.getLives() == 0) {
+            if (robot.getLives() == 0)
                 game.removePlayer(robot.getOwner(), totalDelay);
-            }
+
             game.getCardButtons().addDelay(movementAction.getActionTime());
         }
     }
@@ -85,15 +85,16 @@ public class RobotGraphics {
      */
     public void addSyncMove(ArrayList<IRobot> robots) {
         ParallelAction parallellMoves = parallel();
+
         for (IRobot robot : robots) {
             Action robotAction = Actions.moveTo(coordToPixel(robot.getPos().x()), coordToPixel(robot.getPos().y()), 1);
             robotAction.setActor(robotSprites.get(robot));
             parallellMoves.addAction(robotAction);
         }
+
         sequenceAction.addAction(parallellMoves);
         game.getCardButtons().addDelay(1);
     }
-
 
     public void addImage(Robot robot) {
         Drawable drawable = new TextureRegionDrawable(textures.get(textureCounter));
@@ -101,6 +102,7 @@ public class RobotGraphics {
         Image robotImage = new Image(drawable);
         robotImage.setSize(robotSizex, robotSizey);
         robotImage.setPosition(coordToPixel(robot.getPos().x()), coordToPixel(robot.getPos().y()));
+
         //get center of image so rotation is correct
         robotImage.setOrigin(robotImage.getWidth() / 2, robotImage.getHeight() / 2);
         robotImage.setRotation((robot.getDir().getRotationDegrees()));
@@ -113,13 +115,12 @@ public class RobotGraphics {
     }
 
     public int coordToPixel(int x) {
-        if (x > 16) {
-            throw new IllegalArgumentException("coordinate is outside of grid");
-        }
+        if (x > 16) throw new IllegalArgumentException("coordinate is outside of grid");
+
         return (int) (x * tileWidth / 1.5f);
     }
 
-    public int getTileWidth() {
+    int getTileWidth() {
         return tileWidth;
     }
 
