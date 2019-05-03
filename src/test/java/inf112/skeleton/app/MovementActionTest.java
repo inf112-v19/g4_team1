@@ -24,8 +24,6 @@ public class MovementActionTest {
 
         MovementAction normal = MovementAction.NORMAL;
         MovementAction fast = MovementAction.FAST;
-        assert(normal.getActionTime() <= fast.getActionTime());
-
-
+        assert(normal.getActionTime() >= fast.getActionTime());
     }
 }
