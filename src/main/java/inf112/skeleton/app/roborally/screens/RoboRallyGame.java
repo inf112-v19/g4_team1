@@ -158,7 +158,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     }
 
     /**
-     * start a turn after all cards have been selected
+     * Selects cards for all players
      */
     public void doTurn() {
         //check if finished
@@ -188,7 +188,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
     @SuppressWarnings("unchecked")
     /**
-     * continues after cards have been selected. activates cards and active elements.
+     * Executes player cards and board elements.
      * should call doTurn when finished.
      */
     private void continueTurn() {
