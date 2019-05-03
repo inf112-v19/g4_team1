@@ -19,6 +19,10 @@ import inf112.skeleton.app.roborally.RoboRally;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+/**
+ * A screen that contains the interface for starting a game over LAN
+ *
+ */
 public class MultiplayerRoboRallyGame implements Screen, Runnable {
     private Stage stage;
     private RoboRally roboRally;
@@ -212,14 +216,6 @@ public class MultiplayerRoboRallyGame implements Screen, Runnable {
             skin.dispose();
         }
 
-//        public void startServer() {
-//            try {
-//                server = new SimpleServer();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-
         @Override
         public void show() {
 
@@ -325,6 +321,8 @@ public class MultiplayerRoboRallyGame implements Screen, Runnable {
                 }
             });
 
+            // block of code to test client-server functionality
+
 //            enterMsg.addListener(new ChangeListener() {
 //                @Override
 //                public void changed(ChangeEvent event, Actor actor) {
@@ -371,15 +369,15 @@ public class MultiplayerRoboRallyGame implements Screen, Runnable {
             table.row();
             table.add(connToSrvr).pad(10);
             table.row();
+            table.add(play).pad(10);
+            table.row();
+            table.add(back).pad(10);
+            table.row();
 
 //            table.add(enterMsg).fillX().uniformX().pad(10);
 //            table.row();
 //            table.add(sendMsg).fillX().uniformX().pad(10);
 //            table.row();
-            table.add(play).pad(10);
-            table.row();
-            table.add(back).pad(10);
-            table.row();
 //            table.add(refresh).fillX().uniformX().pad(10);
 //            table.row();
 //            table.add(msg).fillX().uniformX().padTop(40);

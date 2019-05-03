@@ -1,6 +1,5 @@
 package inf112.skeleton.app.base.MP;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
@@ -13,10 +12,9 @@ import java.util.ArrayList;
 
 public class SimpleClient implements Runnable {
     public Client client;
-    private String string;
+    private String string, host;
     private boolean connected;
     public String status;
-    private String host;
     public final boolean[] gotMessage = new boolean[1];
 
     public SimpleClient(String h) throws InterruptedException, UnknownHostException {

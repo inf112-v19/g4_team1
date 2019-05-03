@@ -9,12 +9,10 @@ import inf112.skeleton.app.base.actors.Player;
 import java.util.ArrayList;
 
 public class SimpleServer implements Runnable {
-    public boolean running;
+    public boolean running, gotMessage;
     public String string, status;
-    public boolean gotMessage;
+    private int port = 54634, udp = 54635;
     public int numOfPlayers;
-    private int port = 54634;
-    private int udp = 54635;
     private ArrayList<String> playerNames = new ArrayList<>();
     public Server server;
 
@@ -37,7 +35,7 @@ public class SimpleServer implements Runnable {
                     playerNames.add(string);
                     string = null;
 
-                    //gotMessage = true;
+                    gotMessage = true;
                     // send the response if received the status
                     //c.sendTCP("Server received " + string + " from client. Responding back with this message.");
                 } else if (object instanceof ArrayList) {
@@ -74,10 +72,6 @@ public class SimpleServer implements Runnable {
 
         System.out.println("Server started.");
     }
-    @Override
-    public void run() {
-
-    }
 
 //    public static void main(String[] args) {
 //        try {
@@ -86,4 +80,8 @@ public class SimpleServer implements Runnable {
 //            e.printStackTrace();
 //        }
 //    }
+    @Override
+    public void run() {
+
+}
 }

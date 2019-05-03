@@ -269,7 +269,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         Timer.Task task = new Timer.Task() {
             @Override
             public void run() {
-                roboRally.setScreen(new winScreen(roboRally, player.getName()));
+                roboRally.setScreen(new WinScreen(roboRally, player.getName()));
             }
         };
 
@@ -507,7 +507,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         timer.scheduleTask(task, delay);
 
         if (players.isEmpty()) {
-            roboRally.setScreen(new endGame(roboRally));
+            roboRally.setScreen(new EndGame(roboRally));
             dispose();
         }
     }
