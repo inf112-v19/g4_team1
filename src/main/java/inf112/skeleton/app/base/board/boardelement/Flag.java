@@ -20,9 +20,7 @@ public class Flag extends BoardElement{
     public void setRespawn() {
         if (board.containsRobot(pos)) {
             Robot robot = (Robot) board.getRobot(pos);
-            System.out.println(1);
             if(robot.getFlags().size() == flagNr-1) {
-                System.out.println(2);
                 robot.setRespawn();
                 robot.addFlag(this);
             }

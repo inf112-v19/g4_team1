@@ -35,7 +35,6 @@ public class Laser extends Wall implements IActiveElement {
             if (board.containsRobot(laserPos)) {
                 // shoots robot
                 IRobot robot = board.getRobot(laserPos);
-                System.out.println("kaller damage");
                 robot.damage();
                 destination = laserPos.getAdjacent(dir.opposite());
                 return robot;

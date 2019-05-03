@@ -94,7 +94,6 @@ public class Robot implements IRobot {
 
 
     public boolean canGo(Direction moveDir) {
-        //System.out.println("er i canGo med robot på "+pos);
         if (moveDir == null)
             throw new IllegalArgumentException("No direction to tryToMove in.");
         Pos newPos = pos.getAdjacent(moveDir);
@@ -128,7 +127,6 @@ public class Robot implements IRobot {
             board.get(robotPos).removeContent(robot);
             board.get(robotPos.getAdjacent(moveDirection)).addObject(robot);
             robot.setPos(robotPos.getAdjacent(moveDirection));
-            System.out.println(robot.getOwner() + " moved to new pos " + robot.getPos() + " facing " + robot.getDir() + " with sync movement");
         }
         board.moveSeveral(robots);
     }
@@ -137,7 +135,6 @@ public class Robot implements IRobot {
         board.get(pos).removeContent(this);
         board.get(newPos).addObject(this);
         pos = newPos;
-        System.out.println(owner + " moved to new pos " + pos + " facing " + dir + " with movetype" + movetype);
         board.move(this, movetype);
     }
 
@@ -164,7 +161,6 @@ public class Robot implements IRobot {
      * moves the robot to its respawn tile, or adjacent if occupied
      */
     private void respawn() {
-        System.out.println(getOwner() + " respawn");
         diedThisRound = true;
         lives--;
         if (lives < 0) {
@@ -182,7 +178,6 @@ public class Robot implements IRobot {
                         return;
                     }
                 }
-                System.out.println("error, found no respawn pos");
                 move(pos, MovementAction.DEATH_ANIMATION);
             }
         }
@@ -264,7 +259,6 @@ public class Robot implements IRobot {
 
     @Override
     public void setRespawn() {
-        System.out.println("respawn is " + pos);
         respawnPos = getPos();
     }
 
