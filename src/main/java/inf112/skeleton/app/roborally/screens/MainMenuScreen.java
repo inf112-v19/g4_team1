@@ -46,17 +46,16 @@ public class MainMenuScreen implements Screen, Runnable {
     public void show() {
         Texture background = new Texture("assets/roborally/Robot-Wall.jpg");
         Image img = new Image(background);
-        // img.setPosition(150,0);
-        //  img.setHeight(img.getHeight()-50);
         img.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         stage.addActor(img);
 
         Table table = new Table();
         playerTable = new Table();
         playerTable.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() - 100);
+        table.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2 - 50);
         playerTable.setDebug(false);
         playerTable.top();
-        table.setFillParent(true);
+        table.setFillParent(false);
         table.setDebug(false);
         stage.addActor(table);
         stage.addActor(playerTable);

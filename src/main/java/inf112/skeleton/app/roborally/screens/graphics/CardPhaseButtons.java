@@ -105,8 +105,8 @@ public class CardPhaseButtons {
 
         //Make reset button
         TextButton reset = new TextButton("Reset Cards", skin);
-        reset.setPosition(96 * 17 / 1.5f + 210, 130);
-        reset.setSize(200, 75);
+        reset.setPosition(96 * 17 / 1.5f + 190, 130);
+        reset.setSize(215, 75);
         stage.addActor(reset);
         reset.addListener(new ChangeListener() {
             @Override
@@ -130,7 +130,7 @@ public class CardPhaseButtons {
         TextButton powerDownButton = new TextButton("announce powerdown", skin);
         if (isPoweredDown) powerDownButton.setText("continue powerdown");
         powerDownButton.setPosition(96 * 17 / 1.5f + 430, 130);
-        powerDownButton.setSize(330, 75);
+        powerDownButton.setSize(350, 75);
         stage.addActor(powerDownButton);
         powerDownButton.addListener(new ChangeListener() {
 
@@ -154,8 +154,8 @@ public class CardPhaseButtons {
         if (isPoweredDown) {
             finish.setText("continue turn");
         }
-        finish.setPosition(96 * 17 / 1.5f, 130);
-        finish.setSize(200, 75);
+        finish.setPosition(96 * 16 / 1.5f, 130);
+        finish.setSize(215, 75);
         stage.addActor(finish);
         finish.addListener(new ChangeListener() {
 

@@ -96,6 +96,12 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         stage.addActor(background);
         stage.addActor(foreground);
 
+        Texture wallpaper = new Texture("assets/roborally/UI-back2.jpg");
+        Image img = new Image(wallpaper);
+        img.setSize(robotGraphics.coordToPixel(16), 225);
+        img.setPosition(robotGraphics.coordToPixel(16)+2, 0);
+        background.addActor(img);
+
         sb = new SpriteBatch();
         this.roboRally = roboRally;
         camera = new OrthographicCamera();
@@ -282,7 +288,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
         int rowPixel = Gdx.graphics.getHeight() - 50;
         int columnPixel = 0;
         for (int i = 0; i < numPlayers; i++) {
-            Texture cardArea = new Texture("assets/roborally/card_area.png");
+            Texture cardArea = new Texture("assets/roborally/card_area2.png");
             Image cardBox = new Image(cardArea);
             cardBox.setSize(cardBox.getWidth() / 1.5f, cardBox.getHeight() / 1.5f);
 
@@ -304,8 +310,8 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
                 listLife.add(life);
 
                 life.setSize(life.getWidth() / 1.5f, life.getHeight() / 1.5f);
-                life.setPosition(98 * 18 / 1.5f + columnPixel + j * life.getWidth(), rowPixel + 10);
-                background.addActor(life);
+                life.setPosition(98 * 18 / 1.5f + columnPixel + j * life.getWidth(), rowPixel -30);
+                foreground.addActor(life);
             }
 
             lives.put(player, listLife);
@@ -314,7 +320,7 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
             powerDown.setSize(powerDown.getWidth() / 1.5f, powerDown.getHeight() / 1.5f);
             powerDown.setPosition(98*18 / 1.5f + columnPixel + player.getRobot().getLives() * listLife.get(0).getWidth(),
-                    rowPixel + 10);
+                    rowPixel -30);
             player.setPowerButton(powerDown);
 
             Label flagLabel = new Label("Visited Flags: 0", labelStyle);
@@ -323,17 +329,17 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
 
             String name = player.getName();
             Label nameLabel = new Label(name, labelStyle);
-            nameLabel.setPosition(98 * 16 / 1.5f + columnPixel, rowPixel + 15);
+            nameLabel.setPosition(98 * 16 / 1.5f + columnPixel, rowPixel - 15);
             cardBox.setPosition(98 * 16 / 1.5f + columnPixel, rowPixel - cardBox.getHeight());
 
             Label healthLabel = new Label("HP: " + player.getRobot().getHealth(), labelStyle);
-            healthLabel.setPosition(98 * 16 / 1.5f + columnPixel, rowPixel);
+            healthLabel.setPosition(98 * 16 / 1.5f + columnPixel, powerDown.getY());
+            background.addActor(cardBox);
             healthLabelPos.add(healthLabel);
             background.addActor(flagLabel);
             background.addActor(healthLabel);
-            background.addActor(cardBox);
             background.addActor(nameLabel);
-            background.addActor(powerDown);
+            foreground.addActor(powerDown);
             cardAreaSlots.add(cardBox);
             columnPixel = 0;
             count++;
@@ -461,15 +467,15 @@ public class RoboRallyGame implements Screen, InputProcessor, ActionListener {
     }
 
     /**
-     * Gets a players Image actor in the stage
+     * Gets a players life image in the stage
      * @param player player to take the image from
-     * @return image of a player
+     * @return image of players life
      */
     public Actor getLifeSprite(Player player) {
         if (player.getRobot().getLives() < 0) return null;
 
         Image life = lives.get(player).get(player.getRobot().getLives());
-        return background.getChildren().get(background.getChildren().indexOf(life, false));
+        return foreground.getChildren().get(foreground.getChildren().indexOf(life, false));
     }
 
     /**
