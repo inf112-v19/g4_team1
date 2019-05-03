@@ -21,7 +21,7 @@ public class WinScreen implements Screen {
     private Skin skin;
     private String winName;
 
-    WinScreen(RoboRally roboRally, String winName) {
+    public WinScreen(RoboRally roboRally, String winName) {
         this.roboRally = roboRally;
         this.winName = winName;
         stage = new Stage(new ScreenViewport());
@@ -79,7 +79,6 @@ public class WinScreen implements Screen {
 
     @Override
     public void render(float v) {
-        Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();
